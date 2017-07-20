@@ -1,0 +1,75 @@
+添加
+
+btn btn-xs btn-primary glyphicon glyphicon-plus
+
+减少
+
+btn btn-xs btn-warning glyphicon glyphicon-minus
+
+修改
+
+btn btn-xs btn-info glyphicon glyphicon-edit
+
+修改密码
+
+btn btn-xs btn-warning glyphicon glyphicon-eye-close
+
+消费记录
+
+btn btn-xs btn-info glyphicon glyphicon-stats
+
+消费
+
+btn btn-xs btn-info glyphicon glyphicon-yen
+
+收货地址
+
+btn btn-xs btn-info glyphicon glyphicon-road
+
+权限
+
+btn btn-xs btn-warning glyphicon glyphicon-check
+
+排行
+
+btn btn-xs btn-default glyphicon glyphicon-sort-by-attributes-alt
+
+导出
+
+btn btn-xs btn-default glyphicon glyphicon-share
+
+充值
+
+btn btn-xs btn-success glyphicon glyphicon-credit-card
+
+更新缓存
+
+btn btn-xs btn-warning glyphicon glyphicon-inbox
+
+删除
+
+btn btn-xs btn-danger glyphicon glyphicon-trash confirm
+
+查看
+
+btn btn-xs btn-success glyphicon glyphicon-eye-open
+
+刷新
+
+btn btn-xs btn-info glyphicon glyphicon-refresh
+
+禁用
+
+btn btn-xs btn-default glyphicon glyphicon-ban-circle
+
+启用
+
+btn btn-xs btn-success glyphicon glyphicon-ok-circle
+
+置顶
+
+btn btn-xs btn-info glyphicon glyphicon-chevron-up
+
+设置
+
+btn btn-xs btn-primary glyphicon glyphicon-cog
