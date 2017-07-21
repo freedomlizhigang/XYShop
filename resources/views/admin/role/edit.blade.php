@@ -9,7 +9,7 @@
             </td>
         </tr>
         <!-- 超管不能被禁用及删除 -->
-		@if(!in_array(1,session('user')->allRole))
+		@if(!in_array(1,session('console')->allRole))
         <tr>
             <td class="td_left">状态：</td>
             <td>

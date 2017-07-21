@@ -121,8 +121,8 @@ class ComService
     // 模板权限判断用，减少输出
     public function ifCan($priv = '')
     {
-        // return Gate::forUser(session('user'))->allows($priv);
-        $res = in_array($priv,session('user')->allPriv) || in_array(1,session('user')->allRole);
+        // return Gate::forUser(session('console'))->allows($priv);
+        $res = in_array($priv,session('console')->allPriv) || in_array(1,session('console')->allRole);
         return $res;
     }
 	// 转成树形菜单数组

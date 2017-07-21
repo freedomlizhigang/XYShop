@@ -35,7 +35,7 @@
             </nav>
             <span class="userinfo">
                 <a href="/" target="_blank">网站首页，</a>
-                欢迎回来：{{ session('user')->name }} |
+                欢迎回来：{{ session('console')->name }} |
                 <a href="{{ url('/console/logout') }}">退出</a>
             </span>
         </header>

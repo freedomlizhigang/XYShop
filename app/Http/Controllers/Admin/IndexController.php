@@ -42,7 +42,7 @@ class IndexController extends Controller
     {
         $allUrl = $this->allPriv();
         $main = $this->menu->where('parentid','=','0')->where('display','=','1')->orderBy('sort','asc')->orderBy('id','asc')->get()->toArray();
-        if (in_array(1, session('user')->allRole))
+        if (in_array(1, session('console')->allRole))
         {
             $mainmenu = $main;
         }
@@ -326,7 +326,7 @@ class IndexController extends Controller
         $left = $this->menu->where('parentid','=',$pid)->where('display','=','1')->orderBy('sort','asc')->orderBy('id','asc')->get()->toArray();
         $leftmenu = array();
         // 判断权限
-        if (!in_array(1, session('user')->allRole))
+        if (!in_array(1, session('console')->allRole))
         {
             foreach ($left as $k => $v) {
                 foreach ($allUrl as $url) {
@@ -345,7 +345,7 @@ class IndexController extends Controller
             // 取所有下级菜单
             $res = $this->menu->where('parentid','=',$v['id'])->where('display','=','1')->orderBy('sort','asc')->orderBy('id','asc')->get()->toArray();
             // 进行权限判断
-            if (!in_array(1, session('user')->allRole))
+            if (!in_array(1, session('console')->allRole))
             {
                 foreach ($res as $s => $v) {
                     foreach ($allUrl as $url) {
@@ -366,7 +366,7 @@ class IndexController extends Controller
     // 查出所有有权限的url
     private function allPriv()
     {
-        $rid = session('user')->allRole;
+        $rid = session('console')->allRole;
         // 查url
         $priv = Priv::whereIn('role_id',$rid)->pluck('url')->toArray();
         return $priv;

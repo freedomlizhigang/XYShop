@@ -145,29 +145,29 @@ class AdminController extends BaseController
     public function getMyedit()
     {
         $title = '修改个人资料';
-        $info = $this->admin->with('role')->findOrFail(session('user')->id);
+        $info = $this->admin->with('role')->findOrFail(session('console')->id);
         return view('admin.user.myedit',compact('title','info'));
     }
     public function postMyedit(AdminRequest $request)
     {
         $data = $request->input('datas');
-        $this->admin->where('id',session('user')->id)->update($data);
+        $this->admin->where('id',session('console')->id)->update($data);
         return $this->ajaxReturn(1,'修改个人资料成功！');
     }
     // 修改密码
     public function getMypwd()
     {
         $title = '修改密码';
-        $info = $this->admin->findOrFail(session('user')->id);
+        $info = $this->admin->findOrFail(session('console')->id);
         return view('admin.user.mypwd',compact('title','info'));
     }
     public function postMypwd(AdminRequest $req)
     {
         $crypt = str_random(10);
         $pwd = app('com')->makepwd($req->input('data.password'),$crypt);
-        $res = $this->admin->where('id',session('user')->id)->update(['password'=>$pwd,'crypt'=>$crypt]);
+        $res = $this->admin->where('id',session('console')->id)->update(['password'=>$pwd,'crypt'=>$crypt]);
         if ($res) {
-            \Session::put('user',null);
+            \Session::put('console',null);
             return $this->ajaxReturn(1,'修改密码成功，请登陆登录！',url('/console/login'));
         }
         else

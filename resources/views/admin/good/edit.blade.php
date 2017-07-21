@@ -247,7 +247,7 @@
 			minHeight:350,
 			uploadJson : "{{ url('console/attr/uploadimg') }}",
             extraFileUploadParams: {
-				session_id : "{{ session('user')->id }}",
+				session_id : "{{ session('console')->id }}",
             },
             afterCreate : function() {this.sync();}, 
             afterBlur: function(){this.sync();}
@@ -257,7 +257,7 @@
             fieldName : 'imgFile',
             url : "{{ url('console/attr/uploadimg') }}",
             extraFileUploadParams: {
-                session_id : "{{ session('user')->id }}",
+                session_id : "{{ session('console')->id }}",
             },
             afterUpload : function(data) {
                 if (data.error === 0) {

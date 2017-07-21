@@ -32,7 +32,7 @@
 				@if(App::make('com')->ifCan('role-edit'))
 				<div data-url="{{ url('/console/role/edit',$m->id) }}" data-title="修改" data-toggle='modal' data-target='#myModal' class="btn btn-xs btn-info glyphicon glyphicon-edit btn_modal"></div>
 				@endif
-				@if((session('user')->id == 1 || App::make('com')->ifCan('role-priv')) && $m->id != 1)
+				@if((session('console')->id == 1 || App::make('com')->ifCan('role-priv')) && $m->id != 1)
 				<a href="{{ url('/console/role/priv',$m->id) }}" title="权限" class="btn btn-xs btn-warning glyphicon glyphicon-check"></a>
 				@endif
 				@if(App::make('com')->ifCan('role-del') && $m->id != 1)

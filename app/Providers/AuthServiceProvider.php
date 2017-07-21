@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (session()->has('user')) {
+        /*if (session()->has('console')) {
             $this->registerPolicies();
             // 取出所有后台权限label，并注册成功
             $allLabel = \App\Models\Menu::with('role')->get();
@@ -32,6 +32,6 @@ class AuthServiceProvider extends ServiceProvider
                     return $user->hasRole($v->role);
                 });
             }
-        }
+        }*/
     }
 }

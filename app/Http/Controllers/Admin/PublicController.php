@@ -14,7 +14,7 @@ class PublicController extends Controller
 {
     public function getLogin()
     {
-        if(\Session::has('user')){return redirect('/console/index/index');}
+        if(\Session::has('console')){return redirect('/console/index/index');}
         return view('admin.login');
     }
     /**
@@ -23,7 +23,7 @@ class PublicController extends Controller
      */
     public function postLogin(Request $res)
     {
-        if(\Session::has('user')){return redirect('/console/index/index');}
+        if(\Session::has('console')){return redirect('/console/index/index');}
 
         $username = $res->input('name');
         $pwd = $res->input('password');
@@ -41,7 +41,7 @@ class PublicController extends Controller
             $user->allRole = $allRole;
             $allPriv = Priv::whereIn('role_id',$allRole)->pluck('label');
             $user->allPriv = $allPriv->unique()->toArray();
-            \Session::put('user',$user);
+            \Session::put('console',$user);
             return redirect('/console/index/index');
         }
     }
@@ -50,7 +50,7 @@ class PublicController extends Controller
      */
     public function getLogout()
     {
-        \Session::put('user',null);
+        \Session::put('console',null);
         return redirect('/console/login');
     }
 }

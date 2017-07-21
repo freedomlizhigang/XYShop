@@ -18,7 +18,7 @@ class LogController extends Controller
     	$title = '日志列表';
     	$admins = Admin::select('id','realname','name')->get();
     	// 超级管理员可以查看所有用户日志，其它人只能看自己的
-    	if (session('user')->id === 1) {
+    	if (session('console')->id === 1) {
     		$admin_id = $res->input('admin_id',0);
     		if ($admin_id != 0) {
     			$list = Log::where('admin_id',$admin_id)->orderBy('id','desc')->paginate(15);

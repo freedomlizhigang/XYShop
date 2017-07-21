@@ -96,7 +96,7 @@ class UserController extends BaseController
     public function postConsumed(Request $req,$id = '')
     {
         $pwd = $req->pwd;
-        if (app('com')->makepwd($pwd,session('user')->crypt) != session('user')->password) {
+        if (app('com')->makepwd($pwd,session('console')->crypt) != session('console')->password) {
             return $this->ajaxReturn(0,'密码错误！');
         }
         $money = $req->input('data.user_money');
@@ -114,7 +114,7 @@ class UserController extends BaseController
     public function postChong(Request $req,$id = '')
     {
         $pwd = $req->pwd;
-        if (app('com')->makepwd($pwd,session('user')->crypt) != session('user')->password) {
+        if (app('com')->makepwd($pwd,session('console')->crypt) != session('console')->password) {
             return $this->ajaxReturn(0,'密码错误！');
         }
         $money = $req->input('data.user_money');

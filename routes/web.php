@@ -146,33 +146,6 @@ Route::group(['prefix'=>'console','namespace' => 'Admin'],function(){
 });
 
 Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin'],function(){
-    // 商铺
-    Route::get('shop/index', 'Shop\ShopController@getIndex');
-    Route::get('shop/add', 'Shop\ShopController@getAdd');
-    Route::post('shop/add', 'Shop\ShopController@postAdd');
-    Route::get('shop/edit/{id}', 'Shop\ShopController@getEdit');
-    Route::post('shop/edit/{id}', 'Shop\ShopController@postEdit');
-    Route::get('shop/del/{id}', 'Shop\ShopController@getDel');
-    Route::get('shop/status/{id}', 'Shop\ShopController@getStatus');
-    Route::post('shop/status/{id}', 'Shop\ShopController@postStatus');
-    Route::get('shop/active/{id}/{active}', 'Shop\ShopController@getActive');
-    Route::get('shop/pos/{id}/{pos}', 'Shop\ShopController@getPos');
-    // 商铺权限菜单
-    Route::get('shopmenu/index', 'Shop\ShopMenuController@getIndex');
-    Route::get('shopmenu/add/{id?}', 'Shop\ShopMenuController@getAdd');
-    Route::post('shopmenu/add/{id?}', 'Shop\ShopMenuController@postAdd');
-    Route::get('shopmenu/edit/{id}', 'Shop\ShopMenuController@getEdit');
-    Route::post('shopmenu/edit/{id}', 'Shop\ShopMenuController@postEdit');
-    Route::get('shopmenu/del/{id}', 'Shop\ShopMenuController@getDel');
-    // 商铺分类
-    Route::get('shopcate/index', 'Shop\ShopCateController@getIndex');
-    Route::get('shopcate/cache', 'Shop\ShopCateController@getCache');
-    Route::get('shopcate/add/{id?}', 'Shop\ShopCateController@getAdd');
-    Route::post('shopcate/add/{id?}', 'Shop\ShopCateController@postAdd');
-    Route::get('shopcate/edit/{id}', 'Shop\ShopCateController@getEdit');
-    Route::post('shopcate/edit/{id}', 'Shop\ShopCateController@postEdit');
-    Route::get('shopcate/del/{id}', 'Shop\ShopCateController@getDel');
-    Route::post('shopcate/sort', 'Shop\ShopCateController@postSort');
     // 广告位
     Route::get('adpos/index', 'Common\AdposController@getIndex');
     Route::get('adpos/add', 'Common\AdposController@getAdd');

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'Xi-Yi-CMS'),
+    'name' => env('APP_NAME', 'Xi-Yi-SHOP'),
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://www.xi-yi.ren'),
+    'url' => env('APP_URL', 'http://shop.xi-yi.ren'),
 
 
     /*
@@ -150,7 +150,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Illuminate\Auth\AuthServiceProvider::class,
+        // Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
@@ -167,7 +167,7 @@ return [
         Illuminate\Pipeline\PipelineServiceProvider::class,
         Illuminate\Queue\QueueServiceProvider::class,
         Illuminate\Redis\RedisServiceProvider::class,
-        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        // Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
@@ -182,7 +182,7 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
+        // App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
@@ -205,9 +205,6 @@ return [
         // 社会化登陆
         Overtrue\LaravelSocialite\ServiceProvider::class,
 
-        // 微信
-        Overtrue\LaravelWechat\ServiceProvider::class,
-
         // excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
@@ -228,7 +225,7 @@ return [
 
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
-        'Auth' => Illuminate\Support\Facades\Auth::class,
+        // 'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
         'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
@@ -271,9 +268,6 @@ return [
 
         // 社会化登陆
         'Socialite' => Overtrue\LaravelSocialite\Socialite::class,
-
-        // 微信
-        'EasyWeChat' => Overtrue\LaravelWechat\Facade::class,
 
         // excel
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
