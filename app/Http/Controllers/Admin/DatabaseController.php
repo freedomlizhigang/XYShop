@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
 use App;
@@ -112,7 +110,7 @@ class DatabaseController extends Controller
 
 		$fileid = ($fileid != '') ? $fileid : 1;		
 		if($fileid==1 && $tables) {
-			$random = APP::make('com')->random(20, 'abcdefghigklmzopqrstuvwxyz0123456789');
+			$random = app('com')->random(20, 'abcdefghigklmzopqrstuvwxyz0123456789');
 		}
 
 		DB::select("SET SQL_MODE=''");

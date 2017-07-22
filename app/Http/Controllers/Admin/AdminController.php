@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests;
 use App\Http\Requests\AdminRequest;
-use App\Models\Admin;
-use App\Models\Role;
-use App\Models\RoleUser;
-use App\Models\Section;
-use Auth;
+use App\Models\Console\Admin;
+use App\Models\Console\Role;
+use App\Models\Console\RoleUser;
+use App\Models\Console\Section;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;

@@ -3,19 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Http\Requests;
-use App\Http\Requests\Good\UserCardRequest;
-use App\Http\Requests\UserRequest;
-use App\Http\Requests\User\AddressRequest;
-use App\Models\Address;
-use App\Models\Card;
-use App\Models\Consume;
-use App\Models\Group;
-use App\Models\Order;
-use App\Models\ReturnGood;
-use App\Models\Type;
-use App\Models\User;
-use App\Models\YhqUser;
+use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;

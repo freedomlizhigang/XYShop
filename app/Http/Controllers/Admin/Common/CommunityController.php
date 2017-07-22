@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Controllers\Controller;
-use App\Models\Community;
+use App\Http\Requests\Common\AreaRequest;
+use App\Models\Common\Community;
 use Illuminate\Http\Request;
 
 class CommunityController extends BaseController

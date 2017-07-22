@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Address;
-use App\Models\Consume;
-use App\Models\User;
+use App\Models\User\Address;
+use App\Models\User\Consume;
+use App\Models\User\User;
 use Excel;
 use Illuminate\Http\Request;
 

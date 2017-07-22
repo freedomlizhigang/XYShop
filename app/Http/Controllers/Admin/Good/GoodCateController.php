@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App;
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests\GoodCateRequest;
-use App\Models\CateAttr;
-use App\Models\GoodAttr;
-use App\Models\GoodCate;
+use App\Http\Requests\Good\GoodCateRequest;
+use App\Models\Good\GoodAttr;
+use App\Models\Good\GoodCate;
 use Illuminate\Http\Request;
 Use DB;
 
@@ -22,14 +20,14 @@ class GoodCateController extends BaseController
     	$title = '商品分类管理';
         // 超级管理员可查看所有部门下商品分类
         $all = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-        $tree = App::make('com')->toTree($all,'0');
+        $tree = app('com')->toTree($all,'0');
     	$treeHtml = $this->toTreeHtml($tree);
     	return view('admin.goodcate.index',compact('title','treeHtml'));
     }
     // 更新缓存
     public function getCache()
     {
-        App::make('com')->updateCache(new GoodCate(),'goodcateCache');
+        app('com')->updateCache(new GoodCate(),'goodcateCache');
         return redirect('/console/goodcate/index')->with('message', '更新分类缓存成功！');
     }
     // 树形菜单 html
@@ -86,7 +84,7 @@ class GoodCateController extends BaseController
             $data = $res->input('data');
             $resId = GoodCate::create($data);
             // 后台用户组权限
-            App::make('com')->updateCache(new GoodCate(),'goodcateCache');
+            app('com')->updateCache(new GoodCate(),'goodcateCache');
             // 没出错，提交事务
             DB::commit();
             return $this->ajaxReturn(1,'添加成功！',url('/console/goodcate/index'));
@@ -107,8 +105,8 @@ class GoodCateController extends BaseController
         $info = GoodCate::findOrFail($id);
         // 超级管理员可查看所有部门下商品分类
         $all = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-        $tree = App::make('com')->toTree($all,'0');
-        $treeHtml = App::make('com')->toTreeSelect($tree,$info->parentid);
+        $tree = app('com')->toTree($all,'0');
+        $treeHtml = app('com')->toTreeSelect($tree,$info->parentid);
         return view('admin.goodcate.edit',compact('title','info','treeHtml'));
     }
     public function postEdit(GoodCateRequest $res,$id = '')
@@ -119,7 +117,7 @@ class GoodCateController extends BaseController
             $data = $res->input('data');
             GoodCate::where('id',$id)->update($data);
             // 更新缓存
-            App::make('com')->updateCache(new GoodCate(),'goodcateCache');
+            app('com')->updateCache(new GoodCate(),'goodcateCache');
             // 没出错，提交事务
             DB::commit();
             return redirect('/console/goodcate/index')->with('message', '修改成功！');

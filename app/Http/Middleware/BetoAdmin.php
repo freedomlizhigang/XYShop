@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Log;
+use App\Models\Console\Log;
 use Auth;
 use Closure;
 
@@ -17,7 +17,7 @@ class BetoAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(is_null(session('user')))
+        if(is_null(session('console')))
         {
             return redirect('/console/login')->with('message','请先登录！');
         }
@@ -28,7 +28,7 @@ class BetoAdmin
         $toArr[2] = count($toArr) == 2 ? 'index' : $toArr[2];
         $priv = $toArr[1].'-'.$toArr[2];
         // 取当前用户
-        $user = session('user');
+        $user = session('console');
         // 在这里进行一部分权限判断，主要是判断打开的页面是否有权限
         if(in_array(1,$user->allRole) || in_array($priv,$user->allPriv))
         {

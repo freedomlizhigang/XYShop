@@ -3,21 +3,12 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\Address;
-use App\Models\Cart;
-use App\Models\CateAttr;
-use App\Models\Good;
-use App\Models\GoodAttr;
-use App\Models\GoodComment;
-use App\Models\GoodFormat;
-use App\Models\GoodSpecItem;
-use App\Models\GoodSpecPrice;
-use App\Models\Order;
-use App\Models\OrderGood;
-use App\Models\Pay;
-use App\Models\Tuan;
-use App\Models\TuanUser;
-use App\Models\Zitidian;
+use App\Models\Good\Good;
+use App\Models\Good\GoodComment;
+use App\Models\Good\GoodSpecItem;
+use App\Models\Good\GoodSpecPrice;
+use App\Models\Good\Tuan;
+use App\Models\Good\Zitidian;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;

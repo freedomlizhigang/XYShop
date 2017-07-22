@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App;
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests;
 use App\Http\Requests\RoleRequest;
-use App\Models\Admin;
-use App\Models\Cate;
-use App\Models\Menu;
-use App\Models\Priv;
-use App\Models\Role;
-use App\Models\RoleUser;
+use App\Models\Console\Menu;
+use App\Models\Console\Priv;
+use App\Models\Console\Role;
+use App\Models\Console\RoleUser;
 use DB;
 use Illuminate\Http\Request;
 
@@ -107,7 +103,7 @@ class RoleController extends BaseController
         }
         // dd($rids);
         $all = $this->menu->get();
-        $tree = App::make('com')->toTree($all,'0');
+        $tree = app('com')->toTree($all,'0');
         $treePriv = $this->treePriv($tree);
         return view('admin.role.priv',compact('title','rids','treePriv'));
     }

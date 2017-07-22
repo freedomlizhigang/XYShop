@@ -182,10 +182,10 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::post('card/add', 'User\CardController@postAdd');
     Route::post('card/del', 'User\CardController@postAlldel');
     // 退货管理
-    Route::get('returngood/index', 'Common\RetrunGoodController@getIndex');
-    Route::get('returngood/excel', 'Common\RetrunGoodController@getExcel');
-    Route::get('returngood/status/{id}', 'Common\RetrunGoodController@getStatus');
-    Route::post('returngood/status/{id}', 'Common\RetrunGoodController@postStatus');
+    Route::get('returngood/index', 'Good\RetrunGoodController@getIndex');
+    Route::get('returngood/excel', 'Good\RetrunGoodController@getExcel');
+    Route::get('returngood/status/{id}', 'Good\RetrunGoodController@getStatus');
+    Route::post('returngood/status/{id}', 'Good\RetrunGoodController@postStatus');
     // 今日消费情况
     Route::get('index/consume', 'IndexController@getConsume');
     Route::get('index/excel_consume', 'IndexController@getExcelConsume');
@@ -196,14 +196,14 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     // 导出待打印订单
     Route::get('index/excel_order', 'IndexController@getExcelOrders');
     // 自提点管理
-    Route::get('ziti/index', 'Common\ZitiController@getIndex');
-    Route::get('ziti/add', 'Common\ZitiController@getAdd');
-    Route::post('ziti/add', 'Common\ZitiController@postAdd');
-    Route::get('ziti/edit/{id}', 'Common\ZitiController@getEdit');
-    Route::post('ziti/edit/{id}', 'Common\ZitiController@postEdit');
-    Route::get('ziti/del/{id}', 'Common\ZitiController@getDel');
-    Route::post('ziti/sort', 'Common\ZitiController@postSort');
-    Route::post('ziti/alldel', 'Common\ZitiController@postAlldel');
+    Route::get('ziti/index', 'Good\ZitiController@getIndex');
+    Route::get('ziti/add', 'Good\ZitiController@getAdd');
+    Route::post('ziti/add', 'Good\ZitiController@postAdd');
+    Route::get('ziti/edit/{id}', 'Good\ZitiController@getEdit');
+    Route::post('ziti/edit/{id}', 'Good\ZitiController@postEdit');
+    Route::get('ziti/del/{id}', 'Good\ZitiController@getDel');
+    Route::post('ziti/sort', 'Good\ZitiController@postSort');
+    Route::post('ziti/alldel', 'Good\ZitiController@postAlldel');
     // 广告管理
     Route::get('ad/index', 'Common\AdController@getIndex');
     Route::get('ad/add', 'Common\AdController@getAdd');
@@ -232,14 +232,14 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::post('manzeng/sort', 'Good\ManzengController@postSort');
     Route::post('manzeng/alldel', 'Good\ManzengController@postAlldel');
     // 优惠券管理
-    Route::get('youhuiquan/index', 'Common\YouhuiquanController@getIndex');
-    Route::get('youhuiquan/add', 'Common\YouhuiquanController@getAdd');
-    Route::post('youhuiquan/add', 'Common\YouhuiquanController@postAdd');
-    Route::get('youhuiquan/edit/{id}', 'Common\YouhuiquanController@getEdit');
-    Route::post('youhuiquan/edit/{id}', 'Common\YouhuiquanController@postEdit');
-    Route::get('youhuiquan/del/{id}', 'Common\YouhuiquanController@getDel');
-    Route::post('youhuiquan/sort', 'Common\YouhuiquanController@postSort');
-    Route::post('youhuiquan/alldel', 'Common\YouhuiquanController@postAlldel');
+    Route::get('youhuiquan/index', 'Good\YouhuiquanController@getIndex');
+    Route::get('youhuiquan/add', 'Good\YouhuiquanController@getAdd');
+    Route::post('youhuiquan/add', 'Good\YouhuiquanController@postAdd');
+    Route::get('youhuiquan/edit/{id}', 'Good\YouhuiquanController@getEdit');
+    Route::post('youhuiquan/edit/{id}', 'Good\YouhuiquanController@postEdit');
+    Route::get('youhuiquan/del/{id}', 'Good\YouhuiquanController@getDel');
+    Route::post('youhuiquan/sort', 'Good\YouhuiquanController@postSort');
+    Route::post('youhuiquan/alldel', 'Good\YouhuiquanController@postAlldel');
     // 活动管理
     Route::get('huodong/index', 'Good\HuodongController@getIndex');
     Route::get('huodong/add', 'Good\HuodongController@getAdd');
@@ -254,17 +254,17 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::post('huodong/sort', 'Good\HuodongController@postSort');
     Route::post('huodong/alldel', 'Good\HuodongController@postAlldel');
     // 订单管理
-    Route::get('order/index', 'Common\OrderController@index');
-    Route::get('order/del/{id}', 'Common\OrderController@getDel');
-    Route::get('order/ship/{id}', 'Common\OrderController@getShip');
-    Route::post('order/ship/{id}', 'Common\OrderController@postShip');
-    Route::get('order/print/{id}', 'Common\OrderController@getPrint');
-    // Route::get('order/tui/{id}', 'Common\OrderController@getTui');
-    Route::get('order/ziti/{id}', 'Common\OrderController@getZiti');
+    Route::get('order/index', 'Good\OrderController@index');
+    Route::get('order/del/{id}', 'Good\OrderController@getDel');
+    Route::get('order/ship/{id}', 'Good\OrderController@getShip');
+    Route::post('order/ship/{id}', 'Good\OrderController@postShip');
+    Route::get('order/print/{id}', 'Good\OrderController@getPrint');
+    // Route::get('order/tui/{id}', 'Good\OrderController@getTui');
+    Route::get('order/ziti/{id}', 'Good\OrderController@getZiti');
     // 批量自提、发货、关闭
-    Route::post('order/allship', 'Common\OrderController@postAllShip');
-    Route::post('order/allziti', 'Common\OrderController@postAllZiti');
-    Route::post('order/allclose', 'Common\OrderController@postAllDel');
+    Route::post('order/allship', 'Good\OrderController@postAllShip');
+    Route::post('order/allziti', 'Good\OrderController@postAllZiti');
+    Route::post('order/allclose', 'Good\OrderController@postAllDel');
     // 支付配置
     Route::get('pay/index', 'Common\PayController@getIndex');
     Route::get('pay/edit/{id}', 'Common\PayController@getEdit');
@@ -359,27 +359,27 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::get('log/index', 'LogController@getIndex');
     Route::get('log/del', 'LogController@getDel');
     // cate
-    Route::get('cate/index', 'CateController@getIndex');
-    Route::get('cate/cache', 'CateController@getCache');
-    Route::get('cate/add/{id?}', 'CateController@getAdd');
-    Route::post('cate/add/{id?}', 'CateController@postAdd');
-    Route::get('cate/edit/{id?}', 'CateController@getEdit');
-    Route::post('cate/edit/{id?}', 'CateController@postEdit');
-    Route::get('cate/del/{id?}', 'CateController@getDel');
+    Route::get('cate/index', 'Common\CateController@getIndex');
+    Route::get('cate/cache', 'Common\CateController@getCache');
+    Route::get('cate/add/{id?}', 'Common\CateController@getAdd');
+    Route::post('cate/add/{id?}', 'Common\CateController@postAdd');
+    Route::get('cate/edit/{id?}', 'Common\CateController@getEdit');
+    Route::post('cate/edit/{id?}', 'Common\CateController@postEdit');
+    Route::get('cate/del/{id?}', 'Common\CateController@getDel');
     // attr
-    Route::get('attr/index', 'AttrController@getIndex');
-    Route::get('attr/delfile/{id?}', 'AttrController@getDelfile');
-    Route::post('attr/uploadimg', 'AttrController@postUploadimg');
+    Route::get('attr/index', 'Common\AttrController@getIndex');
+    Route::get('attr/delfile/{id?}', 'Common\AttrController@getDelfile');
+    Route::post('attr/uploadimg', 'Common\AttrController@postUploadimg');
     // art
-    Route::get('art/index', 'ArtController@getIndex');
-    Route::get('art/add/{id?}', 'ArtController@getAdd');
-    Route::post('art/add/{id?}', 'ArtController@postAdd');
-    Route::get('art/edit/{id}', 'ArtController@getEdit');
-    Route::post('art/edit/{id}', 'ArtController@postEdit');
-    Route::get('art/del/{id}', 'ArtController@getDel');
-    Route::get('art/show/{id}', 'ArtController@getShow');
-    Route::post('art/alldel', 'ArtController@postAlldel');
-    Route::post('art/listorder', 'ArtController@postListorder');
+    Route::get('art/index', 'Common\ArtController@getIndex');
+    Route::get('art/add/{id?}', 'Common\ArtController@getAdd');
+    Route::post('art/add/{id?}', 'Common\ArtController@postAdd');
+    Route::get('art/edit/{id}', 'Common\ArtController@getEdit');
+    Route::post('art/edit/{id}', 'Common\ArtController@postEdit');
+    Route::get('art/del/{id}', 'Common\ArtController@getDel');
+    Route::get('art/show/{id}', 'Common\ArtController@getShow');
+    Route::post('art/alldel', 'Common\ArtController@postAlldel');
+    Route::post('art/listorder', 'Common\ArtController@postListorder');
     // database
     Route::get('database/export', 'DatabaseController@getExport');
     Route::post('database/export', 'DatabaseController@postExport');

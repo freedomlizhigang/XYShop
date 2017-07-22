@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Pay;
+use App\Models\Common\Pay;
 use DB;
 use Illuminate\Http\Request;
 

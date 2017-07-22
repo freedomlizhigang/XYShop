@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
-use App\Models\YhqUser;
-use App\Models\Youhuiquan;
+use App\Models\Good\YhqUser;
+use App\Models\Good\Youhuiquan;
 use DB;
 use Illuminate\Http\Request;
 

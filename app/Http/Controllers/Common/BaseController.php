@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart;
-use App\Models\Good;
-use App\Models\GoodFormat;
-use App\Models\GoodSpecPrice;
-use App\Models\Order;
-use App\Models\OrderGood;
-use App\Models\User;
+use App\Models\Good\Cart;
+use App\Models\Good\Good;
+use App\Models\Good\GoodSpecPrice;
+use App\Models\Good\Order;
+use App\Models\Good\OrderGood;
+use App\Models\User\User;
 use DB;
 use Illuminate\Http\Request;
 use Storage;

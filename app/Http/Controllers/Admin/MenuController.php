@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
-use App;
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Http\Requests\MenuRequest;
-use App\Models\Menu;
+use App\Models\Console\Menu;
 use Cache;
 use Illuminate\Http\Request;
 
@@ -21,7 +18,7 @@ class MenuController extends BaseController
     {
         $title = '菜单列表';
         $list = $this->menu->orderBy('sort','asc')->orderBy('id','asc')->get();
-        $tree = App::make('com')->toTree($list,'0');
+        $tree = app('com')->toTree($list,'0');
         $treeHtml = $this->toTreeHtml($tree);
         return view('admin.menu.index',compact('treeHtml','title'));
     }
@@ -84,7 +81,7 @@ class MenuController extends BaseController
     {
     	$data = request('data');
     	$this->menu->create($data);
-        App::make('com')->updateCache($this->menu,'menuCache');
+        app('com')->updateCache($this->menu,'menuCache');
         return $this->ajaxReturn(1,'添加菜单成功',url('/console/menu/index'));
     	// return redirect('')->with('message', '');
     }
@@ -98,15 +95,15 @@ class MenuController extends BaseController
         $title = '修改菜单';
         $info = $this->menu->findOrFail($id);
         $list = $this->menu->orderBy('sort','asc')->get();
-        $tree = App::make('com')->toTree($list,'0');
-        $treeSelect = App::make('com')->toTreeSelect($tree,$info->parentid);
+        $tree = app('com')->toTree($list,'0');
+        $treeSelect = app('com')->toTreeSelect($tree,$info->parentid);
         return view('admin.menu.edit',compact('title','info','treeSelect'));
     }
     public function postEdit(MenuRequest $res,$id)
     {
         $data = $res->input('data');
         $this->menu->where('id',$id)->update($data);
-        App::make('com')->updateCache($this->menu,'menuCache');
+        app('com')->updateCache($this->menu,'menuCache');
         return $this->ajaxReturn(1,'修改菜单成功',url('/console/menu/index'));
         // return redirect('/console/menu/index')->with('message', '修改菜单成功！');
     }
@@ -120,7 +117,7 @@ class MenuController extends BaseController
         $info = $this->menu->findOrFail($id);
         $arr = explode(',', $info->arrchildid);
         $this->menu->destroy($arr);
-        App::make('com')->updateCache($this->menu,'menuCache');
+        app('com')->updateCache($this->menu,'menuCache');
         return redirect('/console/menu/index')->with('message', '删除菜单成功！');
     }
 }

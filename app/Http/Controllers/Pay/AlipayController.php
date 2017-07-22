@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Pay;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Http\Requests;
-use App\Models\Order;
-use App\Models\Pay;
+use App\Models\Common\Pay;
+use App\Models\Good\Order;
 use Illuminate\Http\Request;
 use Omnipay\Omnipay;
 use Storage;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\SectionRequest;
-use App\Models\Section;
+use App\Models\Console\Section;
 use Illuminate\Http\Request;
 
 class SectionController extends BaseController

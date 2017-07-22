@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\Article;
-use App\Models\Cate;
-use App\Models\Good;
-use App\Models\GoodCate;
-use App\Models\User;
+use App\Models\Common\Article;
+use App\Models\Common\Cate;
+use App\Models\Good\Good;
+use App\Models\Good\GoodCate;
 use Illuminate\Http\Request;
 
 class HomeController extends BaseController

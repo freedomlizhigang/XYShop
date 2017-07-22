@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests\GoodAttrRequest;
-use App\Models\GoodAttr;
-use App\Models\GoodCate;
+use App\Http\Requests\Good\GoodAttrRequest;
+use App\Models\Good\GoodAttr;
+use App\Models\Good\GoodCate;
 use Illuminate\Http\Request;
 
 class GoodAttrController extends BaseController

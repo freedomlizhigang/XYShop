@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\Address;
-use App\Models\Cart;
-use App\Models\Good;
-use App\Models\GoodSpecPrice;
-use App\Models\Group;
-use App\Models\Manzeng;
-use App\Models\Order;
-use App\Models\OrderGood;
-use App\Models\User;
-use App\Models\YhqUser;
+use App\Models\Good\Cart;
+use App\Models\Good\Good;
+use App\Models\Good\GoodSpecPrice;
+use App\Models\Good\Manzeng;
+use App\Models\Good\Order;
+use App\Models\Good\OrderGood;
+use App\Models\Good\YhqUser;
+use App\Models\User\Address;
+use App\Models\User\Group;
+use App\Models\User\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -146,7 +146,7 @@ class AjaxGoodController extends BaseController
             // 关掉一天以前的未付款订单
             Order::where('orderstatus',1)->where('paystatus',0)->where('created_at','<',Carbon::now()->subday())->update(['orderstatus'=>0]);
             // 三天前的自动完成
-            Order::where('orderstatus',1)->where('shipstatus',1)->where('paystatus',1)->where('created_at','<',Carbon::now()->subday(3))->update(['orderstatus'=>2]);
+            Order::where('orderstatus',1)->where('shipstatus',1)->where('paystatus',1)->where('ship_at','<',Carbon::now()->subday(3))->update(['orderstatus'=>2]);
             // 所有产品总价
             $old_prices = Cart::whereIn('id',$ids)->sum('total_prices');
             $carts = Cart::whereIn('id',$ids)->orderBy('updated_at','desc')->get();

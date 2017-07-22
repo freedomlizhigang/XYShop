@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests\GoodAttrRequest;
-use App\Http\Requests\GoodSpecRequest;
-use App\Models\Good;
-use App\Models\GoodAttr;
-use App\Models\GoodCate;
-use App\Models\GoodSpec;
-use App\Models\GoodSpecItem;
-use App\Models\GoodSpecPrice;
+use App\Http\Requests\Good\GoodSpecRequest;
+use App\Models\Good\Good;
+use App\Models\Good\GoodCate;
+use App\Models\Good\GoodSpec;
+use App\Models\Good\GoodSpecItem;
+use App\Models\Good\GoodSpecPrice;
 use DB;
 use Illuminate\Http\Request;
 

@@ -23,24 +23,20 @@
 </div>
 
 <table class="table table-striped table-hover mt10">
-	<thead>
-		<tr class="active">
-			<th width="50">ID</th>
-			<th width="120">用户</th>
-			<th>url</th>
-			<th width="180">插入时间</th>
-		</tr>
-	</thead>
-	<tbody>
+	<tr class="active">
+		<th width="50">ID</th>
+		<th width="120">用户</th>
+		<th>url</th>
+		<th width="180">插入时间</th>
+	</tr>
 	@foreach($list as $a)
-		<tr>
-			<td>{{ $a->id }}</td>
-			<td>{{ $a->user }}</td>
-			<td>{{ $a->url }}</td>
-			<td>{{ $a->created_at }}</td>
-		</tr>
+	<tr>
+		<td>{{ $a->id }}</td>
+		<td>{{ $a->user }}</td>
+		<td>{{ $a->url }}</td>
+		<td>{{ $a->created_at }}</td>
+	</tr>
 	@endforeach
-	</tbody>
 </table>
 <!-- 分页，appends是给分页添加参数 -->
 <div class="pages clearfix">

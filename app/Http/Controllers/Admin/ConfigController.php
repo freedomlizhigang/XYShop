@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Controllers\Controller;
-use App\Models\Config;
+use App\Models\Console\Config;
 use Cache;
 use Illuminate\Http\Request;
 

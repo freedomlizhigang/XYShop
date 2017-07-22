@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests\GroupRequest;
-use App\Models\Group;
-use App\Models\User;
+use App\Http\Requests\User\GroupRequest;
+use App\Models\User\Group;
+use App\Models\User\User;
 use Cache;
 use DB;
 use Illuminate\Http\Request;

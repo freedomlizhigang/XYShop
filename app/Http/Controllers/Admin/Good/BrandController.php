@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Shop\BrandRequest;
-use App\Models\Brand;
+use App\Http\Requests\Good\BrandRequest;
+use App\Models\Good\Brand;
 use Illuminate\Http\Request;
 
 class BrandController extends BaseController

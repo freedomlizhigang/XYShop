@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Good\AdRequest;
-use App\Models\Ad;
-use App\Models\Adpos;
-use App\Models\Type;
+use App\Http\Requests\Common\AdRequest;
+use App\Models\Common\Ad;
+use App\Models\Common\Adpos;
 use Illuminate\Http\Request;
 
 class AdController extends BaseController

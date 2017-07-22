@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\Good\HuodongRequest;
-use App\Models\Good;
-use App\Models\HdGood;
-use App\Models\Huodong;
+use App\Models\Good\Good;
+use App\Models\Good\HdGood;
+use App\Models\Good\Huodong;
 use DB;
 use Illuminate\Http\Request;
 

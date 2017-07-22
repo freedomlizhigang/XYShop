@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin\Common;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Shop\AreaRequest;
-use App\Models\Area;
-use Illuminate\Http\Request;
+use App\Http\Requests\Common\AreaRequest;
+use App\Models\Common\Area;
+use App\Models\Common\Community;
 use DB;
+use Illuminate\Http\Request;
 
 class AreaController extends BaseController
 {

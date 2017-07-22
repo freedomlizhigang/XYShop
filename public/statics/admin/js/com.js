@@ -40,22 +40,22 @@ function ajax_submit_form(form_id,submit_url)
 		// console.log($('#editor_id').val());
 		data.push({name:'data[content]',value:$('#editor_id').val()});
 	}
+	before_request = 0; // 标识ajax 请求已经发出
     $.ajax({
 		type: "POST",
 		url: submit_url,
 		data: data, // 你的formid                
 		error: function(v) {
-			console.log(v.responseText);
+		    before_request = 1;
+			// console.log(v.responseText);
 			// 提示信息转为json对象，并弹出提示
 		    var errors = $.parseJSON(v.responseText);
 		    $.each(errors, function(index, value) {
 		    	// 弹出提示
 				$('#error_alert').text(value).fadeIn('fast').delay(1000).fadeOut();
 				// 标识ajax 请求成功，可以再次发送
-				before_request = 1;
-		    	return false;
 		    });
-			// alert("服务器繁忙, 请联系管理员!");
+	    	return false;
 		},
 		success: function(v) {
 			before_request = 1; // 标识ajax 请求已经返回
@@ -76,12 +76,9 @@ function ajax_submit_form(form_id,submit_url)
 			{
 				// 弹出提示
 				$('#error_alert').text(v.msg).fadeIn('fast').delay(1000).fadeOut();
-				// 标识ajax 请求成功，可以再次发送
-				before_request = 1;
 		    	return false;
 			}
 
 		}
 	});
-	before_request = 0; // 标识ajax 请求已经发出
 }

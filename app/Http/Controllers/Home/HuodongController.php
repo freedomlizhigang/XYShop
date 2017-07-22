@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\Good;
-use App\Models\HdGood;
-use App\Models\Huodong;
+use App\Models\Good\Good;
+use App\Models\Good\HdGood;
+use App\Models\Good\Huodong;
 use Illuminate\Http\Request;
 
 class HuodongController extends BaseController

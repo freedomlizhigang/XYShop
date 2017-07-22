@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Good\UserCardRequest;
 use App\Http\Requests\User\AddressRequest;
-use App\Models\Address;
-use App\Models\Card;
-use App\Models\Consume;
-use App\Models\Order;
-use App\Models\ReturnGood;
-use App\Models\Type;
-use App\Models\User;
-use App\Models\YhqUser;
+use App\Http\Requests\User\UserCardRequest;
+use App\Models\Common\Type;
+use App\Models\Good\Order;
+use App\Models\Good\ReturnGood;
+use App\Models\Good\YhqUser;
+use App\Models\User\Address;
+use App\Models\User\Card;
+use App\Models\User\Consume;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 
 class UserCenterController extends BaseController

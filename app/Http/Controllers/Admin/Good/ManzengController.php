@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\Good\ManzengRequest;
-use App\Models\Manzeng;
+use App\Models\Good\Manzeng;
 use Illuminate\Http\Request;
 
 class ManzengController extends BaseController

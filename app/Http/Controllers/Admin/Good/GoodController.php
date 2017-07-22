@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App;
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests\FormatRequest;
-use App\Http\Requests\GoodRequest;
-use App\Models\Cart;
-use App\Models\CateAttr;
-use App\Models\Good;
-use App\Models\GoodAttr;
-use App\Models\GoodCate;
-use App\Models\GoodFormat;
-use App\Models\GoodSpec;
-use App\Models\GoodSpecItem;
-use App\Models\GoodSpecPrice;
-use App\Models\GoodsAttr;
-use App\Models\HdGood;
-use App\Models\Tuan;
-use App\Models\Type;
+use App\Http\Requests\Good\GoodRequest;
+use App\Models\Common\Type;
+use App\Models\Good\Cart;
+use App\Models\Good\Good;
+use App\Models\Good\GoodAttr;
+use App\Models\Good\GoodCate;
+use App\Models\Good\GoodSpec;
+use App\Models\Good\GoodSpecItem;
+use App\Models\Good\GoodSpecPrice;
+use App\Models\Good\GoodsAttr;
+use App\Models\Good\HdGood;
+use App\Models\Good\Tuan;
 use DB;
 use Illuminate\Http\Request;
 use Storage;
@@ -39,8 +35,8 @@ class GoodController extends BaseController
         $endtime = $res->input('endtime');
         $status = $res->input('status');
         $cats = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-    	$tree = App::make('com')->toTree($cats,'0');
-    	$cate = App::make('com')->toTreeSelect($tree);
+    	$tree = app('com')->toTree($cats,'0');
+    	$cate = app('com')->toTreeSelect($tree);
         $sort = $res->input('sort','sort');
         if ($sort == 'sort') {
             $sortDesc = 'desc';
@@ -117,8 +113,8 @@ class GoodController extends BaseController
     	if($id == '0')
     	{
     		$cats = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-	    	$tree = App::make('com')->toTree($cats,'0');
-	    	$cate = App::make('com')->toTreeSelect($tree);
+	    	$tree = app('com')->toTree($cats,'0');
+	    	$cate = app('com')->toTreeSelect($tree);
     	}
         $tags = Type::where('parentid',9)->get();
     	return view('admin.good.add',compact('title','id','cate','tags'));
@@ -172,8 +168,8 @@ class GoodController extends BaseController
     {
     	$title = '修改商品';
 		$cats = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-    	$tree = App::make('com')->toTree($cats,'0');
-    	$cate = App::make('com')->toTreeSelect($tree);
+    	$tree = app('com')->toTree($cats,'0');
+    	$cate = app('com')->toTreeSelect($tree);
     	$ref = session('backurl');
     	$info = Good::findOrFail($id);
         $tags = Type::where('parentid',9)->get();

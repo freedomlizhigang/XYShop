@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests\Good\CardRequest;
-use App\Models\Card;
-use App\Models\User;
+use App\Http\Requests\User\CardRequest;
+use App\Models\User\Card;
 use Excel;
 use Illuminate\Http\Request;
 

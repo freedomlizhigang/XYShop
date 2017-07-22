@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\AuthTmp;
-use App\Models\User;
+use App\Models\Common\AuthTmp;
+use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use QrCode;

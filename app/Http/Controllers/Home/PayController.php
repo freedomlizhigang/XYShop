@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\Good;
-use App\Models\GoodFormat;
-use App\Models\Order;
-use App\Models\OrderGood;
-use App\Models\Pay;
-use App\Models\User;
+use App\Models\Common\Pay;
+use App\Models\Good\Order;
+use App\Models\User\User;
 use DB;
 use Illuminate\Http\Request;
 use Omnipay\Omnipay;

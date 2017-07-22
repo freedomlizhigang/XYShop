@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
-use App\Models\Log;
-use Auth;
+use App\Models\Console\Admin;
+use App\Models\Console\Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

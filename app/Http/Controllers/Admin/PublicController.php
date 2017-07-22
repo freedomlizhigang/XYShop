@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
-use App\Models\Admin;
-use App\Models\Priv;
-use App\Models\RoleUser;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use App\Models\Console\Admin;
+use App\Models\Console\Priv;
+use App\Models\Console\RoleUser;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\Address;
-use App\Models\Good;
-use App\Models\GoodSpecPrice;
-use App\Models\Order;
-use App\Models\OrderGood;
-use App\Models\Tuan;
-use App\Models\TuanUser;
+use App\Models\Good\Good;
+use App\Models\Good\GoodSpecPrice;
+use App\Models\Good\Order;
+use App\Models\Good\OrderGood;
+use App\Models\Good\Tuan;
+use App\Models\Good\TuanUser;
+use App\Models\User\Address;
 use DB;
 use Illuminate\Http\Request;
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\Good\TuanRequest;
-use App\Models\Tuan;
+use App\Models\Good\Tuan;
 use Illuminate\Http\Request;
 
 class TuanController extends BaseController

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\Cart;
-use App\Models\YhqUser;
-use App\Models\Youhuiquan;
+use App\Models\Good\YhqUser;
+use App\Models\Good\Youhuiquan;
 use DB;
 use Illuminate\Http\Request;
 

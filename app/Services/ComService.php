@@ -2,7 +2,6 @@
 namespace App\Services;
 
 use App\Models\Consume;
-use Auth;
 use Cache;
 use Gate;
 use Storage;

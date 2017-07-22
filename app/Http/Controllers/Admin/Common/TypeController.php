@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Common;
 
-use App;
 use App\Http\Controllers\Admin\BaseController;
-use App\Http\Requests;
-use App\Http\Requests\TypeRequest;
-use App\Models\Type;
+use App\Http\Requests\Common\TypeRequest;
+use App\Models\Common\Type;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -41,7 +39,7 @@ class TypeController extends BaseController
             $data = $res->input('data');
             $resId = Type::create($data);
             // 后台用户组权限
-            App::make('com')->updateCache(new Type,'typeCache');
+            app('com')->updateCache(new Type,'typeCache');
             return $this->ajaxReturn(1,'添加成功！');
         } catch (Exception $e) {
             return $this->ajaxReturn(0,'添加失败，请稍后再试！');
@@ -57,8 +55,8 @@ class TypeController extends BaseController
         $title = '修改分类';
         $info = Type::findOrFail($id);
         $all = Type::orderBy('sort','asc')->get();
-        $tree = App::make('com')->toTree($all,'0');
-        $treeHtml = App::make('com')->toTreeSelect($tree,$info->parentid);
+        $tree = app('com')->toTree($all,'0');
+        $treeHtml = app('com')->toTreeSelect($tree,$info->parentid);
         return view('admin.type.edit',compact('title','info','treeHtml'));
     }
     public function postEdit(TypeRequest $res,$id = '')
@@ -67,7 +65,7 @@ class TypeController extends BaseController
             $data = $res->input('data');
             Type::where('id',$id)->update($data);
             // 更新缓存
-            App::make('com')->updateCache(new Type,'typeCache');
+            app('com')->updateCache(new Type,'typeCache');
             return $this->ajaxReturn(1,'修改成功！');
         } catch (Exception $e) {
             return $this->ajaxReturn(0,'修改失败，请稍后再试！');
