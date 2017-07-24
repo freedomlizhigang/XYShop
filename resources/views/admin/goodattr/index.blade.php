@@ -10,15 +10,15 @@
 <table class="table table-striped table-hover mt10">
 	<tr class="active">
 		<th width="50">ID</th>
-		<th width="150">商品分类</th>
+		<th width="380">商品分类</th>
 		<th width="150">属性名</th>
 		<th>值</th>
-		<th>操作</th>
+		<th width="100">操作</th>
 	</tr>
 	@foreach($list as $m)
 	<tr>
 		<td>{{ $m->id }}</td>
-		<td>@if(!is_null($m->goodcate)){{ $m->goodcate->name }}@endif</td>
+		<td>{{ isset(cache('goodcateCache')[$m->goodcate_one_id]) ? cache('goodcateCache')[$m->goodcate_one_id]['name'] .' -> '. cache('goodcateCache')[$m->goodcate_two_id]['name'] .' -> '. cache('goodcateCache')[$m->good_cate_id]['name'] : '' }}</td>
 		<td>{{ $m->name }}</td>
 		<td>{{ $m->value }}</td>
 		<td>

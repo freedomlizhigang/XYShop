@@ -23,11 +23,7 @@ class GoodAttrController extends BaseController
     public function getAdd()
     {
         $title = '添加商品属性';
-        // 商品分类
-        $all = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-        $tree = app('com')->toTree($all,'0');
-        $treeHtml = app('com')->toTreeSelect($tree,0);
-        return view('admin.goodattr.add',compact('title','treeHtml'));
+        return view('admin.goodattr.add',compact('title'));
     }
 
     public function postAdd(GoodAttrRequest $req)
@@ -42,11 +38,7 @@ class GoodAttrController extends BaseController
     {
         $title = '修改商品属性';
         $info = GoodAttr::findOrFail($id);
-        // 商品分类
-        $all = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-        $tree = app('com')->toTree($all,'0');
-        $treeHtml = app('com')->toTreeSelect($tree,0);
-        return view('admin.goodattr.edit',compact('title','info','id','treeHtml'));
+        return view('admin.goodattr.edit',compact('title','info','id'));
     }
     public function postEdit(GoodAttrRequest $req,$id)
     {

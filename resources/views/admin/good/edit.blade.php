@@ -9,11 +9,26 @@
         <tr>
             <td class="td_left">选择分类：</td>
             <td>
+                <select name="" id="catid_one" onchange="get_goodcate(this.value,'catid_two',0)" class="form-control input-sm">
+                    <option value="0">顶级分类</option>
+                </select>
+                <select name="" id="catid_two" onchange="get_goodcate(this.value,'catid',0);get_brand(document.getElementById('catid_one').value,this.value,'brand_id',0)" class="form-control input-sm">
+                    <option value="0">二级分类</option>
+                </select>
                 <select name="data[cate_id]" id="catid" class="form-control input-sm">
-                    <option value="0">选择分类</option>
-                    {!! $cate !!}
+                    <option value="0">三级分类</option>
                 </select>
                 <p class="input-info"><span class="color_red">*</span>必填，商品归哪个分类</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">选择品牌：</td>
+            <td>
+                <select name="data[brand_id]" id="brand_id" class="form-control input-sm">
+                    <option value="0">选择品牌</option>
+                </select>
+                <p class="input-info">商品归哪个品牌</p>
             </td>
         </tr>
 
@@ -34,9 +49,25 @@
         </tr>
 
         <tr>
-            <td class="td_left">价格：</td>
+            <td class="td_left">市场价：</td>
             <td>
-                <input type="text" name="data[price]" value="{{ $info->old_price }}" class="form-control input-sm">
+                <input type="text" name="data[market_price]" value="{{ $info->market_price }}" class="form-control input-sm">
+                <p class="input-info"><span class="color_red">*</span>数字</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">成本价：</td>
+            <td>
+                <input type="text" name="data[cost_price]" value="{{ $info->cost_price }}" class="form-control input-sm">
+                <p class="input-info"><span class="color_red">*</span>数字</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">本店价：</td>
+            <td>
+                <input type="text" name="data[shop_price]" value="{{ $info->shop_price }}" class="form-control input-sm">
                 <p class="input-info"><span class="color_red">*</span>数字</p>
             </td>
         </tr>
@@ -53,59 +84,49 @@
             <td class="td_left">单件重量：</td>
             <td>
                 <input type="text" name="data[weight]" value="{{ $info->weight }}" class="form-control input-sm">
-                <p class="input-info"><span class="color_red">*</span>数字</p>
+                <p class="input-info"><span class="color_red">*</span>数字，单位：克</p>
+            </td>
+        </tr>
+        
+        <tr>
+            <td class="td_left">推荐：</td>
+            <td>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-xs btn-info @if($info->is_pos == '1') active @endif">
+                        <input type="radio" name="data[is_pos]" autocomplete="off" @if($info->is_pos == '1') checked @endif value="1"> 显示
+                    </label>
+                    <label class="btn btn-xs btn-info @if($info->is_pos == '0') active @endif">
+                        <input type="radio" name="data[is_pos]" autocomplete="off" @if($info->is_pos == '0') checked @endif value="0"> 隐藏
+                    </label>
+                </div>
             </td>
         </tr>
 
         <tr>
-            <td class="td_left">标签：</td>
+            <td class="td_left">新品：</td>
             <td>
-                <select name="data[tags]" class="form-control input-sm">
-                    <option value="">无</option>
-                    @foreach($tags as $t)
-                    <option value="{{ $t->name }}"@if($t->name == $info->tags) selected="selected" @endif>{{ $t->name }}</option>
-                    @endforeach
-                </select>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-xs btn-info @if($info->is_new == '1') active @endif">
+                        <input type="radio" name="data[is_new]" autocomplete="off" @if($info->is_new == '1') checked @endif value="1"> 显示
+                    </label>
+                    <label class="btn btn-xs btn-info @if($info->is_new == '0') active @endif">
+                        <input type="radio" name="data[is_new]" autocomplete="off" @if($info->is_new == '0') checked @endif value="0"> 隐藏
+                    </label>
+                </div>
             </td>
         </tr>
 
         <tr>
-            <td class="td_left">是否限时：</td>
+            <td class="td_left">热卖：</td>
             <td>
-                <label class="radio-inline"><input type="radio" name="data[isxs]"@if($info->isxs == 1) checked="checked"@endif class="input-radio" value="1">
-                    启用</label>
-                <label class="radio-inline"><input type="radio" name="data[isxs]"@if($info->isxs == 0) checked="checked"@endif class="input-radio" value="0">禁用</label>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">开始时间：</td>
-            <td>
-                <input type="text" name="data[starttime]" class="form-control input-sm" value="{{ $info->starttime }}" id="laydate">
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">结束时间：</td>
-            <td>
-                <input type="text" name="data[endtime]" class="form-control input-sm" value="{{ $info->endtime }}" id="laydate2">
-            </td>
-        </tr>
-    
-        <tr>
-            <td class="td_left">是否限量：</td>
-            <td>
-                <label class="radio-inline"><input type="radio" name="data[isxl]"@if($info->isxl == 1) checked="checked"@endif class="input-radio" value="1">
-                    启用</label>
-                <label class="radio-inline"><input type="radio" name="data[isxl]"@if($info->isxl == 0) checked="checked"@endif class="input-radio" value="0">禁用</label>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">限制数量：</td>
-            <td>
-                <input type="text" name="data[xlnums]" value="{{ $info->xlnums }}" class="form-control input-xs">
-                <p class="input-info">数字，0为不限制</p>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-xs btn-info @if($info->is_hot == '1') active @endif">
+                        <input type="radio" name="data[is_hot]" autocomplete="off" @if($info->is_hot == '1') checked @endif value="1"> 显示
+                    </label>
+                    <label class="btn btn-xs btn-info @if($info->is_hot == '0') active @endif">
+                        <input type="radio" name="data[is_hot]" autocomplete="off" @if($info->is_hot == '0') checked @endif value="0"> 隐藏
+                    </label>
+                </div>
             </td>
         </tr>
 
@@ -162,22 +183,7 @@
         <script>
             $(function(){
                 // 修改产品分类时，取出对应的属性及规格
-                $('#catid').change(function() {
-                    var cid = $('#catid').val();
-                    var attr_url = "{{url('/console/good/goodattr')}}";
-                    var spec_url = "{{url('/console/good/goodspec')}}";
-                    var good_id = 0;
-                    // 属性
-                    $.get(attr_url,{'cid':cid,'good_id':good_id},function(d){
-                        $("#good_attr").html(d);
-
-                    });
-                    // 规格
-                    $.get(spec_url,{'cid':cid,'good_id':good_id},function(d){
-                        $("#good_spec").html(d);
-                        ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
-                    });
-                });
+                
             })
         </script>
 
@@ -209,6 +215,10 @@
 
 <script>
     $(function(){
+        get_goodcate(0,'catid_one',"{{ $info->goodcate_one_id }}");
+        get_goodcate("{{ $info->goodcate_one_id }}",'catid_two',"{{ $info->goodcate_two_id }}");
+        get_goodcate("{{ $info->goodcate_two_id }}",'catid',"{{ $info->cate_id }}");
+        get_brand("{{ $info->goodcate_one_id }}","{{ $info->goodcate_two_id }}",'brand_id',"{{ $info->brand_id }}")
         // 修改产品分类时，取出对应的属性及规格
         $('#catid').on('change',function() {
             var cid = $('#catid').val();
@@ -224,8 +234,8 @@
                 $("#good_spec").html(d);
             });
         });
-        $('#catid option[value=' + {{ $info->cate_id }} + ']').prop('selected','selected');
 
+        // 初始化属性及规格
         var cid = $('#catid').val();
         var attr_url = "{{url('/console/good/goodattr')}}";
         var spec_url = "{{url('/console/good/goodspec')}}";
@@ -277,17 +287,6 @@
         });
 		
 	});
-
-    laydate({
-        elem: '#laydate',
-        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
-        istime: true,
-    });
-    laydate({
-        elem: '#laydate2',
-        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
-        istime: true,
-    });
 </script>
 
 @endsection

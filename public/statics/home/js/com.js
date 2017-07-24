@@ -112,7 +112,7 @@ function total_prices()
 // 取购物车数量
 function cartnum(uid)
 {
-	$.post(host + 'api/common/good/cartnums',{uid:uid},function(data){
+	$.post(host + 'api/good/cartnums',{uid:uid},function(data){
 		$('.good_alert_num').html(data);
 	});
 }
@@ -125,7 +125,7 @@ function cartNumsChange(className = '',oldnum = 1,type = 1)
 	var num = that.val();
 	var price = that.attr('data-price');
 	var new_prices = parseFloat(price) * parseInt(num);
-	var url = host + "/api/common/good/changecart";
+	var url = host + "/api/good/changecart";
 	// 更新购物车
 	before_request = 0;
 	$.post(url,{cid:cid,num:num,price:price,type:type},function(d){

@@ -8,11 +8,26 @@
         <tr>
             <td class="td_left">选择分类：</td>
             <td>
+                <select name="" id="catid_one" onchange="get_goodcate(this.value,'catid_two',0)" class="form-control input-sm">
+                    <option value="0">顶级分类</option>
+                </select>
+                <select name="" id="catid_two" onchange="get_goodcate(this.value,'catid',0);get_brand(document.getElementById('catid_one').value,this.value,'brand_id',0)" class="form-control input-sm">
+                    <option value="0">二级分类</option>
+                </select>
                 <select name="data[cate_id]" id="catid" class="form-control input-sm">
-                    <option value="0">选择分类</option>
-                    {!! $cate !!}
+                    <option value="0">三级分类</option>
                 </select>
                 <p class="input-info"><span class="color_red">*</span>必填，商品归哪个分类</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">选择品牌：</td>
+            <td>
+                <select name="data[brand_id]" id="brand_id" class="form-control input-sm">
+                    <option value="0">选择品牌</option>
+                </select>
+                <p class="input-info">商品归哪个品牌</p>
             </td>
         </tr>
 
@@ -33,9 +48,25 @@
         </tr>
 
         <tr>
-            <td class="td_left">价格：</td>
+            <td class="td_left">市场价：</td>
             <td>
-                <input type="text" name="data[price]" value="{{ old('data.price',1) }}" class="form-control input-sm">
+                <input type="text" name="data[market_price]" value="{{ old('data.market_price',1) }}" class="form-control input-sm">
+                <p class="input-info"><span class="color_red">*</span>数字</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">成本价：</td>
+            <td>
+                <input type="text" name="data[cost_price]" value="{{ old('data.cost_price',1) }}" class="form-control input-sm">
+                <p class="input-info"><span class="color_red">*</span>数字</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">本店价：</td>
+            <td>
+                <input type="text" name="data[shop_price]" value="{{ old('data.shop_price',1) }}" class="form-control input-sm">
                 <p class="input-info"><span class="color_red">*</span>数字</p>
             </td>
         </tr>
@@ -51,60 +82,50 @@
         <tr>
             <td class="td_left">单件重量：</td>
             <td>
-                <input type="text" name="data[weight]" value="{{ old('data.weight',1) }}" class="form-control input-sm">
-                <p class="input-info"><span class="color_red">*</span>数字</p>
+                <input type="text" name="data[weight]" value="{{ old('data.weight',1000) }}" class="form-control input-sm">
+                <p class="input-info"><span class="color_red">*</span>数字，单位：克</p>
+            </td>
+        </tr>
+        
+        <tr>
+            <td class="td_left">推荐：</td>
+            <td>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-xs btn-info">
+                        <input type="radio" name="data[is_pos]" autocomplete="off" value="1"> 是
+                    </label>
+                    <label class="btn btn-xs btn-info active">
+                        <input type="radio" name="data[is_pos]" autocomplete="off" checked value="0"> 否
+                    </label>
+                </div>
             </td>
         </tr>
 
         <tr>
-            <td class="td_left">标签：</td>
+            <td class="td_left">新品：</td>
             <td>
-                <select name="data[tags]" class="form-control input-sm">
-                    <option value="">无</option>
-                    @foreach($tags as $t)
-                    <option value="{{ $t->name }}">{{ $t->name }}</option>
-                    @endforeach
-                </select>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-xs btn-info">
+                        <input type="radio" name="data[is_new]" autocomplete="off" value="1"> 是
+                    </label>
+                    <label class="btn btn-xs btn-info active">
+                        <input type="radio" name="data[is_new]" autocomplete="off" checked value="0"> 否
+                    </label>
+                </div>
             </td>
         </tr>
 
         <tr>
-            <td class="td_left">是否限时：</td>
+            <td class="td_left">热卖：</td>
             <td>
-                <label class="radio-inline"><input type="radio" name="data[isxs]" class="input-radio" value="1">
-                    启用</label>
-                <label class="radio-inline"><input type="radio" name="data[isxs]" checked="checked" class="input-radio" value="0">禁用</label>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">开始时间：</td>
-            <td>
-                <input type="text" name="data[starttime]" class="form-control input-sm" value="{{ old('data.starttime') }}" id="laydate">
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">结束时间：</td>
-            <td>
-                <input type="text" name="data[endtime]" class="form-control input-sm" value="{{ old('data.endtime') }}" id="laydate2">
-            </td>
-        </tr>
-    
-        <tr>
-            <td class="td_left">是否限量：</td>
-            <td>
-                <label class="radio-inline"><input type="radio" name="data[isxl]" class="input-radio" value="1">
-                    启用</label>
-                <label class="radio-inline"><input type="radio" name="data[isxl]" checked="checked" class="input-radio" value="0">禁用</label>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">限制数量：</td>
-            <td>
-                <input type="text" name="data[xlnums]" value="{{ old('data.xlnums',0) }}" class="form-control input-xs">
-                <p class="input-info">数字，0为不限制</p>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-xs btn-info">
+                        <input type="radio" name="data[is_hot]" autocomplete="off" value="1"> 是
+                    </label>
+                    <label class="btn btn-xs btn-info active">
+                        <input type="radio" name="data[is_hot]" autocomplete="off" checked value="0"> 否
+                    </label>
+                </div>
             </td>
         </tr>
 
@@ -207,6 +228,9 @@
 
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
+    $(function(){
+        get_goodcate(0,'catid_one',0);
+    });
     // 上传时要填上sessionId与csrf表单令牌，否则无法通过验证
     KindEditor.ready(function(K) {
         window.editor = K.create('#editor_id',{
@@ -241,16 +265,6 @@
         uploadbutton.fileBox.change(function(e) {
             uploadbutton.submit();
         });
-    });
-    laydate({
-        elem: '#laydate',
-        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
-        istime: true,
-    });
-    laydate({
-        elem: '#laydate2',
-        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
-        istime: true,
     });
 </script>
 

@@ -1,4 +1,4 @@
-<form action="javascript:;" method="post" id="form_ajax">
+<form action="javascript:;" method="post" class="form-inline" id="form_ajax">
     {{ csrf_field() }}
     
     <table class="table table-striped">
@@ -6,24 +6,30 @@
         <tr>
             <td class="td_left">省：</td>
             <td>
-                <select name="data[areaid1]" id="areaid1" class="form-control input-sm"></select>
-                <p class="input-info"><span class="color_red">*</span></p>
+                <select name="data[areaid1]" id="areaid1" onchange="get_area(this.value,'areaid2',0)" class="form-control">
+                    <option value="0">省份</option>
+                </select>
+                <span class="color_red">*</span>
             </td>
         </tr>
 
         <tr>
             <td class="td_left">市：</td>
             <td>
-                <select name="data[areaid2]" id="areaid2" class="form-control input-sm"></select>
-                <p class="input-info"><span class="color_red">*</span></p>
+                <select name="data[areaid2]" id="areaid2" onchange="get_area(this.value,'areaid3',0)" class="form-control">
+                    <option value="0">省份</option>
+                </select>
+                <span class="color_red">*</span>
             </td>
         </tr>
 
         <tr>
             <td class="td_left">县：</td>
             <td>
-                <select name="data[areaid3]" id="areaid3" class="form-control input-sm"></select>
-                <p class="input-info"><span class="color_red">*</span></p>
+                <select name="data[areaid3]" id="areaid3" class="form-control">
+                    <option value="">县区</option>
+                </select>
+                <span class="color_red">*</span>
             </td>
         </tr>
 
@@ -61,29 +67,6 @@
 
 <script>
     $(function(){
-        var url = "{{ url('console/area/get') }}";
-        $.get(url + '/0',function(str){
-            $("#areaid1").html(str);
-            var areaid2 = $("#areaid1").val();
-            $.get(url + '/' + areaid2,function(str){
-                $("#areaid2").html(str);
-                var areaid3 = $("#areaid2").val();
-                $.get(url + '/' + areaid3,function(str){
-                    $("#areaid3").html(str);
-                })
-            })
-        })
-        $('#areaid1').change(function(event) {
-            var ids = $(this).val();
-            $.get(url + '/' + ids,function(str){
-                $("#areaid2").html(str);
-            })
-        });
-        $('#areaid2').change(function(event) {
-            var ids = $(this).val();
-            $.get(url + '/' + ids,function(str){
-                $("#areaid3").html(str);
-            })
-        });
+       get_area(0,'areaid1',0);
     })
 </script>

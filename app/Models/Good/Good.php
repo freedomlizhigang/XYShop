@@ -46,23 +46,31 @@ class Good extends Model
      *
      * @var array
      */
-    protected $appends = ['old_price'];
 
-    // 价格
-    public function getOldPriceAttribute($v)
+    // 二级分类
+    public function getGoodcateTwoIdAttribute()
     {
-        return $this->attributes['price'];
+        $two_id = GoodCate::where('id',$this->attributes['cate_id'])->value('parentid');
+        return $two_id;
+    }
+
+    // 一级分类
+    public function getGoodcateOneIdAttribute()
+    {
+        $one_id = GoodCate::where('id',$this->attributes['cate_id'])->value('arrparentid');
+        $one_id = explode(',', $one_id)[1];
+        return $one_id;
     }
     
     // 价格
     public function getPriceAttribute($v)
     {
         if ($this->goodspecprice->count() > 0) {
-            $prices = $this->goodspecprice->min('price').' ~ '.$this->goodspecprice->max('price');
+            $prices = $this->goodspecprice->min('price');
         }
         else
         {
-            $prices = $v;
+            $prices = $this->attributes['shop_price'];
         }
         return $prices;
     }

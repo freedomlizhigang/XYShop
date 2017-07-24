@@ -51,6 +51,7 @@
         </footer>
     </div>
     <script>
+        var host = "{{ config('app.url') }}";
         $(function(){
             // 加载默认左侧菜单
             $("#subnav").load('/console/index/left/1');

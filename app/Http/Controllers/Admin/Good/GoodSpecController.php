@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Good;
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\Good\GoodSpecRequest;
 use App\Models\Good\Good;
-use App\Models\Good\GoodCate;
 use App\Models\Good\GoodSpec;
 use App\Models\Good\GoodSpecItem;
 use App\Models\Good\GoodSpecPrice;
@@ -27,11 +26,7 @@ class GoodSpecController extends BaseController
     public function getAdd()
     {
         $title = '添加商品规格';
-        // 商品分类
-        $all = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-        $tree = app('com')->toTree($all,'0');
-        $treeHtml = app('com')->toTreeSelect($tree,0);
-        return view('admin.goodspec.add',compact('title','treeHtml'));
+        return view('admin.goodspec.add',compact('title'));
     }
 
     public function postAdd(GoodSpecRequest $req)
@@ -63,11 +58,7 @@ class GoodSpecController extends BaseController
     {
         $title = '修改商品规格';
         $info = GoodSpec::with('goodspecitem')->findOrFail($id);
-        // 商品分类
-        $all = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-        $tree = app('com')->toTree($all,'0');
-        $treeHtml = app('com')->toTreeSelect($tree,0);
-        return view('admin.goodspec.edit',compact('title','info','id','treeHtml'));
+        return view('admin.goodspec.edit',compact('title','info','id'));
     }
     public function postEdit(GoodSpecRequest $req,$id)
     {

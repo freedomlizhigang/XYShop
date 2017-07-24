@@ -26,11 +26,14 @@ class GoodRequest extends FormRequest
         return [
             'data.title' => 'required|max:255',
             'data.cate_id'  => 'required|integer',
+            'data.brand_id'  => 'required|integer',
             'data.keyword'  => 'max:255',
             'data.describe'  => 'max:255',
             'data.thumb'  => 'max:255',
             'data.content'  => 'required',
-            'data.price'  => 'required|numeric|min:0.01',
+            'data.shop_price'  => 'required|numeric|min:0.01',
+            'data.market_price'  => 'required|numeric|min:0.01',
+            'data.cost_price'  => 'required|numeric|min:0.01',
         ];
     }
     
@@ -39,11 +42,14 @@ class GoodRequest extends FormRequest
         return [
             'data.title' => '标题',
             'data.cate_id'  => '分类',
+            'data.brand_id'  => '品牌',
             'data.keyword'  => '关键字',
             'data.describe'  => '描述',
             'data.thumb'  => '缩略图',
             'data.content'  => '内容',
-            'data.price'  => '价格',
+            'data.shop_price'  => '本店价格',
+            'data.market_price'  => '市场价格',
+            'data.cost_price'  => '成本价格',
         ];
     }
 }

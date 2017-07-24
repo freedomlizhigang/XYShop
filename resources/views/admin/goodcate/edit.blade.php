@@ -8,12 +8,11 @@
             <td class="td_left">父栏目：</td>
             <td>
                 <select name="data[parentid]" id="parentid" class="form-control input-sm">
-                    <option value="0">选择栏目</option>
+                    <option value="0">顶级栏目</option>
                     {!! $treeHtml !!}
                 </select>
             </td>
         </tr>
-
 
         <tr>
             <td class="td_left">分类名称：</td>
@@ -24,26 +23,38 @@
         </tr>
 
         <tr>
-            <td class="td_left">seo标题：</td>
+            <td class="td_left">手机名称：</td>
             <td>
-                <input type="text" name="data[seotitle]" value="{{ $info->seotitle }}" class="form-control input-sm">
-                <p class="input-info">不超过255字符</p>
+                <input type="text" name="data[mobilename]" value="{{ $info->mobilename }}" class="form-control input-sm">
+                <p class="input-info"><span class="color_red">*</span>最多100字符</p>
             </td>
         </tr>
 
         <tr>
-            <td class="td_left">Keyword：</td>
+            <td class="td_left">首页显示：</td>
             <td>
-                <input type="text" name="data[keyword]" value="{{ $info->keyword }}" class="form-control input-sm">
-                <p class="input-info">不超过255字符</p>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-xs btn-info @if($info->ishome == '1') active @endif">
+                        <input type="radio" name="data[ishome]" autocomplete="off" @if($info->ishome == '1') checked @endif value="1"> 显示
+                    </label>
+                    <label class="btn btn-xs btn-info @if($info->ishome == '0') active @endif">
+                        <input type="radio" name="data[ishome]" autocomplete="off" @if($info->ishome == '0') checked @endif value="0"> 隐藏
+                    </label>
+                </div>
             </td>
         </tr>
 
         <tr>
-            <td class="td_left">描述：</td>
+            <td class="td_left">菜单显示：</td>
             <td>
-                <textarea name="data[describe]" class="form-control" rows="4">{{ $info->describe }}</textarea> 
-                <p class="input-info">不超过255字符</p>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-xs btn-info @if($info->ismenu == '1') active @endif">
+                        <input type="radio" name="data[ismenu]" autocomplete="off" @if($info->ismenu == '1') checked @endif value="1"> 显示
+                    </label>
+                    <label class="btn btn-xs btn-info @if($info->ismenu == '0') active @endif">
+                        <input type="radio" name="data[ismenu]" autocomplete="off" @if($info->ismenu == '0') checked @endif value="0"> 隐藏
+                    </label>
+                </div>
             </td>
         </tr>
 

@@ -391,7 +391,7 @@ class ComService
             if ($res->isattr) {
                 $data['isattr'] = 1;
             }
-            \App\Models\Attr::create($data);
+            \App\Models\Common\Attr::create($data);
             if($isTrue){
                 $return['error'] = 0;
                 $return['url'] = $url;

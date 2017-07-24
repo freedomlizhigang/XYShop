@@ -102,14 +102,4 @@ class AreaController extends BaseController
         Community::where('areaid3',$id)->delete();
         return back()->with('message', '删除完成！');
     }
-    // 取下级栏目
-    public function getGet($pid = 0)
-    {
-        $all = Area::where('parentid',$pid)->select('id','areaname')->orderBy('sort','asc')->orderBy('id','asc')->get();
-        $str = '';
-        foreach ($all as $v) {
-            $str .= "<option value='".$v->id."'>".$v->areaname."</option>";
-        }
-        return $str;
-    }
 }

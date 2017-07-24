@@ -19,7 +19,7 @@ class GoodCateController extends BaseController
     {
     	$title = '商品分类管理';
         // 超级管理员可查看所有部门下商品分类
-        $all = GoodCate::where('status',1)->orderBy('sort','asc')->get();
+        $all = GoodCate::orderBy('sort','asc')->orderBy('id','asc')->get();
         $tree = app('com')->toTree($all,'0');
     	$treeHtml = $this->toTreeHtml($tree);
     	return view('admin.goodcate.index',compact('title','treeHtml'));
@@ -38,13 +38,18 @@ class GoodCateController extends BaseController
             foreach ($tree as $v) {
                 // 用level判断层级，最好不要超过四层，样式中只写了四级
                 $cj = count(explode(',', $v['arrparentid']));
+                $v['home'] = $v['ishome'] ? '<span class="text-success">显示</span>' : '<span class="text-warning">隐藏</span>';
+                $v['menu'] = $v['ismenu'] ? '<span class="text-success">显示</span>' : '<span class="text-warning">隐藏</span>';
                 $level = $cj > 4 ? 4 : $cj;
-                if ($level >= 2) {
+                if ($level > 2) {
 	                $html .= "<tr>
                         <td><input type='checkbox' name='sids[]' class='check_s' value='".$v['id']."'></td>
                         <td><input type='text' min='0' name='sort[".$v['id']."]' value='".$v['sort']."' class='form-control input-sort'></td>
 	                    <td>".$v['id']."</td>
 	                    <td><span class='level-".$level."'></span>".$v['name']."</td>
+                        <td>".$v['mobilename']."</td>
+                        <td>".$v['home']."</td>
+                        <td>".$v['menu']."</td>
                         <td><a href='/console/goodcate/edit/".$v['id']."' class='btn btn-xs btn-info glyphicon glyphicon-edit btn_modal'></a> <a href='/console/goodcate/del/".$v['id']."' class='btn btn-xs btn-danger glyphicon glyphicon-trash confirm'></a></td>
 	                    </tr>";
                 }
@@ -55,6 +60,9 @@ class GoodCateController extends BaseController
                         <td><input type='text' min='0' name='sort[".$v['id']."]' value='".$v['sort']."' class='form-control input-sort'></td>
 	                    <td>".$v['id']."</td>
 	                    <td><span class='level-".$level."'></span>".$v['name']."<a href='/console/goodcate/add/".$v['id']."' class='glyphicon glyphicon-plus curp add_submenu btn_modal'></a></td>
+                        <td>".$v['mobilename']."</td>
+                        <td>".$v['home']."</td>
+                        <td>".$v['menu']."</td>
 	                    <td><a href='/console/goodcate/edit/".$v['id']."' class='btn btn-xs btn-info glyphicon glyphicon-edit btn_modal'></a> <a href='/console/goodcate/del/".$v['id']."' class='btn btn-xs btn-danger glyphicon glyphicon-trash confirm'></a></td>
 	                    </tr>";
                 }
@@ -104,7 +112,7 @@ class GoodCateController extends BaseController
         $title = '修改商品分类';
         $info = GoodCate::findOrFail($id);
         // 超级管理员可查看所有部门下商品分类
-        $all = GoodCate::where('status',1)->orderBy('sort','asc')->get();
+        $all = GoodCate::orderBy('sort','asc')->get();
         $tree = app('com')->toTree($all,'0');
         $treeHtml = app('com')->toTreeSelect($tree,$info->parentid);
         return view('admin.goodcate.edit',compact('title','info','treeHtml'));
@@ -120,11 +128,11 @@ class GoodCateController extends BaseController
             app('com')->updateCache(new GoodCate(),'goodcateCache');
             // 没出错，提交事务
             DB::commit();
-            return redirect('/console/goodcate/index')->with('message', '修改成功！');
+            return $this->ajaxReturn(1,'修改成功！',url('/console/goodcate/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return back()->with('message','修改失败，请稍后再试！');
+            return $this->ajaxReturn(0,'修改失败，请稍后再试！',url('/console/goodcate/index'));
         }
     }
     public function getDel($id)
@@ -146,39 +154,6 @@ class GoodCateController extends BaseController
             return back()->with('message','删除失败，请稍后再试！');
         }
     }
-    // 分类属性关联
-    public function getAttr($id)
-    {
-        $title = "属性关联";
-        $all = GoodAttr::where('parentid',0)->where('status',1)->get();
-        $hav = CateAttr::where('cate_id',$id)->get();
-        $aids = '';
-        foreach ($hav as $k) {
-            $aids .= $k->attr_id.',';
-        }
-        $aids = trim($aids,',');
-        return view('admin.goodcate.attr',compact('title','all','id','aids'));
-    }
-    public function postAttr(Request $req,$id)
-    {
-        $data = [];
-        foreach ($req->attr as $k) {
-            $data[] = ['cate_id'=>$req->cate_id,'attr_id'=>$k];
-        }
-        DB::beginTransaction();
-        try {
-            CateAttr::where('cate_id',$req->cate_id)->delete();
-            CateAttr::insert($data);
-            // 没出错，提交事务
-            DB::commit();
-            return redirect('/console/goodcate/index')->with('message', '属性修改成功！');
-        } catch (Exception $e) {
-            // 出错回滚
-            DB::rollBack();
-            return back()->with('message','删除失败，请稍后再试！');
-        }
-    }
-
     // 排序
     public function postSort(Request $req)
     {

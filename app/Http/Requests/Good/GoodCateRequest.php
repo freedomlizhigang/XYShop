@@ -25,6 +25,7 @@ class GoodCateRequest extends FormRequest
     {
         return [
             'data.name' => 'required|max:100|unique:good_cates,name,'.$this->segment('4'),
+            'data.mobilename' => 'required|max:100',
             'data.sort'  => 'required|integer',
         ];
     }
@@ -33,6 +34,7 @@ class GoodCateRequest extends FormRequest
     {
         return [
             'data.name' => '名称',
+            'data.mobilename' => '手机端名称',
             'data.sort' => '排序',
         ];
     }

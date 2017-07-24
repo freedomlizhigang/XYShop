@@ -27,12 +27,16 @@ class BrandRequest extends FormRequest
             'data.name' => 'required|max:255',
             'data.icon' => 'required|max:255',
             'data.describe' => 'required|max:1000',
+            'data.goodcate_parentid' => 'required|integer',
+            'data.goodcate_id' => 'required|integer',
         ];
     }
     
     public function attributes()
     {
         return [
+            'data.goodcate_parentid' => '一级分类',
+            'data.goodcate_id' => '二级分类',
             'data.icon' => 'logo',
             'data.name' => '名称',
             'data.describe' => '描述',

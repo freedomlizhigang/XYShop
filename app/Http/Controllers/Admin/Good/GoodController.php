@@ -28,15 +28,11 @@ class GoodController extends BaseController
     public function getIndex(Request $res)
     {
     	$title = '商品列表';
-    	$cate_id = $res->input('cate_id');
         // 搜索关键字
         $key = trim($res->input('q',''));
         $starttime = $res->input('starttime');
         $endtime = $res->input('endtime');
         $status = $res->input('status');
-        $cats = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-    	$tree = app('com')->toTree($cats,'0');
-    	$cate = app('com')->toTreeSelect($tree);
         $sort = $res->input('sort','sort');
         if ($sort == 'sort') {
             $sortDesc = 'desc';
@@ -45,7 +41,19 @@ class GoodController extends BaseController
         {
             $sortDesc = 'asc';
         }
-		$list = Good::with('goodspecprice')->where(function($q) use($cate_id){
+        $cate_id_1 = $res->input('cate_id_1');
+        $cate_id_2 = $res->input('cate_id_2');
+        $cate_id = $res->input('cate_id');
+        if ($cate_id == 0) {
+            if ($cate_id_2 == 0) {
+                $cate_id = $cate_id_1;
+            }
+            else
+            {
+                $cate_id = $cate_id_2;
+            }
+        }
+        $list = Good::with('goodspecprice')->where(function($q) use($cate_id){
                 if ($cate_id != '') {
                     $ids = GoodCate::where('id',$cate_id)->value('arrchildid');
                     $q->whereIn('cate_id',explode(',',$ids));
@@ -83,7 +91,7 @@ class GoodController extends BaseController
                 }})->count();
         // 记录上次请求的url path，返回时用
         session()->put('backurl',$res->fullUrl());
-    	return view('admin.good.index',compact('title','list','cate','cate_id','key','starttime','endtime','status','count','sort'));
+    	return view('admin.good.index',compact('title','list','key','starttime','endtime','status','count','sort','cate_id_1','cate_id_2','cate_id'));
     }
 
     /**
@@ -108,16 +116,7 @@ class GoodController extends BaseController
     public function getAdd($id = '0')
     {
     	$title = '添加商品';
-    	// 如果catid=0，查出所有栏目，并转成select
-    	$cate = '';
-    	if($id == '0')
-    	{
-    		$cats = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-	    	$tree = app('com')->toTree($cats,'0');
-	    	$cate = app('com')->toTreeSelect($tree);
-    	}
-        $tags = Type::where('parentid',9)->get();
-    	return view('admin.good.add',compact('title','id','cate','tags'));
+    	return view('admin.good.add',compact('title','id'));
     }
     public function postAdd(GoodRequest $res)
     {
@@ -151,7 +150,7 @@ class GoodController extends BaseController
             // 没出错，提交事务
             DB::commit();
             // 跳转回添加的栏目列表
-            return $this->ajaxReturn(1,'添加商品成功！','/console/good/index?cate_id='.$res->input('data.catid'));
+            return $this->ajaxReturn(1,'添加商品成功！',url('/console/good/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
@@ -167,13 +166,9 @@ class GoodController extends BaseController
     public function getEdit($id = '0')
     {
     	$title = '修改商品';
-		$cats = GoodCate::where('status',1)->orderBy('sort','asc')->get();
-    	$tree = app('com')->toTree($cats,'0');
-    	$cate = app('com')->toTreeSelect($tree);
     	$ref = session('backurl');
     	$info = Good::findOrFail($id);
-        $tags = Type::where('parentid',9)->get();
-    	return view('admin.good.edit',compact('title','ref','cate','info','tags'));
+    	return view('admin.good.edit',compact('title','ref','info'));
     }
     public function postEdit(GoodRequest $res,$id)
     {
@@ -236,11 +231,10 @@ class GoodController extends BaseController
     public function getDel(Request $req,$id = '',$status = '')
     {
     	Good::where('id',$id)->update(['status'=>$status]);
-        /*Good::where('id',$id)->delete();
-        // 活动
-        HdGood::where('good_id',$id)->delete();
-        // 团购
-        Tuan::where('good_id',$id)->delete();*/
+        // 下架时删除购物车
+        if ($status == 0) {
+            Cart::where('good_id',$id)->delete();
+        }
     	return back()->with('message','删除成功！');
     }
 
@@ -273,6 +267,10 @@ class GoodController extends BaseController
             DB::beginTransaction();
             try {
                 Good::whereIn('id',$ids)->update(['status'=>$status]);
+                // 下架时删除购物车
+                if ($status == 0) {
+                    Cart::whereIn('good_id',$ids)->delete();
+                }
                 // 没出错，提交事务
                 DB::commit();
                 return back()->with('message', '批量操作完成！');
@@ -287,7 +285,7 @@ class GoodController extends BaseController
             return back()->with('message','请选择商品！');
         }
     }
-    // 批量修改分类
+    // 数据转移
     public function postAllCate(Request $req)
     {
         $ids = $req->input('sids');
@@ -325,6 +323,8 @@ class GoodController extends BaseController
             try {
                 // Good::whereIn('id',$ids)->update(['status'=>0]);
                 Good::whereIn('id',$ids)->delete();
+                // 购物车删除
+                Cart::whereIn('good_id',$ids)->delete();
                 // 活动
                 HdGood::whereIn('good_id',$ids)->delete();
                 // 团购

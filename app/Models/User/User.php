@@ -32,6 +32,7 @@ class User extends Model
 
     // 增加会员等级的属性
     protected $appends = ['groupname'];
+
     public function getGroupnameAttribute()
     {
         $points = $this->attributes['points'];
@@ -47,13 +48,13 @@ class User extends Model
     // 关联商品评价
     public function good_comment()
     {
-        return $this->hasMany('\App\Models\Good\GoodComment','user_id','id');
+        return $this->hasMany('\App\Models\Home\Good\GoodComment','user_id','id');
     }
 
     // 属性值
     public function return_good()
     {
-        return $this->hasMany('\App\Models\Good\ReturnGood','user_id','id');
+        return $this->hasMany('\App\Models\Home\Good\ReturnGood','user_id','id');
     }
 
     // 属性值
@@ -64,7 +65,7 @@ class User extends Model
     // 订单
     public function order()
     {
-        return $this->hasMany('\App\Models\Good\Order','user_id','id');
+        return $this->hasMany('\App\Models\Home\Good\Order','user_id','id');
     }
 
     // 关联消费记录

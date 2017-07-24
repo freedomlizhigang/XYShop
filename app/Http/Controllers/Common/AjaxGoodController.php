@@ -265,12 +265,13 @@ class AjaxGoodController extends BaseController
     private function store($id,$spec_key,$num)
     {
         if ($spec_key == '') {
-            $store = Good::where('id',$id)->value('store');
+            $store = Good::where('id',$id)->where('status',1)->value('store');
         }
         else
         {
-            $store = GoodSpecPrice::where('good_id',$id)->where('key',$spec_key)->value('store');
+            $store = GoodSpecPrice::where('good_id',$id)->where('status',1)->where('key',$spec_key)->value('store');
         }
+        $store = is_null($store) ? 0 : $store;
         if ($store < $num) {
             return false;
         }

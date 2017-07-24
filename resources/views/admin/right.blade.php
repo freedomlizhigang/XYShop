@@ -65,6 +65,7 @@
     </div>
     @endif
     <script type="text/javascript">
+        var host = "{{ config('app.url') }}";
         $(function(){
             $('div.alert_top').delay(1500).slideUp(300);
         })

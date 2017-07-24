@@ -1,13 +1,18 @@
-<form action="javascript:;" method="post" id="form_ajax">
+<form action="javascript:;" method="post" class="form-inline" id="form_ajax">
     {{ csrf_field() }}
     <table class="table table-striped">
 
         <tr>
             <td class="td_left">商品分类：</td>
             <td>
-                <select name="data[good_cate_id]" class="form-control input-sm">
-                    <option value="">选择栏目</option>
-                    {!! $treeHtml !!}
+                <select name="" id="catid_one" onchange="get_goodcate(this.value,'catid_two',0)" class="form-control">
+                    <option value="0">顶级分类</option>
+                </select>
+                <select name="" id="catid_two" onchange="get_goodcate(this.value,'catid',0);get_brand(document.getElementById('catid_one').value,this.value,'brand_id',0)" class="form-control">
+                    <option value="0">二级分类</option>
+                </select>
+                <select name="data[good_cate_id]" id="catid" class="form-control">
+                    <option value="0">三级分类</option>
                 </select>
             </td>
         </tr>
@@ -49,7 +54,7 @@
         <tr>
             <td class="td_left">可选值列表：</td>
             <td>
-                <textarea name="data[value]" class="form-control" rows="5">{{ str_replace('，',PHP_EOL,$info->value) }}</textarea>
+                <textarea name="data[value]" class="form-control input-lg" rows="5">{{ str_replace('，',PHP_EOL,$info->value) }}</textarea>
                 <p class="input-info"><span class="color_red">*</span>录入方式为手工或者多行文本时，此输入框不需填写。</p>
             </td>
         </tr>
@@ -71,6 +76,8 @@
 </form>
 <script>
     $(function(){
-        $('#catid option[value=' + {{ $info->good_cate_id }} + ']').prop('selected','selected');
+        get_goodcate(0,'catid_one',"{{ $info->goodcate_one_id }}");
+        get_goodcate("{{ $info->goodcate_one_id }}",'catid_two',"{{ $info->goodcate_two_id }}");
+        get_goodcate("{{ $info->goodcate_two_id }}",'catid',"{{ $info->good_cate_id }}");
     })
 </script>

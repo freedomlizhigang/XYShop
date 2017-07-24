@@ -20,7 +20,8 @@
 	<tr class="active">
 		<td width="60">ID</td>
 		<td width="120">名称</td>
-		<td>logo</td>
+		<td width="200">logo</td>
+		<td>分类</td>
 		<td width="100">操作</td>
 	</tr>
 	@foreach($list as $l)
@@ -30,8 +31,10 @@
 		{{ $l->name }}
 		</td>
 		<td>
-			<img src="{{ $l->icon }}" width="120" class="img-responsive pull-left mr10" alt="">
-			{{ $l->describe }}
+			<img src="{{ $l->icon }}" class="img-responsive img-rounded pull-left mr10" alt="">
+		</td>
+		<td>
+			{{ isset(cache('goodcateCache')[$l->goodcate_parentid]) ? cache('goodcateCache')[$l->goodcate_parentid]['name'] .' -> '. cache('goodcateCache')[$l->goodcate_id]['name'] : '' }}
 		</td>
 		<td>
 			@if(App::make('com')->ifCan('brand-edit'))

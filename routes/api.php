@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 // 商城功能
-Route::group(['prefix'=>'common','namespace'=>'Common'],function(){
+Route::group(['namespace'=>'Common'],function(){
     // 加购物车
     Route::post('good/addcart','AjaxGoodController@postAddcart');
     // 修改购物车
@@ -38,7 +38,17 @@ Route::group(['prefix'=>'common','namespace'=>'Common'],function(){
 });
 
 
-
+// 通用功能
+Route::group(['prefix'=>'common','namespace'=>'Common'],function(){
+    // 取商品子分类
+    Route::post('goodcate','AjaxCommonController@postGoodCate');
+    // 取品牌
+    Route::post('brand','AjaxCommonController@postBrand');
+    // 取下级地区
+    Route::post('area','AjaxCommonController@postArea');
+    // 取社区
+    Route::post('community','AjaxCommonController@postCommunity');
+});
 
 // 会员功能
 Route::group(['prefix'=>'user'],function(){

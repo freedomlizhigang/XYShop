@@ -12,7 +12,7 @@
 
 
 @section('content')
-<p class="alert alert-danger">理论上是无限级的分类，但是最好不要超过二级</p>
+<p class="alert alert-danger">理论上是无限级的分类，但是最好不要超过三级</p>
 <form action="{{ url('/console/goodcate/sort') }}" class="form_submit" method="post">
 	{{ csrf_field() }}
 	<table class="table table-striped table-hover">
@@ -20,8 +20,11 @@
 			<th width="30"><input type="checkbox" class="checkall"></th>
 			<td width="60">排序</td>
 			<td width="60">ID</td>
-			<td>分类名称</td>
-			<td>操作</td>
+			<td width="300">分类名称</td>
+			<td width="100">手机端名称</td>
+			<td width="100">首页显示</td>
+			<td>菜单显示</td>
+			<td width="100">操作</td>
 		</tr>
 		{!! $treeHtml !!}
 	</table>
