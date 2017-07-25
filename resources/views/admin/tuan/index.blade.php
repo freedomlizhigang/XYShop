@@ -1,5 +1,10 @@
 @extends('admin.right')
 
+@if(App::make('com')->ifCan('tuan-add'))
+@section('rmenu')
+	<a href="{{ url('/console/tuan/add') }}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> 添加团购</a>
+@endsection
+@endif
 
 @section('content')
 <!-- 选出栏目 -->
@@ -28,13 +33,14 @@
 		<th width="80">排序</th>
 		<th width="50">ID</th>
 		<th>标题</th>
+		<th width="80">团购价</th>
 		<th width="80">数量</th>
 		<th width="80">已参团</th>
 		<th width="80">库存</th>
 		<th width="80">状态</th>
 		<th width="160">开始时间</th>
 		<th width="160">结束时间</th>
-		<th width="180">操作</th>
+		<th width="100">操作</th>
 	</tr>
 	@foreach($list as $a)
 	<tr>
@@ -44,8 +50,9 @@
 		<td>
 			{{ $a->title }}
 		</td>
-		<td><span class="text-success">{{ $a->nums }}</span></td>
-		<td><span class="text-success">{{ $a->havnums }}</span></td>
+		<td>{{ $a->price }} ￥</td>
+		<td><span class="text-success">{{ $a->tuan_num }}</span></td>
+		<td><span class="text-success">{{ $a->buy_num }}</span></td>
 		<td><span class="text-primary">{{ $a->store }}</span></td>
 		<td>
 			@if($a->status == 1)
@@ -58,7 +65,7 @@
 		<td>{{ $a->endtime }}</td>
 		<td>
 			@if(App::make('com')->ifCan('tuan-edit'))
-			<div data-url="{{ url('/console/tuan/edit',['id'=>$a->id]) }}" data-title="修改团购" data-toggle='modal' data-target='#myModal' class="btn btn-xs btn-info glyphicon glyphicon-edit btn_modal"></div>
+			<a href="{{ url('/console/tuan/edit',['id'=>$a->id]) }}" class="btn btn-xs btn-info glyphicon glyphicon-edit"></a>
 			@endif
 			@if(App::make('com')->ifCan('tuan-del'))
 			<a href="{{ url('/console/tuan/del',$a->id) }}" class="confirm btn btn-xs btn-danger glyphicon glyphicon-trash"></a>

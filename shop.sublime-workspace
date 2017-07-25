@@ -4,6 +4,98 @@
 		"selected_items":
 		[
 			[
+				"good",
+				"goodlist"
+			],
+			[
+				"Prom",
+				"PromGood"
+			],
+			[
+				"for",
+				"foreach\tforeach …"
+			],
+			[
+				"good_",
+				"good_id"
+			],
+			[
+				"this",
+				"this\t$(this)"
+			],
+			[
+				"tmp",
+				"temp_id"
+			],
+			[
+				"sotr",
+				"store"
+			],
+			[
+				"form",
+				"form-group \tBootstrap 3 Class"
+			],
+			[
+				"type",
+				"type_val\t(add.blade.php)"
+			],
+			[
+				"time",
+				"timetobuy"
+			],
+			[
+				"req",
+				"required|integer"
+			],
+			[
+				"no",
+				"normal"
+			],
+			[
+				"login",
+				"login_bg.png\tw:465 h:442"
+			],
+			[
+				"stat",
+				"status"
+			],
+			[
+				"tr",
+				"transition"
+			],
+			[
+				"img",
+				"img-responsive \tBootstrap 3 Class"
+			],
+			[
+				"cate",
+				"cate_id\t(edit.blade.php)"
+			],
+			[
+				"brand",
+				"brand_id"
+			],
+			[
+				"catid",
+				"catid_one"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"seel",
+				"selectid"
+			],
+			[
+				"sele",
+				"selectid"
+			],
+			[
+				"console",
+				"console.log"
+			],
+			[
 				"img-r",
 				"img-rounded\t(index.blade.php)"
 			],
@@ -52,10 +144,6 @@
 				"orderstatus"
 			],
 			[
-				"stat",
-				"starttime"
-			],
-			[
 				"mz",
 				"mz_good_spec"
 			],
@@ -92,20 +180,8 @@
 				"groupname"
 			],
 			[
-				"tr",
-				"try\tWrap in try { … } catch (…) { … }"
-			],
-			[
 				"gr",
 				"groups"
-			],
-			[
-				"good_",
-				"good_title"
-			],
-			[
-				"req",
-				"request"
 			],
 			[
 				"btn-de",
@@ -137,10 +213,6 @@
 			],
 			[
 				"good_s",
-				"good_spec_name"
-			],
-			[
-				"good",
 				"good_spec_name"
 			],
 			[
@@ -184,10 +256,6 @@
 				"card_id"
 			],
 			[
-				"for",
-				"for\tfor …"
-			],
-			[
 				"pull",
 				"pull-left"
 			],
@@ -226,10 +294,6 @@
 			[
 				"toda",
 				"today_prices"
-			],
-			[
-				"tmp",
-				"tmp_good"
 			],
 			[
 				"tmp_",
@@ -272,10 +336,6 @@
 				"simplePaginate(10"
 			],
 			[
-				"form",
-				"form-control \tBootstrap 3 Class"
-			],
-			[
 				"colo",
 				"color_l\t(order.blade.php)"
 			],
@@ -290,10 +350,6 @@
 			[
 				"sess",
 				"session"
-			],
-			[
-				"login",
-				"login.jpg\tw:750 h:1209"
 			],
 			[
 				"images",
@@ -458,62 +514,6 @@
 			[
 				"exp",
 				"explode"
-			],
-			[
-				"attr",
-				"attr_ids"
-			],
-			[
-				"tem",
-				"temp_attr"
-			],
-			[
-				"str_re",
-				"str_replace"
-			],
-			[
-				"temp",
-				"temp_arrt_url_arr"
-			],
-			[
-				"temp_",
-				"temp_arrt_url"
-			],
-			[
-				"clear",
-				"clearfix"
-			],
-			[
-				"jum",
-				"jumb_btn\t(layout.blade.php)"
-			],
-			[
-				"jumb",
-				"jumb_h1\t(layout.blade.php)"
-			],
-			[
-				"cl",
-				"clearfix"
-			],
-			[
-				"as",
-				"aside_name"
-			],
-			[
-				"con",
-				"container"
-			],
-			[
-				"center",
-				"center-block \tBootstrap 3 Class"
-			],
-			[
-				"ur",
-				"url\t(layout.blade.php)"
-			],
-			[
-				"br",
-				"bdrz\tborder-radius"
 			]
 		]
 	},
@@ -544,9 +544,13 @@
 	"command_palette":
 	{
 		"height": 392.0,
-		"last_filter": "close",
+		"last_filter": "rena",
 		"selected_items":
 		[
+			[
+				"rena",
+				"File: Rename"
+			],
 			[
 				"close",
 				"File: Close All"
@@ -558,10 +562,6 @@
 			[
 				"sav",
 				"File: Save All"
-			],
-			[
-				"rena",
-				"File: Rename"
 			],
 			[
 				"install",
@@ -748,145 +748,140 @@
 		"/F/wwwroot/XYShop",
 		"/F/wwwroot/XYShop/app",
 		"/F/wwwroot/XYShop/app/Http",
-		"/F/wwwroot/XYShop/app/Http/Controllers",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Admin",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Common",
 		"/F/wwwroot/XYShop/resources",
-		"/F/wwwroot/XYShop/resources/views",
-		"/F/wwwroot/XYShop/resources/views/admin",
-		"/F/wwwroot/XYShop/routes"
+		"/F/wwwroot/XYShop/resources/views"
 	],
 	"file_history":
 	[
-		"/F/wwwroot/XYShop/resources/views/admin/good/add.blade.php",
+		"/F/wwwroot/XYShop/public/statics/admin/css/reset.css",
+		"/F/wwwroot/XYShop/resources/views/admin/good/select.blade.php",
+		"/F/wwwroot/XYShop/public/statics/admin/css/reset.scss",
+		"/F/wwwroot/XYShop/resources/views/admin/alert.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/goodattr/add.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodController.php",
+		"/F/wwwroot/XYShop/resources/views/admin/good/index.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/PromotionController.php",
+		"/F/wwwroot/XYShop/resources/views/admin/promotion/index.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Requests/Good/PromotionRequest.php",
+		"/F/wwwroot/XYShop/resources/views/admin/promotion/goodlist.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/promotion/edit.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/timetobuy/edit.blade.php",
+		"/F/wwwroot/XYShop/routes/web.php",
+		"/F/wwwroot/XYShop/resources/views/admin/promotion/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/promotion/good.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/TuanController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/TimetobuyController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/FullgiftController.php",
+		"/F/wwwroot/XYShop/resources/views/admin/tuan/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/tuan/edit.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/fullgift/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/fullgift/edit.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/timetobuy/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/tuan/index.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/timetobuy/index.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/fullgift/index.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/coupon/index.blade.php",
+		"/F/希夷/懂秘帮/文档/服务器.txt",
+		"/F/wwwroot/XYShop/app/Http/Requests/Good/TuanRequest.php",
 		"/F/wwwroot/XYShop/public/statics/admin/js/com.js",
+		"/F/wwwroot/XYShop/app/Http/Requests/Good/TimetobuyRequest.php",
+		"/F/wwwroot/XYShop/app/Http/Requests/Good/FullgiftRequest.php",
+		"/F/wwwroot/XYShop/app/Http/Requests/Good/ExtractRequest.php",
+		"/F/wwwroot/XYShop/app/Http/Requests/Good/CouponRequest.php",
+		"/F/wwwroot/jxf/resources/views/admin/good/index.blade.php",
+		"/F/wwwroot/XYShop/routes/console.php",
+		"/G/soft/FlashFXP4/Cache/~flashfxp/4FE77ED4_edit.tmp/Kernel.php",
+		"/G/soft/FlashFXP4/Cache/~flashfxp/0158B130_edit.tmp/PublicOpinion.php",
+		"/F/wwwroot/XYShop/app/Models/Good/GoodAttr.php",
+		"/F/wwwroot/XYShop/resources/views/admin/goodattr/index.blade.php",
+		"/F/wwwroot/XYShop/app/Services/ComService.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodAttrController.php",
+		"/F/wwwroot/XYShop/resources/views/admin/login.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/PublicController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTuanController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCommonController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/ExtractController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/RetrunGoodController.php",
+		"/F/wwwroot/XYShop/resources/views/admin/extract/index.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/extract/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/extract/edit.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/coupon/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/coupon/edit.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Requests/Good/ReturnGoodRequest.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/CouponController.php",
+		"/F/wwwroot/XYShop/resources/views/admin/youhuiquan/index.blade.php",
+		"/F/wwwroot/XYShop/app/Models/Good/CouponUser.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Coupon.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Extract.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Order.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Fullgift.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Good.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Promotion.php",
+		"/F/wwwroot/XYShop/app/Models/Good/PromGood.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Timetobuy.php",
+		"/F/wwwroot/XYShop/app/Good/Timetobuy.php",
+		"/F/wwwroot/XYShop/database/migrations/2017_07_25_090117_rename_huodong_to_promotions.php",
+		"/F/wwwroot/XYShop/database/migrations/2017_07_25_090145_rename_hd_good_to_prom_good.php",
+		"/F/wwwroot/XYShop/database/migrations/2017_07_25_090213_rename_youhuiquan_to_coupon.php",
+		"/F/wwwroot/XYShop/database/migrations/2017_07_25_090241_rename_yhq_user_to_coupon_user.php",
+		"/F/wwwroot/XYShop/database/migrations/2017_07_25_090341_rename_manzeng_to_fullgift.php",
+		"/F/wwwroot/XYShop/database/migrations/2017_07_25_090455_rename_zitidian_to_extract.php",
+		"/F/wwwroot/XYShop/database/migrations/2017_07_25_085310_create_timetobuy.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/IndexController.php",
+		"/F/wwwroot/XYShop/resources/views/admin/good/add.blade.php",
 		"/F/wwwroot/XYShop/resources/views/admin/good/edit.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/brand/index.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodCateController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/DataController.php",
+		"/F/wwwroot/XYShop/routes/api.php",
+		"/F/wwwroot/XYShop/app/Models/User/User.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Brand.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Cart.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Good.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/GoodAttr.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/GoodCate.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/GoodComment.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/GoodsAttr.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/GoodSpec.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/GoodSpecItem.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/GoodSpecPrice.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/HdGood.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Huodong.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Manzeng.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Order.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/OrderGood.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/ReturnGood.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Ship.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Tuan.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/TuanUser.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/YhqUser.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Youhuiquan.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good/Zitidian.php",
+		"/F/wwwroot/XYShop/app/Models/Home/GoodSpec.php",
+		"/F/wwwroot/XYShop/app/Models/Home/GoodAttr.php",
+		"/F/wwwroot/XYShop/app/Models/Home/Good.php",
+		"/F/wwwroot/XYShop/app/Models/Home/GoodCate.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Brand.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Youhuiquan.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/CommunityController.php",
+		"/F/wwwroot/XYShop/resources/views/admin/community/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/community/edit.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Requests/Common/CommunityRequest.php",
+		"/F/wwwroot/XYShop/composer.json",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AreaController.php",
+		"/F/wwwroot/XYShop/app/Models/Common/Area.php",
+		"/F/wwwroot/XYShop/resources/views/admin/goodattr/edit.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/goodspec/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/goodspec/edit.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodSpecController.php",
+		"/F/wwwroot/XYShop/app/Models/Good/GoodSpec.php",
+		"/F/wwwroot/XYShop/app/Models/Good/GoodCate.php",
+		"/F/wwwroot/XYShop/resources/views/admin/goodspec/index.blade.php",
 		"/F/wwwroot/XYShop/resources/views/admin/brand/add.blade.php",
 		"/F/wwwroot/XYShop/resources/views/admin/brand/edit.blade.php",
-		"/F/wwwroot/XYShop/routes/api.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/Good/GoodRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodCateController.php",
-		"/F/wwwroot/XYShop/resources/views/admin/good/index.blade.php",
-		"/F/wwwroot/XYShop/resources/views/admin/brand/index.blade.php",
-		"/F/wwwroot/XYShop/resources/views/admin/index.blade.php",
-		"/F/wwwroot/XYShop/resources/views/admin/right.blade.php",
-		"/F/wwwroot/XYShop/public/statics/home/js/com.js",
-		"/F/wwwroot/XYShop/resources/views/admin/goodcate/edit.blade.php",
-		"/F/wwwroot/XYShop/resources/views/admin/goodcate/add.blade.php",
-		"/F/wwwroot/XYCMF/app/Services/ComService.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/BrandController.php",
-		"/F/wwwroot/XYShop/app/Services/ComService.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/DataController.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/Good/GoodCateRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodCateController.php",
-		"/F/wwwroot/XYShop/resources/views/admin/goodcate/index.blade.php",
-		"/F/wwwroot/XYShop/app/Providers/RouteServiceProvider.php",
-		"/F/wwwroot/XYShop/routes/home.php",
-		"/F/wwwroot/XYShop/routes/web.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTuanController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/ShopController.php",
-		"/F/wwwroot/XYShop/app/Providers/ComServiceProvider.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/YouhuiquanController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/RetrunGoodController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/ZitiController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/OrderController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/TuanController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/ManzengController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/HuodongController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodSpecController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodAttrController.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/Good/BrandRequest.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Good.php",
-		"/F/wwwroot/XYShop/app/Models/Good/GoodCate.php",
-		"/F/wwwroot/XYShop/app/Models/Good/GoodAttr.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/ArtController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AttrController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/CateController.php",
-		"/F/wwwroot/XYShop/resources/views/admin/role/index.blade.php",
-		"/F/wwwroot/XYCMF/resources/views/admin/role/index.blade.php",
-		"/F/wwwroot/XYShop/resources/views/admin/log/index.blade.php",
-		"/F/wwwroot/XYShop/resources/views/admin/database/export.blade.php",
-		"/F/wwwroot/XYShop/resources/views/admin/database/import.blade.php",
-		"/F/wwwroot/XYCMF/resources/views/admin/log/index.blade.php",
-		"/F/wwwroot/XYCMF/resources/views/admin/database/import.blade.php",
-		"/F/wwwroot/XYCMF/resources/views/admin/database/export.blade.php",
-		"/F/wwwroot/XYShop/resources/views/admin/index/main.blade.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/IndexController.php",
-		"/C/Users/Administrator/AppData/Local/Temp/HZ$D.130.383/HZ$D.130.384/app/Http/Controllers/Admin/IndexController.php",
-		"/F/wwwroot/XYShop/app/Http/Middleware/BetoAdmin.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/TypeController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/PayController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/CommunityController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AreaController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AdposController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AdController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/User/UserController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/User/CardController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/User/GroupController.php",
-		"/F/wwwroot/XYShop/app/Services/TagService.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/PublicController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/AdminController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/DatabaseController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/LogController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/MenuController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Admin/RoleController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Api/UserController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Common/BaseController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxYhqController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/YhqController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/UserController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/UserCenterController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/TuanController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/PayController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/HuodongController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/HomeController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Pay/AlipayController.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Order.php",
-		"/F/wwwroot/XYShop/app/Http/Middleware/RedirectIfAuthenticated.php",
-		"/F/wwwroot/XYShop/app/Http/Middleware/Jwt.php",
-		"/F/wwwroot/XYShop/app/Models/Common/Pay.php",
-		"/F/wwwroot/XYShop/app/Models/Common/AuthTmp.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/Common/AdRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/Good/GoodAttrRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/Good/GoodSpecRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/Good/ShipRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/User/CardRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/User/GroupRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/User/UserCardRequest.php",
-		"/F/wwwroot/XYShop/app/Http/Requests/User/UserRequest.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Cart.php",
-		"/F/wwwroot/XYShop/app/Models/Good/GoodComment.php",
-		"/F/wwwroot/XYShop/app/Models/Good/GoodsAttr.php",
-		"/F/wwwroot/XYShop/app/Models/Good/GoodSpec.php",
-		"/F/wwwroot/XYShop/app/Models/Good/GoodSpecItem.php",
-		"/F/wwwroot/XYShop/app/Models/Good/GoodSpecPrice.php",
-		"/F/wwwroot/XYShop/app/Models/Good/HdGood.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Huodong.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Manzeng.php",
-		"/F/wwwroot/XYShop/app/Models/Good/OrderGood.php",
-		"/F/wwwroot/XYShop/app/Models/Good/ReturnGood.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Ship.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Tuan.php",
-		"/F/wwwroot/XYShop/app/Models/Good/TuanUser.php",
-		"/F/wwwroot/XYShop/app/Models/Good/YhqUser.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Youhuiquan.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Zitidian.php",
-		"/F/wwwroot/XYShop/app/Models/Good/Brand.php",
-		"/F/wwwroot/XYShop/app/Models/User/Consume.php",
-		"/C/Users/Administrator/AppData/Local/Temp/HZ$D.441.338/HZ$D.441.340/app/Models/Group.php",
-		"/F/wwwroot/XYShop/app/Models/User/Group.php",
-		"/F/wwwroot/XYShop/app/Models/User/User.php",
-		"/C/Users/Administrator/AppData/Local/Temp/HZ$D.441.338/HZ$D.441.339/app/Models/User.php",
-		"/F/wwwroot/XYShop/app/Models/User/Collect.php",
-		"/F/wwwroot/XYShop/app/Models/User/Address.php",
-		"/F/wwwroot/XYShop/app/Models/User/Card.php",
-		"/F/wwwroot/XYShop/app/Http/Middleware/TrimStrings.php",
-		"/F/wwwroot/XYShop/README.md"
+		"/G/soft/FlashFXP4/Cache/~flashfxp/C04A05D6_edit.tmp/home.blade.php"
 	],
 	"find":
 	{
@@ -1005,6 +1000,105 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"@extends('admin.alert')",
+			"type",
+			"old('data.",
+			"hd_id",
+			"pid->",
+			"div",
+			"n",
+			"good_id",
+			"store",
+			" class=\"form-group\"",
+			"status",
+			"th",
+			"div",
+			"$id = ''",
+			"old('data.",
+			"span",
+			"/{id}",
+			"timetobuy",
+			"old('data.",
+			"number",
+			"xs",
+			"prices",
+			"havnums",
+			"nums",
+			"/{id}",
+			"timetobuy",
+			"div",
+			"old('data.",
+			"tuan",
+			"required|integer",
+			"id",
+			"$(window.frames[\"good_select\"].document)",
+			"hd_good2",
+			"xyshop",
+			"store",
+			"havnums",
+			"nums",
+			"/{id}",
+			"菜单",
+			"menu",
+			"TuanController",
+			"tuan/",
+			"tuan",
+			"Tuan::",
+			"团购",
+			"2.4",
+			"!impor",
+			"GoodSpecPrice",
+			"ziti",
+			"ZitiRequest",
+			"Zitidian::",
+			"Tui",
+			"tui",
+			"ziti",
+			"youhuiquan",
+			"manzeng",
+			"ManzengRequest",
+			"manzeng",
+			"Manzeng",
+			"manzeng",
+			"Manzeng::",
+			"huodong",
+			"HdGood::",
+			"Huodong::",
+			"HuodongRequest",
+			"huodong",
+			"youhuiquan",
+			"YouhuiquanRequest",
+			"Youhuiquan::",
+			"youhuiquan",
+			"ManzengController",
+			"manzeng/",
+			"YouhuiquanController",
+			"youhuiquan/",
+			"HuodongController",
+			"huodong/",
+			"Ziti",
+			"ziti/",
+			"where('status',1)->",
+			"areaid1",
+			"Good\\",
+			"Good",
+			"p",
+			"get_goodcate",
+			"AreaRequest",
+			"->",
+			"$l",
+			" input-sm",
+			"[",
+			"text",
+			"span",
+			"catid_two",
+			" input-sm",
+			"get_goodcate",
+			"subid",
+			"two",
+			"max:1000",
+			"tax",
+			"taxfee",
 			"url('api/common/goodcate')",
 			"el",
 			"cate_id",
@@ -1033,106 +1127,7 @@
 			"垂钓用品",
 			"骑行运动",
 			"运动服饰",
-			"运动鞋包",
-			"流行男鞋",
-			"8",
-			"游泳用品",
-			"饮料冲调",
-			"垂钓用品",
-			"休闲食品",
-			"骑行运动",
-			"粮油调味",
-			"运动鞋包",
-			"流行男鞋",
-			"8",
-			"户外鞋服",
-			"游泳用品",
-			"垂钓用品",
-			"洗护用品",
-			"骑行运动",
-			"运动服饰",
-			"运动鞋包",
-			"流行男鞋",
-			"8",
-			"垂钓用品",
-			"骑行运动",
-			"运动服饰",
-			"运动鞋包",
-			"流行男鞋",
-			"8",
-			"垂钓用品",
-			"骑行运动",
-			"宠物生活",
-			"家装软饰",
-			"生活日用",
-			"灯具",
-			"4",
-			"礼品",
-			"宠物生活",
-			"家装软饰",
-			"生活日用",
-			"灯具",
-			"家纺",
-			"4",
-			"女性护理",
-			"宠物生活",
-			"家装软饰",
-			"生活日用",
-			"灯具",
-			"家纺",
-			"4",
-			"宠物生活",
-			"家装软饰",
-			"生活日用",
-			"灯具",
-			"家纺",
-			"4",
-			"个护健康",
-			"生活电器",
-			"厨房小电",
-			"厨卫大电",
-			"大家电",
-			"1",
-			"五金家装",
-			"个护健康",
-			"生活电器",
-			"厨房小电",
-			"厨卫大电",
-			"大家电",
-			"1",
-			"智能设备",
-			"生活电器",
-			"厨房小电",
-			"厨卫大电",
-			"大家电",
-			"1",
-			"0",
-			"生活电器",
-			"],",
-			"Common",
-			"Common\\",
-			"App::make('com')",
-			"ArtController",
-			"CateController",
-			"CateCon",
-			"App\\Models\\",
-			"App::make('com')",
-			"'user'",
-			"user",
-			"App::make('com')",
-			"Auth",
-			"App",
-			"App::",
-			"APP::",
-			"Requests",
-			"App\\Models\\",
-			"\\App\\Models\\",
-			"Auth\\",
-			"session('user')",
-			"'user'",
-			"session('user')",
-			"'user'",
-			"shop\\"
+			"运动鞋包"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1140,6 +1135,14 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Timetobuy::",
+			"Extract::",
+			"Fullgift::",
+			"PromGood::",
+			"Promotion::",
+			"PromotionRequest",
+			"CouponRequest",
+			"Coupon::",
 			"app('com')",
 			"session('console')",
 			"'console'",
@@ -1328,11 +1331,139 @@
 		"selected_items":
 		[
 			[
+				"reset.css",
+				"public\\statics\\admin\\css\\reset.css"
+			],
+			[
+				"reset",
+				"public\\statics\\admin\\css\\reset.scss"
+			],
+			[
+				"goodattr/ad",
+				"resources\\views\\admin\\goodattr\\add.blade.php"
+			],
+			[
+				"goodcontr",
+				"app\\Http\\Controllers\\Admin\\Good\\GoodController.php"
+			],
+			[
+				"promotionre",
+				"app\\Http\\Requests\\Good\\PromotionRequest.php"
+			],
+			[
+				"promotion/index",
+				"resources\\views\\admin\\promotion\\index.blade.php"
+			],
+			[
+				"reset.scss",
+				"public\\statics\\admin\\css\\reset.scss"
+			],
+			[
+				"good/sele",
+				"resources\\views\\admin\\good\\select.blade.php"
+			],
+			[
+				"goodcontor",
+				"app\\Http\\Controllers\\Admin\\Good\\GoodController.php"
+			],
+			[
+				"good/sel",
+				"resources\\views\\admin\\good\\select.blade.php"
+			],
+			[
+				"timetobuy/ed",
+				"resources\\views\\admin\\timetobuy\\edit.blade.php"
+			],
+			[
+				"timetobuy/add",
+				"resources\\views\\admin\\timetobuy\\add.blade.php"
+			],
+			[
+				"fullgift/ed",
+				"resources\\views\\admin\\fullgift\\edit.blade.php"
+			],
+			[
+				"fullgift/add",
+				"resources\\views\\admin\\fullgift\\add.blade.php"
+			],
+			[
+				"tuan/edit",
+				"resources\\views\\admin\\tuan\\edit.blade.php"
+			],
+			[
+				"tuan/add",
+				"resources\\views\\admin\\tuan\\add.blade.php"
+			],
+			[
+				"tuan/index",
+				"resources\\views\\admin\\tuan\\index.blade.php"
+			],
+			[
+				"good/select",
+				"resources\\views\\admin\\good\\select.blade.php"
+			],
+			[
+				"coupon/index",
+				"resources\\views\\admin\\coupon\\index.blade.php"
+			],
+			[
 				"com.js",
 				"public\\statics\\admin\\js\\com.js"
 			],
 			[
-				"brand/edit",
+				"timetobuy/in",
+				"resources\\views\\admin\\timetobuy\\index.blade.php"
+			],
+			[
+				"goodattr/in",
+				"resources\\views\\admin\\goodattr\\index.blade.php"
+			],
+			[
+				"time",
+				"app\\Good\\Timetobuy.php"
+			],
+			[
+				"good/edit",
+				"resources\\views\\admin\\good\\edit.blade.php"
+			],
+			[
+				"good/add",
+				"resources\\views\\admin\\good\\add.blade.php"
+			],
+			[
+				"brand/in",
+				"resources\\views\\admin\\brand\\index.blade.php"
+			],
+			[
+				"community/edit",
+				"resources\\views\\admin\\community\\edit.blade.php"
+			],
+			[
+				"goodattr/add",
+				"resources\\views\\admin\\goodattr\\add.blade.php"
+			],
+			[
+				"community/add",
+				"resources\\views\\admin\\community\\add.blade.php"
+			],
+			[
+				"goodattr/ed",
+				"resources\\views\\admin\\goodattr\\edit.blade.php"
+			],
+			[
+				"goodspec/ed",
+				"resources\\views\\admin\\goodspec\\edit.blade.php"
+			],
+			[
+				"goodspec/add",
+				"resources\\views\\admin\\goodspec\\add.blade.php"
+			],
+			[
+				"goodspec/in",
+				"resources\\views\\admin\\goodspec\\index.blade.php"
+			],
+			[
+				"brand/ed",
 				"resources\\views\\admin\\brand\\edit.blade.php"
 			],
 			[
@@ -1340,32 +1471,36 @@
 				"resources\\views\\admin\\brand\\add.blade.php"
 			],
 			[
-				"brand/ed",
-				"resources\\views\\admin\\brand\\edit.blade.php"
-			],
-			[
-				"brand/in",
-				"resources\\views\\admin\\brand\\index.blade.php"
-			],
-			[
-				"goodcate/ed",
-				"resources\\views\\admin\\goodcate\\edit.blade.php"
+				"goodatt/ed",
+				"resources\\views\\admin\\goodattr\\edit.blade.php"
 			],
 			[
 				"good/ed",
 				"resources\\views\\admin\\good\\edit.blade.php"
 			],
 			[
-				"goodcate/add",
-				"resources\\views\\admin\\goodcate\\add.blade.php"
+				"good/edi",
+				"resources\\views\\admin\\good\\edit.blade.php"
 			],
 			[
 				"good/index",
 				"resources\\views\\admin\\good\\index.blade.php"
 			],
 			[
-				"good/add",
-				"resources\\views\\admin\\good\\add.blade.php"
+				"reset.",
+				"public\\statics\\admin\\css\\reset.scss"
+			],
+			[
+				"brand/edit",
+				"resources\\views\\admin\\brand\\edit.blade.php"
+			],
+			[
+				"goodcate/ed",
+				"resources\\views\\admin\\goodcate\\edit.blade.php"
+			],
+			[
+				"goodcate/add",
+				"resources\\views\\admin\\goodcate\\add.blade.php"
 			],
 			[
 				"goodcat/ed",
@@ -1396,10 +1531,6 @@
 				"resources\\views\\home\\good.blade.php"
 			],
 			[
-				"good/edit",
-				"resources\\views\\admin\\good\\edit.blade.php"
-			],
-			[
 				"nostore",
 				"resources\\views\\admin\\good\\nostore.blade.php"
 			],
@@ -1418,10 +1549,6 @@
 			[
 				"index/main",
 				"resources\\views\\admin\\index\\main.blade.php"
-			],
-			[
-				"goodspec/ed",
-				"resources\\views\\admin\\goodspec\\edit.blade.php"
 			],
 			[
 				"cardcon",
@@ -1600,14 +1727,6 @@
 				"resources\\views\\admin\\tui\\index.blade.php"
 			],
 			[
-				"reset.css",
-				"public\\statics\\admin\\css\\reset.css"
-			],
-			[
-				"reset.scss",
-				"public\\statics\\admin\\css\\reset.scss"
-			],
-			[
 				"goodcon",
 				"app\\Http\\Controllers\\Admin\\GoodController.php"
 			],
@@ -1722,122 +1841,6 @@
 			[
 				"web",
 				"routes\\web.php"
-			],
-			[
-				"web.",
-				"routes\\web.php"
-			],
-			[
-				"homescss",
-				"public\\statics\\home\\css\\home.scss"
-			],
-			[
-				"tuan",
-				"resources\\views\\default\\tuan.blade.php"
-			],
-			[
-				"cardcont",
-				"app\\Http\\Controllers\\Good\\CardController.php"
-			],
-			[
-				"consume.bl",
-				"resources\\views\\user\\consume.blade.php"
-			],
-			[
-				"main.bla",
-				"resources\\views\\admin\\index\\main.blade.php"
-			],
-			[
-				"home",
-				"public\\statics\\home\\css\\home.scss"
-			],
-			[
-				"good.bl",
-				"resources\\views\\default\\good.blade.php"
-			],
-			[
-				"goodspec.bla",
-				"resources\\views\\admin\\good\\goodspec.blade.php"
-			],
-			[
-				"index/co",
-				"resources\\views\\admin\\index\\consume.blade.php"
-			],
-			[
-				"member/con",
-				"resources\\views\\admin\\member\\consume.blade.php"
-			],
-			[
-				"member/cons",
-				"resources\\views\\admin\\member\\consume.blade.php"
-			],
-			[
-				"order.p",
-				"app\\Models\\Order.php"
-			],
-			[
-				"art/index",
-				"resources\\views\\admin\\art\\index.blade.php"
-			],
-			[
-				"tuan.b",
-				"resources\\views\\admin\\tuan\\index.blade.php"
-			],
-			[
-				"userce",
-				"resources\\views\\user\\usercenter.blade.php"
-			],
-			[
-				"usercent",
-				"resources\\views\\user\\usercenter.blade.php"
-			],
-			[
-				"yuhuiquan/inde",
-				"resources\\views\\admin\\youhuiquan\\index.blade.php"
-			],
-			[
-				"tuan/add",
-				"resources\\views\\admin\\tuan\\add.blade.php"
-			],
-			[
-				"order.bl",
-				"resources\\views\\default\\order.blade.php"
-			],
-			[
-				"goodcate.bl",
-				"resources\\views\\default\\goodcate.blade.php"
-			],
-			[
-				"shopc",
-				"app\\Http\\Controllers\\ShopController.php"
-			],
-			[
-				"main.blade",
-				"resources\\views\\admin\\index\\main.blade.php"
-			],
-			[
-				"user",
-				"app\\Http\\Controllers\\Admin\\UserController.php"
-			],
-			[
-				"shopcon",
-				"app\\Http\\Controllers\\ShopController.php"
-			],
-			[
-				"order",
-				"resources\\views\\default\\order.blade.php"
-			],
-			[
-				"home.s",
-				"public\\statics\\home\\css\\home.scss"
-			],
-			[
-				"order.b",
-				"resources\\views\\default\\order.blade.php"
-			],
-			[
-				"order.bla",
-				"resources\\views\\default\\order.blade.php"
 			]
 		],
 		"width": 0.0
@@ -1912,7 +1915,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 333.0,
+	"side_bar_width": 386.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

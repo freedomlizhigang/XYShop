@@ -22,7 +22,6 @@ class PublicController extends Controller
     public function postLogin(Request $res)
     {
         if(\Session::has('console')){return redirect('/console/index/index');}
-
         $username = $res->input('name');
         $pwd = $res->input('password');
         $user = Admin::where('status',1)->where('name',$username)->first();

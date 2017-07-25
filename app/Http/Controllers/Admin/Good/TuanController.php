@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Http\Requests\Good\TuanRequest;
+use App\Models\Good\Good;
 use App\Models\Good\Tuan;
 use Illuminate\Http\Request;
 
@@ -39,16 +40,18 @@ class TuanController extends BaseController
     	return view('admin.tuan.index',compact('title','list','key','starttime','endtime','status'));
     }
     // 添加团购
-    public function getAdd($id = '')
+    public function getAdd()
     {
     	$title = '添加团购';
     	return view('admin.tuan.add',compact('title','id'));
     }
-    public function postAdd(TuanRequest $req,$id = '')
+    public function postAdd(TuanRequest $req)
     {
         try {
     	   $data = $req->input('data');
-    	   Tuan::create($data);
+    	   $tid = Tuan::create($data);
+           // 设置商品类型及活动ID
+           Good::where('id',$data['good_id'])->update(['prom_type'=>2,'prom_id'=>$tid->id]);
            return $this->ajaxReturn(1,'添加成功！');
         } catch (\Exception $e) {
             return $this->ajaxReturn(0,$e->getMessage());
@@ -65,6 +68,9 @@ class TuanController extends BaseController
     public function postEdit(TuanRequest $req,$id = '')
     {
     	$data = $req->input('data');
+        // 设置商品类型及活动ID
+        Good::where('prom_id',$id)->where('prom_type',2)->update(['prom_type'=>0,'prom_id'=>0]);
+        Good::where('id',$data['good_id'])->update(['prom_type'=>2,'prom_id'=>$id]);
     	Tuan::where('id',$id)->update($data);
     	return $this->ajaxReturn(1,'修改成功！',$req->ref);
         
@@ -72,6 +78,8 @@ class TuanController extends BaseController
     // 删除
     public function getDel($id = '')
     {
+        // 商品属性恢复
+        Good::where('prom_id',$id)->where('prom_type',2)->update(['prom_type'=>0,'prom_id'=>0]);
     	Tuan::where('id',$id)->update(['delflag'=>0]);
     	return back()->with('message','删除成功！');
     }
@@ -100,6 +108,8 @@ class TuanController extends BaseController
         // 是数组更新数据，不是返回
         if(is_array($ids))
         {
+            // 商品属性恢复
+            Good::whereIn('prom_id',$ids)->where('prom_type',2)->update(['prom_type'=>0,'prom_id'=>0]);
             Tuan::whereIn('id',$ids)->update(['delflag'=>0]);
             return back()->with('message', '批量删除完成！');
         }

@@ -26,6 +26,17 @@ Route::group(['prefix'=>'console','namespace' => 'Admin'],function(){
 });
 
 Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin'],function(){
+    // 选择商品
+    Route::get('good/select/{type?}', 'Good\GoodController@getSelect');
+    // 抢购管理
+    Route::get('timetobuy/index', 'Good\TimetobuyController@getIndex');
+    Route::get('timetobuy/add', 'Good\TimetobuyController@getAdd');
+    Route::post('timetobuy/add', 'Good\TimetobuyController@postAdd');
+    Route::get('timetobuy/edit/{id}', 'Good\TimetobuyController@getEdit');
+    Route::post('timetobuy/edit/{id}', 'Good\TimetobuyController@postEdit');
+    Route::get('timetobuy/del/{id}', 'Good\TimetobuyController@getDel');
+    Route::post('timetobuy/sort', 'Good\TimetobuyController@postSort');
+    Route::post('timetobuy/alldel', 'Good\TimetobuyController@postAlldel');
     // 广告位
     Route::get('adpos/index', 'Common\AdposController@getIndex');
     Route::get('adpos/add', 'Common\AdposController@getAdd');
@@ -75,14 +86,14 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     // 导出待打印订单
     Route::get('index/excel_order', 'IndexController@getExcelOrders');
     // 自提点管理
-    Route::get('ziti/index', 'Good\ZitiController@getIndex');
-    Route::get('ziti/add', 'Good\ZitiController@getAdd');
-    Route::post('ziti/add', 'Good\ZitiController@postAdd');
-    Route::get('ziti/edit/{id}', 'Good\ZitiController@getEdit');
-    Route::post('ziti/edit/{id}', 'Good\ZitiController@postEdit');
-    Route::get('ziti/del/{id}', 'Good\ZitiController@getDel');
-    Route::post('ziti/sort', 'Good\ZitiController@postSort');
-    Route::post('ziti/alldel', 'Good\ZitiController@postAlldel');
+    Route::get('extract/index', 'Good\ExtractController@getIndex');
+    Route::get('extract/add', 'Good\ExtractController@getAdd');
+    Route::post('extract/add', 'Good\ExtractController@postAdd');
+    Route::get('extract/edit/{id}', 'Good\ExtractController@getEdit');
+    Route::post('extract/edit/{id}', 'Good\ExtractController@postEdit');
+    Route::get('extract/del/{id}', 'Good\ExtractController@getDel');
+    Route::post('extract/sort', 'Good\ExtractController@postSort');
+    Route::post('extract/alldel', 'Good\ExtractController@postAlldel');
     // 广告管理
     Route::get('ad/index', 'Common\AdController@getIndex');
     Route::get('ad/add', 'Common\AdController@getAdd');
@@ -94,44 +105,41 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::post('ad/alldel', 'Common\AdController@postAlldel');
     // 团购管理
     Route::get('tuan/index', 'Good\TuanController@getIndex');
-    Route::get('tuan/add/{id}', 'Good\TuanController@getAdd');
-    Route::post('tuan/add/{id}', 'Good\TuanController@postAdd');
+    Route::get('tuan/add', 'Good\TuanController@getAdd');
+    Route::post('tuan/add', 'Good\TuanController@postAdd');
     Route::get('tuan/edit/{id}', 'Good\TuanController@getEdit');
     Route::post('tuan/edit/{id}', 'Good\TuanController@postEdit');
     Route::get('tuan/del/{id}', 'Good\TuanController@getDel');
     Route::post('tuan/sort', 'Good\TuanController@postSort');
     Route::post('tuan/alldel', 'Good\TuanController@postAlldel');
     // 满赠管理
-    Route::get('manzeng/index', 'Good\ManzengController@getIndex');
-    Route::get('manzeng/add/{id}', 'Good\ManzengController@getAdd');
-    Route::post('manzeng/add/{id}', 'Good\ManzengController@postAdd');
-    Route::get('manzeng/edit/{id}', 'Good\ManzengController@getEdit');
-    Route::post('manzeng/edit/{id}', 'Good\ManzengController@postEdit');
-    Route::get('manzeng/del/{id}', 'Good\ManzengController@getDel');
-    Route::post('manzeng/sort', 'Good\ManzengController@postSort');
-    Route::post('manzeng/alldel', 'Good\ManzengController@postAlldel');
+    Route::get('fullgift/index', 'Good\FullgiftController@getIndex');
+    Route::get('fullgift/add', 'Good\FullgiftController@getAdd');
+    Route::post('fullgift/add', 'Good\FullgiftController@postAdd');
+    Route::get('fullgift/edit/{id}', 'Good\FullgiftController@getEdit');
+    Route::post('fullgift/edit/{id}', 'Good\FullgiftController@postEdit');
+    Route::get('fullgift/del/{id}', 'Good\FullgiftController@getDel');
+    Route::post('fullgift/sort', 'Good\FullgiftController@postSort');
+    Route::post('fullgift/alldel', 'Good\FullgiftController@postAlldel');
     // 优惠券管理
-    Route::get('youhuiquan/index', 'Good\YouhuiquanController@getIndex');
-    Route::get('youhuiquan/add', 'Good\YouhuiquanController@getAdd');
-    Route::post('youhuiquan/add', 'Good\YouhuiquanController@postAdd');
-    Route::get('youhuiquan/edit/{id}', 'Good\YouhuiquanController@getEdit');
-    Route::post('youhuiquan/edit/{id}', 'Good\YouhuiquanController@postEdit');
-    Route::get('youhuiquan/del/{id}', 'Good\YouhuiquanController@getDel');
-    Route::post('youhuiquan/sort', 'Good\YouhuiquanController@postSort');
-    Route::post('youhuiquan/alldel', 'Good\YouhuiquanController@postAlldel');
+    Route::get('coupon/index', 'Good\CouponController@getIndex');
+    Route::get('coupon/add', 'Good\CouponController@getAdd');
+    Route::post('coupon/add', 'Good\CouponController@postAdd');
+    Route::get('coupon/edit/{id}', 'Good\CouponController@getEdit');
+    Route::post('coupon/edit/{id}', 'Good\CouponController@postEdit');
+    Route::get('coupon/del/{id}', 'Good\CouponController@getDel');
+    Route::post('coupon/sort', 'Good\CouponController@postSort');
+    Route::post('coupon/alldel', 'Good\CouponController@postAlldel');
     // 活动管理
-    Route::get('huodong/index', 'Good\HuodongController@getIndex');
-    Route::get('huodong/add', 'Good\HuodongController@getAdd');
-    Route::post('huodong/add', 'Good\HuodongController@postAdd');
-    Route::get('huodong/edit/{id}', 'Good\HuodongController@getEdit');
-    Route::post('huodong/edit/{id}', 'Good\HuodongController@postEdit');
-    Route::get('huodong/del/{id}', 'Good\HuodongController@getDel');
-    Route::get('huodong/good/{gids?}', 'Good\HuodongController@getGood');
-    Route::post('huodong/good/{gids?}', 'Good\HuodongController@postGood');
-    Route::get('huodong/goodlist/{id}', 'Good\HuodongController@getGoodlist');
-    Route::get('huodong/rmgood/{id}/{gid}', 'Good\HuodongController@getRmgood');
-    Route::post('huodong/sort', 'Good\HuodongController@postSort');
-    Route::post('huodong/alldel', 'Good\HuodongController@postAlldel');
+    Route::get('promotion/index', 'Good\PromotionController@getIndex');
+    Route::get('promotion/add', 'Good\PromotionController@getAdd');
+    Route::post('promotion/add', 'Good\PromotionController@postAdd');
+    Route::get('promotion/edit/{id}', 'Good\PromotionController@getEdit');
+    Route::post('promotion/edit/{id}', 'Good\PromotionController@postEdit');
+    Route::get('promotion/del/{id}', 'Good\PromotionController@getDel');
+    Route::get('promotion/goodlist/{id}', 'Good\PromotionController@getGoodlist');
+    Route::post('promotion/sort', 'Good\PromotionController@postSort');
+    Route::post('promotion/alldel', 'Good\PromotionController@postAlldel');
     // 订单管理
     Route::get('order/index', 'Good\OrderController@index');
     Route::get('order/del/{id}', 'Good\OrderController@getDel');

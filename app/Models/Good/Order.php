@@ -39,9 +39,9 @@ class Order extends Model
     {
         return $this->belongsTo('\App\Models\User\Address','address_id','id');
     }
-    public function zitidian()
+    public function extract()
     {
-        return $this->belongsTo('\App\Models\Good\Zitidian','ziti','id');
+        return $this->belongsTo('\App\Models\Good\Extract','ziti','id');
     }
     public function user()
     {

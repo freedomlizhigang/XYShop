@@ -104,9 +104,9 @@ class Good extends Model
     }
 
     // 满赠
-    public function manzeng()
+    public function fullgift()
     {
-        return $this->hasMany('\App\Models\Good\Manzeng','good_id','id');
+        return $this->hasMany('\App\Models\Good\Fullgift','good_id','id');
     }
 
     // 团购

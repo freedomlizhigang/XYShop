@@ -439,4 +439,35 @@ class GoodController extends BaseController
             exit($e->getLine().' - '.$e->getMessage());
         }
     }
+
+    // 选择商品，活动里用
+    public function getSelect(Request $res,$type = '1')
+    {
+        $title = '商品列表';
+        // 搜索关键字
+        $key = trim($res->input('q',''));
+        $cate_id_1 = $res->input('cate_id_1');
+        $cate_id_2 = $res->input('cate_id_2');
+        $cate_id = $res->input('cate_id');
+        if ($cate_id == 0) {
+            if ($cate_id_2 == 0) {
+                $cate_id = $cate_id_1;
+            }
+            else
+            {
+                $cate_id = $cate_id_2;
+            }
+        }
+        $list = Good::where(function($q) use($key){
+                if ($key != '') {
+                    $q->where('title','like','%'.$key.'%');
+                }
+            })->where(function($q) use($cate_id){
+                if ($cate_id != '') {
+                    $ids = GoodCate::where('id',$cate_id)->value('arrchildid');
+                    $q->whereIn('cate_id',explode(',',$ids));
+                }
+            })->where('status',1)->where('prom_type',0)->orderBy('sort','desc')->orderBy('id','desc')->paginate(10);
+        return view('admin.good.select',compact('title','list','key','type','cate_id_1','cate_id_2','cate_id'));
+    }
 }

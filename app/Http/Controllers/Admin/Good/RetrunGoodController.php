@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
+use App\Http\Requests\Good\ReturnGoodRequest;
 use App\Models\Good\Order;
 use App\Models\Good\ReturnGood;
 use App\Models\User\User;
@@ -45,7 +46,7 @@ class RetrunGoodController extends BaseController
                         $q->where('status',$status);
                     }
                 })->where('delflag',1)->orderBy('id','desc')->paginate(15);
-    	return view('admin.tui.index',compact('title','list','starttime','endtime','status','q','key'));
+    	return view('admin.returngood.index',compact('title','list','starttime','endtime','status','q','key'));
     }
     // 导出
     public function getExcel(Request $req)
@@ -96,9 +97,9 @@ class RetrunGoodController extends BaseController
     public function getStatus($id = '')
     {
     	$title = '处理退货请求';
-    	return view('admin.tui.status',compact('title','id'));
+    	return view('admin.returngood.status',compact('title','id'));
     }
-    public function postStatus(TuiRequest $req,$id = '')
+    public function postStatus(ReturnGoodRequest $req,$id = '')
     {
         // 更新为关闭，退款到余额里
         DB::transaction(function() use ($id,$req){

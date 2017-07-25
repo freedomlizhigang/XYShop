@@ -123,8 +123,8 @@ function ajax_submit_form(form_id,submit_url)
 		    	// 弹出提示
 				$('#error_alert').text(value).fadeIn('fast').delay(1000).fadeOut();
 				// 标识ajax 请求成功，可以再次发送
+	    		return false;
 		    });
-	    	return false;
 		},
 		success: function(v) {
 			before_request = 1; // 标识ajax 请求已经返回

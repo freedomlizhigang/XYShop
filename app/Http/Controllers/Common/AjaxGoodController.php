@@ -269,7 +269,7 @@ class AjaxGoodController extends BaseController
         }
         else
         {
-            $store = GoodSpecPrice::where('good_id',$id)->where('status',1)->where('key',$spec_key)->value('store');
+            $store = GoodSpecPrice::where('good_id',$id)->where('key',$spec_key)->value('store');
         }
         $store = is_null($store) ? 0 : $store;
         if ($store < $num) {

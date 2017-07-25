@@ -19,8 +19,7 @@
     <!-- 上传用的 css -->
     <link rel="stylesheet" href="{{ $sites['static']}}admin/css/reset.css">
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{{ $sites['static']}}common/laydate/laydate.js"></script>
+    <script src="{{ $sites['static']}}admin/js/com.js"></script>
 </head>
 
 <body style="padding: 0">
@@ -33,9 +32,7 @@
         @yield('content')
     </div>
     <script type="text/javascript">
-        $(function(){
-            $('div.alert_top').delay(1500).slideUp(300);
-        })
+        var host = "{{ config('app.url') }}";
     </script>
 </body>
 

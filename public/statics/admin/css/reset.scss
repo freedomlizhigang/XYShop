@@ -41,19 +41,14 @@ $color_3:#333;
 // 一些公用的
 .fz12 {font-size: 12px;}
 .dn {display: none;}
-.login_box {
-    margin-top:100px;
-    width:375px;
-    padding:25px 20px 30px 20px;
-    float: none;
-    border-radius: 15px;
-    background: #FFF;
-    box-shadow: #ccc 0 0 5px;
-    h1 {
-        text-align: center;
-        font-weight: normal;
-        margin-bottom: 20px;
+.login_bg {background: url('../images/login_bg.png') center center no-repeat; width:465px; height:442px; margin:60px auto 0; padding-top: 120px;}
+.login_box { margin:0 auto 0; width:330px; height:210px;
+    .login_form_left { background: #6DBFE4; font-size: 14px;color: #fff;width: 70px; display: block;line-height: 40px;padding-left: 10px; font-weight: normal; float: left; border-radius:3px 0px 0 3px;
     }
+    .login_form_right {float: right; background-color: #FFF; width:260px; border:#6DBFE4 solid 1px; display: block !important; line-height: 40px; height: 40px;
+        font-size: 14px; border-radius:0 3px 3px 0;
+    }
+    .login_submit {background: #6DBFE4;border: none;width: 330px;display: block;line-height: 2.4; font-size: 16px; color: #fff;border-radius: 3px;}
 }
 #success_alert ,#error_alert {position: fixed; top:30%; left:50%; width:30%; margin-left: -15%; text-align:center;z-index: 10000;}
 /* 主体框架 */
@@ -249,4 +244,8 @@ thead {font-weight: bold;}
     border:none;
     cursor: pointer;
     color:#FFF;
+}
+.good_checkbox_title {
+    padding-left: 0px;
+    input {margin:0;}
 }

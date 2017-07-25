@@ -49,8 +49,14 @@ class GoodAttr extends Model
     // 访问器
     public function getValueAttribute($value)
     {
-        $value = json_decode($value,true);
-        return implode('，',$value);
+        if ($value != '' && !is_null($value)) {
+            $value = json_decode($value,true);
+            return implode('，',$value);
+        }
+        else
+        {
+            return $value;
+        }
     }
 
     // 关联商品分类表
