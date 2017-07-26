@@ -26,7 +26,7 @@ class GoodRequest extends FormRequest
         return [
             'data.title' => 'required|max:255',
             'data.cate_id'  => 'required|integer',
-            'data.brand_id'  => 'required|integer',
+            'data.brand_id'  => 'integer',
             'data.keyword'  => 'max:255',
             'data.describe'  => 'max:255',
             'data.thumb'  => 'max:255',

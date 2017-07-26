@@ -148,12 +148,24 @@
         <tr>
             <td class="td_left">缩略图：</td>
             <td>
-                <div class="clearfix thumb_btn">
-                    <input type="text" readonly="readonly" name="data[thumb]" id="url3" value="{{ $info->thumb }}" class="form-control input-sm">
-                    <div value="选择图片" id="image3"></div>
-                </div>
-                <p class="input-info"><span class="color_red">*</span>图片类型jpg/jpeg/gif/png，大小不超过2M</p>
-                <img src="{{ $info->thumb }}" class="thumb-src mt10 img-responsive" width="300" alt="">
+                @component('admin.component.thumb')
+                    @slot('filed_name')
+                        thumb
+                    @endslot
+                    {{ $info->thumb }}
+                @endcomponent
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">相册：</td>
+            <td>
+                @component('admin.component.album')
+                    @slot('filed_name')
+                        album
+                    @endslot
+                    {{ $info->album }}
+                @endcomponent
             </td>
         </tr>
         
@@ -161,7 +173,15 @@
         <tr>
             <td class="td_left">内容：</td>
             <td>
-                <textarea name="data[content]" class="form-control" id="editor_id">{!! $info->content !!}</textarea> 
+                @component('admin.component.ueditor')
+                    @slot('id')
+                        container
+                    @endslot
+                    @slot('filed_name')
+                        content
+                    @endslot
+                    {!! $info->content !!}
+                @endcomponent
                 <p class="input-info"><span class="color_red">*</span></p>
             </td>
         </tr>
@@ -179,13 +199,6 @@
                 <div id="good_attr" class="form-group"></div>
             </td>
         </tr>
-
-        <script>
-            $(function(){
-                // 修改产品分类时，取出对应的属性及规格
-                
-            })
-        </script>
 
         <tr>
             <td class="td_left">排序：</td>
@@ -250,43 +263,6 @@
             ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
         });
     })
-
-	// 上传时要填上sessionId与csrf表单令牌，否则无法通过验证
-	KindEditor.ready(function(K) {
-		window.editor = K.create('#editor_id',{
-			minHeight:350,
-			uploadJson : "{{ url('console/attr/uploadimg') }}",
-            extraFileUploadParams: {
-				session_id : "{{ session('console')->id }}",
-            },
-            afterCreate : function() {this.sync();}, 
-            afterBlur: function(){this.sync();}
-		});
-		var uploadbutton = K.uploadbutton({
-            button : K('#image3')[0],
-            fieldName : 'imgFile',
-            url : "{{ url('console/attr/uploadimg') }}",
-            extraFileUploadParams: {
-                session_id : "{{ session('console')->id }}",
-            },
-            afterUpload : function(data) {
-                if (data.error === 0) {
-                    var url = K.formatUrl(data.url, 'absolute');
-                    K('#url3').val(url);
-                    $('.thumb-src').attr('src',url).removeClass('hidden');
-                } else {
-                    alert(data.message);
-                }
-            },
-            afterError : function(str) {
-                alert('自定义错误信息: ' + str);
-            }
-        });
-        uploadbutton.fileBox.change(function(e) {
-            uploadbutton.submit();
-        });
-		
-	});
 </script>
 
 @endsection

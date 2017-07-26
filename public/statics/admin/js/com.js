@@ -50,7 +50,7 @@ function get_brand(pid = '0',cid = '0',subid = 'brand_id',selectid = '0')
     $.post(goodcateurl, {pid: pid,cid:cid}, function(d) {
         var ss = jQuery.parseJSON(d);
         if (ss.code == 1) {
-            var str = '<option value="">选择品牌</option>';
+            var str = '<option value="0">选择品牌</option>';
             $.each(ss.msg, function(i,n) {
                 str += '<option value="' + n.id + '">' + n.name + '</option>';
             });
@@ -105,10 +105,13 @@ function ajax_submit_form(form_id,submit_url)
 	if(before_request == 0)
     return false;
 	var data = $('#' + form_id).serializeArray();
-	if ($('#editor_id').length > 0) {
-		// console.log($('#editor_id').val());
-		data.push({name:'data[content]',value:$('#editor_id').val()});
-	}
+	// 如果有ueditor则同步内容
+	/*if ($('.data_content').length > 0) {
+		$('.data_content').each(function() {
+			var thisId = $(this).attr('id');
+			UE.getEditor(thisId).sync();
+		});
+	}*/
 	before_request = 0; // 标识ajax 请求已经发出
     $.ajax({
 		type: "POST",

@@ -26,12 +26,12 @@
         <tr>
             <td class="td_left">Logo：</td>
             <td>
-                <div class="clearfix thumb_btn">
-                    <input type="text" readonly="readonly" name="data[icon]" id="url3" value="{{ old('data.icon') }}" class="form-control input-sm">
-                    <div value="选择图片" id="image3"></div>
-                </div>
-                <p class="input-info"><span class="color_red">*</span>图片类型jpg/jpeg/gif/png，大小不超过2M</p>
-                <img src="" class="thumb-src mt10 hidden img-responsive img-rounded" alt="">
+                @component('admin.component.thumb')
+                    @slot('filed_name')
+                        thumb
+                    @endslot
+                    {{ old('data.thumb') }}
+                @endcomponent
             </td>
         </tr>
 
@@ -52,30 +52,6 @@
 </form>
 <!-- 实例化编辑器 -->
 <script>
-    // 上传时要填上sessionId与csrf表单令牌，否则无法通过验证
-    var uploadbutton = KindEditor.uploadbutton({
-        button : $('#image3'),
-        fieldName : 'imgFile',
-        url : "{{ url('console/attr/uploadimg') }}",
-        extraFileUploadParams: {
-            session_id : "{{ session('console')->id }}",
-        },
-        afterUpload : function(data) {
-            if (data.error === 0) {
-                var url = KindEditor.formatUrl(data.url, 'absolute');
-                $('#url3').val(url);
-                $('.thumb-src').attr('src',url).removeClass('hidden');
-            } else {
-                alert(data.message);
-            }
-        },
-        afterError : function(str) {
-            alert('自定义错误信息: ' + str);
-        }
-    });
-    uploadbutton.fileBox.change(function(e) {
-        uploadbutton.submit();
-    });
     $(function(){
         get_goodcate(0,'catid_one',0);
     });

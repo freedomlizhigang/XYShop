@@ -23,14 +23,22 @@
         </tr>
 
         <tr>
+            <td class="td_left">副标题：</td>
+            <td>
+                <input type="text" name="data[subtitle]" value="{{ $info->subtitle }}" class="form-control input-sm">
+                <p class="input-info"><span class="color_red">*</span>不超过255字符</p>
+            </td>
+        </tr>
+
+        <tr>
             <td class="td_left">缩略图：</td>
             <td>
-                <div class="clearfix thumb_btn">
-                    <input type="text" readonly="readonly" name="data[thumb]" id="url3" value="{{ $info->thumb }}" class="form-control input-sm">
-                    <div value="选择图片" id="image3"></div>
-                </div>
-                <p class="input-info"><span class="color_red">*</span>图片类型jpg/jpeg/gif/png，大小不超过2M</p>
-                <img src="{{ $info->thumb }}" class="thumb-src mt10 img-responsive" width="300" alt="">
+                @component('admin.component.thumb')
+                    @slot('filed_name')
+                        thumb
+                    @endslot
+                    {{ $info->thumb }}
+                @endcomponent
             </td>
         </tr>
 
@@ -84,30 +92,6 @@
 </form>
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
-    // 上传时要填上sessionId与csrf表单令牌，否则无法通过验证
-    var uploadbutton = KindEditor.uploadbutton({
-        button : $('#image3')[0],
-        fieldName : 'imgFile',
-        url : "{{ url('console/attr/uploadimg') }}",
-        extraFileUploadParams: {
-            session_id : "{{ session('console')->id }}",
-        },
-        afterUpload : function(data) {
-            if (data.error === 0) {
-                var url = KindEditor.formatUrl(data.url, 'absolute');
-                $('#url3').val(url);
-                $('.thumb-src').attr('src',url).removeClass('hidden');
-            } else {
-                alert(data.message);
-            }
-        },
-        afterError : function(str) {
-            alert('自定义错误信息: ' + str);
-        }
-    });
-    uploadbutton.fileBox.change(function(e) {
-        uploadbutton.submit();
-    });
     laydate({
         elem: '#laydate3',
         format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月

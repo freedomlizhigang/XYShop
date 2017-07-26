@@ -53,12 +53,12 @@
         <tr>
             <td class="td_left">缩略图：</td>
             <td>
-                <div class="clearfix thumb_btn">
-                    <input type="text" readonly="readonly" name="data[thumb]" id="url3" value="{{ old('data.thumb') }}" class="form-control input-sm">
-                    <div value="选择图片" id="image3"></div>
-                </div>
-                <p class="input-info">图片类型jpg/jpeg/gif/png，大小不超过2M</p>
-                <img src="" class="img-responsive thumb-src hidden mt10" width="130" alt="">
+                @component('admin.component.thumb')
+                    @slot('filed_name')
+                        thumb
+                    @endslot
+                    {{ old('data.thumb') }}
+                @endcomponent
             </td>
         </tr>
             
@@ -84,32 +84,5 @@
 
 
 </form>
-<script>
-	KindEditor.ready(function(K) {
-        var uploadbutton = K.uploadbutton({
-            button : K('#image3')[0],
-            fieldName : 'imgFile',
-            url : "{{ url('console/attr/uploadimg') }}",
-            extraFileUploadParams: {
-                session_id : "{{ session('console')->id }}",
-            },
-            afterUpload : function(data) {
-                if (data.error === 0) {
-                    var url = K.formatUrl(data.url, 'absolute');
-                    K('#url3').val(url);
-                    $('.thumb-src').attr('src',url).removeClass('hidden');
-                } else {
-                    alert(data.message);
-                }
-            },
-            afterError : function(str) {
-                alert('自定义错误信息: ' + str);
-            }
-        });
-        uploadbutton.fileBox.change(function(e) {
-            uploadbutton.submit();
-        });
-    });
-</script>
 
 @endsection

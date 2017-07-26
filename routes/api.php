@@ -48,6 +48,11 @@ Route::group(['prefix'=>'common','namespace'=>'Common'],function(){
     Route::post('area','AjaxCommonController@postArea');
     // 取社区
     Route::post('community','AjaxCommonController@postCommunity');
+    // 编辑器文件上传
+    Route::get('ueditor_upload','UploaderController@getUeditorupload');
+    Route::post('ueditor_upload','UploaderController@postUeditorupload');
+    // 文件上传
+    Route::post('upload','UploaderController@postUploadimg');
 });
 
 // 会员功能

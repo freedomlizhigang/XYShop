@@ -38,20 +38,27 @@
          <tr>
             <td class="td_left">缩略图：</td>
             <td>
-                <div class="clearfix thumb_btn">
-                    <input type="text" readonly="readonly" name="data[thumb]" id="url3" value="{{ old('data.thumb') }}" class="form-control input-md">
-                    <div value="选择图片" id="image3"></div>
-                </div>
-                <p class="input-info">图片类型jpg/jpeg/gif/png，大小不超过2M</p>
-                <img src="" class="thumb-src hidden img-responsive" width="200" alt="">
+                @component('admin.component.thumb')
+                    @slot('filed_name')
+                        thumb
+                    @endslot
+                    {{ old('data.thumb') }}
+                @endcomponent
             </td>
         </tr>
 
         <tr>
             <td class="td_left">内容：</td>
             <td>
-                <!-- 加载编辑器的容器 -->
-                <textarea name="data[content]" class="form-control input-lg" id="editor_id">{{ old('data.content') }}</textarea>
+                @component('admin.component.ueditor')
+                    @slot('id')
+                        container
+                    @endslot
+                    @slot('filed_name')
+                        content
+                    @endslot
+                    {{ old('data.content') }}
+                @endcomponent
                 <p class="input-info"><span class="color_red">*</span></p>
             </td>
         </tr>
@@ -85,41 +92,6 @@
 
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
-    // 上传时要填上sessionId与csrf表单令牌，否则无法通过验证
-    KindEditor.ready(function(K) {
-        window.editor = K.create('#editor_id',{
-            minHeight:350,
-            uploadJson : "{{ url('console/attr/uploadimg') }}",
-            extraFileUploadParams: {
-                session_id : "{{ session('console')->id }}",
-            },
-            afterCreate : function() {this.sync();}, 
-            afterBlur: function(){this.sync();}
-        });
-        var uploadbutton = K.uploadbutton({
-            button : K('#image3')[0],
-            fieldName : 'imgFile',
-            url : "{{ url('console/attr/uploadimg') }}",
-            extraFileUploadParams: {
-                session_id : "{{ session('console')->id }}",
-            },
-            afterUpload : function(data) {
-                if (data.error === 0) {
-                    var url = K.formatUrl(data.url, 'absolute');
-                    K('#url3').val(url);
-                    $('.thumb-src').attr('src',url).removeClass('hidden');
-                } else {
-                    console.log(data.message);
-                }
-            },
-            afterError : function(str) {
-                alert('自定义错误信息: ' + str);
-            }
-        });
-        uploadbutton.fileBox.change(function(e) {
-            uploadbutton.submit();
-        });
-    });
 /*  laydate({
         elem: '#laydate',
         format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月

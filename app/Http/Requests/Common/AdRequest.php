@@ -26,6 +26,7 @@ class AdRequest extends FormRequest
         return [
             'data.title' => 'required|max:255|unique:ads,title,'.$this->segment('4'),
             'data.pos_id' => 'required',
+            'data.subtitle' => 'max:255',
             'data.thumb' => 'required|max:255',
             'data.url' => 'required|max:255|url',
             'data.sort' => 'required|integer',
@@ -36,6 +37,7 @@ class AdRequest extends FormRequest
     {
         return [
             'data.title' => '标题',
+            'data.subtitle' => '副标题',
             'data.pos_id' => '位置',
             'data.thumb' => '图片',
             'data.url' => '链接',

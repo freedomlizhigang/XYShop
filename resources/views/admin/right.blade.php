@@ -18,13 +18,15 @@
 
     <!-- 上传用的 css -->
     <link rel="stylesheet" href="{{ $sites['static']}}admin/css/reset.css">
-    <link rel="stylesheet" href="{{ $sites['static']}}common/kindeditor/themes/default/default.css">
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- 上传用的 js -->
-    <script src="{{ $sites['static']}}common/kindeditor/kindeditor-all.js"></script>
-    <script src="{{ $sites['static']}}common/kindeditor/lang/zh-CN.js"></script>
+    <script src="{{ $sites['static']}}common/webuploader/webuploader.js"></script>
     <script src="{{ $sites['static']}}common/laydate/laydate.js"></script>
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="{{ $sites['static']}}common/ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="{{ $sites['static']}}common/ueditor/ueditor.all.js"></script>
     <script src="{{ $sites['static']}}admin/js/com.js"></script>
 </head>
 

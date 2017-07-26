@@ -56,7 +56,7 @@ body.box {overflow: hidden; padding: 0;}
 .mainbox { height: auto; min-height: 100%; position: relative;}
 /*top*/
 .top {height: 50px; line-height: 50px; background-color: #333; color: #FFF; position: relative; top: 0; left: 0; width: 100%; z-index: 9999;}
-.logo {font-weight: normal; padding-left: 15px; float: left; width: 200px; font-size: 22px; line-height: 50px;margin:0; cursor:pointer;}
+.logo {font-weight: normal; float: left; width: 200px; font-size: 0; line-height: 0;margin:0; cursor:pointer;}
 .top a {color: #9da4aa;}
 .menu ,#mainmenu { float: left; margin:0; padding:0;}
 #mainmenu li {float: left; width: 80px; font-size: 16px; font-weight:normal; text-align: center;}
@@ -104,148 +104,85 @@ form label {margin-bottom: 5px;}
 .input-sm {width:260px !important; float: left; margin-right: 10px;}
 .input-xs {width:50px !important; float: left; margin-right: 10px;}
 .input-info {color:#999; span {margin-right: 5px;}}
-.help-block {
-    font-weight: normal;
-    display: block;
-    color: red;
-}
-.add_submenu {
-    margin-left: 10px;
-}
-.level-1 {
-    font-size: 0;
-}
-.level-2 {
-    padding-left: 1em;
-}
-.level-2:after {
-    content:"├";
-    display:inline-block;
-    margin-right: 5px;
-}
-.level-3 {
-    padding-left: 1em;
-}
-.level-3:after {
-    content:"│ ├";
-    display:inline-block;
-    margin-right: 5px;
-}
-.level-4 {
-    padding-left: 1em;
-}
-.level-4:after {
-    content:"│ │ ├";
-    display:inline-block;
-    margin-right: 5px;
-}
+.help-block { font-weight: normal; display: block;color: red;}
+.add_submenu {margin-left: 10px;}
+.level-1 { font-size: 0;}
+.level-2 {padding-left: 1em;}
+.level-2:after { content:"├"; display:inline-block; margin-right: 5px;}
+.level-3 {padding-left: 1em;}
+.level-3:after {content:"│ ├";display:inline-block; margin-right: 5px;}
+.level-4 {padding-left: 1em;}
+.level-4:after {content:"│ │ ├"; display:inline-block; margin-right: 5px;}
 thead {font-weight: bold;}
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-    line-height: 2;
-}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {line-height: 2;}
 .check-mr {margin-right: 5px;}
 .priv-tree {
     .checkbox-inline input {margin-top: 8px;}
     li {
         line-height: 2.4;
     }
-    ul.priv-level-1 {
-        background-color: #fff;
-        font-size: 16px;
-        li {
-            padding:0 1em;
-            background-color: #f0f0f0;
-        }
+    ul.priv-level-1 { background-color: #fff;font-size: 16px;
+        li {padding:0 1em; background-color: #f0f0f0;}
     }
-    ul.priv-level-2 {
-        background-color: #fff;
-        font-size: 14px;
-        li {
-            padding-left: 1em;
-            background-color: #F7F7F7;
-        }
+    ul.priv-level-2 { background-color: #fff; font-size: 14px;
+        li { padding-left: 1em; background-color: #F7F7F7; }
     }
-    ul.priv-level-3 {
-        margin:5px 0;
-        background-color: #fff;
-        li {
-            padding-left: 1em;
-            background-color: #fff;
-            border-bottom:#E0E0E0 solid 1px;
-        }
+    ul.priv-level-3 { margin:5px 0; background-color: #fff;
+        li { padding-left: 1em; background-color: #fff; border-bottom:#E0E0E0 solid 1px;}
     }
-    ul.priv-level-4 {
-        background-color: #fff;
-        margin-bottom: 5px;
-        li {
-            padding-left: 1em;
-            float: left;
-            border:none;
-        }
+    ul.priv-level-4 { background-color: #fff; margin-bottom: 5px;
+        li { padding-left: 1em; float: left; border:none;}
     }
-}
-.pure-file {
-    margin-left: 10px;
-    margin-top: 5px;
 }
 .pagination {margin:0;}
-.page-submit {
-    width:3em;
-    margin-left: 4px;
-    height: 2em;
-    border:#CCCCCC solid 1px;
-    border-radius: 3px;
+.page-submit { width:3em; margin-left: 4px; height: 2em; border:#CCCCCC solid 1px;border-radius: 3px;}
+.alert_top { position: fixed; top:30%; left:50%; width:30%; margin-left: -15%; text-align:center;z-index: 10000;}
+.list_group_user { margin-bottom: 15px;
+    li { float: left; margin-right: 10px; width:150px; }
 }
-.alert_top {
-    position: fixed; top:30%; left:50%; width:30%; margin-left: -15%; text-align:center;z-index: 10000;
-}
-.list_group_user {
-    margin-bottom: 15px;
-    li {
-        float: left;
-        margin-right: 10px;
-        width:150px;
-    }
-}
-.ke-upload-area {overflow-x: auto !important; width:auto !important;}
-.ke-upload-area .ke-upload-file {
-    height: 0.5em;
-}
-.add_attr {
-    margin-top: 5px;
-}
-.special_div {
-    margin-top:1em;
-}
-.input-listorder {
-    width:50px !important;
-}
-.thumb_btn .ke-button-common {
-    font-size: 12px;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 2px;
-    background-color: #31B0D5;
-    border-color: #31B0D5;
-    height:auto;
-    cursor: pointer;
-    padding:2px 8px;
-    line-height: 1.6;
-}
-.thumb_btn .ke-button {
-    padding:0;
-    margin:0;
-    border:none;
-    cursor: pointer;
-    color:#FFF;
-}
-.good_checkbox_title {
-    padding-left: 0px;
+.add_attr { margin-top: 5px;}
+.special_div { margin-top:1em;}
+.input-listorder {width:50px !important;}
+.good_checkbox_title { padding-left: 0px;
     input {margin:0;}
 }
+/* 上传图片用的 */
+.webuploader-container { position: relative;}
+.webuploader-element-invisible { position: absolute !important; clip: rect(1px 1px 1px 1px); /* IE6, IE7 */ clip: rect(1px,1px,1px,1px);}
+.wu-example { position: relative; padding: 10px 15px 10px;margin: 5px 0;  background-color: #fafafa; border-color: #e5e5e5; border-style: solid;    border-width: 1px;}
+.uploader-list { width: 100%; overflow: hidden;}
+.file-item { float: left; position: relative; margin: 0 20px 10px 0; padding: 4px;}
+.file-item .error {position: absolute; top: 4px; left: 4px; right: 4px;background: red; color: white; text-align: center; height: 20px; font-size: 14px; line-height: 23px;}
+.file-item .info { position: absolute; left: 4px; bottom: 4px; right: 4px; height: 20px; line-height: 20px; text-indent: 5px; background: rgba(0, 0, 0, 0.6); color: white; overflow: hidden; white-space: nowrap; text-overflow : ellipsis; font-size: 12px; z-index: 10;}
+.upload-state-done:after { content:"\f00c";font-family: FontAwesome; font-style: normal; font-weight: normal; line-height: 1; -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; font-size: 32px; position: absolute; bottom: 0; right: 4px; color: #4cae4c; z-index: 99;}
+.file-item .progress { position: absolute; right: 4px; bottom: 4px; height: 3px; left: 4px; height: 4px; overflow: hidden; z-index: 15; margin:0; padding: 0;border-radius: 0; background: transparent;}
+.file-item .progress span { display: block; overflow: hidden; width: 0; height: 100%; background: #d14 url(../images/progress.png) repeat-x; -webit-transition: width 200ms linear; -moz-transition: width 200ms linear; -o-transition: width 200ms linear; -ms-transition: width 200ms linear; transition: width 200ms linear;
+    -webkit-animation: progressmove 2s linear infinite; -moz-animation: progressmove 2s linear infinite; -o-animation: progressmove 2s linear infinite; -ms-animation: progressmove 2s linear infinite; animation: progressmove 2s linear infinite; -webkit-transform: translateZ(0);
+}
+.file-item .file-panel .cancel {position: absolute; bottom: 4px; right: 4px; height: 20px; width:20px; line-height: 20px; text-align:center; color: white; overflow: hidden; white-space: nowrap; text-overflow : ellipsis; font-size: 16px; z-index: 12; cursor: pointer;}
+@-webkit-keyframes progressmove {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 17px 0;
+    }
+}
+@-moz-keyframes progressmove {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 17px 0;
+    }
+}
+@keyframes progressmove {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 17px 0;
+    }
+}
+// 上传图片完

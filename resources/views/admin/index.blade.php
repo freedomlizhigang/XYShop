@@ -25,7 +25,7 @@
 <body class="box">
     <div class="mainbox">
         <header class="top clearfix overh">
-            <h1 class="logo overh">{{ cache('config')['sitename'] }}</h1>
+            <h1 class="logo overh"><img src="{{ $sites['static']}}admin/images/logo.png" width="200" height="50" alt="{{ cache('config')['sitename'] }}"></h1>
             <nav class="menu clearfix overh">
                 <ul id="mainmenu" class="clearfix">
                 @foreach($mainmenu as $mm)
