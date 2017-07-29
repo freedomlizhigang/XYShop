@@ -40,7 +40,7 @@ class BaseController extends Controller
                 if (isset($old_carts[$gid]) && $old_carts[$gid]['good_spec_key'] == $v['good_spec_key']) {
                     $nums = $v->nums + $old_carts[$gid]['nums'];
                     $price = $v->price;
-                    $v = ['session_id'=>$sid,'user_id'=>$uid,'good_id'=>$gid,'good_spec_key'=>$v['good_spec_key'],'nums'=>$nums,'price'=>$price,'total_prices'=>$nums * $price];
+                    $v = ['session_id'=>$sid,'user_id'=>$uid,'good_id'=>$gid,'good_title'=>$v->good_title,'good_spec_key'=>$v->good_spec_key,'good_spec_name'=>$v->good_spec_name,'nums'=>$nums,'price'=>$price,'total_prices'=>$nums * $price,'type'=>$v->type,'created_at'=>$v->created_at];
                     // 把旧的删除，新的更新
                     Cart::where('user_id',$uid)->where('good_id',$gid)->where('good_spec_key',$v['good_spec_key'])->delete();
                     Cart::create($v);

@@ -1,187 +1,194 @@
 @extends('home.layout')
 
-@section('title')
-    <title>{{ $info->title }}</title>
-    <meta name="keywords" content="{{ $info->keyword }}">
-    <meta name="description" content="{{ $info->describe }}">
-@endsection
-
 
 @section('content')
 
-    <header class="head clearfix container-fluid">
-    	<div class="row">
-	        <div id="carousel" class="carousel slide" data-ride="carousel">
-	            <!-- Indicators -->
-	            <ol class="carousel-indicators">
-	            @foreach(app('tag')->ad(2,6) as $k => $c)
-	            <li data-target="#carousel" data-slide-to="{{ $k }}" class="@if($k == 0) active @endif"></li>
-	            @endforeach
-	            </ol>
-
-	            <!-- Wrapper for slides -->
-	            <div class="carousel-inner" role="listbox">
-	            @foreach(app('tag')->ad(2,6) as $k => $c)
-	            <div class="item @if($k == 0) active @endif">
-	              <a href="{{ $c->url }}"><img src="{{ $c->thumb }}" alt="{{ $c->title }}"></a>
-	            </div>
-	            @endforeach
-	            
-	            </div>
-	            <!-- Controls -->
-	            <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
-	            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-	            <span class="sr-only">Previous</span>
-	            </a>
-	            <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
-	            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-	            <span class="sr-only">Next</span>
-	            </a>
-	        </div>
-	        <script>
-	            $(function(){
-	            	$("#carousel").carousel();
-	            });
-	        </script>
+<!-- banner -->
+<div class="banner text-center">
+    <a href="{{ $sites['url']}}" target="_blank"><img src="{{ $sites['static']}}home/images/ads/b1.jpg" class="center-block img-responsive" alt=""></a>
+</div>
+<!-- timetobuy -->
+<section class="box timetobuy clearfix overh">
+    <!-- ttb_l -->
+    <div class="ttb_l pull-left overh">
+        <h2 class="ttb_t2">
+            限时抢购<span class="iconfont icon-time"></span><span class="ttb_time">01:05:30</span>
+        </h2>
+        <div class="ttb_l_con">
+            <h3 class="ttb_t3_1">TOTO</h3>
+            <a href="#" class="ttb_l_con_a ts_r center-block mt20">
+                <img src="{{ $sites['static']}}home/images/ads/ttb_l_1.png" class="img-responsive center-block" alt="">
+            </a>
         </div>
-    </header>
-	
-	<!-- 搜索 -->
-	<section class="search container-fluid overh">
-		<form action="{{ url('search') }}" class="form-inline mt10">
-			<div class="row">
-				<div class="col-xs-9">
-					<div class="form-group">
-						<input type="text" name="q" class="form-control" placeholder="搜索...">
-					</div>
-				</div>
-				<div class="col-xs-3">
-					<button type="submit" class="btn btn-success">搜索</button>
-				</div>
-			</div>
-		</form>
-	</section>
-	<!-- 主分类 -->
-	<section class="container-fluid mt10 goodcate">
-		@foreach(app('tag')->goodcate(0,8) as $c)
-		<div class="col-xs-3 mt10">
-			<a href="{{ url('/shop/goodlist',['id'=>$c->id]) }}" class="goodcate_img"><img src="{{ $c->thumb }}" alt="{{ $c->name }}" class="img-responsive"></a>
-			<a href="{{ url('/shop/goodlist',['id'=>$c->id]) }}" class="mt5 db">{{ str_limit($c->name,10,'') }}</a>
-		</div>
-		@endforeach
-	</section>
-
-	<!-- 固定位广告 -->
-	<div class="container-fluid cate_list">
-		<h2 class="h_t"><img src="{{ $sites['static']}}home/images/t_1.png" class="img-responsive" alt=""></h2>
-		<div class="row ad_pos">
-			@foreach(app('tag')->ad(1,1) as $k => $c)
-            <div class="col-xs-5">
-            	<a href="{{ $c->url }}"><img src="{{ $c->thumb }}" alt="{{ $c->title }}" class="img-responsive"></a>
+    </div>
+    <div class="ttb_r  ttb_r_1 pull-left overh">
+        <a class="ttb_r_top clearfix">
+            <img src="{{ $sites['static']}}home/images/ads/ad_ttb_l1.jpg" class="img-responsive ts_l pull-right" alt="">
+            <h3 class="ttb_t3">全球购</h3>
+            <p class="ttb_p">品味诗意生活</p>
+        </a>
+        <a class="ttb_r_bottom clearfix">
+            <img src="{{ $sites['static']}}home/images/ads/ad_ttb_l2.jpg" class="img-responsive ts_l pull-right" alt="">
+            <h3 class="ttb_t3">闪电购</h3>
+            <p class="ttb_p">岂止是优雅</p>
+        </a>
+    </div>
+    <!-- ttb_l -->
+    <div class="ttb_l ttb_l_m pull-left overh">
+        <h3 class="ttb_t3">积分换购</h3>
+        <p class="ttb_p">潮人必备</p>
+        <img src="{{ $sites['static']}}home/images/ads/ad_ttb_m.png" class="img-responsive ts_t ad_ttb_m_img" alt="">
+    </div>
+    <div class="ttb_r ttb_r_2 pull-left overh">
+        <a class="ttb_r_bottom clearfix">
+            <img src="{{ $sites['static']}}home/images/ads/ad_ttb_r1.jpg" class="img-responsive ts_l pull-right" alt="">
+            <h3 class="ttb_t3">闪电购</h3>
+            <p class="ttb_p">岂止是优雅</p>
+        </a>
+        <a class="ttb_r_top clearfix">
+            <img src="{{ $sites['static']}}home/images/ads/ad_ttb_r2.jpg" class="img-responsive ts_l pull-right" alt="">
+            <h3 class="ttb_t3">全球购</h3>
+            <p class="ttb_p">品味诗意生活</p>
+        </a>
+    </div>
+</section>
+<!-- floor -->
+<section class="box floor clearfix overh">
+    <!-- floor_top -->
+    <div class="floor_top clearfix">
+        <h2 class="floor_t2 pull-left">品牌特卖<span class="floor_t2_span">知名品牌，特价销售</span></h2>
+        <p class="floor_menu pull-right text-right">
+            <a href="#">卫浴</a><a href="#">开关</a><a href="#">地板</a><a href="#">墙纸</a><a href="#">瓷砖</a><a href="#">更多 >></a>
+        </p>
+    </div>
+    <!-- floor_middle -->
+    <div class="floor_middle clearfix">
+        <!-- floor_middle_left -->
+        <div class="floor_m_l pull-left pr">
+            <div class="floor_m_l_t">
+                <h3 class="floor_m_t3">卡贝 恒温花洒</h3>
+                <h4 class="floor_m_t4">全铜加厚主体</h4>
+                <a href="#" class="floor_m_a">去看看 ></a>
             </div>
-            @endforeach
-            @foreach(app('tag')->ad(3,2) as $k => $c)
-            <div class="col-xs-7 @if($k == 1) mt5 @endif">
-            	<a href="{{ $c->url }}"><img src="{{ $c->thumb }}" alt="{{ $c->title }}" class="img-responsive"></a>
+            <div class="floor_m_l_b ps">
+                <a href="#"><img src="{{ $sites['static']}}home/images/ads/lc_1_l.png" class="img-responsive center-block ts_r ps" alt=""></a>
             </div>
-            @endforeach
-
-		</div>
-	</div>
-	<!-- 活动 -->
-	@if(app('tag')->hd(5)->count() > 0)
-	<div class="container-fluid mt10">
-		<h2 class="h_t mb10"><a href="{{ url('shop/hd/index') }}"><img src="{{ $sites['static']}}home/images/hd_t.png" class="img-responsive" alt=""></a></h2>
-		@foreach(app('tag')->hd(5) as $l)
-		<div class="hd_list_div pr">
-			<a href="{{ url('/shop/hd/list',['id'=>$l->id]) }}"><img src="{{ $l->thumb }}" class="img-responsive" alt=""></a>
-			<div class="hd_info clearfix">
-				<h4 class="hd_title text-nowarp"><a class="text-success" href="{{ url('/shop/hd/list',['id'=>$l->id]) }}">{{ $l->title }}</a></h4>
-				<p class="times">活动时间：{{ str_limit($l->starttime,10,'') }} 至 {{ str_limit($l->endtime,10,'') }}</p>
-			</div>
-		</div>
-		@endforeach
-	</div>
-	@endif
-	<!-- 团 -->
-	@if(app('tag')->tuan(6)->count() > 0)
-	<div class="container-fluid cate_list">
-		<h2 class="h_t"><img src="{{ $sites['static']}}home/images/tuan_t.png" class="img-responsive" alt=""></h2>
-		<div class="row good_list">
-			@foreach(app('tag')->tuan(6) as $l)
-			<div class="col-xs-6 pr">
-				<!-- 如果有标签，加标签 -->
-				@if($l->good->tags != '')
-				<div class="ps good_tag">
-					{{ $l->good->tags }}
-				</div>
-				@endif
-
-				<a href="{{ url('/shop/tuan',['tid'=>$l->id,'gid'=>$l->good_id]) }}" class="good_thumb"><img src="{{ $l->good->thumb }}" class="img-responsive" alt=""></a>
-				<div class="good_info clearfix">
-					<h4 class="good_title text-nowarp">
-					@if($l->good->isxs)
-					<span class="tags">限时</span>
-					@endif
-					@if($l->good->isxl)
-					<span class="tags">限量</span>
-					@endif
-					<a href="{{ url('/shop/tuan',['tid'=>$l->id,'gid'=>$l->good_id]) }}">{{ $l->title }}</a></h4>
-					<div class="row">
-						<div class="col-xs-9">
-							<p class="good_pric">会员价：<del class="good_pric_span">￥{{ $l->good->price }}</del></p>
-							<p class="good_pric">团购价：<strong class="good_pric_span color_2">￥{{ $l->prices }}</strong></p>
-						</div>
-						<div class="col-xs-3 lh3">
-							<a href="{{ url('/shop/tuan',['tid'=>$l->id,'gid'=>$l->good_id]) }}" class="glyphicon glyphicon-shopping-cart addcart">
-							</a>
-						</div>
-					</div>
-					<div class="text-warning fz12 good_tuan">开团至：{{ str_limit($l->endtime,10,'') }}</div>
-				</div>
-			</div>
-			@endforeach
-		</div>
-	</div>
-	@endif
-	<!-- 分类里的 -->
-	@foreach($cates as $c)
-	<div class="container-fluid cate_list">
-		<div class="row good_list">
-			@foreach(app('tag')->good($c->id,6) as $l)
-			<div class="col-xs-6 pr">
-				@if($l->tags != '')
-				<div class="ps good_tag">
-					{{ $l->tags }}
-				</div>
-				@endif
-				<a href="{{ url('/shop/good',['id'=>$l->id]) }}" class="good_thumb"><img src="{{ $l->thumb }}" class="img-responsive" alt=""></a>
-				<div class="good_info clearfix">
-					<h4 class="good_title text-nowarp">
-					@if($l->isxs)
-					<span class="tags">限时</span>
-					@endif
-					@if($l->isxl)
-					<span class="tags">限量</span>
-					@endif
-					<a href="{{ url('/shop/good',['id'=>$l->id]) }}">{{ $l->title }}</a></h4>
-					<div class="row">
-						<div class="col-xs-9">
-							<p class="good_pric">会员价：<strong class="good_pric_span color_2">￥{{ $l->price }}</strong></p>
-						</div>
-						<div class="col-xs-3 lh2">
-							<a href="{{ url('/shop/good',['id'=>$l->id]) }}" class="glyphicon glyphicon-shopping-cart addcart">
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			@endforeach
-		</div>
-		<a href="{{ url('/shop/goodlist',['id'=>$c->id]) }}" class="home_more mb10 text-center mt10 btn btn-default center-block">查看更多 >></a>
-	</div>
-	@endforeach
+        </div>
+        <div class="floor_m_r pull-right clearfix">
+            <div class="floor_banner pull-left overh pr">
+                <a href="#"><img src="{{ $sites['static']}}home/images/ads/lc_1_m.png" class="img-responsive center-block" alt=""></a>
+            </div>
+            <ul class="floor_list_good clearfix">
+                <li class="pr">
+                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img1.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_font ts_r">
+                        <h4 class="list_good_t4">普乐美水槽大单槽</h4>
+                        <p class="list_good_p">柔丝表面 加厚槽体</p>
+                        <p class="list_good_price">¥1189.00</p>
+                    </a>
+                    <span class="tags ps">最新上架</span>
+                </li>
+                <li class="pr">
+                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img2.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_font ts_r">
+                        <h4 class="list_good_t4">德式不锈钢P弯</h4>
+                        <p class="list_good_p">全铜主体 防臭防堵</p>
+                        <p class="list_good_price">¥89.00</p>
+                    </a>
+                </li>
+                <li class="pr">
+                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img3.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_font ts_r">
+                        <h4 class="list_good_t4">卡贝铝合金门锁</h4>
+                        <p class="list_good_p">晶钻工艺 多层电镀</p>
+                        <p class="list_good_price">¥189.00</p>
+                    </a>
+                </li>
+                <li class="pr">
+                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img4.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_font ts_r">
+                        <h4 class="list_good_t4">福田点开关 带LED灯</h4>
+                        <p class="list_good_p">精致入微 点滴设计</p>
+                        <p class="list_good_price">¥23.00</p>
+                    </a>
+                </li>
+                <li class="pr">
+                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img5.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_font ts_r">
+                        <h4 class="list_good_t4">拖把池龙头</h4>
+                        <p class="list_good_p">德系精工，优质全铜</p>
+                        <p class="list_good_price">¥55.00</p>
+                    </a>
+                </li>
+                <li class="pr">
+                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img6.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_font ts_r">
+                        <h4 class="list_good_t4">智洁釉马桶</h4>
+                        <p class="list_good_p">静音节水</p>
+                        <p class="list_good_price">¥1059.00</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- floor_bottom -->
+    <div class="floor_bottom clearfix">
+        <a href="#"><img src="{{ $sites['static']}}home/images/brand_1.png" class="img-responsive" alt=""></a>
+        <a href="#"><img src="{{ $sites['static']}}home/images/brand_2.png" class="img-responsive" alt=""></a>
+        <a href="#"><img src="{{ $sites['static']}}home/images/brand_3.png" class="img-responsive" alt=""></a>
+        <a href="#"><img src="{{ $sites['static']}}home/images/brand_4.png" class="img-responsive" alt=""></a>
+        <a href="#"><img src="{{ $sites['static']}}home/images/brand_5.png" class="img-responsive" alt=""></a>
+        <a href="#"><img src="{{ $sites['static']}}home/images/brand_6.png" class="img-responsive" alt=""></a>
+        <a href="#"><img src="{{ $sites['static']}}home/images/brand_7.png" class="img-responsive" alt=""></a>
+        <a href="#"><img src="{{ $sites['static']}}home/images/brand_8.png" class="img-responsive" alt=""></a>
+    </div>
+</section>
+<!-- like me -->
+<section class="like_me box clearfix overh">
+    <h2 class="like_t2">猜你喜欢<span class="iconfont icon-like"></span></h2>
+    <ul class="list_good_com clearfix mt20">
+        <li>
+            <a href="#" class="list_good_com_a">
+                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <p class="list_good_com_price">¥1059.00</p>
+                <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
+                <p class="list_good_com_p text-right">0人付款</p>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="list_good_com_a">
+                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <p class="list_good_com_price">¥1059.00</p>
+                <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
+                <p class="list_good_com_p text-right">0人付款</p>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="list_good_com_a">
+                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <p class="list_good_com_price">¥1059.00</p>
+                <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
+                <p class="list_good_com_p text-right">0人付款</p>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="list_good_com_a">
+                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <p class="list_good_com_price">¥1059.00</p>
+                <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
+                <p class="list_good_com_p text-right">0人付款</p>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="list_good_com_a">
+                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <p class="list_good_com_price">¥1059.00</p>
+                <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
+                <p class="list_good_com_p text-right">0人付款</p>
+            </a>
+        </li>
+    </ul>
+</section>
 	
-	
-@include('home.foot')
+
 @endsection

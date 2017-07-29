@@ -113,7 +113,7 @@ class GoodController extends BaseController
      * @param  string $catid [栏目ID]
      * @return [type]        [description]
      */
-    public function getAdd($id = '0')
+    public function getAdd()
     {
     	$title = '添加商品';
     	return view('admin.good.add',compact('title','id'));
@@ -132,7 +132,7 @@ class GoodController extends BaseController
                 $store = 0;
                 $tmp_spec = [];
                 foreach ($spec_item as $sk => $sv) {
-                    $tmp_spec[] = ['good_id'=>$id,'key'=>$sk,'key_name'=>$sv['key_name'],'price'=>$sv['price'],'store'=>$sv['store'],'created_at'=>$date,'updated_at'=>$date];
+                    $tmp_spec[] = ['good_id'=>$good->id,'key'=>$sk,'key_name'=>$sv['key_name'],'price'=>$sv['price'],'store'=>$sv['store'],'created_at'=>$date,'updated_at'=>$date];
                     $store += $sv['store'];
                 }
                 GoodSpecPrice::insert($tmp_spec);

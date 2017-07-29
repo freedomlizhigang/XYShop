@@ -46,6 +46,20 @@
                 <p class="input-info"><span class="color_red">*</span></p>
             </td>
         </tr>
+        
+        <tr>
+            <td class="td_left">产品规格：</td>
+            <td>
+                <div id="good_spec" class="form-group"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">产品属性：</td>
+            <td>
+                <div id="good_attr" class="form-group"></div>
+            </td>
+        </tr>
 
         <tr>
             <td class="td_left">市场价：</td>
@@ -185,41 +199,7 @@
             </td>
         </tr>
 
-        <tr>
-            <td class="td_left">产品规格：</td>
-            <td>
-                <div id="good_spec" class="form-group"></div>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">产品属性：</td>
-            <td>
-                <div id="good_attr" class="form-group"></div>
-            </td>
-        </tr>
-
-        <script>
-            $(function(){
-                // 修改产品分类时，取出对应的属性及规格
-                $('#catid').change(function() {
-                    var cid = $('#catid').val();
-                    var attr_url = "{{url('/console/good/goodattr')}}";
-                    var spec_url = "{{url('/console/good/goodspec')}}";
-                    var good_id = 0;
-                    // 属性
-                    $.get(attr_url,{'cid':cid,'good_id':good_id},function(d){
-                        $("#good_attr").html(d);
-
-                    });
-                    // 规格
-                    $.get(spec_url,{'cid':cid,'good_id':good_id},function(d){
-                        $("#good_spec").html(d);
-                        ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
-                    });
-                });
-            })
-        </script>
+        
 
         <tr>
             <td class="td_left">排序：</td>
@@ -249,6 +229,23 @@
 <script type="text/javascript">
     $(function(){
         get_goodcate(0,'catid_one',0);
+        // 修改产品分类时，取出对应的属性及规格
+        $('#catid').change(function() {
+            var cid = $('#catid').val();
+            var attr_url = "{{url('/console/good/goodattr')}}";
+            var spec_url = "{{url('/console/good/goodspec')}}";
+            var good_id = 0;
+            // 属性
+            $.get(attr_url,{'cid':cid,'good_id':good_id},function(d){
+                $("#good_attr").html(d);
+
+            });
+            // 规格
+            $.get(spec_url,{'cid':cid,'good_id':good_id},function(d){
+                $("#good_spec").html(d);
+                ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
+            });
+        });
     });
 </script>
 

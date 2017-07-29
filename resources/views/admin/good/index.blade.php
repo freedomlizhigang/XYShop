@@ -62,7 +62,7 @@
 		<td>{{ $a->id }}</td>
 		<td>
 			<img src="{{ $a->thumb }}" width="100" height="auto" class="img-responsive pull-left img-rounded mr10" alt="">
-			@if($a->is_pos == 0)
+			@if($a->is_pos == 1)
 			<span class="label label-danger">推荐</span>
 			@endif
 			@if($a->is_new == 1)

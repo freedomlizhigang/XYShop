@@ -49,6 +49,20 @@
         </tr>
 
         <tr>
+            <td class="td_left">产品规格：</td>
+            <td>
+                <div id="good_spec" class="form-group"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">产品属性：</td>
+            <td>
+                <div id="good_attr" class="form-group"></div>
+            </td>
+        </tr>
+
+        <tr>
             <td class="td_left">市场价：</td>
             <td>
                 <input type="text" name="data[market_price]" value="{{ $info->market_price }}" class="form-control input-sm">
@@ -187,20 +201,6 @@
         </tr>
 
         <tr>
-            <td class="td_left">产品规格：</td>
-            <td>
-                <div id="good_spec" class="form-group"></div>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">产品属性：</td>
-            <td>
-                <div id="good_attr" class="form-group"></div>
-            </td>
-        </tr>
-
-        <tr>
             <td class="td_left">排序：</td>
             <td>
                 <input type="text" name="data[sort]" value="{{ $info->sort }}" class="form-control input-xs">
@@ -249,16 +249,16 @@
         });
 
         // 初始化属性及规格
-        var cid = $('#catid').val();
+        var init_cid = "{{ $info->cate_id }}";
         var attr_url = "{{url('/console/good/goodattr')}}";
         var spec_url = "{{url('/console/good/goodspec')}}";
-        var good_id = $("input[name='goods_id']").val();
+        var good_id = "{{ $info->id }}";
         // 属性
-        $.get(attr_url,{'cid':cid,'good_id':good_id},function(d){
+        $.get(attr_url,{'cid':init_cid,'good_id':good_id},function(d){
             $("#good_attr").html(d);
         });
         // 规格
-        $.get(spec_url,{'cid':cid,'good_id':good_id},function(d){
+        $.get(spec_url,{'cid':init_cid,'good_id':good_id},function(d){
             $("#good_spec").html(d);
             ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
         });

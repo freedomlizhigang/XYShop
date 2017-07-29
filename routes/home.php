@@ -16,7 +16,10 @@ Route::get('/data','DataController@index');
 
 // Home PC版
 Route::group(['namespace' => 'Home'],function(){
-    Route::get('/','HomeController@index');
+    // 首页
+    Route::get('/','HomeController@getIndex');
+    // 分类页面
+    Route::get('list/{id}','HomeController@getList');
     Route::get('/search','HomeController@getSearch');
     Route::get('/cate/{url}','HomeController@getCate');
     Route::get('/post/{url}','HomeController@getPost');
