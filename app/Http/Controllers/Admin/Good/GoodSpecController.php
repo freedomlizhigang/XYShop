@@ -90,13 +90,13 @@ class GoodSpecController extends BaseController
                 if(!in_array(trim($val->item), $items))
                 {
                     // 找出来正使用的规格的商品ID
-                    $goods = GoodSpecPrice::where('key','like','%_'.$val->id.'_%')->get();
+                    $goods = GoodSpecPrice::where('item_id','like','%_'.$val->id.'_%')->get();
                     // 减库存
                     foreach ($goods as $g) {
                         Good::where('id',$g->good_id)->decrement('store',$g->store);
                     }
                     // 删除正在使用的规格
-                    GoodSpecPrice::whereIn('key',$goods->pluck('key'))->delete();
+                    GoodSpecPrice::whereIn('item_id',$goods->pluck('item_id'))->delete();
                     GoodSpecItem::where('id',$val->id)->delete();
 
                 }
@@ -116,7 +116,7 @@ class GoodSpecController extends BaseController
     	// 先查有没有过着的，有，不让删除
         $keys = GoodSpecItem::where('good_spec_id',$id)->pluck('id');
         foreach ($keys as $k) {
-            if (!is_null(GoodSpecPrice::where('key','like','%_'.$k.'_%')->first())) {
+            if (!is_null(GoodSpecPrice::where('item_id','like','%_'.$k.'_%')->first())) {
                 return back()->with('message', '商品规格正在使用中，不可删除！');
             }
         }

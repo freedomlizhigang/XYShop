@@ -61,19 +61,6 @@ class Good extends Model
         $one_id = explode(',', $one_id)[1];
         return $one_id;
     }
-    
-    // 价格
-    public function getPriceAttribute($v)
-    {
-        if ($this->goodspecprice->count() > 0) {
-            $prices = $this->goodspecprice->min('price');
-        }
-        else
-        {
-            $prices = $this->attributes['shop_price'];
-        }
-        return $prices;
-    }
 
 
     // 购物车

@@ -30,6 +30,12 @@ class GoodCate extends Model
      */
     public $timestamps = true;
 
+    // url
+    public function getUrlAttribute()
+    {
+        return url('list',['id'=>$this->attributes['id']]);
+    }
+
     // 属性值
     public function good()
     {

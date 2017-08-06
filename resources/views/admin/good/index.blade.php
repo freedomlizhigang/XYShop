@@ -73,11 +73,11 @@
 			@endif
 			{{ $a->title }}
 			@foreach($a->goodspecprice as $gp)
-			<br /><span class="label label-info">{{ $gp->key_name }}</span>
+			<br /><span class="label label-info">{{ $gp->item_name }}</span>
 			@endforeach
 		</td>
 		<td>{{ isset(cache('goodcateCache')[$a->cate_id]) ? cache('goodcateCache')[$a->cate_id]['name'] : '' }}</td>
-		<td>{{ $a->price }}￥</td>
+		<td>{{ $a->shop_price }}￥</td>
 		<td>{{ $a->store }}</td>
 		<td>
 			@if($a->status == 1)
@@ -130,7 +130,7 @@
 	<!-- 分页，appends是给分页添加参数 -->
 	<div class="pull-right">
 		<div class="pull-left mr10 mt5">总共 {{ $count }} 条</div>
-		{!! $list->appends(['q'=>$key,'status'=>$status,'starttime'=>$starttime,'endtime'=>$endtime])->links() !!}
+		{!! $list->appends(['q'=>$key,'status'=>$status,'starttime'=>$starttime,'endtime'=>$endtime,'cate_id'=>$cate_id,'sort'=>$sort])->links() !!}
 	</div>
 </div>
 

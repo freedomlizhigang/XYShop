@@ -9,7 +9,7 @@ use App\Models\Good\GoodSpec;
 use App\Models\Good\GoodSpecItem;
 use App\Models\Good\GoodSpecPrice;
 use App\Models\Good\GoodsAttr;
-
+use DB;
 
 class GoodSelect
 {
@@ -51,12 +51,12 @@ class GoodSelect
         $old_spec = [];
         $tmp_spec = '';
         if (isset($filter_param['spec'])) {
-            $old_spec = GoodSpecItem::whereIn('id',explode('.',$filter_param['spec']))->pluck('good_spec_id')->toArray();
+            $old_spec = GoodSpecItem::whereIn('id',explode('@',$filter_param['spec']))->pluck('good_spec_id')->toArray();
             $old_spec = array_unique($old_spec);
             $tmp_spec = $filter_param['spec'];
         }
         // 找出来所有此分类下的可筛选规格
-        $all_spec = GoodSpecPrice::whereIn('good_id',$goods_id_arr)->pluck('key')->toArray();
+        $all_spec = GoodSpecPrice::whereIn('good_id',$goods_id_arr)->pluck('item_id')->toArray();
         foreach ($all_spec as $k => $v) {
             $all_spec[$k] = trim($v,'_');
         }
@@ -70,7 +70,7 @@ class GoodSelect
             {
                 // 筛选参数
                 if (!empty($tmp_spec))
-                    $filter_param['spec'] = $tmp_spec . '.' . $vv['id'];
+                    $filter_param['spec'] = $tmp_spec . '@' . $vv['id'];
                 else
                     $filter_param['spec'] = $vv['id'];
 
@@ -107,7 +107,7 @@ class GoodSelect
         // 复合取可用筛选值
         foreach ($goods_attr as $k => $v) {
             // 存在的筛选不再显示
-            if (strpos($old_attr, $v['good_attr_id'] . '_') === 0 || strpos($old_attr, '.' . $v['good_attr_id'] . '_'))
+            if (strpos($old_attr, $v['good_attr_id'] . '_') === 0 || strpos($old_attr, '@' . $v['good_attr_id'] . '_'))
                 continue;
 
             // 如果属性值 是数组 说明是多选
@@ -126,7 +126,7 @@ class GoodSelect
 
                     // 筛选参数
                     if (!empty($old_attr))
-                        $filter_param['attr'] = $old_attr . '.' . $v['good_attr_id'] . '_' . $vv;
+                        $filter_param['attr'] = $old_attr . '@' . $v['good_attr_id'] . '_' . $vv;
                     else
                         $filter_param['attr'] = $v['good_attr_id'] . '_' . $vv;
 
@@ -148,7 +148,7 @@ class GoodSelect
 
                 // 筛选参数
                 if (!empty($old_attr))
-                    $filter_param['attr'] = $old_attr . '.' . $v['good_attr_id'] . '_' . $v['good_attr_value'];
+                    $filter_param['attr'] = $old_attr . '@' . $v['good_attr_id'] . '_' . $v['good_attr_value'];
                 else
                     $filter_param['attr'] = $v['good_attr_id'] . '_' . $v['good_attr_value'];
 
@@ -213,16 +213,20 @@ class GoodSelect
 	 * @param $spec|规格
 	 * @return array|\type
 	 */
-	public function getGoodsIdBySpec($spec)
+	public function getGoodsIdBySpec($spec,$filter_goods_id)
 	{
 	    if (empty($spec))
 	        return array();
-	    $spec_group = explode('.', $spec);
-	    $like = [];
+	    $spec_group = explode('@', $spec);
+	    $where = [];
 	    foreach ($spec_group as $k => $v) {
-            $like[] = "_".$v."_";
+            $where[] = " item_id like '%\_".$v."\_%' ";
 	    }
-	    $arr = GoodSpecPrice::whereIn('key',$like)->pluck('good_id')->toArray();
+        $where = implode('or',$where);
+        $gids = implode(',',$filter_goods_id);
+        $arr = DB::select("select good_id,item_id from li_good_spec_price where good_id in ($gids) and ".$where);
+        $arr = collect($arr)->pluck('good_id')->toArray();
+        // dump($arr);
 	    return array_unique($arr);
 	}
 
@@ -232,26 +236,57 @@ class GoodSelect
 	 * 根据属性 查找 商品id
 	 * 59_直板_翻盖
 	 * 80_BT4.0_BT4.1
+     * 效率多少有点问题，问题不大
 	 */
-	public function getGoodsIdByAttr($attr)
+	public function getGoodsIdByAttr($attr,$filter_goods_id)
 	{
 	    if (empty($attr))
 	        return array();
-	    $attr_group = explode('.', $attr);
-	    $arr = GoodsAttr::whereIn('good_attr_id',$attr_group)->pluck('good_id')->toArray();
-	    return array_unique($arr);
+	    $attr_group = explode('@', $attr);
+        $attr_ids = $attr_vals = [];
+        $arr = [];
+        foreach ($attr_group as $k) {
+            $attr_tmp = explode('_',$k);
+            $attr_ids = array_shift($attr_tmp);
+            $attr_vals = json_encode($attr_tmp[0]);
+            if (count($arr) == 0) {
+                $arr = GoodsAttr::whereIn('good_id',$filter_goods_id)->where('good_attr_id',$attr_ids)->where('good_attr_value',$attr_vals)->pluck('good_id')->unique()->toArray();
+            }
+            else
+            {
+                $arr = array_intersect($filter_goods_id,$arr);
+                $arr = GoodsAttr::whereIn('good_id',$arr)->where('good_attr_id',$attr_ids)->where('good_attr_value',$attr_vals)->pluck('good_id')->unique()->toArray();
+            }
+            // dump($arr);
+        }
+	    return $arr;
 	}
+    // 这个会选出多个
+    public function getGoodsIdByAttr22($attr,$filter_goods_id)
+    {
+        if (empty($attr))
+            return array();
+        $attr_group = explode('@', $attr);
+        $attr_ids = $attr_vals = [];
+        foreach ($attr_group as $k) {
+            $attr_tmp = explode('_',$k);
+            $attr_ids[] = array_shift($attr_tmp);
+            $attr_vals[] = json_encode($attr_tmp[0]);
+        }
+        $arr = GoodsAttr::whereIn('good_attr_id',$attr_ids)->whereIn('good_attr_value',$attr_vals)->pluck('good_id')->unique()->toArray();
+        return $arr;
+    }
 	/**
 	 * @param  $brand_id|筛选品牌id
 	 * @param  $price|筛选价格
 	 * @return array|mixed
 	 */
-	public function getGoodsIdByBrandPrice($brand_id, $price)
+	public function getGoodsIdByBrandPrice($brand_id, $price,$filter_goods_id)
 	{
 	    if (empty($brand_id) && empty($price))
 	        return array();
 
-	    $arr = Good::where(function($q) use($brand_id){
+	    $arr = Good::whereIn('id',$filter_goods_id)->where(function($q) use($brand_id){
 	    		if (!empty($brand_id)) {
 	    			$q->whereIn('brand_id',explode('_',$brand_id));
     			}	
@@ -263,5 +298,81 @@ class GoodSelect
     		})->where('status',1)->pluck('id')->toArray();
 	    return $arr;
 	}
+
+    /**
+     * 筛选条件菜单
+     * @param $filter_param
+     * @param $action
+     * @return array
+     */
+    public function get_filter_menu($filter_param, $action)
+    {
+        $menu_list = array();
+        // 品牌
+        if (!empty($filter_param['brand_id'])) {
+            $brand_list = Brand::select('id','name')->get()->keyBy('id');
+            $brand_id = explode('@', $filter_param['brand_id']);
+            $brand['text_b'] = "品牌";
+            foreach ($brand_id as $k => $v) {
+                $brand['text_em'] = $brand_list[$v]['name'] . ',';
+            }
+            $brand['text_em'] = substr($brand['text_em'], 0, -1);
+            $tmp = $filter_param;
+            unset($tmp['brand_id']); // 当前的参数不再带入
+            $brand['href'] = urldecode(url($action).'?'.http_build_query($tmp));
+            $menu_list[] = $brand;
+        }
+        // 规格
+        if (!empty($filter_param['spec'])) {
+            $spec = GoodSpec::select('id','name')->get()->keyBy('id')->toArray();
+            $spec_item = GoodSpecItem::select('id','good_spec_id','item')->get()->keyBy('id')->toArray();
+            $spec_group = explode('@', $filter_param['spec']);
+            foreach ($spec_group as $k => $v) {
+                $spec_group2 = explode('_', $v);
+                $spec_menu['text_b'] = $spec[$spec_item[$v]['good_spec_id']]['name'];
+                foreach ($spec_group2 as $k2 => $v2) {
+                    $spec_menu['text_em'] = $spec_item[$v2]['item'] . ',';
+                }
+                $spec_menu['text_em'] = substr($spec_menu['text_em'], 0, -1);
+                $tmp = $spec_group;
+                $tmp2 = $filter_param;
+                unset($tmp[$k]);
+                $tmp2['spec'] = implode('@', $tmp); // 当前的参数不再带入
+                $spec_menu['href'] = urldecode(url($action).'?'.http_build_query($tmp2));
+                $menu_list[] = $spec_menu;
+            }
+        }
+        // 属性
+        if (!empty($filter_param['attr'])) {
+            $goods_attribute = GoodAttr::select('id','name')->get()->keyBy('id')->toArray();
+            $attr_group = explode('@', $filter_param['attr']);
+            foreach ($attr_group as $k => $v) {
+                $attr_group2 = explode('_', $v);
+                $attr_menu['text_b'] = $goods_attribute[$attr_group2[0]]['name'];
+                array_shift($attr_group2); // 弹出第一个规格名称
+                foreach ($attr_group2 as $k2 => $v2) {
+                    $attr_menu['text_em'] = $v2 . ',';
+                }
+                $attr_menu['text_em'] = substr($attr_menu['text_em'], 0, -1);
+
+                $tmp = $attr_group;
+                $tmp2 = $filter_param;
+                unset($tmp[$k]);
+                $tmp2['attr'] = implode('@', $tmp); // 当前的参数不再带入
+                $attr_menu['href'] = urldecode(url($action).'?'.http_build_query($tmp2));
+                $menu_list[] = $attr_menu;
+            }
+        }
+        // 价格
+        if (!empty($filter_param['price'])) {
+            $price_menu['text_b'] = "价格";
+            $price_menu['text_em'] = $filter_param['price'];
+            unset($filter_param['price']);
+            $price_menu['href'] = urldecode(url($action).'?'.http_build_query($filter_param));
+            $menu_list[] = $price_menu;
+        }
+
+        return $menu_list;
+    }
 	
 }

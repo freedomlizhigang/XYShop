@@ -371,7 +371,7 @@ a:hover {color:$color_main !important;}
 			.crumbs_link {font-size: 18px; line-height: 20px; height:20px; margin-top: -2px;font-weight: 600;}
 		}
 		.selector_set {
-			border:$color_e1 solid 1px; padding:2px 5px; margin-top: -2px;
+			border:$color_e1 solid 1px; padding:2px 5px; margin-top: -2px; height:26px; overflow: hidden;
 			em,i {color:$color_main;}
 			i.iconfont {float: right; margin:-2px -5px 0 3px; height:24px; line-height: 24px; padding:0 3px;}
 			&:hover {
@@ -425,14 +425,15 @@ a:hover {color:$color_main !important;}
 			.ss_brand_list {
 				margin:10px 0;
 				li {
-					float: left; border: 1px solid $color_e1; margin: -1px -1px 0 0; width:120px;height:63px;overflow: hidden;line-height: 63px; font-size: 14px;
+					float: left; border: 1px solid $color_e1; margin: -1px -1px 0 0; width:120px; height:64px; padding:12px 0px; overflow: hidden; line-height: 40px; font-size: 0;
 					&:hover {
 						border-color:$color_main;position: relative;z-index: 5;
 						a img {display: none;}
 					}
 					a {
-						border-right:#FFF solid 1px;margin-right: 0; text-align: center;
+						border-right:#FFF solid 1px; margin-right: 0; text-align: center;
 					}
+					p {font-size: 14px; padding:0px;}
 				}
 			}
 		}
@@ -457,12 +458,18 @@ a:hover {color:$color_main !important;}
 					&.active {border-color: $color_main; background-color: $color_main; color:#FFF !important; }
 				}
 			}
+			.ss_sort_page {
+				a,span {float: left; display: inline-block; line-height: 24px; padding:0px 8px; background-color: #FFF; border:$color_e1 solid 1px; margin: 8px -1px -1px 0;cursor: pointer;
+				}
+				a:hover { border-color: $color_main; color:$color_main !important; z-index: 1; position: relative;}
+			}
 			.good_list_1 {
 				margin-top: 10px;
 				.gl_wp_item {
 					width:247.5px; float: left;
 					.gl_wp_wrap {
 						padding:20px 9px 10px; border:#fff solid 1px; -webkit-transition: border-color .1s ease; -moz-transition: border-color .1s ease; transition: border-color .1s ease;
+						a.gl_wp_item_img {width:228px;height: 228px;}
 						&:hover {
 							border-color: #e9e9e9; box-shadow:0 0 2px 2px #f8f8f8; 
 						}

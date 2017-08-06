@@ -49,64 +49,56 @@
 <!-- crumbs -->
 <div class="crumbs_bar box clearfix">
 	<div class="crumbs_nav_item one_level">
-		<a href="#" class="crumbs_link">家用电器</a>
+		<a href="{{ $cinfo->url }}" class="crumbs_link">{{ $cinfo->name }}</a>
 		<i class="crumbs_arrow">></i>
 	</div>
+	<!-- 二级目录 -->
+	@if($cate_2_info != '')
 	<div class="crumbs_nav_item">
 		<div class="crumbs_drop pr">
 			<div class="crumbs_drop_title pr">
-				<a href="#" class="crumbs_link">大家电 <i class="iconfont pull-right icon-unfold"></i></a>
+				<a href="{{ $cate_2_info->url }}" class="crumbs_link">{{ $cate_2_info->name }} <i class="iconfont pull-right icon-unfold"></i></a>
 				<i class="crumbs_arrow">></i>
 			</div>
 			<div class="crumbs_drop_main ps">
 				<ul class="crumbs_list">
-					<li><a href="#">厨卫大电</a></li>
-					<li><a href="#">大 家 电</a></li>
-					<li><a href="#">厨房小电</a></li>
-					<li><a href="#">生活电器</a></li>
-					<li><a href="#">个护健康</a></li>
-					<li><a href="#">商用电器</a></li>
+					@foreach($cate_2 as $c)
+					<li><a href="{{ $c->url }}">{{ $c->name }}</a></li>
+					@endforeach
 				</ul>
 			</div>
 		</div>
 	</div>
+	@endif
+	<!-- 三级目录 -->
+	@if($cate_3_info != '')
 	<div class="crumbs_nav_item">
 		<div class="crumbs_drop pr">
 			<div class="crumbs_drop_title pr">
-				<a href="#" class="crumbs_link">平板电视 <i class="iconfont pull-right icon-unfold"></i></a>
+				<a href="{{ $cate_3_info->url }}" class="crumbs_link">{{ $cate_3_info->name }} <i class="iconfont pull-right icon-unfold"></i></a>
 				<i class="crumbs_arrow">></i>
 			</div>
 			<div class="crumbs_drop_main ps">
 				<ul class="crumbs_list">
-					<li><a href="#">平板电视</a></li>
-					<li><a href="#">空调</a></li>
-					<li><a href="#">中央空调</a></li>
-					<li><a href="#">冰箱</a></li>
-					<li><a href="#">洗衣机</a></li>
-					<li><a href="#">家庭影院</a></li>
-					<li><a href="#">DVD/电视盒子</a></li>
-					<li><a href="#">迷你音响</a></li>
-					<li><a href="#">冷柜/冰吧</a></li>
-					<li><a href="#">家电配件</a></li>
-					<li><a href="#">功放</a></li>
-					<li><a href="#">回音壁/Soundbar</a></li>
-					<li><a href="#">Hi-Fi专区</a></li>
-					<li><a href="#">电视盒子</a></li>
-					<li><a href="#">酒柜</a></li>
+					@foreach($cate_3 as $c)
+					<li><a href="{{ $c->url }}">{{ $c->name }}</a></li>
+					@endforeach
 				</ul>
 			</div>
 		</div>
-
 	</div>
+	@endif
 	<!-- select -->
-	<div class="crumbs_nav_item">
-		<div class="selector_set">
-			<a href="#" class="ss_item">
-				<b>电视类型：</b>
-				<em>曲面电视</em>
+	<div class="crumbs_nav_item clearfix">
+		@foreach($filter_menu as $m)
+		<div class="selector_set pull-left mr5">
+			<a href="{{ $m['href'] }}" class="ss_item">
+				<b>{{ $m['text_b'] }}：</b>
+				<em>{{ $m['text_em'] }}</em>
 				<i class="iconfont icon-close"></i>
 			</a>
 		</div>
+		@endforeach
 	</div>
 	<div class="crumbs_nav_item clear_selected">
 		<a href="#">清空筛选</a>
@@ -116,8 +108,8 @@
 <section class="box clearfix ss_wrap">
 	<!-- ss_title -->
 	<div class="ss_title clearfix overh">
-		<h3 class="ss_title_t3"><b>平板电视</b><em>商品筛选</em></h3>
-		<div class="ss_text">共 43 个商品</div>
+		<h3 class="ss_title_t3"><b>{{ $cinfo->name }}</b><em>商品筛选</em></h3>
+		<div class="ss_text">共 {{ $count }} 个商品</div>
 	</div>
 	<!-- selector start -->
 	<!-- 品牌 -->
@@ -132,7 +124,7 @@
 				<li>
 					<a href="{{ $v['href'] }}">
 						<img src="{{ $v['icon'] }}" class="img-responsive" alt="{{ $v['name'] }}">
-						{{ $v['name'] }}（{{ $v['describe'] }}）
+						<p>{{ $v['name'] }}（{{ $v['describe'] }}）</p>
 					</a>
 				</li>
 			@endforeach
@@ -204,43 +196,34 @@
 			<!-- ss_sort -->
 			<div class="ss_sort clearfix">
 				<div class="ss_sort_left pull-left">
-					<a href="#" class="ss_sort_all active">综合</a>
-					<a href="#" class="ss_sort_sale">销量</a>
-					<a href="#" class="clearfix ss_sortprice">价格<i class="iconfont icon-order pull-right"></i></a>
-					<a href="#" class="ss_sort_comments">评论数</a>
-					<a href="#" class="ss_sort_time">上架时间</a>
+					<a href="{{ urldecode(url("list/$cid").'?'.http_build_query(array_merge($filter_param,['sort'=>'sort']))) }}" class="ss_sort_all @if($sort == 'sort' || $sort == '') active @endif">综合</a>
+					<a href="{{ urldecode(url("list/$cid").'?'.http_build_query(array_merge($filter_param,['sort'=>'sale']))) }}" class="ss_sort_sale @if($sort == 'sale') active @endif">销量</a>
+					
+					@if($sort_asc == 'desc')
+					<a href="{{ urldecode(url("list/$cid").'?'.http_build_query(array_merge($filter_param,['sort'=>'price','sort_asc'=>'asc']))) }}" class="clearfix ss_sortprice @if($sort == 'price') active @endif">价格<i class="iconfont icon-order pull-right"></i></a>
+					@else
+					<a href="{{ urldecode(url("list/$cid").'?'.http_build_query(array_merge($filter_param,['sort'=>'price','sort_asc'=>'desc']))) }}" class="clearfix ss_sortprice @if($sort == 'price') active @endif">价格<i class="iconfont icon-order pull-right"></i></a>
+					@endif
+
+					<a href="{{ urldecode(url("list/$cid").'?'.http_build_query(array_merge($filter_param,['sort'=>'comment']))) }}" class="ss_sort_comments @if($sort == 'comment') active @endif">评论数</a>
+					<a href="{{ urldecode(url("list/$cid").'?'.http_build_query(array_merge($filter_param,['sort'=>'times']))) }}" class="ss_sort_time @if($sort == 'times') active @endif">上架时间</a>
 				</div>
 				<div class="ss_sort_page pull-right">
-					
+					{!! $list->appends($filter_param)->links('home.pages') !!}
 				</div>
 			</div>
 			<!-- ul.wrap -->
 			<div class="good_list_1 clearfix">
 				<ul class="gl_wrap clearfix">
-					<li class="gl_wp_item active">
-						<div class="gl_wp_wrap">
-							<a href="#" class="center-block"><img src="{{ $sites['static']}}home/images/1.jpg" class="img-responsive center-block" alt=""></a>
-							<p class="gl_item_price"><em>￥</em><i>2899.00</i></p>
-							<p class="gl_item_title">
-								<a href="#">
-									<em>飞利浦（PHILIPS）55PUF6092/T3 55英寸 64位九核4K超高清智能液晶平板电视机（银灰色京东微联APP控制）</em>
-									<i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i>
-								</a>
-							</p>
-							<p class="gl_item_btns row btn-group">
-								<a href="#" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
-								<a href="#" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
-							</p>
-						</div>
-					</li>
+					@foreach($list as $l)
 					<li class="gl_wp_item">
 						<div class="gl_wp_wrap">
-							<a href="#" class="center-block"><img src="{{ $sites['static']}}home/images/2.jpg" class="img-responsive center-block" alt=""></a>
-							<p class="gl_item_price"><em>￥</em><i>2899.00</i></p>
+							<a href="#" class="gl_wp_item_img center-block overh"><img src="{{ $l->thumb }}" width="300" height="300" class="img-responsive center-block" alt="{{ $l->title }}"></a>
+							<p class="gl_item_price"><em>￥</em><i>{{ $l->shop_price }}</i></p>
 							<p class="gl_item_title">
 								<a href="#">
-									<em>飞利浦（PHILIPS）55PUF6092/T3 55英寸 64位九核4K超高清智能液晶平板电视机（银灰色京东微联APP控制）</em>
-									<i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i>
+									<em>{{ $l->title }}</em>
+									<!-- <i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i> -->
 								</a>
 							</p>
 							<p class="gl_item_btns row btn-group">
@@ -249,103 +232,11 @@
 							</p>
 						</div>
 					</li>
-					<li class="gl_wp_item">
-						<div class="gl_wp_wrap">
-							<a href="#" class="center-block"><img src="{{ $sites['static']}}home/images/3.jpg" class="img-responsive center-block" alt=""></a>
-							<p class="gl_item_price"><em>￥</em><i>2899.00</i></p>
-							<p class="gl_item_title">
-								<a href="#">
-									<em>飞利浦（PHILIPS）55PUF6092/T3 55英寸 64位九核4K超高清智能液晶平板电视机（银灰色京东微联APP控制）</em>
-									<i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i>
-								</a>
-							</p>
-							<p class="gl_item_btns row btn-group">
-								<a href="#" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
-								<a href="#" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
-							</p>
-						</div>
-					</li>
-					<li class="gl_wp_item">
-						<div class="gl_wp_wrap">
-							<a href="#" class="center-block"><img src="{{ $sites['static']}}home/images/4.jpg" class="img-responsive center-block" alt=""></a>
-							<p class="gl_item_price"><em>￥</em><i>2899.00</i></p>
-							<p class="gl_item_title">
-								<a href="#">
-									<em>飞利浦（PHILIPS）55PUF6092/T3 55英寸 64位九核4K超高清智能液晶平板电视机（银灰色京东微联APP控制）</em>
-									<i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i>
-								</a>
-							</p>
-							<p class="gl_item_btns row btn-group">
-								<a href="#" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
-								<a href="#" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
-							</p>
-						</div>
-					</li>
-					<li class="gl_wp_item">
-						<div class="gl_wp_wrap">
-							<a href="#" class="center-block"><img src="{{ $sites['static']}}home/images/5.jpg" class="img-responsive center-block" alt=""></a>
-							<p class="gl_item_price"><em>￥</em><i>2899.00</i></p>
-							<p class="gl_item_title">
-								<a href="#">
-									<em>飞利浦（PHILIPS）55PUF6092/T3 55英寸 64位九核4K超高清智能液晶平板电视机（银灰色京东微联APP控制）</em>
-									<i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i>
-								</a>
-							</p>
-							<p class="gl_item_btns row btn-group">
-								<a href="#" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
-								<a href="#" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
-							</p>
-						</div>
-					</li>
-					<li class="gl_wp_item">
-						<div class="gl_wp_wrap">
-							<a href="#" class="center-block"><img src="{{ $sites['static']}}home/images/6.jpg" class="img-responsive center-block" alt=""></a>
-							<p class="gl_item_price"><em>￥</em><i>2899.00</i></p>
-							<p class="gl_item_title">
-								<a href="#">
-									<em>飞利浦（PHILIPS）55PUF6092/T3 55英寸 64位九核4K超高清智能液晶平板电视机（银灰色京东微联APP控制）</em>
-									<i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i>
-								</a>
-							</p>
-							<p class="gl_item_btns row btn-group">
-								<a href="#" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
-								<a href="#" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
-							</p>
-						</div>
-					</li>
-					<li class="gl_wp_item">
-						<div class="gl_wp_wrap">
-							<a href="#" class="center-block"><img src="{{ $sites['static']}}home/images/7.jpg" class="img-responsive center-block" alt=""></a>
-							<p class="gl_item_price"><em>￥</em><i>2899.00</i></p>
-							<p class="gl_item_title">
-								<a href="#">
-									<em>飞利浦（PHILIPS）55PUF6092/T3 55英寸 64位九核4K超高清智能液晶平板电视机（银灰色京东微联APP控制）</em>
-									<i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i>
-								</a>
-							</p>
-							<p class="gl_item_btns row btn-group">
-								<a href="#" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
-								<a href="#" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
-							</p>
-						</div>
-					</li>
-					<li class="gl_wp_item">
-						<div class="gl_wp_wrap">
-							<a href="#" class="center-block"><img src="{{ $sites['static']}}home/images/3.jpg" class="img-responsive center-block" alt=""></a>
-							<p class="gl_item_price"><em>￥</em><i>2899.00</i></p>
-							<p class="gl_item_title">
-								<a href="#">
-									<em>飞利浦（PHILIPS）55PUF6092/T3 55英寸 64位九核4K超高清智能液晶平板电视机（银灰色京东微联APP控制）</em>
-									<i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i>
-								</a>
-							</p>
-							<p class="gl_item_btns row btn-group">
-								<a href="#" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
-								<a href="#" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
-							</p>
-						</div>
-					</li>
+					@endforeach
 				</ul>
+				<div class="pages pull-right">
+					{!! $list->appends($filter_param)->links() !!}
+				</div>
 			</div>
 		</div>
 		<!-- aside -->

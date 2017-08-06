@@ -132,11 +132,11 @@ class GoodController extends BaseController
                 $store = 0;
                 $tmp_spec = [];
                 foreach ($spec_item as $sk => $sv) {
-                    $tmp_spec[] = ['good_id'=>$good->id,'key'=>$sk,'key_name'=>$sv['key_name'],'price'=>$sv['price'],'store'=>$sv['store'],'created_at'=>$date,'updated_at'=>$date];
+                    $tmp_spec[] = ['good_id'=>$good->id,'item_id'=>$sk,'item_name'=>$sv['item_name'],'price'=>$sv['price'],'store'=>$sv['store'],'created_at'=>$date,'updated_at'=>$date];
                     $store += $sv['store'];
                 }
                 GoodSpecPrice::insert($tmp_spec);
-                Good::where('id',$good->id)->update(['store'=>$store]);
+                Good::where('id',$good->id)->update(['store'=>$store,'shop_price'=>$tmp_spec[0]['price']]);
             }
             $good_attr = $res->input('good_attr');
             // 属性对应的值
@@ -154,7 +154,8 @@ class GoodController extends BaseController
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return back()->with('message','添加失败，请稍后再试！');
+            return $this->ajaxReturn(0,$e->getMessage());
+            // return back()->with('message','添加失败，请稍后再试！');
         }
     }
 
@@ -186,11 +187,11 @@ class GoodController extends BaseController
                 $store = 0;
                 $tmp_spec = [];
                 foreach ($spec_item as $sk => $sv) {
-                    $tmp_spec[] = ['good_id'=>$id,'key'=>$sk,'key_name'=>$sv['key_name'],'price'=>$sv['price'],'store'=>$sv['store'],'created_at'=>$date,'updated_at'=>$date];
+                    $tmp_spec[] = ['good_id'=>$id,'item_id'=>$sk,'item_name'=>$sv['item_name'],'price'=>$sv['price'],'store'=>$sv['store'],'created_at'=>$date,'updated_at'=>$date];
                     $store += $sv['store'];
                 }
                 GoodSpecPrice::insert($tmp_spec);
-                Good::where('id',$id)->update(['store'=>$store]);
+                Good::where('id',$id)->update(['store'=>$store,'shop_price'=>$tmp_spec[0]['price']]);
             }
             $good_attr = $res->input('good_attr');
             // 属性对应的值
@@ -203,7 +204,7 @@ class GoodController extends BaseController
                 GoodsAttr::insert($tmp_attr);
             }
             // 同步修改购物车里的价格
-            $good_spec_names = GoodSpecPrice::where('good_id',$id)->get()->keyBy('key_name')->toArray();
+            $good_spec_names = GoodSpecPrice::where('good_id',$id)->get()->keyBy('item_name')->toArray();
             $carts = Cart::where('good_id',$id)->get();
             foreach ($carts as $k => $v) {
                 if ($v->good_spec_name != '' && isset($good_spec_names[$v->good_spec_name])) {
@@ -351,7 +352,7 @@ class GoodController extends BaseController
         $good_id = $req->good_id;
         $list = GoodSpec::with('goodspecitem')->where('good_cate_id',$cid)->orderBy('id','asc')->get();
         // 查出来所有的规格ID
-        $items_id = GoodSpecPrice::where('good_id',$good_id)->pluck('key');
+        $items_id = GoodSpecPrice::where('good_id',$good_id)->pluck('item_id');
         $items_ids = [];
         $items_id = $items_id->unique();
         foreach ($items_id as $t) {
@@ -398,7 +399,7 @@ class GoodController extends BaseController
                        
             $spec = GoodSpec::select('id','name')->get()->keyBy('id')->toArray(); // 规格表
             $specItem = GoodSpecItem::get()->keyBy('id')->toArray();    //规格项
-            $keySpecGoodsPrice = GoodSpecPrice::where('good_id',$goods_id)->select('key','key_name','price','store')->get()->keyBy('key')->toArray();//规格项
+            $keySpecGoodsPrice = GoodSpecPrice::where('good_id',$goods_id)->select('item_id','item_name','price','store')->get()->keyBy('item_id')->toArray();//规格项
 
            $str = "<table class='table table-bordered' id='spec_input_tab'>";
            $str .="<tr>";       
@@ -430,7 +431,7 @@ class GoodController extends BaseController
                 $keySpecGoodsPrice[$item_key]['store'] = isset($keySpecGoodsPrice[$item_key]['store']) ? $keySpecGoodsPrice[$item_key]['store'] : 0; //库存默认为0
                 $str .="<td><input name='spec_item[$item_key][price]' class='form-control input-xs' value='{$keySpecGoodsPrice[$item_key]['price']}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
                 $str .="<td><input name='spec_item[$item_key][store]' class='form-control input-xs' value='{$keySpecGoodsPrice[$item_key]['store']}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/>
-                    <input type='hidden' name='spec_item[$item_key][key_name]' value='$item_name' /></td>";
+                    <input type='hidden' name='spec_item[$item_key][item_name]' value='$item_name' /></td>";
                 $str .="</tr>";           
            }
             $str .= "</table>";
