@@ -39,7 +39,7 @@
                 @endforeach
                 </ul>
                 <!-- ad_menu -->
-                <a href="{{ $sites['url']}}" target="_blank" class="ad_menu_left mt10 overh center-block"><img src="{{ $sites['static']}}home/images/ads/ad_menu.jpg" class="center-block img-responsive ts_r" alt=""></a>
+                <a href="{{ $sites['url']}}" target="_blank" class="ad_menu_left mt10 overh center-block"><img data-original="{{ $sites['static']}}home/images/ads/ad_menu.jpg" class="center-block img-responsive ts_r lazy" alt=""></a>
             </div>
         </div>
         <!-- nav -->
@@ -55,7 +55,7 @@
         </ul>
         <!-- ad_menu -->
         <a href="{{ $sites['url']}}" target="_blank" class="pull-right ad_mainmenu_right">
-            <img src="{{ $sites['static']}}home/images/ads/ad_menu.png" width="190" height="40" alt="">
+            <img data-original="{{ $sites['static']}}home/images/ads/ad_menu.png" width="190" height="40" alt="" class="lazy">
         </a>
     </nav>
 </div>

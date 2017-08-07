@@ -1,4 +1,10 @@
 $(function() {
+	// 图片懒加载
+    $(".lazy").lazyload({
+         effect : "fadeIn",
+         threshold : 400,
+         failure_limit : 200, // 加大这个数值可以显示出float布局过的图片，但是太大影响性能，自己做取舍
+    });
 	// ad_top重新计算一下，防止不是1920的图片出现
 	var ad_top_img = $('.ad_top_img');
 	ad_top_img.load(function(){

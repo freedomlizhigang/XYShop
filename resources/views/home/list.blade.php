@@ -9,7 +9,7 @@
 		<h4 class="hot_tag ps">热卖<br />推荐</h4>
 		<ul class="list_hots clearfix">
 			<li>
-				<a href="#" class="pull-left hots_img"><img src="{{ $sites['static']}}home/images/img1.png" alt=""></a>
+				<a href="#" class="pull-left hots_img"><img data-original="{{ $sites['static']}}home/images/img1.png" class="lazy" alt=""></a>
 				<div class="pull-right hots_font">
 					<h5 class="hots_t5"><a href="#">飞利浦（PHILIPS）50PUF6461/T3 50英寸 流光溢彩 64位九核4K超高清智能液晶平板电视机（黑色）</a></h5>
 					<p class="hots_price">￥2799.00</p>
@@ -17,7 +17,7 @@
 				</div>
 			</li>
 			<li>
-				<a href="#" class="pull-left hots_img"><img src="{{ $sites['static']}}home/images/img2.png" alt=""></a>
+				<a href="#" class="pull-left hots_img"><img data-original="{{ $sites['static']}}home/images/img2.png" class="lazy" alt=""></a>
 				<div class="pull-right hots_font">
 					<h5 class="hots_t5"><a href="#">飞利浦（PHILIPS）50PUF6461/T3 50英寸 流光溢彩 64位九核4K超高清智能液晶平板电视机（黑色）</a></h5>
 					<p class="hots_price">￥2799.00</p>
@@ -25,7 +25,7 @@
 				</div>
 			</li>
 			<li>
-				<a href="#" class="pull-left hots_img"><img src="{{ $sites['static']}}home/images/img3.png" alt=""></a>
+				<a href="#" class="pull-left hots_img"><img data-original="{{ $sites['static']}}home/images/img3.png" class="lazy" alt=""></a>
 				<div class="pull-right hots_font">
 					<h5 class="hots_t5"><a href="#">50英寸 流光溢彩 64位九核4K超高清智能液晶平板电视机（黑色）</a></h5>
 					<p class="hots_price">￥2799.00</p>
@@ -101,7 +101,7 @@
 		@endforeach
 	</div>
 	<div class="crumbs_nav_item clear_selected">
-		<a href="#">清空筛选</a>
+		<a href="{{ url('list',['id'=>$cid]) }}">清空筛选</a>
 	</div>
 </div>
 <!-- ss_res -->
@@ -119,19 +119,21 @@
 			<span>品牌：</span>
 		</div>
 		<div class="sl_value">
-			<ul class="ss_brand_list clearfix">
+			<div class="ss_brand_list clearfix">
 			@foreach($filterBrand as $v)
-				<li>
-					<a href="{{ $v['href'] }}">
-						<img src="{{ $v['icon'] }}" class="img-responsive" alt="{{ $v['name'] }}">
-						<p>{{ $v['name'] }}（{{ $v['describe'] }}）</p>
-					</a>
-				</li>
+			<a href="{{ $v['href'] }}" data-url="{{ $v['href'] }}" data-key="{{ $v['id'] }}" data-val="{{ $v['id'] }}" class="sl_value_a text-center">
+				<div class="sl_value_a_img"><img data-original="{{ $v['icon'] }}" class="img-responsive lazy" alt="{{ $v['name'] }}"></div>
+				<p class="text-center">{{ $v['name'] }}（{{ $v['describe'] }}）</p>
+			</a>
 			@endforeach
-			</ul>
+			</div>
+			<div class="sl_value_btn clearfix dn">
+				<span class="btn btn-xs btn-success sl_value_btn_true" onclick="submitMoreFilter('brand',this);">确定</span>
+				<span class="btn btn-xs btn-default sl_value_btn_cancel">取消</span>
+			</div>
 		</div>
 		<div class="sl_ext ps">
-			<a href="#" class="sl_ext_more"><i class="iconfont icon-add"></i>多选</a>
+			<a href="javascript:;" class="sl_ext_more"><i class="iconfont icon-add"></i>多选</a>
 		</div>
 	</div>
 	@endif
@@ -145,11 +147,15 @@
 		</div>
 		<div class="sl_value clearfix">
 			@foreach($v['goodspecitem'] as $vv)
-			<a href="{{ $vv['href'] }}">{{ $vv['item'] }}</a>
+			<a href="{{ $vv['href'] }}" data-url="{{ $vv['href'] }}" data-key="{{ $vv['id'] }}" data-val="{{ $vv['id'] }}" class="sl_value_a">{{ $vv['item'] }}</a>
 			@endforeach
+			<div class="sl_value_btn dn">
+				<span class="btn btn-xs btn-success sl_value_btn_true" onclick="submitMoreFilter('spec',this);">确定</span>
+				<span class="btn btn-xs btn-default sl_value_btn_cancel">取消</span>
+			</div>
 		</div>
 		<div class="sl_ext ps">
-			<a href="#" class="sl_ext_more"><i class="iconfont icon-add"></i>多选</a>
+			<a href="javascript:;" class="sl_ext_more"><i class="iconfont icon-add"></i>多选</a>
 		</div>
 	</div>
 	@endforeach
@@ -165,9 +171,6 @@
 			<a href="{{ $v['href'] }}">{{ $v['value'] }}</a>
 			@endforeach
 		</div>
-		<div class="sl_ext ps">
-			<a href="#" class="sl_ext_more"><i class="iconfont icon-add"></i>多选</a>
-		</div>
 	</div>
 	@endif
 	<!-- 属性 -->
@@ -179,15 +182,20 @@
 		</div>
 		<div class="sl_value clearfix">
 			@foreach($v['url'] as $vv)
-			<a href="{{ $vv['href'] }}">{{ $vv['val'] }}</a>
+			<a href="{{ $vv['href'] }}" data-url="{{ $vv['href'] }}" data-key="{{ $vv['key'] }}" data-val="{{ $vv['val'] }}" class="sl_value_a">{{ $vv['val'] }}</a>
 			@endforeach
+			<div class="sl_value_btn dn">
+				<span class="btn btn-xs btn-success sl_value_btn_true" onclick="submitMoreFilter('attr',this);">确定</span>
+				<span class="btn btn-xs btn-default sl_value_btn_cancel">取消</span>
+			</div>
 		</div>
 		<div class="sl_ext ps">
-			<a href="#" class="sl_ext_more"><i class="iconfont icon-add"></i>多选</a>
+			<a href="javascript:;" class="sl_ext_more"><i class="iconfont icon-add"></i>多选</a>
 		</div>
 	</div>
 	@endforeach
 	@endif
+
 	<!-- selector end -->
 	<!-- selector main -->
 	<div class="ss_main clearfix">
@@ -218,7 +226,7 @@
 					@foreach($list as $l)
 					<li class="gl_wp_item">
 						<div class="gl_wp_wrap">
-							<a href="#" class="gl_wp_item_img center-block overh"><img src="{{ $l->thumb }}" width="300" height="300" class="img-responsive center-block" alt="{{ $l->title }}"></a>
+							<a href="#" class="gl_wp_item_img center-block overh"><img data-original="{{ $l->thumb }}" width="300" height="300" class="img-responsive center-block lazy" alt="{{ $l->title }}"></a>
 							<p class="gl_item_price"><em>￥</em><i>{{ $l->shop_price }}</i></p>
 							<p class="gl_item_title">
 								<a href="#">
@@ -245,35 +253,35 @@
 			<ul class="ss_m_aside_list mt10">
 				<li>
 					<a href="#">
-						<img src="{{ $sites['static']}}home/images/8.jpg" class="img-responsive" alt="">
+						<img data-original="{{ $sites['static']}}home/images/8.jpg" class="lazy img-responsive center-block" alt="">
 					</a>
 					<p class="ss_m_aside_price">¥1059.00</p>
 					<h5 class="ss_m_aside_t5"><a href="#">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮臂工作超亮</a></h5>
 				</li>
 				<li>
 					<a href="#">
-						<img src="{{ $sites['static']}}home/images/9.jpg" class="img-responsive" alt="">
+						<img data-original="{{ $sites['static']}}home/images/9.jpg" class="lazy img-responsive center-block" alt="">
 					</a>
 					<p class="ss_m_aside_price">¥1059.00</p>
 					<h5 class="ss_m_aside_t5"><a href="#">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</a></h5>
 				</li>
 				<li>
 					<a href="#">
-						<img src="{{ $sites['static']}}home/images/10.jpg" class="img-responsive" alt="">
+						<img data-original="{{ $sites['static']}}home/images/10.jpg" class="lazy img-responsive center-block" alt="">
 					</a>
 					<p class="ss_m_aside_price">¥1059.00</p>
 					<h5 class="ss_m_aside_t5"><a href="#">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</a></h5>
 				</li>
 				<li>
 					<a href="#">
-						<img src="{{ $sites['static']}}home/images/9.jpg" class="img-responsive" alt="">
+						<img data-original="{{ $sites['static']}}home/images/9.jpg" class="lazy img-responsive center-block" alt="">
 					</a>
 					<p class="ss_m_aside_price">¥1059.00</p>
 					<h5 class="ss_m_aside_t5"><a href="#">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</a></h5>
 				</li>
 				<li>
 					<a href="#">
-						<img src="{{ $sites['static']}}home/images/8.jpg" class="img-responsive" alt="">
+						<img data-original="{{ $sites['static']}}home/images/8.jpg" class="lazy img-responsive center-block" alt="">
 					</a>
 					<p class="ss_m_aside_price">¥1059.00</p>
 					<h5 class="ss_m_aside_t5"><a href="#">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</a></h5>
@@ -286,4 +294,113 @@
 
 <!-- end 列表页面内容 -->
 
+<!-- 筛选功能 js -->
+<script>
+	$(function(){
+		// 点多选按钮
+		$('.sl_ext_more').click(function() {
+			var that = $(this).parent('.sl_ext').siblings('.sl_value');
+			// 关闭其它的，同时取消选择状态
+			$('.sl_value_btn').hide(function(){
+				var that = $(this).parent('.sl_value');
+				that.children('a').each(function(index, el) {
+					var thatA = $(this);
+					thatA.attr('href',thatA.attr('data-url'));
+				});
+				// 取消点击事件
+				that.find('.sl_value_a').off('click');
+			});
+			// 打开当前的并把属性转换成javascript:;
+			that.children('.sl_value_btn').show(function(){
+				var thatTrue = $(this).children('.sl_value_btn_true');
+				var that = $(this).parent('.sl_value');
+				that.find('.sl_value_a').each(function(index, el) {
+					var thatA = $(this);
+					thatA.attr('href','javascript:;');
+				});
+				// 链接绑定点击事件
+				that.find('.sl_value_a').on('click',function(){
+					var that = $(this);
+					if (that.hasClass('sl_value_active')) {
+						that.removeClass('sl_value_active');
+					}
+					else
+					{
+						that.addClass('sl_value_active');
+					}
+				});
+			});
+		});
+		// 点取消按钮
+		$('.sl_value_btn_cancel').click(function() {
+			var that = $(this).parent('.sl_value_btn');
+			that.hide();
+			var thatP = that.parent('.sl_value');
+			thatP.children('a').each(function(index, el) {
+				var thatA = $(this);
+				thatA.attr('href',thatA.attr('data-url'));
+			});
+		});
+	});
+    //############   点击多选确定按钮      ############
+	// t 为类型  是品牌 还是 规格 还是 属性
+	// btn 是点击的确定按钮用于找位置
+	var get_parment = {!! json_encode($_GET) !!};
+	function submitMoreFilter(t,btn)
+	{
+		var that = $(btn).parent('.sl_value_btn');
+	    // 没有被勾选的时候
+	    if(!that.parent('.sl_value').find('.sl_value_active').hasClass("sl_value_active")){
+	    	alert('没有被勾选的');
+	        return false;
+	    }
+
+	    // 获取现有的get参数
+	    var key = ''; // 请求的参数名称
+	    var val = new Array(); // 请求的参数值
+	    that.parent('.sl_value').find('.sl_value_active').each(function(i,o){
+	        key = $(o).data('key');
+	        val.push($(o).data('val'));
+	    });
+	    // parment = key+'_'+val.join('_');
+		// return false;
+	    // 品牌
+	    if(t == 'brand')
+	    {
+	        get_parment.brand_id = val.join('@');
+	    }
+	    // 规格
+	    if(t == 'spec')
+	    {
+	        if(get_parment.hasOwnProperty('spec'))
+	        {
+	            get_parment.spec += '@'+val.join('@');
+	        }
+	        else
+	        {
+	            get_parment.spec = val.join('@');
+	        }
+	    }
+	    // 属性
+	    if(t == 'attr')
+	    {
+	        if(get_parment.hasOwnProperty('attr'))
+	        {
+	            get_parment.attr += '@'+key+'_'+val.join('_');
+	        }
+	        else
+	        {
+	            get_parment.attr = key+'_'+val.join('_');
+	        }
+	    }
+	    // 组装请求的url
+	    var url = '';
+	    for ( var k in get_parment )
+	    {
+	        url += "&"+k+'='+get_parment[k];
+	    }
+	    console.log('get_parment',get_parment);
+	    location.href ="/list/{{$cid}}?"+url;
+	}
+</script>
 @endsection

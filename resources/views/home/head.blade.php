@@ -1,6 +1,6 @@
 <!-- ad_top -->
     <div class="ad_top text-center">
-        <a href="{{ $sites['url']}}" target="_blank"><img src="{{ $sites['static']}}home/images/ads/ad_top.jpg" class="center-block ad_top_img" alt=""></a>
+        <a href="{{ $sites['url']}}" target="_blank"><img data-original="{{ $sites['static']}}home/images/ads/ad_top.jpg" class="center-block ad_top_img lazy" alt=""></a>
     </div>
     <!-- top_info -->
     <div class="top_info">

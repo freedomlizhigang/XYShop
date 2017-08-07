@@ -422,19 +422,18 @@ a:hover {color:$color_main !important;}
 		.sl_value {
 			width:1050px; float: left; overflow: hidden;
 			a { display: inline-block; margin-right: 35px; color:$color_3;}
-			.ss_brand_list {
-				margin:10px 0;
-				li {
-					float: left; border: 1px solid $color_e1; margin: -1px -1px 0 0; width:120px; height:64px; padding:12px 0px; overflow: hidden; line-height: 40px; font-size: 0;
-					&:hover {
-						border-color:$color_main;position: relative;z-index: 5;
-						a img {display: none;}
-					}
-					a {
-						border-right:#FFF solid 1px; margin-right: 0; text-align: center;
-					}
-					p {font-size: 14px; padding:0px;}
+			.sl_value_active {color:$color_main; border-color:$color_main;}
+		}
+		.ss_brand_list {
+			margin:10px 0;
+			a.sl_value_a {
+				float: left; border: 1px solid $color_e1; margin: -1px -1px 0 0; width:120px; height:64px; padding:12px 0px; overflow: hidden; line-height: 40px; font-size: 0;
+				&:hover ,&.sl_value_active {
+					border-color:$color_main;position: relative;z-index: 5;
+					img {display: none;}
 				}
+				.sl_value_a_img {border-right:#FFF solid 1px;}
+				p {font-size: 14px; padding:0px;border-right:#FFF solid 1px;}
 			}
 		}
 		.sl_ext {

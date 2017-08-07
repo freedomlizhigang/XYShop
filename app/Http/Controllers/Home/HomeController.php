@@ -114,7 +114,7 @@ class HomeController extends BaseController
                 break;
         }
         // 真正的商品查询
-        $list = Good::select('id','title','thumb','shop_price')->whereIn('id',$filter_goods_id)->orderBy($sort_real,$sort_asc)->orderBy('id','desc')->paginate(4);
+        $list = Good::select('id','title','thumb','shop_price')->whereIn('id',$filter_goods_id)->orderBy($sort_real,$sort_asc)->orderBy('id','desc')->paginate(40);
         $count = count($filter_goods_id);
         
         return view($this->theme.'.list',compact('cinfo','cate_2','cate_3','cate_3_info','cate_2_info','cid','sort_asc','sort','filter_param','filterPrice','filterBrand','filterSpec','filterAttr','filter_menu','list','count'));

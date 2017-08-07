@@ -288,7 +288,7 @@ class GoodSelect
 
 	    $arr = Good::whereIn('id',$filter_goods_id)->where(function($q) use($brand_id){
 	    		if (!empty($brand_id)) {
-	    			$q->whereIn('brand_id',explode('_',$brand_id));
+	    			$q->whereIn('brand_id',explode('@',$brand_id));
     			}	
     		})->where(function($q) use($price){
 	    		if (!empty($price)) {
@@ -313,8 +313,9 @@ class GoodSelect
             $brand_list = Brand::select('id','name')->get()->keyBy('id');
             $brand_id = explode('@', $filter_param['brand_id']);
             $brand['text_b'] = "品牌";
+            $brand['text_em'] = '';
             foreach ($brand_id as $k => $v) {
-                $brand['text_em'] = $brand_list[$v]['name'] . ',';
+                $brand['text_em'] .= $brand_list[$v]['name'] . ',';
             }
             $brand['text_em'] = substr($brand['text_em'], 0, -1);
             $tmp = $filter_param;
@@ -330,8 +331,9 @@ class GoodSelect
             foreach ($spec_group as $k => $v) {
                 $spec_group2 = explode('_', $v);
                 $spec_menu['text_b'] = $spec[$spec_item[$v]['good_spec_id']]['name'];
+                $spec_menu['text_em'] = '';
                 foreach ($spec_group2 as $k2 => $v2) {
-                    $spec_menu['text_em'] = $spec_item[$v2]['item'] . ',';
+                    $spec_menu['text_em'] .= $spec_item[$v2]['item'] . ',';
                 }
                 $spec_menu['text_em'] = substr($spec_menu['text_em'], 0, -1);
                 $tmp = $spec_group;
@@ -350,8 +352,9 @@ class GoodSelect
                 $attr_group2 = explode('_', $v);
                 $attr_menu['text_b'] = $goods_attribute[$attr_group2[0]]['name'];
                 array_shift($attr_group2); // 弹出第一个规格名称
+                $attr_menu['text_em'] = '';
                 foreach ($attr_group2 as $k2 => $v2) {
-                    $attr_menu['text_em'] = $v2 . ',';
+                    $attr_menu['text_em'] .= $v2 . ',';
                 }
                 $attr_menu['text_em'] = substr($attr_menu['text_em'], 0, -1);
 

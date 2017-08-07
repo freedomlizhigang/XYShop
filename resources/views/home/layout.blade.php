@@ -13,9 +13,10 @@
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{ $sites['static']}}common/js/lazyload.min.js"></script>
     <!-- common -->
     <script>
-       var host = "{{ config('app.url') }}/";
+        var host = "{{ config('app.url') }}/";
     </script>
     <script src="{{ $sites['static']}}home/js/com.js"></script>
 </head>

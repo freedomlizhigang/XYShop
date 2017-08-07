@@ -5,7 +5,7 @@
 
 <!-- banner -->
 <div class="banner text-center">
-    <a href="{{ $sites['url']}}" target="_blank"><img src="{{ $sites['static']}}home/images/ads/b1.jpg" class="center-block img-responsive" alt=""></a>
+    <a href="{{ $sites['url']}}" target="_blank"><img data-original="{{ $sites['static']}}home/images/ads/b1.jpg" class="center-block img-responsive lazy" alt=""></a>
 </div>
 <!-- timetobuy -->
 <section class="box timetobuy clearfix overh">
@@ -17,18 +17,18 @@
         <div class="ttb_l_con">
             <h3 class="ttb_t3_1">TOTO</h3>
             <a href="#" class="ttb_l_con_a ts_r center-block mt20">
-                <img src="{{ $sites['static']}}home/images/ads/ttb_l_1.png" class="img-responsive center-block" alt="">
+                <img data-original="{{ $sites['static']}}home/images/ads/ttb_l_1.png" class="img-responsive lazy center-block" alt="">
             </a>
         </div>
     </div>
     <div class="ttb_r  ttb_r_1 pull-left overh">
         <a class="ttb_r_top clearfix">
-            <img src="{{ $sites['static']}}home/images/ads/ad_ttb_l1.jpg" class="img-responsive ts_l pull-right" alt="">
+            <img data-original="{{ $sites['static']}}home/images/ads/ad_ttb_l1.jpg" class="img-responsive lazy ts_l pull-right" alt="">
             <h3 class="ttb_t3">全球购</h3>
             <p class="ttb_p">品味诗意生活</p>
         </a>
         <a class="ttb_r_bottom clearfix">
-            <img src="{{ $sites['static']}}home/images/ads/ad_ttb_l2.jpg" class="img-responsive ts_l pull-right" alt="">
+            <img data-original="{{ $sites['static']}}home/images/ads/ad_ttb_l2.jpg" class="img-responsive lazy ts_l pull-right" alt="">
             <h3 class="ttb_t3">闪电购</h3>
             <p class="ttb_p">岂止是优雅</p>
         </a>
@@ -37,16 +37,16 @@
     <div class="ttb_l ttb_l_m pull-left overh">
         <h3 class="ttb_t3">积分换购</h3>
         <p class="ttb_p">潮人必备</p>
-        <img src="{{ $sites['static']}}home/images/ads/ad_ttb_m.png" class="img-responsive ts_t ad_ttb_m_img" alt="">
+        <img data-original="{{ $sites['static']}}home/images/ads/ad_ttb_m.png" class="img-responsive lazy ts_t ad_ttb_m_img" alt="">
     </div>
     <div class="ttb_r ttb_r_2 pull-left overh">
         <a class="ttb_r_bottom clearfix">
-            <img src="{{ $sites['static']}}home/images/ads/ad_ttb_r1.jpg" class="img-responsive ts_l pull-right" alt="">
+            <img data-original="{{ $sites['static']}}home/images/ads/ad_ttb_r1.jpg" class="img-responsive lazy ts_l pull-right" alt="">
             <h3 class="ttb_t3">闪电购</h3>
             <p class="ttb_p">岂止是优雅</p>
         </a>
         <a class="ttb_r_top clearfix">
-            <img src="{{ $sites['static']}}home/images/ads/ad_ttb_r2.jpg" class="img-responsive ts_l pull-right" alt="">
+            <img data-original="{{ $sites['static']}}home/images/ads/ad_ttb_r2.jpg" class="img-responsive lazy ts_l pull-right" alt="">
             <h3 class="ttb_t3">全球购</h3>
             <p class="ttb_p">品味诗意生活</p>
         </a>
@@ -71,16 +71,16 @@
                 <a href="#" class="floor_m_a">去看看 ></a>
             </div>
             <div class="floor_m_l_b ps">
-                <a href="#"><img src="{{ $sites['static']}}home/images/ads/lc_1_l.png" class="img-responsive center-block ts_r ps" alt=""></a>
+                <a href="#"><img data-original="{{ $sites['static']}}home/images/ads/lc_1_l.png" class="img-responsive lazy center-block ts_r ps" alt=""></a>
             </div>
         </div>
         <div class="floor_m_r pull-right clearfix">
             <div class="floor_banner pull-left overh pr">
-                <a href="#"><img src="{{ $sites['static']}}home/images/ads/lc_1_m.png" class="img-responsive center-block" alt=""></a>
+                <a href="#"><img data-original="{{ $sites['static']}}home/images/ads/lc_1_m.png" class="img-responsive lazy center-block" alt=""></a>
             </div>
             <ul class="floor_list_good clearfix">
                 <li class="pr">
-                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img1.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_img"><img data-original="{{ $sites['static']}}home/images/img1.png" class="img-responsive lazy center-block ts_t" alt=""></a>
                     <a href="#" class="list_good_font ts_r">
                         <h4 class="list_good_t4">普乐美水槽大单槽</h4>
                         <p class="list_good_p">柔丝表面 加厚槽体</p>
@@ -89,7 +89,7 @@
                     <span class="tags ps">最新上架</span>
                 </li>
                 <li class="pr">
-                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img2.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_img"><img data-original="{{ $sites['static']}}home/images/img2.png" class="img-responsive lazy center-block ts_t" alt=""></a>
                     <a href="#" class="list_good_font ts_r">
                         <h4 class="list_good_t4">德式不锈钢P弯</h4>
                         <p class="list_good_p">全铜主体 防臭防堵</p>
@@ -97,7 +97,7 @@
                     </a>
                 </li>
                 <li class="pr">
-                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img3.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_img"><img data-original="{{ $sites['static']}}home/images/img3.png" class="img-responsive lazy center-block ts_t" alt=""></a>
                     <a href="#" class="list_good_font ts_r">
                         <h4 class="list_good_t4">卡贝铝合金门锁</h4>
                         <p class="list_good_p">晶钻工艺 多层电镀</p>
@@ -105,7 +105,7 @@
                     </a>
                 </li>
                 <li class="pr">
-                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img4.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_img"><img data-original="{{ $sites['static']}}home/images/img4.png" class="img-responsive lazy center-block ts_t" alt=""></a>
                     <a href="#" class="list_good_font ts_r">
                         <h4 class="list_good_t4">福田点开关 带LED灯</h4>
                         <p class="list_good_p">精致入微 点滴设计</p>
@@ -113,7 +113,7 @@
                     </a>
                 </li>
                 <li class="pr">
-                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img5.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_img"><img data-original="{{ $sites['static']}}home/images/img5.png" class="img-responsive lazy center-block ts_t" alt=""></a>
                     <a href="#" class="list_good_font ts_r">
                         <h4 class="list_good_t4">拖把池龙头</h4>
                         <p class="list_good_p">德系精工，优质全铜</p>
@@ -121,7 +121,7 @@
                     </a>
                 </li>
                 <li class="pr">
-                    <a href="#" class="list_good_img"><img src="{{ $sites['static']}}home/images/img6.png" class="img-responsive center-block ts_t" alt=""></a>
+                    <a href="#" class="list_good_img"><img data-original="{{ $sites['static']}}home/images/img6.png" class="img-responsive lazy center-block ts_t" alt=""></a>
                     <a href="#" class="list_good_font ts_r">
                         <h4 class="list_good_t4">智洁釉马桶</h4>
                         <p class="list_good_p">静音节水</p>
@@ -133,14 +133,14 @@
     </div>
     <!-- floor_bottom -->
     <div class="floor_bottom clearfix">
-        <a href="#"><img src="{{ $sites['static']}}home/images/brand_1.png" class="img-responsive" alt=""></a>
-        <a href="#"><img src="{{ $sites['static']}}home/images/brand_2.png" class="img-responsive" alt=""></a>
-        <a href="#"><img src="{{ $sites['static']}}home/images/brand_3.png" class="img-responsive" alt=""></a>
-        <a href="#"><img src="{{ $sites['static']}}home/images/brand_4.png" class="img-responsive" alt=""></a>
-        <a href="#"><img src="{{ $sites['static']}}home/images/brand_5.png" class="img-responsive" alt=""></a>
-        <a href="#"><img src="{{ $sites['static']}}home/images/brand_6.png" class="img-responsive" alt=""></a>
-        <a href="#"><img src="{{ $sites['static']}}home/images/brand_7.png" class="img-responsive" alt=""></a>
-        <a href="#"><img src="{{ $sites['static']}}home/images/brand_8.png" class="img-responsive" alt=""></a>
+        <a href="#"><img data-original="{{ $sites['static']}}home/images/brand_1.png" class="img-responsive lazy" alt=""></a>
+        <a href="#"><img data-original="{{ $sites['static']}}home/images/brand_2.png" class="img-responsive lazy" alt=""></a>
+        <a href="#"><img data-original="{{ $sites['static']}}home/images/brand_3.png" class="img-responsive lazy" alt=""></a>
+        <a href="#"><img data-original="{{ $sites['static']}}home/images/brand_4.png" class="img-responsive lazy" alt=""></a>
+        <a href="#"><img data-original="{{ $sites['static']}}home/images/brand_5.png" class="img-responsive lazy" alt=""></a>
+        <a href="#"><img data-original="{{ $sites['static']}}home/images/brand_6.png" class="img-responsive lazy" alt=""></a>
+        <a href="#"><img data-original="{{ $sites['static']}}home/images/brand_7.png" class="img-responsive lazy" alt=""></a>
+        <a href="#"><img data-original="{{ $sites['static']}}home/images/brand_8.png" class="img-responsive lazy" alt=""></a>
     </div>
 </section>
 <!-- like me -->
@@ -149,7 +149,7 @@
     <ul class="list_good_com clearfix mt20">
         <li>
             <a href="#" class="list_good_com_a">
-                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <img data-original="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive lazy" alt="">
                 <p class="list_good_com_price">¥1059.00</p>
                 <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
                 <p class="list_good_com_p text-right">0人付款</p>
@@ -157,7 +157,7 @@
         </li>
         <li>
             <a href="#" class="list_good_com_a">
-                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <img data-original="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive lazy" alt="">
                 <p class="list_good_com_price">¥1059.00</p>
                 <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
                 <p class="list_good_com_p text-right">0人付款</p>
@@ -165,7 +165,7 @@
         </li>
         <li>
             <a href="#" class="list_good_com_a">
-                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <img data-original="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive lazy" alt="">
                 <p class="list_good_com_price">¥1059.00</p>
                 <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
                 <p class="list_good_com_p text-right">0人付款</p>
@@ -173,7 +173,7 @@
         </li>
         <li>
             <a href="#" class="list_good_com_a">
-                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <img data-original="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive lazy" alt="">
                 <p class="list_good_com_price">¥1059.00</p>
                 <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
                 <p class="list_good_com_p text-right">0人付款</p>
@@ -181,7 +181,7 @@
         </li>
         <li>
             <a href="#" class="list_good_com_a">
-                <img src="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive" alt="">
+                <img data-original="{{ $sites['static']}}home/images/good_thumb.png" class="img-responsive lazy" alt="">
                 <p class="list_good_com_price">¥1059.00</p>
                 <h5 class="list_good_com_t5">插电式LED台灯护眼卧室主播补光直播电脑桌大学生用长臂工作超亮</h5>
                 <p class="list_good_com_p text-right">0人付款</p>
@@ -189,6 +189,6 @@
         </li>
     </ul>
 </section>
-	
+
 
 @endsection
