@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
+use App\Http\Requests\User\UserRequest;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Validator;
 
 class UserController extends BaseController
 {
@@ -25,10 +25,9 @@ class UserController extends BaseController
 			}
 		}
         $ref = url()->previous();
-        $info = (object) [];
-        $info->pid = 4;
         session()->put('homeurl',url()->previous());
-        return view('home.user.login',compact('ref','info'));
+        $seo = ['title'=>'用户登录 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+        return view($this->theme.'.user.login',compact('seo','ref'));
 	}
 	// 登录
     public function postLogin(UserRequest $res)
@@ -37,8 +36,8 @@ class UserController extends BaseController
         {
             return redirect(url()->previous())->with('message','您已登录！');
         }
-        $username = $res->input('data.username');
-        $pwd = $res->input('data.password');
+        $username = $res->input('username');
+        $pwd = $res->input('password');
         $user = User::where('status',1)->where('username',$username)->first();
 	    if (is_null($user)) {
 	    	return back()->with('message','用户不存在或已被禁用！');
@@ -48,7 +47,7 @@ class UserController extends BaseController
 		    try {
                 if ($pwd != decrypt($user->password)) {
                     return back()->with('message','密码不正确！');
-                }       
+                }
             } catch (\Exception $e) {
                 return back()->with('message','密码不正确！');
             }
@@ -62,8 +61,8 @@ class UserController extends BaseController
             $user->discount = $discount;*/
 	    	session()->put('member',$user);
             // 更新购物车
-            $this->updateCart($user->id);
-	    	return redirect($res->ref);
+            // $this->updateCart($user->id);
+	    	return redirect(session('homeurl'));
 	    }
     }
     // 注册
@@ -81,9 +80,9 @@ class UserController extends BaseController
 			}
 		}
         $ref = url()->previous();
-        $info = (object) [];
-        $info->pid = 4;
-        return view('home.user.register',compact('ref','info'));
+        session()->put('homeurl',url()->previous());
+        $seo = ['title'=>'用户注册 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+        return view($this->theme.'.user.register',compact('seo','ref'));
 	}
 	// 注册
     public function postRegister(UserRequest $res)
@@ -92,22 +91,22 @@ class UserController extends BaseController
 		{
 			return redirect(url()->previous())->with('message','您已登录！');
 		}
-    	$username = trim($res->input('data.username'));
+    	$username = trim($res->input('username'));
     	// 查一样有没有重复的用户名
     	$ishav = User::where('username',$username)->first();
     	if (!is_null($ishav)) {
     		return back()->with('message','用户名已经被使用，请换一个再试！');
     	}
-    	$pwd = encrypt($res->input('data.passwords'));
-    	$email = $res->input('data.email');
+    	$pwd = encrypt($res->input('password'));
+    	$email = $res->input('email');
     	try {
 	    	$user = User::create(['username'=>$username,'password'=>$pwd,'email'=>$email,'last_ip'=>$res->ip(),'last_time'=>Carbon::now()]);
             // 计算折扣比例
             // $user->discount = 100;
 	    	session()->put('member',$user);
             // 更新购物车
-            $this->updateCart($user->id);
-	    	return redirect($res->ref);
+            // $this->updateCart($user->id);
+	    	return redirect(session('homeurl'));
     	} catch (\Exception $e) {
     		return back()->with('message','注册失败，请稍候再试！');
     	}

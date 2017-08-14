@@ -9,7 +9,12 @@
                 北京 <span class="iconfont icon-locationfill"></span>
             </div>
             <div class="pull-right top_info_right text-right">
-                <a href="#">请登录</a>|<a href="#">免费注册</a>|<a href="#">我的订单</a>|<a href="#">我的希夷</a>|<a href="#">帮助中心</a>|<a href="#">手机商城</a>
+                @if(session()->has('member'))
+                <span class="top_user_info">欢迎回来：<em>{{ isset(session('member')->nickname) ? session('member')->nickname : session('member')->username }}</em></span>
+                @else
+                <a href="{{ url('/user/login') }}">请登录</a>|<a href="{{ url('/user/register') }}">免费注册</a>
+                @endif
+                |<a href="{{ url('/order/list') }}">我的订单</a>|<a href="{{ url('/user/center') }}">我的希夷</a>|<a href="{{ url('/help') }}">帮助中心</a>|<a href="javascript:;">手机商城</a>
             </div>
         </div>
     </div>

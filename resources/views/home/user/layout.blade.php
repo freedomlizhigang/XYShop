@@ -23,13 +23,21 @@
 
 <body>
     <!-- header -->
-    @include('home.head')
-    <!-- menu -->
-    @include('home.menu')
+    @include('home.user.head')
     <!-- 主内容 -->
     @yield('content')
 
-    @include('home.foot')
-    
+    @include('home.user.foot')
+
+    @if(session('message'))
+    <div class="alert_home">
+        {{ session('message') }}
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('div.alert_home').delay(1500).slideUp(300);
+        })
+    </script>
+    @endif
 </body>
 </html>

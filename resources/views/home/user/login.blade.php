@@ -1,36 +1,87 @@
-@extends('home.layout')
+@extends('home.user.layout')
+
 
 @section('title')
-    <title>会员登录-{{ cache('config')['sitename'] }}</title>
+    <title>{{ $seo['title'] }}</title>
+    <meta name="keywords" content="{{ $seo['keyword'] }}">
+    <meta name="description" content="{{ $seo['describe'] }}">
 @endsection
 
 
+
+<!-- 内容 -->
 @section('content')
-	<div class="container login_bg">
-		<form action="" method="post">
-			{{ csrf_field() }}
-			<input type="hidden" name="ref" value="{{ $ref }}">
-
-			<div class="form-group">
-				<input type="text" name="data[username]" value="" class="form-control" placeholder="用户名">
-				@if ($errors->has('data.username'))
-				<span class="help-block">{{ $errors->first('data.username') }}</span>
-				@endif
+<!-- form_box -->
+<div class="form_login_bg">
+	<section class="box clearfix">
+		<div class="login_box_right">
+			<h3><span class="tab_t active">用户登录</span><span class="tab_t getcode">扫码登录</span></h3>
+			<div class="tab_login_div">
+				<form action="{{ url('/user/login') }}" method="post" class="login_form form-inline">
+					{{ csrf_field() }}
+					<div class="form-group clearfix">
+						<div class="input-left iconfont icon-people"></div>
+						<input type="text" class="form-control" name="username" placeholder="请输入注册的用户名...">
+					</div>
+					<div class="form-group clearfix">
+						<div class="input-left iconfont icon-attention_light"></div>
+						<input type="password" class="form-control" name="password" placeholder="请输入密码...">
+					</div>
+					<div class="mt15 text-right">
+						<a href="{{ url('/user/forpwd') }}" class="login_a">忘记密码</a>
+					</div>
+					<div class="form-group clearfix">
+						<input type="submit" class="login_btn" value="确认登录">
+					</div>
+				</form>
 			</div>
-
-
-			<div class="form-group">
-				<input type="password" name="data[password]" value="" placeholder="密码" class="form-control">
-				@if ($errors->has('data.password'))
-				<span class="help-block">{{ $errors->first('data.password') }}</span>
-				@endif
+			<div class="tab_login_div dn">
+				<img src="" class="img-responsive wxcode center-block" width="200" height="200" alt="扫码">
+				<p class="text-center">二维码有效期 5 分钟</p>
+				<p class="text-center">打开手机微信扫码登陆</p>
+				<input type="hidden" value="xyshop" class="sid">
 			</div>
-
-			<div class="clearfix">
-				<button type="submit" name="dosubmit" class="btn btn-primary col-xs-12">提交</button>
-				<a href="{{ url('oauth/wx') }}" class="btn btn-success col-xs-12 mt10"><span class="login_wx"><img src="{{ $sites['static']}}home/images/wx.png" class="img-responsive" width="20" alt=""></span>微信登录</a>
+			<div class="mt15 text-right">
+				<a href="{{ url('/user/register') }}" class="login_a_h">立即注册</a>
 			</div>
-		</form>
-	</div>
-@include('home.foot')
+		</div>
+	</section>
+	<script>
+		$(function(){
+			$('.tab_t').click(function(){
+				var thisIndex = $(this).index();
+				$('.tab_t').removeClass('active').eq(thisIndex).addClass('active');
+				$('.tab_login_div').hide().eq(thisIndex).show();
+			});
+			// 点扫码时加载二维码
+			$('.getcode').click(function() {
+				$.get(host + 'api/auth/wxlogincode',function(d){
+					var ss = jQuery.parseJSON(d);
+					if (ss.src != 'undefind') {
+						$('.wxcode').attr('src',ss.src);
+						$('.sid').val(ss.sid);
+					}
+					else{
+						console.log(d);
+					}
+				});
+				// 轮询是关键~~
+				var ref = "{!! $ref !!}";
+				var isLogin = setInterval(function(){
+					var thisSid = $('.sid').val();
+					$.get(host + 'oauth/wxscancode',{sid:thisSid},function(d){
+						if (d != '0') {
+							clearInterval(isLogin);
+							// 跳转
+							window.location.href = ref;  
+						}
+						else{
+							console.log(d);
+						}
+					});
+				},2000);
+			});
+		});
+	</script>
+</div>
 @endsection

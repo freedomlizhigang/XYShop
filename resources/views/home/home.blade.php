@@ -1,8 +1,12 @@
 @extends('home.layout')
 
+@section('title')
+    <title>{{ $seo['title'] }}</title>
+    <meta name="keywords" content="{{ $seo['keyword'] }}">
+    <meta name="description" content="{{ $seo['describe'] }}">
+@endsection
 
 @section('content')
-
 <!-- banner -->
 <div class="banner text-center">
     <a href="{{ $sites['url']}}" target="_blank"><img data-original="{{ $sites['static']}}home/images/ads/b1.jpg" class="center-block img-responsive lazy" alt=""></a>

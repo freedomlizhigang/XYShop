@@ -10,7 +10,10 @@ use App\Models\Good\Brand;
 use App\Models\Good\Good;
 use App\Models\Good\GoodAttr;
 use App\Models\Good\GoodCate;
+use App\Models\Good\GoodComment;
 use App\Models\Good\GoodSpec;
+use App\Models\Good\GoodSpecItem;
+use App\Models\Good\GoodSpecPrice;
 use Illuminate\Http\Request;
 
 class HomeController extends BaseController
@@ -23,7 +26,41 @@ class HomeController extends BaseController
     public function getIndex()
     {
         $ishome = 1;
-        return view($this->theme.'.home',compact('ishome'));
+        $seo = ['title'=>cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+        return view($this->theme.'.home',compact('ishome','seo'));
+    }
+    /*
+    * 商品详情页面
+    */
+    public function getGood($id = '')
+    {
+        $good = Good::with(['goodattr'=>function($q){
+                    $q->with('goodattr');
+                }])->findOrFail($id);
+        /*
+        * 查出来所有的规格信息
+        * 1、找出所有的规格ID 
+        * 2，查出所有的规格ID对应的名字spec_item及spec内容
+        * 3、循环出来所有的规格及规格值
+        * */
+        $good_spec_ids = GoodSpecPrice::where('good_id',$id)->pluck('item_id')->toArray();
+        $good_spec_ids = explode('_',implode('_',$good_spec_ids));
+        $good_spec = GoodSpecItem::with(['goodspec'=>function($q){
+                        $q->select('id','name');
+                    }])->whereIn('id',$good_spec_ids)->get();
+        $filter_spec = [];
+        foreach ($good_spec as $k => $v) {
+            $filter_spec[$v->goodspec->name][] = ['item_id'=>$v->id,'item'=>$v->item];
+        }
+        // 查出第一个规格信息来，标红用的
+        $good_spec_price = GoodSpecPrice::where('good_id',$id)->get()->keyBy('item_id')->toJson();
+
+        // 取评价，20条
+        $goodcomment = GoodComment::with(['user'=>function($q){
+                $q->select('id','nickname','thumb','username');
+            }])->where('good_id',$id)->where('delflag',1)->orderBy('id','desc')->limit(20)->get();
+
+        return view($this->theme.'.good',compact('good','filter_spec','good_spec_price','goodcomment'));
     }
     /*
     * 分类筛选页面
@@ -116,8 +153,9 @@ class HomeController extends BaseController
         // 真正的商品查询
         $list = Good::select('id','title','thumb','shop_price')->whereIn('id',$filter_goods_id)->orderBy($sort_real,$sort_asc)->orderBy('id','desc')->paginate(40);
         $count = count($filter_goods_id);
-        
-        return view($this->theme.'.list',compact('cinfo','cate_2','cate_3','cate_3_info','cate_2_info','cid','sort_asc','sort','filter_param','filterPrice','filterBrand','filterSpec','filterAttr','filter_menu','list','count'));
+        $catename = GoodCate::where('id',$cid)->value('name');
+        $seo = ['title'=>$catename,'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+        return view($this->theme.'.list',compact('cinfo','cate_2','cate_3','cate_3_info','cate_2_info','cid','sort_asc','sort','filter_param','filterPrice','filterBrand','filterSpec','filterAttr','filter_menu','list','count','seo'));
     }
 
     // 栏目

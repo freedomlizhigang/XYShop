@@ -1,8 +1,13 @@
 @extends('home.layout')
 
 
-@section('content')
+@section('title')
+    <title>{{ $seo['title'] }}</title>
+    <meta name="keywords" content="{{ $seo['keyword'] }}">
+    <meta name="description" content="{{ $seo['describe'] }}">
+@endsection
 
+@section('content')
 <!-- hots -->
 <div class="box hots clearfix overh">
 	<div class="pull-left hots_left pr">
@@ -226,17 +231,17 @@
 					@foreach($list as $l)
 					<li class="gl_wp_item">
 						<div class="gl_wp_wrap">
-							<a href="#" class="gl_wp_item_img center-block overh"><img data-original="{{ $l->thumb }}" width="300" height="300" class="img-responsive center-block lazy" alt="{{ $l->title }}"></a>
+							<a href="{{ $l->url }}" class="gl_wp_item_img center-block overh"><img data-original="{{ $l->thumb }}" width="300" height="300" class="img-responsive center-block lazy" alt="{{ $l->title }}"></a>
 							<p class="gl_item_price"><em>￥</em><i>{{ $l->shop_price }}</i></p>
 							<p class="gl_item_title">
-								<a href="#">
+								<a href="{{ $l->url }}">
 									<em>{{ $l->title }}</em>
 									<!-- <i>6期免息！64位4K芯片 腾讯企鹅TV ！二级能效更节能！价保30天！【更多活动点击查看】</i> -->
 								</a>
 							</p>
 							<p class="gl_item_btns row btn-group">
-								<a href="#" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
-								<a href="#" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
+								<a href="{{ $l->url }}" class="btn btn-xs btn-default col-xs-6"><i class="iconfont icon-like"></i>关注</a>
+								<a href="{{ $l->url }}" class="btn btn-xs btn-default col-xs-6 color_vice"><i class="iconfont icon-cart_light"></i>加入购物车</a>
 							</p>
 						</div>
 					</li>

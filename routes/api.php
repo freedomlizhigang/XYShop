@@ -38,6 +38,12 @@ Route::group(['namespace'=>'Common'],function(){
 });
 
 
+Route::group(['prefix'=>'auth','namespace'=>'Auth'],function(){
+    // 微信登录扫码地址
+    Route::get('wxlogincode', 'WxController@getWxlogincode');
+    // 微信注册扫码地址
+    Route::get('wxregcode', 'WxController@getWxregcode');
+});
 // 通用功能
 Route::group(['prefix'=>'common','namespace'=>'Common'],function(){
     // 取商品子分类

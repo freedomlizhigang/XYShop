@@ -1,56 +1,87 @@
-@extends('home.layout')
+@extends('home.user.layout')
 
 @section('title')
-    <title>会员注册-{{ cache('config')['sitename'] }}</title>
+    <title>{{ $seo['title'] }}</title>
+    <meta name="keywords" content="{{ $seo['keyword'] }}">
+    <meta name="description" content="{{ $seo['describe'] }}">
 @endsection
 
-@section('banner')
-    @include('default.banner')
-@endsection
 
+<!-- 内容 -->
 @section('content')
-	<div class="container mt20">
-		<form action="" method="post">
-			<h3 class="h3_cate"><span class="h3_cate_span">会员注册</span></h3>
-			{{ csrf_field() }}
-			<input type="hidden" name="ref" value="{{ $ref }}">
-
-			<div class="form-group">
-				<label for="username">用户名：</label>
-				<input type="text" name="data[username]" value="{{ old('data.username') }}" class="form-control">
-				@if ($errors->has('data.username'))
-				<span class="help-block">{{ $errors->first('data.username') }}</span>
-				@endif
+<!-- form_box -->
+<div class="form_login_bg">
+	<section class="box clearfix">
+		<div class="login_box_right">
+			<h3><span class="tab_t active">用户注册</span><span class="tab_t getcode">微信直接登录</span></h3>
+			<div class="tab_login_div">
+				<form action="{{ url('/user/register') }}" method="post" class="login_form form-inline">
+					{{ csrf_field() }}
+					<div class="form-group clearfix">
+						<div class="input-left iconfont icon-people"></div>
+						<input type="text" class="form-control" name="username" placeholder="请输入注册的用户名...">
+					</div>
+					<div class="form-group clearfix">
+						<div class="input-left iconfont icon-cascades"></div>
+						<input type="text" class="form-control" name="email" placeholder="请输入常用邮箱...">
+					</div>
+					<div class="form-group clearfix">
+						<div class="input-left iconfont icon-attention_light"></div>
+						<input type="password" class="form-control" name="password" placeholder="请输入密码...">
+					</div>
+					<div class="form-group clearfix">
+						<input type="submit" class="login_btn" value="立即注册">
+					</div>
+				</form>
+			</div>
+			<div class="tab_login_div dn">
+				<img src="" class="img-responsive wxcode center-block" width="200" height="200" alt="扫码">
+				<p class="text-center">二维码有效期 5 分钟</p>
+				<p class="text-center">打开手机微信扫码注册</p>
+				<input type="hidden" value="xyshop" class="sid">
+			</div>
+			<div class="mt15 text-right">
+				<a href="{{ url('/user/login') }}" class="login_a_h">已有用户，直接登录</a>
 			</div>
 
-			<div class="form-group">
-				<label for="email">邮箱：</label>
-				<input type="text" name="data[email]" value="{{ old('data.email') }}" class="form-control">
-				@if ($errors->has('data.email'))
-				<span class="help-block">{{ $errors->first('data.email') }}</span>
-				@endif
-			</div>
-
-			<div class="form-group">
-				<label for="passwords">密码：</label>
-				<input type="password" name="data[passwords]" value="{{ old('data.passwords') }}" class="form-control">
-				@if ($errors->has('data.password'))
-				<span class="help-block">{{ $errors->first('data.password') }}</span>
-				@endif
-			</div>
-
-			<div class="form-group">
-				<label for="passwords_confirmation">重复密码：</label>
-				<input type="password" name="data[passwords_confirmation]" value="{{ old('data.passwords_confirmation') }}" class="form-control">
-				@if ($errors->has('data.passwords_confirmation'))
-				<span class="help-block">{{ $errors->first('data.passwords_confirmation') }}</span>
-				@endif
-			</div>
-
-			<div class="clearfix">
-				<button type="submit" name="dosubmit" class="btn btn-primary">提交</button>
-				<button type="reset" name="reset" class="btn btn-default">重填</button>
-			</div>
-		</form>
-	</div>
+		</div>
+	</section>
+	<script>
+		$(function(){
+			$('.tab_t').click(function(){
+				var thisIndex = $(this).index();
+				$('.tab_t').removeClass('active').eq(thisIndex).addClass('active');
+				$('.tab_login_div').hide().eq(thisIndex).show();
+			});
+			// 点扫码时加载二维码
+			$('.getcode').click(function() {
+				$.get(host + 'api/auth/wxregcode',function(d){
+					var ss = jQuery.parseJSON(d);
+					if (ss.src != 'undefind') {
+						$('.wxcode').attr('src',ss.src);
+						$('.sid').val(ss.sid);
+					}
+					else{
+						console.log(d);
+					}
+				});
+				// 轮询是关键~~
+				var ref = "{!! $ref !!}";
+				var isLogin = setInterval(function(){
+					var thisSid = $('.sid').val();
+					$.get(host + 'oauth/wxscancode',{sid:thisSid},function(d){
+						if (d != '0') {
+							clearInterval(isLogin);
+							// 跳转
+							window.location.href = ref;  
+						}
+						else{
+							console.log(d);
+						}
+					});
+				},2000);
+			});
+		});
+	</script>
+</div>
 @endsection

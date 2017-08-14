@@ -48,6 +48,13 @@ class Good extends Model
      */
 
     // 二级分类
+    public function getUrlAttribute()
+    {
+        $url = url('good',['id'=>$this->attributes['id']]);
+        return $url;
+    }
+
+    // 二级分类
     public function getGoodcateTwoIdAttribute()
     {
         $two_id = GoodCate::where('id',$this->attributes['cate_id'])->value('parentid');

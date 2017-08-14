@@ -20,8 +20,13 @@ Route::group(['namespace' => 'Home'],function(){
     Route::get('/','HomeController@getIndex');
     // 分类页面
     Route::get('list/{id}','HomeController@getList');
+    // 商品页面
+    Route::get('good/{id}','HomeController@getGood');
+    // 搜索
     Route::get('/search','HomeController@getSearch');
+    // 栏目
     Route::get('/cate/{url}','HomeController@getCate');
+    // 文章
     Route::get('/post/{url}','HomeController@getPost');
 });
 // 会员功能
@@ -34,6 +39,9 @@ Route::group(['prefix'=>'user','namespace' => 'Home'],function(){
     Route::post('login','UserController@postLogin');
     // 退出登陆
     Route::get('logout','UserController@getLogout');
+    // 忘记密码
+    Route::get('forpwd','UserController@getForpwd');
+    Route::post('forpwd','UserController@postForpwd');
 });
 // 会员功能
 Route::group(['prefix'=>'user','middleware' => ['member'],'namespace' => 'Home'],function(){
@@ -117,15 +125,17 @@ Route::group([],function(){
 });
 
 // 社会化登录认证
-Route::group(['prefix' => 'oauth'],function(){
-    // 微信登录扫码地址
-    Route::get('wxlogin', 'Auth\WxController@login');
-    // 轮询地址
-    Route::get('wxislogin', 'Auth\WxController@islogin');
+Route::group(['prefix' => 'oauth','namespace'=>'Auth'],function(){
     // 真正的微信登录地址
-    Route::get('wx', 'Auth\WxController@wx');
-    // 微信回调地址
-    Route::get('wx/callback', 'Auth\WxController@callback');
+    Route::get('wxlogin', 'WxController@getWxlogin');
+    // 微信登陆回调地址
+    Route::get('wxlogincallback', 'WxController@getLogincallback');
+    // 真正的微信注册地址
+    Route::get('wxreg', 'WxController@getWxreg');
+    // 微信注册回调地址
+    Route::get('wxregcallback', 'WxController@getRegcallback');
+    // 轮询微信登录扫码地址
+    Route::get('wxscancode', 'WxController@getWxscancode');
 });
 
 // 微信功能
