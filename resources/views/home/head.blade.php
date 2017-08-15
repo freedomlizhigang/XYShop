@@ -10,11 +10,11 @@
             </div>
             <div class="pull-right top_info_right text-right">
                 @if(session()->has('member'))
-                <span class="top_user_info">欢迎回来：<em>{{ isset(session('member')->nickname) ? session('member')->nickname : session('member')->username }}</em></span>
+                <a href="{{ url('/user/center') }}" class="top_user_info">欢迎回来：<em>{{ isset(session('member')->nickname) ? session('member')->nickname : session('member')->username }}</em></a>
                 @else
                 <a href="{{ url('/user/login') }}">请登录</a>|<a href="{{ url('/user/register') }}">免费注册</a>
                 @endif
-                |<a href="{{ url('/order/list') }}">我的订单</a>|<a href="{{ url('/user/center') }}">我的希夷</a>|<a href="{{ url('/help') }}">帮助中心</a>|<a href="javascript:;">手机商城</a>
+                |<a href="{{ url('/order/list') }}">我的订单</a>|<a href="{{ url('/help') }}">帮助中心</a>|<a href="javascript:;">手机商城</a>
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@
         <!-- logo -->
         <div class="logo ps">
             <h1 class="logo_t1">
-                <a href="{{ $sites['url']}}">希夷商城</a>
+                <a href="{{ $sites['url']}}"><img src="{{ $sites['static']}}home/images/logo.png" alt="{{ cache('config')['title'] }}"></a>
             </h1>
             <h2 class="logo_t2">希夷，多快好省</h2>
         </div>
@@ -39,6 +39,6 @@
         </div>
         <!-- cart -->
         <div class="cart pull-right">
-            <h3 class="cart_t3 pr"><a href="#"><span class="iconfont icon-cart"></span> 我的购物车 <span class="cart_nums ps">7</span></a></h3>
+            <h3 class="cart_t3 pr"><a href="{{ url('shop/cart') }}" target="_blank"><span class="iconfont icon-cart"></span> 我的购物车 <span class="cart_nums ps">0</span></a></h3>
         </div>
     </header>

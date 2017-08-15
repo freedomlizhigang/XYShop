@@ -126,9 +126,15 @@
 			</span>
 			<em>剩余库存：<span id="store">{{ $good->store }}</span></em>
 		</p>
+		<!-- 购物车用的一些表单数据 -->
+		<div class="dn">
+			<input type="hidden" name="gid" value="{{ $good->id }}">
+			<input type="hidden" name="gp" value="{{ $good->shop_price }}">
+			<input type="hidden" name="num" class="cartnum" min="1" value="1">
+		</div>
 		<div class="g_i_r_btns">
-			<a href="#" class="btn_now_mall iconfont icon-light">立即购买</a>
-			<a href="#" class="btn_addcart iconfont icon-cart">加入购物车</a>
+			<a href="javascript:;" class="btn_now_mall iconfont icon-light">立即购买</a>
+			<a href="javascript:;" class="btn_addcart iconfont icon-cart">加入购物车</a>
 		</div>
 	</div>
 </section>
@@ -262,29 +268,32 @@
 		// 购物车数量
 		var uid = "{{ !is_null(session('member')) ? session('member')->id : 0 }}";
 		var before_request = 1; // 标识上一次ajax 请求有没回来, 没有回来不再进行下一次
-		// cartnum(uid);
 		// 添加到购物车
-		$('.addcart').on('click',function(event) {
+		$('.btn_addcart').on('click',function(event) {
 			if(before_request == 0)return false;
 			var sid = "{{ session()->getId() }}";
 			var gid = $('input[name="gid"]').val();
 			var num = $('input[name="num"]').val();
 			var spec_key = $('.spec_key').val();
 			var gp = $('input[name="gp"]').val();
-			var url = "{{ url('api/common/good/addcart') }}";
+			var url = "{{ url('api/good/addcart') }}";
 			before_request = 0;
 			$.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid},function(d){
 				var ss = jQuery.parseJSON(d);
-				if (ss.code == 1) {
+				if (ss.code == '1') {
 	    			// 重新取购物车数量，计算总价
 					cartnum(uid);
-					$('#myModal').modal('hide');
-					$('.alert_good').slideToggle().delay(1500).slideToggle();
+					$('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
 				}
 				else
 				{
-					alert(ss.msg);
-					$('#myModal').modal('hide');
+					$('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
+					if (ss.code == '2') {
+						setTimeout(function(){
+							window.location.href = "{{ url('user/login') }}";
+						},2000);
+					}
+					// alert(ss.msg);
 				}
 				before_request = 1;
 				return;
@@ -296,25 +305,34 @@
 
 
 		// 直接购买
-		$('.firstorder').on('click',function(event) {
+		$('.btn_now_mall').on('click',function(event) {
 			if(before_request == 0)return false;
 			var sid = "{{ session()->getId() }}";
 			var gid = $('input[name="gid"]').val();
 			var num = $('input[name="num"]').val();
 			var spec_key = $('.spec_key').val();
 			var gp = $('input[name="gp"]').val();
-			var url = "{{ url('api/common/good/addcart') }}";
+			var url = "{{ url('api/good/addcart') }}";
 			before_request = 0;
 			$.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid},function(d){
 				var ss = jQuery.parseJSON(d);
-				if (ss.code == 1) {
+				if (ss.code == '1') {
 					// 成功以后跳转到购物车页面上
-					window.location.href = "{{ url('shop/cart') }}";
+					$('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
+					// alert(ss.msg);
+					setTimeout(function(){
+						window.location.href = "{{ url('shop/cart') }}";
+					},2000);
 				}
 				else
 				{
-					alert(ss.msg);
-					$('#myModal').modal('hide');
+					$('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
+					// alert(ss.msg);
+					if (ss.code == '2') {
+						setTimeout(function(){
+							window.location.href = "{{ url('user/login') }}";
+						},2000);
+					}
 				}
 				before_request = 1;
 				return;

@@ -42,6 +42,8 @@ Route::group(['prefix'=>'user','namespace' => 'Home'],function(){
     // 忘记密码
     Route::get('forpwd','UserController@getForpwd');
     Route::post('forpwd','UserController@postForpwd');
+    Route::get('forpwd2','UserController@getForpwd2');
+    Route::post('forpwd2','UserController@postForpwd2');
 });
 // 会员功能
 Route::group(['prefix'=>'user','middleware' => ['member'],'namespace' => 'Home'],function(){
@@ -68,6 +70,8 @@ Route::group(['prefix'=>'user','middleware' => ['member'],'namespace' => 'Home']
     // 修改个人信息
     Route::get('info','UserCenterController@getInfo');
     Route::post('info','UserCenterController@postInfo');
+    Route::get('pwd','UserCenterController@getPwd');
+    Route::post('pwd','UserCenterController@postPwd');
     // 会员中心
     Route::get('center','UserCenterController@getCenter');
 });
@@ -91,8 +95,12 @@ Route::group(['prefix'=>'shop','namespace' => 'Home'],function(){
 });
 // 商城功能-登陆后的
 Route::group(['prefix'=>'shop','middleware' => ['member'],'namespace' => 'Home'],function(){
-    // 直接购买
-    Route::get('firstorder','ShopController@getFirstOrder');
+    // 购物车
+    Route::get('cart','ShopController@getCart');
+    // 订单结算页
+    Route::get('orderinfo','ShopController@getOrderinfo');
+    // 提交订单结算页
+    Route::post('orderinfo','ShopController@postOrderinfo');
     // 团购下单
     Route::get('tuan/addorder','TuanController@getAddorder');
     // 订单评价
@@ -100,8 +108,6 @@ Route::group(['prefix'=>'shop','middleware' => ['member'],'namespace' => 'Home']
     // 订单评价
     Route::get('good/comment/{oid}/{gid}','ShopController@getComment');
     Route::post('good/comment/{oid}/{gid}','ShopController@postComment');
-    // 购物车
-    Route::get('cart','ShopController@getCart');
     // 提交订单
     Route::get('addorder/{oid}','ShopController@getAddorder');
     // 支付

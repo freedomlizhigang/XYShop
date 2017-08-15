@@ -40,6 +40,7 @@ $color_hot:#FFAA71;
 .color_6 {color:$color_6;}
 .color_3 {color:$color_3;}
 // 一些公用的
+.h-img {font-size: 0; line-height: 0;}
 .box {width:1200px;margin:0 auto;}
 a:hover {color:$color_main !important;}
 .tags {top:0; left:0; background:url('../images/common/tag_bg.png') left top no-repeat; width:70px; height:27px; line-height: 20px; text-align: center; color:#fff; font-size: 12px;}
@@ -64,7 +65,6 @@ a:hover {color:$color_main !important;}
 	a {color:$color_6;margin:0 5px;}
 	.top_info_right {color:$color_e1;}
 	.top_info_left {
-		margin-left: 210px;
 		.iconfont { font-size: 12px; margin-top: 2px; }
 	}
 	.top_user_info {
@@ -76,30 +76,30 @@ a:hover {color:$color_main !important;}
 .head {
 	height: 160px; padding-top: 60px;
 	.logo {
-		width:200px; height:170px; background-color: #FFF; box-shadow:0 0 5px 0 #ccc; top:-28px; left:0;
+		width:200px; height:170px; background-color: #FFF; box-shadow:0 0 5px 0 #ccc; top:0; left:0;
 		a {color:$color_main;}
 		.logo_t1 {font-size: 40px; width:200px; height:170px; text-align: center; line-height: 170px; color:$color_main;}
 		.logo_t2 {font-size: 0px;}
 	}
-	.search_top {
-		width:580px; margin-left: 355px;
-		.form_search_top {
-			.form_search_top_key {border:$color_vice solid 1px; width:520px;line-height: 36px;line-height: 36px; text-indent:0px; border-radius: 0; color:$color_6;}
-			.form_search_top_btn {background: $color_vice; border:0; height:34px; line-height: 34px; font-size: 22px; color:#FFF; width:60px; overflow: hidden; padding:0; text-align: center;cursor: pointer;}
-		}
-		.search_keywords {
-			a {
-				font-size: 12px; margin-right: 10px; color:$color_9;
-			}
-			a:first-child {color:$color_vice;}
-		}
+}
+.search_top {
+	width:580px; margin-left: 355px;
+	.form_search_top {
+		.form_search_top_key {border:$color_vice solid 1px; width:520px;line-height: 36px;line-height: 36px; text-indent:0px; border-radius: 0; color:$color_6;}
+		.form_search_top_btn {background: $color_vice; border:0; height:34px; line-height: 34px; font-size: 22px; color:#FFF; width:60px; overflow: hidden; padding:0; text-align: center;cursor: pointer;}
 	}
-	.cart {
-		margin-right: 10px;
-		.cart_t3 {
-			line-height: 36px; height: 36px; padding:0 40px 0 20px; background-color: #FFF; border:$color_e1 solid 1px; font-size: 14px; color:$color_vice;
-			.cart_nums {background-color: $color_vice; line-height: 1.2; padding:0 3px; color:#FFF; border-radius:80%; font-size: 10px; top:5px; right:20px;}
+	.search_keywords {
+		a {
+			font-size: 12px; margin-right: 10px; color:$color_9;
 		}
+		a:first-child {color:$color_vice;}
+	}
+}
+.cart {
+	margin-right: 10px;
+	.cart_t3 {
+		line-height: 34px; height: 34px; padding:0 40px 0 20px; background-color: #FFF; border:$color_e1 solid 1px; font-size: 14px; color:$color_vice;
+		.cart_nums {background-color: $color_vice; line-height: 1.2; padding:0 3px; color:#FFF; border-radius:80%; font-size: 10px; top:5px; right:20px;}
 	}
 }
 // menu_bg
@@ -583,8 +583,8 @@ a:hover {color:$color_main !important;}
 		}
 		.g_i_r_btns {
 			margin-top: 20px;
-			.btn_now_mall {display: inline-block; width:120px; text-align: center; height:40px; line-height: 40px; background-color: $color_vice; color:#FFF; border-radius: 3px;}
-			.btn_addcart {display: inline-block; width:120px; text-align: center; height:40px; line-height: 40px; background-color: $color_main; color:#FFF; border-radius: 3px; margin-left: 10px;}
+			.btn_now_mall {display: inline-block; width:120px; text-align: center; height:40px; line-height: 40px; background-color: $color_vice; color:#FFF !important; border-radius: 3px;}
+			.btn_addcart {display: inline-block; width:120px; text-align: center; height:40px; line-height: 40px; background-color: $color_main; color:#FFF !important; border-radius: 3px; margin-left: 10px;}
 		}
 	}
 }
@@ -669,7 +669,7 @@ a:hover {color:$color_main !important;}
 .usercenter_bg {
 	background: $color_f1; padding-bottom: 30px; margin-bottom: -30px; padding-top: 20px;
 	.user_left {
-		width:100px; font-size: 12px; line-height: 2;
+		width:100px; font-size: 12px; line-height: 2; min-height:700px;
 		a { color:$color_6;}
 		.u_c_l_t3 { line-height: 2;font-size: 12px;font-weight: bold; color:$color_3;}
 		.list_u_c_l {margin-bottom: 20px;}
@@ -701,4 +701,42 @@ a:hover {color:$color_main !important;}
 // 提示框
 .alert_home {
 	padding:10px 30px; line-height: 2; background-color: rgba(0,0,0,0.8); position:fixed; top:35%; left:50%; margin-left: -150px; width:300px; color:$color_f1;text-align: center; border-right: 5px; font-size: 14px;
+}
+.tab_login_div p {font-size: 12px; color:$color_6;}
+.bg_usercenter_top {background: $color_vice;}
+.head_usercenter {
+	padding:20px 0;
+	.search_top {
+		margin-top: 10px;
+		.form_search_top {
+			.form_search_top_key {border:$color_f1 solid 1px; width:520px;line-height: 36px;line-height: 36px; text-indent:0px; border-radius: 0; color:$color_6;}
+			.form_search_top_btn {background: $color_e1; border:0; height:34px; line-height: 34px; font-size: 22px; color:$color_main; width:60px; overflow: hidden; padding:0; text-align: center;cursor: pointer;}
+		}
+	}
+}
+// 简单头部
+.head_simple {
+	padding:20px 0;
+}
+.wrap_simple {
+	margin-top: 20px; min-height:700px;
+	.wrap_s_t2 {font-size: 20px; color:$color_main;}
+	.table_cart {
+		font-size: 12px; margin-top: 15px;
+		td {padding: 10px 5px;}
+		thead {background: $color_f1; font-weight: normal; th {border-bottom: 1px;}}
+		.wrap_s_thumb {width:100px; margin-right: 10px; border-radius:5px; font-size: 0;}
+		.wrap_s_t4 {font-size: 14px; line-height: 1.6;}
+		.wrap_s_p {font-size: 12px; color:$color_6; line-height: 2;}
+	}
+	.cart_nums {
+		display: inline-block;border:$color_e1 solid 1px;
+		div {padding:0 10px; line-height: 2.2; cursor: pointer; display: inline-block; float: left;}
+		.cart_num_cart {border-right:$color_e1 solid 1px; border-left:$color_e1 solid 1px; display: inline-block; font-size: 12px;}
+	}
+	.cart_send {
+		font-size: 12px; color:$color_6; line-height: 42px; height: 42px; background: $color_f1;
+		.total_prices {font-size: 18px; color:$color_vice; font-weight: normal; margin-right: 15px;}
+		.sendtoconfirm { width:140px; line-height: 42px; height:42px; text-align: center; background: $color_main; color:#FFF; font-size: 20px; cursor: pointer;}
+	}
 }

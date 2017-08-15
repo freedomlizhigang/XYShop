@@ -64,23 +64,39 @@ class WxController extends BaseController
             echo $openid;
         }
     }
+    // 微信端登陆功能
+    public function getWxlogin_m()
+    {
+        $url = config('app.url').'/oauth/wxlogincallback_m';
+        return Socialite::driver('wechat')->scopes(['snsapi_userinfo'])->setRedirectUrl($url)->redirect();
+    }
+
+    public function getLogincallback_m(Request $req)
+    {
+        $user = Socialite::driver('wechat')->user();
+        // 如果是新用户，注册，老用户登陆
+        if (is_null(User::where('openid',$user->id)->where('status',1)->first())) {
+            User::create(['openid'=>$user->id,'nickname'=>$user->name,'thumb'=>$user->avatar,]);
+        }
+        else
+        {
+            User::where('openid',$user->id)->update(['thumb'=>$user->avatar,'nickname'=>$user->name]);
+        }
+        // Storage::prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
+        // 实现登录功能
+        $user = User::where('status',1)->where('openid',$user->id)->orderBy('id','asc')->first();
+        User::where('id',$user->id)->update(['last_ip'=>$req->ip(),'last_time'=>Carbon::now()]);
+        session()->put('member',$user);
+        // 更新购物车
+        // $this->updateCart($user->id);
+        $url = session('homeurl') == config('app.url').'/user/login' || is_null(session('homeurl')) ? '/' : session('homeurl');
+        return redirect($url);
+    }
     // 微信注册功能
     public function getWxreg(Request $req)
     {
         $sid = $req->sid;
         // snsapi_base,snsapi_userinfo,?sid='.$sid
-        // 判断有没有登陆
-        if(!is_null(session('member')))
-        {
-            // 如果上次的页面是登陆页面，回首页
-            if (strpos(url()->previous(),'/user/login')) {
-                return redirect('/')->with('message','您已登陆！');
-            }
-            else
-            {
-                return redirect(url()->previous())->with('message','您已登陆！');
-            }
-        }
         $url = config('app.url').'/oauth/wxregcallback?sid='.$sid;
         return Socialite::driver('wechat')->scopes(['snsapi_userinfo'])->setRedirectUrl($url)->redirect();
     }
@@ -100,20 +116,17 @@ class WxController extends BaseController
         AuthTmp::where('auth_id',$sid)->update(['openid'=>$user->id]);
         // dd('success');
         // 注册成新用户
-        User::create(['openid'=>$user->id,'nickname'=>$user->name,'thumb'=>$user->avatar]);
+        // 查一下这个用户存不存在
+        if (is_null(User::where('openid',$user->id)->where('status',1)->first())) {
+            User::create(['openid'=>$user->id,'nickname'=>$user->name,'thumb'=>$user->avatar]);
+        }
         // Storage::prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
-        // 实现登录功能
-        /*$user = User::where('status',1)->where('openid',$user->id)->orderBy('id','asc')->first();
-        User::where('id',$user->id)->update(['last_ip'=>$req->ip(),'last_time'=>Carbon::now()]);
-        session()->put('member',$user);
         // 更新购物车
-        $this->updateCart($user->id);*/
-        // 如果电话、邮箱、地址都为空，跳转到用户中心去完善
-        // if($user->phone == '' && $user->email == '' && $user->address == ''){return redirect('/user/info');}
-        $url = session('homeurl') == config('app.url').'/user/login' || is_null(session('homeurl')) ? '/' : session('homeurl');
+        // $this->updateCart($user->id);
+        $url = session('homeurl') == config('app.url').'/user/register' || is_null(session('homeurl')) ? '/' : session('homeurl');
         return redirect($url);
     }
-    // 微信登陆功能
+    // PC微信登陆功能
     public function getWxlogin(Request $req)
     {
         $sid = $req->sid;
@@ -125,18 +138,6 @@ class WxController extends BaseController
             AuthTmp::create(['auth_id'=>$sid,'overtime'=>time() + 300]);
         }
         // snsapi_base,snsapi_userinfo,?sid='.$sid
-        // 判断有没有登陆
-        if(!is_null(session('member')))
-        {
-            // 如果上次的页面是登陆页面，回首页
-            if (strpos(url()->previous(),'/user/login')) {
-                return redirect('/')->with('message','您已登陆！');
-            }
-            else
-            {
-                return redirect(url()->previous())->with('message','您已登陆！');
-            }
-        }
         $url = config('app.url').'/oauth/wxlogincallback?sid='.$sid;
         return Socialite::driver('wechat')->scopes(['snsapi_userinfo'])->setRedirectUrl($url)->redirect();
     }
@@ -156,34 +157,16 @@ class WxController extends BaseController
         $user = Socialite::driver('wechat')->user();
         // 查有没有openid，没有注册
         AuthTmp::where('auth_id',$sid)->update(['openid'=>$user->id]);
-        /*if (is_null(User::where('openid',$user->id)->where('status',1)->orderBy('id','asc')->first())) {
-            // 如果已经登录，即为绑定
-            if (session()->has('member')) {
-                User::where('id',session('member')->id)->update(['openid'=>$user->id,'thumb'=>$user->avatar,'nickname'=>$user->name]);
-            }
-            else
-            {
-                User::create(['openid'=>$user->id,'nickname'=>$user->name,'thumb'=>$user->avatar,]);
-            }
+        if (is_null(User::where('openid',$user->id)->where('status',1)->orderBy('id','asc')->first())) {
+            return redirect('/user/register')->with('message','没有此用户，请先注册！');
         }
         else
         {
             User::where('openid',$user->id)->update(['thumb'=>$user->avatar,'nickname'=>$user->name]);
-        }*/
+        }
         // Storage::prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
-
-        /*else
-        {
-            User::where('openid',$user->id)->update(['nickname'=>$user->name]);
-        }*/
-        // 实现登录功能
-        /*$user = User::where('status',1)->where('openid',$user->id)->orderBy('id','asc')->first();
-        User::where('id',$user->id)->update(['last_ip'=>$req->ip(),'last_time'=>Carbon::now()]);
-        session()->put('member',$user);
         // 更新购物车
-        $this->updateCart($user->id);*/
-        // 如果电话、邮箱、地址都为空，跳转到用户中心去完善
-        // if($user->phone == '' && $user->email == '' && $user->address == ''){return redirect('/user/info');}
+        // $this->updateCart($user->id);
         $url = session('homeurl') == config('app.url').'/user/login' || is_null(session('homeurl')) ? '/' : session('homeurl');
         return redirect($url);
     }

@@ -22,16 +22,8 @@ class UserCenterController extends BaseController
     {
     	// 取个人信息
         $uid = session('member')->id;
-    	$info = User::findOrFail($uid);
-        $info->pid = 4;
-        $yhq_nums = YhqUser::where('user_id',$uid)->count();
-        // 数据
-        $order_1 = Order::where('user_id',$uid)->where('paystatus',0)->where('orderstatus',1)->where('status',1)->count();
-        $order_2 = Order::where('user_id',$uid)->where('paystatus',1)->where('shipstatus',0)->where('orderstatus',1)->where('status',1)->count();
-        $order_3 = Order::where('user_id',$uid)->where('status',1)->where('paystatus',1)->where('orderstatus',1)->where('shipstatus',1)->count();
-        $order_4 = 0;
-        $order_5 = ReturnGood::where('user_id',$uid)->where('status',0)->where('delflag',1)->count();
-    	return view('home.user.usercenter',compact('info','yhq_nums','order_1','order_2','order_3','order_4','order_5'));
+        $seo = ['title'=>'用户中心 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+    	return view($this->theme.'.usercenter.index',compact('seo'));
     }
     // 修改个人信息
     public function getInfo()
@@ -40,7 +32,7 @@ class UserCenterController extends BaseController
         $uid = session('member')->id;
         $info = User::findOrFail($uid);
         $info->pid = 4;
-        return view('home.user.info',compact('info'));
+        return view($this->theme.'.usercenter.info',compact('info'));
     }
     public function postInfo(Request $req)
     {
@@ -54,14 +46,14 @@ class UserCenterController extends BaseController
     {
         $list = Address::where('user_id',session('member')->id)->where('delflag',1)->get();
         $info = (object) ['pid'=>4];
-        return view('home.user.address',compact('list','info'));
+        return view($this->theme.'.usercenter.address',compact('list','info'));
     }
     // 添加地址
     public function getAddressAdd()
     {
         $area = Type::where('parentid',4)->get();
         $info = (object) ['pid'=>4];
-        return view('home.user.address_add',compact('area','info'));
+        return view($this->theme.'.usercenter.address_add',compact('area','info'));
     }
     public function postAddressAdd(AddressRequest $req)
     {
@@ -76,7 +68,7 @@ class UserCenterController extends BaseController
         $info = Address::findOrFail($id);
         $area = Type::where('parentid',4)->get();
         $info->pid = 4;
-        return view('home.user.address_edit',compact('info','area'));
+        return view($this->theme.'.usercenter.address_edit',compact('info','area'));
     }
     public function postAddressEdit(AddressRequest $req,$id = '')
     {
@@ -97,13 +89,13 @@ class UserCenterController extends BaseController
         $list = ReturnGood::with(['good'=>function($q){
                 $q->select('id','title','thumb');
             }])->where('user_id',session('member')->id)->where('delflag',1)->orderBy('id','desc')->simplePaginate(10);
-        return view('home.user.returngood',compact('info','list'));
+        return view($this->theme.'.usercenter.returngood',compact('info','list'));
     }
     // 充值卡充值
     public function getCard()
     {
         $info = (object) ['pid'=>4];
-        return view('home.user.card',compact('info'));
+        return view($this->theme.'.usercenter.card',compact('info'));
     }
     public function postCard(UserCardRequest $req)
     {
@@ -128,6 +120,6 @@ class UserCenterController extends BaseController
     {
         $info = (object) ['pid'=>4];
         $list = Consume::where('user_id',session('member')->id)->orderBy('id','desc')->simplePaginate(10);
-        return view('home.user.consume',compact('info','list'));
+        return view($this->theme.'.usercenter.consume',compact('info','list'));
     }
 }

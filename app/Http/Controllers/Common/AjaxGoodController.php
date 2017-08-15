@@ -55,7 +55,7 @@ class AjaxGoodController extends BaseController
             }
             else
             {
-                $this->ajaxReturn('0',"请先登录！");
+                $this->ajaxReturn('2',"请先登录！");
             }
             // 查看有没有在购物车里，有累计数量
             if (!is_null($tmp)) {
@@ -71,7 +71,7 @@ class AjaxGoodController extends BaseController
             }
             $total_prices = $price * $nums;
             // 规格信息
-            $spec_key_name = GoodSpecPrice::where('good_id',$id)->where('key',$spec_key)->value('key_name');
+            $spec_key_name = GoodSpecPrice::where('good_id',$id)->where('item_id',$spec_key)->value('item_name');
             $a = ['session_id'=>$sid,'user_id'=>$userid,'good_id'=>$id,'good_title'=>$good->title,'good_spec_key'=>$spec_key,'good_spec_name'=>$spec_key_name,'nums'=>$nums,'price'=>$price,'total_prices'=>$total_prices,'selected'=>1,'type'=>0];
             // 查看有没有在购物车里，有累计数量
             if (!is_null($tmp)) {
@@ -81,7 +81,7 @@ class AjaxGoodController extends BaseController
             {
                 Cart::create($a);
             }
-            $this->ajaxReturn('1');
+            $this->ajaxReturn('1','加入购物车成功！');
         } catch (\Exception $e) {
             $this->ajaxReturn('0',$e->getMessage());
         }
@@ -110,7 +110,7 @@ class AjaxGoodController extends BaseController
         $cid = $req->cid;
         try {
             Cart::where('id',$cid)->delete();
-            $this->ajaxReturn('1','1');
+            $this->ajaxReturn('1','删除成功！');
         } catch (\Exception $e) {
             // $this->ajaxReturn('0',$e->getMessage());
             $this->ajaxReturn('0','删除购物车失败，请稍后再试！');
@@ -134,6 +134,10 @@ class AjaxGoodController extends BaseController
     public function postAddorder(Request $req)
     {
         try {
+            $uid = $req->uid;
+            if (!$uid) {
+                $this->ajaxReturn('2',"请先登录！");
+            }
             // 判断是否选择送货地址
             if (!isset($req->aid) || !isset($req->ziti)) {
                 $this->ajaxReturn('0','请选择送货地址！');
@@ -155,7 +159,6 @@ class AjaxGoodController extends BaseController
                 if($this->store($v->good_id,$v->good_spec_key,$v->nums) == false);
                 $this->ajaxReturn('0',$v->good_title.'，库存不足！');
             }
-            $uid = $req->uid;
             // 创建订单
             $order_id = app('com')->orderid();
             // 查出优惠券优惠多少
@@ -269,7 +272,7 @@ class AjaxGoodController extends BaseController
         }
         else
         {
-            $store = GoodSpecPrice::where('good_id',$id)->where('key',$spec_key)->value('store');
+            $store = GoodSpecPrice::where('good_id',$id)->where('item_id',$spec_key)->value('store');
         }
         $store = is_null($store) ? 0 : $store;
         if ($store < $num) {

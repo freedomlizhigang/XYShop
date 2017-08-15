@@ -31,8 +31,6 @@ class User extends Model
     public $timestamps = true;
 
     // 增加会员等级的属性
-    protected $appends = ['groupname'];
-
     public function getGroupnameAttribute()
     {
         $points = $this->attributes['points'];

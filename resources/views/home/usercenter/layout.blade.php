@@ -22,19 +22,20 @@
 </head>
 
 <body>
-    <!-- logo + search -->
-    <header class="head_login box pr">
-        <div class="logo_login">
-            <a href="{{ $sites['url'] }}"><img src="{{ $sites['static']}}home/images/logo.png" class="img-responsive" alt="希夷SHOP"></a>
-        </div>
-    </header>
+    <!-- header -->
+    @include('home.usercenter.head')
     <!-- 主内容 -->
-    @yield('content')
+    <div class="usercenter_bg">
+        <section class="box user_center clearfix">
+            @include('home.usercenter.aside')
+            <!-- info -->
+            @yield('content')
+            
+        </section>
+    </div>
+    
 
-    <!-- footer -->
-    <footer class="foot_login text-center">
-        Copyright © 2017-2020  希夷SHOP 版权所有
-    </footer>
+    @include('home.foot')
 
     @if(session('message'))
     <div class="alert_home">

@@ -31,5 +31,13 @@
 
     @include('home.foot')
     
+    <div class="alert_home alert_msg dn">
+    </div>
+    <script>
+        $(function(){
+            var uid = "{{ !is_null(session('member')) ? session('member')->id : 0 }}";
+            cartnum(uid);
+        });
+    </script>
 </body>
 </html>
