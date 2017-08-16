@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Common\BaseController;
 use App\Models\Good\Cart;
+use App\Models\Good\CouponUser;
+use App\Models\Good\Fullgift;
 use App\Models\Good\Good;
 use App\Models\Good\GoodSpecPrice;
-use App\Models\Good\Manzeng;
 use App\Models\Good\Order;
 use App\Models\Good\OrderGood;
-use App\Models\Good\YhqUser;
 use App\Models\User\Address;
 use App\Models\User\Group;
 use App\Models\User\User;
@@ -72,7 +72,7 @@ class AjaxGoodController extends BaseController
             $total_prices = $price * $nums;
             // 规格信息
             $spec_key_name = GoodSpecPrice::where('good_id',$id)->where('item_id',$spec_key)->value('item_name');
-            $a = ['session_id'=>$sid,'user_id'=>$userid,'good_id'=>$id,'good_title'=>$good->title,'good_spec_key'=>$spec_key,'good_spec_name'=>$spec_key_name,'nums'=>$nums,'price'=>$price,'total_prices'=>$total_prices,'selected'=>1,'type'=>0];
+            $a = ['session_id'=>$sid,'user_id'=>$userid,'good_id'=>$id,'good_title'=>$good->title,'good_spec_key'=>$spec_key,'good_spec_name'=>$spec_key_name,'nums'=>$nums,'price'=>$price,'total_prices'=>$total_prices,'selected'=>1,'prom_type'=>$good->prom_type,'prom_id'=>$good->prom_id];
             // 查看有没有在购物车里，有累计数量
             if (!is_null($tmp)) {
                 Cart::where('id',$tmp->id)->update($a);
@@ -156,8 +156,9 @@ class AjaxGoodController extends BaseController
             $carts = Cart::whereIn('id',$ids)->orderBy('updated_at','desc')->get();
             // 在这里检查库存
             foreach ($carts as $v) {
-                if($this->store($v->good_id,$v->good_spec_key,$v->nums) == false);
-                $this->ajaxReturn('0',$v->good_title.'，库存不足！');
+                if($this->store($v->good_id,$v->good_spec_key,$v->nums) == false){
+                    $this->ajaxReturn('0',$v->good_title.'，库存不足！');
+                }
             }
             // 创建订单
             $order_id = app('com')->orderid();
@@ -177,14 +178,14 @@ class AjaxGoodController extends BaseController
             // 优惠券
             $yhq_id = isset($req->yid) ? $req->yid : 0;
             if ($yhq_id) {
-                $yh = YhqUser::where('id',$req->yid)->first();
-                $yh_price = $yh->yhq->lessprice;
+                $yh = CouponUser::where('id',$req->yid)->first();
+                $yh_price = $yh->coupon->lessprice;
                 $prices = $prices - $yh_price;
             }
             // 没有优惠券时查有没有赠品
             else
             {
-                $mz = Manzeng::with(['good'=>function($q){
+                $mz = Fullgift::with(['good'=>function($q){
                         $q->select('id','price','title');
                     }])->where('price','<=',$prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->orderBy('price','desc')->first();
             }
@@ -203,7 +204,7 @@ class AjaxGoodController extends BaseController
             $clear_ids = [];
             $date = Carbon::now();
             foreach ($carts as $k => $v) {
-                $order_goods[$k] = ['user_id'=>$uid,'order_id'=>$order->id,'good_id'=>$v->good_id,'good_title'=>$v->good_title,'good_spec_key'=>$v->good_spec_key,'good_spec_name'=>$v->good_spec_name,'nums'=>$v->nums,'price'=>$v->price,'total_prices'=>$v->total_prices,'created_at'=>$date,'updated_at'=>$date];
+                $order_goods[$k] = ['user_id'=>$uid,'order_id'=>$order->id,'good_id'=>$v->good_id,'good_title'=>$v->good_title,'good_spec_key'=>$v->good_spec_key,'good_spec_name'=>$v->good_spec_name,'nums'=>$v->nums,'price'=>$v->price,'total_prices'=>$v->total_prices,'created_at'=>$date,'updated_at'=>$date,'prom_type'=>$v->prom_type,'prom_id'=>$v->prom_id];
                 $clear_ids[] = $v->id;
             }
             // 如果有赠品，加上赠品

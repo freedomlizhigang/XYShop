@@ -108,11 +108,11 @@ Route::group(['prefix'=>'shop','middleware' => ['member'],'namespace' => 'Home']
     // 订单评价
     Route::get('good/comment/{oid}/{gid}','ShopController@getComment');
     Route::post('good/comment/{oid}/{gid}','ShopController@postComment');
-    // 提交订单
-    Route::get('addorder/{oid}','ShopController@getAddorder');
+    // 提交订单完成，付款
+    Route::get('pay/{oid}','ShopController@getOrderpay');
     // 支付
-    Route::get('order/pay/{oid}','PayController@list');
-    Route::post('order/pay/{oid}','PayController@pay');
+    Route::get('order/pay/{oid}','PayController@pay');
+    // Route::post('order/pay/{oid}','PayController@pay');
 });
 
 

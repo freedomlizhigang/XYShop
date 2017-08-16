@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Common\BaseController;
+use App\Models\Common\Pay;
 use App\Models\Good\Cart;
+use App\Models\Good\Coupon;
+use App\Models\Good\Order;
 use App\Models\User\Address;
 use Carbon\Carbon;
 use DB;
@@ -40,7 +43,7 @@ class ShopController extends BaseController
     // 提交订单
     public function getOrderinfo(Request $req)
     {
-        $seo = ['title'=>'订单结算页 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+        $seo = ['title'=>'订单确认页 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
         // 找出购物车
         $cid = explode('.', trim(session('order_info_'.$req->rid),'.'));
         $goods = Cart::with(['good'=>function($q){
@@ -59,8 +62,10 @@ class ShopController extends BaseController
         // 找出所有商品来
         $total_prices = number_format($total_prices,2,'.','');
         // 送货地址
-        $address = Address::where('user_id',session('member')->id)->where('delflag',1)->get();
-        return view($this->theme.'.orderinfo',compact('goodlists','seo','total_prices','address'));
+        $address = Address::where('user_id',session('member')->id)->orderBy('id','desc')->where('delflag',1)->get();
+        // 找出来可以的优惠券
+        $coupon = Coupon::where('price','<=',$total_prices)->where('starttime','=<',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->orderBy('sort','desc')->orderBy('id','desc')->where('delflag',1)->get();
+        return view($this->theme.'.orderinfo',compact('goodlists','seo','total_prices','address','coupon'));
     }
     // 提交结算页面
     public function postOrderinfo(Request $req)
@@ -77,16 +82,17 @@ class ShopController extends BaseController
             return;
         }
     }
-    // 提交订单
+    // 提交订单完成，付款页面
     public function getOrderpay(Request $req,$oid ='')
     {
         try {
+            $seo = ['title'=>'订单结算页 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
             $order = Order::findOrFail($oid);
             $info = (object)['pid'=>3];
             $paylist = Pay::where('status',1)->where('paystatus',1)->orderBy('id','asc')->get();
-            return view($this->theme.'.addorder',compact('info','order','paylist'));
+            return view($this->theme.'.pay',compact('info','order','paylist','seo'));
         } catch (\Exception $e) {
-            return back()->with('message','添加失败，请稍后再试！');
+            dd($e);
         }
     }
     // 订单列表

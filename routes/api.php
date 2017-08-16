@@ -63,6 +63,8 @@ Route::group(['prefix'=>'common','namespace'=>'Common'],function(){
 
 // 会员功能
 Route::group(['prefix'=>'user'],function(){
+    // 添加收货人信息
+    Route::post('ajax_address','Common\AjaxUserController@postAddress');
     // 注册
     Route::post('register','Api\UserController@postRegister');
     // 登陆

@@ -33,6 +33,6 @@ class Coupon extends Model
     // 关联商品评价
     public function yhquser()
     {
-        return $this->hasOne('\App\Models\Good\CouponUser','yhq_id','id');
+        return $this->hasOne('\App\Models\Good\CouponUser','c_id','id');
     }
 }

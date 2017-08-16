@@ -7,7 +7,7 @@ nav ,ul {list-style:none;}
 ol {list-style:decimal;}
 blockquote:before, blockquote:after, q:before, q:after {content:none;}
 table {border-collapse:collapse;border-spacing:0;}
-hr {display:block;height:0px;border:0;border-top:1px solid #ccc;overflow:hidden; line-height:0px;}
+hr {display:block;height:0px;border:0;border-top:1px solid #F1F1F1;overflow:hidden; line-height:0px;}
 input ,select ,a img {vertical-align:middle;}
 .overh {overflow: hidden;}
 a {color: #313131; text-decoration: none;}
@@ -43,6 +43,10 @@ $color_hot:#FFAA71;
 .h-img {font-size: 0; line-height: 0;}
 .box {width:1200px;margin:0 auto;}
 a:hover {color:$color_main !important;}
+.btn_vice ,.btn_main,.btn_f1 {display: inline-block; padding:0 15px; line-height: 2.2;border-radius: 3px; cursor: pointer;border:0;}
+.btn_vice {background-color: $color_vice; color:$color_f1;}
+.btn_main {background-color: $color_main; color:$color_f1;}
+.btn_f1 {background-color: $color_f1;color:$color_3;}
 .tags {top:0; left:0; background:url('../images/common/tag_bg.png') left top no-repeat; width:70px; height:27px; line-height: 20px; text-align: center; color:#fff; font-size: 12px;}
 .dn {display: none;}
 // 动画部分
@@ -718,9 +722,10 @@ a:hover {color:$color_main !important;}
 .head_simple {
 	padding:20px 0;
 }
+.order_cart_t {font-size: 18px; font-weight: normal; color:$color_9;margin-top: 20px; } 
 .wrap_simple {
-	margin-top: 20px; min-height:700px;
-	.wrap_s_t2 {font-size: 20px; color:$color_main;}
+	border:$color_f1 solid 1px; padding:20px; margin-top: 10px; font-size: 12px;
+	.wrap_s_t2 {font-size: 14px; color:$color_3;}
 	.table_cart {
 		font-size: 12px; margin-top: 15px;
 		td {padding: 10px 5px;}
@@ -734,9 +739,48 @@ a:hover {color:$color_main !important;}
 		div {padding:0 10px; line-height: 2.2; cursor: pointer; display: inline-block; float: left;}
 		.cart_num_cart {border-right:$color_e1 solid 1px; border-left:$color_e1 solid 1px; display: inline-block; font-size: 12px;}
 	}
-	.cart_send {
-		font-size: 12px; color:$color_6; line-height: 42px; height: 42px; background: $color_f1;
-		.total_prices {font-size: 18px; color:$color_vice; font-weight: normal; margin-right: 15px;}
-		.sendtoconfirm { width:140px; line-height: 42px; height:42px; text-align: center; background: $color_main; color:#FFF; font-size: 20px; cursor: pointer;}
+}
+.cart_send {
+	font-size: 12px; color:$color_6; line-height: 42px; background: $color_f1;
+	.total_prices {font-size: 18px; color:$color_vice; font-weight: normal; margin-right: 15px;}
+}
+.order_people_info {
+	background: $color_f1;font-size: 12px; color:$color_6; line-height: 2; padding:15px 0; margin-top: 20px;
+	.total_prices {font-size: 18px; color:$color_vice; font-weight: normal; margin-right: 15px;}
+}
+// add_address
+.input-md {width:50% !important;}
+.list_address {
+	margin-top:15px; line-height: 2; font-size: 12px; color:$color_6;
+	li {
+		margin: 10px 0;
+		.l_a_left {display: inline-block; border:$color_e1 solid 1px; text-align: center; width:80px; margin-right: 5px; cursor: pointer;}
+		&.active .l_a_left {border-color: $color_vice;}
+	}
+}
+.add_address {
+	padding:15px 0;
+	.add_address_btn {border:$color_e1 solid 1px; display: inline-block; line-height:24px; padding:0 10px; color:$color_6; margin: 10px 0; cursor: pointer;}
+}
+// 定义弹出框
+.pop {
+	width:100%; position: fixed; bottom:0; left:0; top:0; background: rgba(0,0,0,0.2);
+	.pop_close {right:10px; top:5px; color:$color_6; cursor: pointer;}
+	.pop_con {
+		background-color: #FFF; border:rgba(0,0,0,0.3) solid 5px; width:800px; height:auto; margin:0 auto; border-radius: 3px; position: fixed; top:200px; left:50%;margin-left:-400px;z-index: 1000;
+		.pop_t {line-height: 2.4;padding-left: 10px; font-size: 14px; background-color:$color_f1; color:$color_6;}
+		.form-group {width:100%; margin:10px 0;}
+		label {width:80px; text-align: right; margin-right: 10px; font-size: 12px; font-weight: normal; color:$color_6;}
+		.form-control {line-height: 24px; height: 24px; border-radius: 2px;font-size: 12px; padding:0;}
+	}
+	.pop_btn {background: $color_vice; line-height: 24px; padding:0 15px;display: inline-block;color:#FFF; border-radius: 3px; cursor: pointer; margin-left: 95px;}
+}
+.orderinfo_fp {padding:15px 0;}
+.orderinfo_coupon {
+	margin:20px 0;
+	li {
+		float: left; width:190px; margin-right: 10px; background: $color_f1; padding:20px; cursor: pointer;
+		.coupon_time {color:$color_9;}
+		.coupon_t4 {color:$color_6; font-size: 16px; line-height: 2;font-size: 14px; .coupon_price {font-size: 18px; color:$color_3; margin-right: 5px;}}
 	}
 }

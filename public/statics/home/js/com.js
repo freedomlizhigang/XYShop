@@ -1,4 +1,8 @@
 $(function() {
+	// 弹出框
+	$('.pop_close').click(function(event) {
+		$('.pop').hide();
+	});
 	// 图片懒加载
     $(".lazy").lazyload({
          effect : "fadeIn",
@@ -113,7 +117,7 @@ function cartnum(uid)
 	});
 }
 // 购物车商品数量变化,type = 1 增加
-function cartNumsChange(className = '',oldnum = 1,type = 1)
+function cartNumsChange(className,oldnum,type)
 {
 	if(before_request == 0)return false;
 	var that = $('.' + className);
@@ -145,4 +149,50 @@ function cartNumsChange(className = '',oldnum = 1,type = 1)
 		before_request = 1;
 		return;
 	});
+}
+// 取地区
+function get_area(pid,subid,selectid)
+{
+    // 取一级子分类
+    var goodcateurl = host + 'api/common/area';
+    // 取子分类
+    $.post(goodcateurl, {pid: pid}, function(d) {
+        var ss = jQuery.parseJSON(d);
+        if (ss.code == 1) {
+            var str = '<option value="">选择地区</option>';
+            $.each(ss.msg, function(i,n) {
+                str += '<option value="' + n.id + '">' + n.areaname + '</option>';
+            });
+            $('#' + subid).html(str);
+		    (selectid > 0) && $('#' + subid).val(selectid);
+        }
+        else
+        {
+            // 失败的时候重置数量
+            console.log(ss.msg);
+        }
+    });
+}
+// 取乡镇
+function get_community(pid,subid,selectid)
+{
+    // 取一级子分类
+    var goodcateurl = host + 'api/common/community';
+    // 取子分类
+    $.post(goodcateurl, {areaid3: pid}, function(d) {
+        var ss = jQuery.parseJSON(d);
+        if (ss.code == 1) {
+            var str = '<option value="">选择地区</option>';
+            $.each(ss.msg, function(i,n) {
+                str += '<option value="' + n.id + '">' + n.name + '</option>';
+            });
+            $('#' + subid).html(str);
+		    (selectid > 0) && $('#' + subid).val(selectid);
+        }
+        else
+        {
+            // 失败的时候重置数量
+            console.log(ss.msg);
+        }
+    });
 }

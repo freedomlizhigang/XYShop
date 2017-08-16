@@ -10,6 +10,9 @@
 <!-- 内容 -->
 @section('content')
 
+<div class="box">
+	<p class="order_cart_t">购物车页面</p>
+</div>
 <section class="wrap_simple box clearfix overh">
 	<h2 class="wrap_s_t2">全部商品 {{ count($goodlists) }}</h2>
 	<table class="table table_cart">
@@ -27,9 +30,9 @@
 		<tr class="g_tr_{{ $g->id }}">
 			<td><input type="checkbox" class="selected_checkbox check_s cart_ids" data-gid="{{ $g->id }}" name="cid[]" @if($g->selected) checked="checked"@endif value="{{ $g->id }}"></td>
 			<td>
-				<a href="{{ $g->url }}" class="pull-left wrap_s_thumb"><img src="{{ $g->good->thumb }}" alt="{{ $g->good_title }}" width="100"></a>
+				<a href="{{ $g->good->url }}" class="pull-left wrap_s_thumb"><img src="{{ $g->good->thumb }}" alt="{{ $g->good_title }}" width="100"></a>
 				<div class="cart_con">
-					<h4 class="wrap_s_t4"><a href="{{ $g->url }}">{{ $g->good_title }}</a></h4
+					<h4 class="wrap_s_t4"><a href="{{ $g->good->url }}">{{ $g->good_title }}</a></h4
 					>
 					@if($g->good_spec_name != '')<p class="wrap_s_p">{{ $g->good_spec_name }}</p>@endif
 				</div>
@@ -56,12 +59,11 @@
 		</tr>
 		@endforeach
 	</table>
-	<div class="cart_send clearfix">
-		<div class="sendtoconfirm pull-right">去结算</div>
-		<p class="text-right">总计：<strong class="total_prices text-right color_2">￥{{ $total_prices }}</strong></p>
-	</div>
 </section>
-<script src="{{ $sites['static']}}home/js/cookie.js"></script>
+<div class="box mt20 clearfix">
+	<p class="text-right cart_send">总计：<strong class="total_prices text-right color_2">￥{{ $total_prices }}</strong></p>
+	<div class="sendtoconfirm mt10 btn_vice btn-lg pull-right">去结算</div>
+</div>
 <script>
 	$(function(){
 		$(".checkall").bind('change',function(){

@@ -30,9 +30,9 @@ class CouponUser extends Model
      */
     public $timestamps = true;
 
-    // 关联商品评价
+    // 关联商品优惠券
     public function coupon()
     {
-        return $this->belongsTo('\App\Models\Good\Coupon','yhq_id','id');
+        return $this->belongsTo('\App\Models\Good\Coupon','c_id','id');
     }
 }

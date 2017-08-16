@@ -4,12 +4,32 @@
 		"selected_items":
 		[
 			[
-				"order",
-				"orderinfo"
+				"form-con",
+				"form-control \tBootstrap 3 Class"
 			],
 			[
 				"this",
-				"thisSid"
+				"this\t$(this)"
+			],
+			[
+				"bd",
+				"bdc\tborder-color"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"area",
+				"areaname"
+			],
+			[
+				"pro",
+				"prop\t.prop() - single"
+			],
+			[
+				"order",
+				"orderinfo"
 			],
 			[
 				"ce",
@@ -472,10 +492,6 @@
 				"width"
 			],
 			[
-				"bd",
-				"bdrz\tborder-radius"
-			],
-			[
 				"col-xs",
 				"col-xs-4\t(good.blade.php)"
 			],
@@ -498,22 +514,6 @@
 			[
 				"bg",
 				"bg-primary \tBootstrap 3 Class"
-			],
-			[
-				"return",
-				"return"
-			],
-			[
-				"retur",
-				"return"
-			],
-			[
-				"cont",
-				"contents\t.contents()"
-			],
-			[
-				"sub",
-				"submit\t.submit()"
 			]
 		]
 	},
@@ -751,7 +751,6 @@
 		"/F/wwwroot/XYShop/app/Http/Controllers",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Common",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Home",
-		"/F/wwwroot/XYShop/app/Http/Middleware",
 		"/F/wwwroot/XYShop/public",
 		"/F/wwwroot/XYShop/public/statics",
 		"/F/wwwroot/XYShop/public/statics/home",
@@ -760,6 +759,7 @@
 		"/F/wwwroot/XYShop/resources",
 		"/F/wwwroot/XYShop/resources/views",
 		"/F/wwwroot/XYShop/resources/views/home",
+		"/F/wwwroot/XYShop/resources/views/home/user",
 		"/F/wwwroot/XYShop/resources/views/wx",
 		"/F/wwwroot/XYShop/routes"
 	],
@@ -768,14 +768,32 @@
 		"/F/wwwroot/XYShop/public/statics/home/css/home.css",
 		"/F/wwwroot/XYShop/public/statics/home/css/home.scss",
 		"/F/wwwroot/XYShop/routes/home.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Home/PayController.php",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Home/ShopController.php",
-		"/F/wwwroot/XYShop/resources/views/home/orderinfo.blade.php",
-		"/F/wwwroot/XYShop/public/statics/home/js/com.js",
+		"/F/wwwroot/XYShop/resources/views/home/pay.blade.php",
+		"/F/wwwroot/XYShop/resources/views/home/layout_simple.blade.php",
+		"/F/wwwroot/XYShop/resources/views/home/layout.blade.php",
 		"/F/wwwroot/XYShop/resources/views/home/cart.blade.php",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
-		"/F/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
+		"/F/wwwroot/XYShop/resources/views/home/orderinfo.blade.php",
 		"/F/wwwroot/XYShop/routes/api.php",
+		"/F/wwwroot/XYShop/app/Models/Good/CouponUser.php",
+		"/F/wwwroot/XYShop/app/Models/Good/Coupon.php",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCommonController.php",
+		"/C/Users/Administrator/Desktop/phoneshop/shopshou.html",
+		"/C/Users/Administrator/Desktop/phoneshop/css/phonesy.css",
+		"/C/Users/Administrator/Desktop/phoneshop/js/MB_Default.js",
+		"/F/scss/reset/js/lib_fex.js",
+		"/F/scss/reset/mb/index.html",
+		"/F/scss/reset/js/MB_Default.js",
+		"/F/scss/bootstrap/js/MB_Default.js",
+		"/F/scss/bootstrap/index.html",
+		"/F/scss/reset/mb/index_mb.html",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
+		"/F/wwwroot/XYShop/public/statics/home/js/com.js",
+		"/F/wwwroot/XYShop/app/Models/User/Address.php",
+		"/F/wwwroot/XYShop/resources/views/admin/community/add.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
 		"/F/wwwroot/XYShop/vendor/laravel/framework/src/Illuminate/Contracts/Session/Session.php",
 		"/G/soft/FlashFXP4/Cache/~flashfxp/41F864EF_edit.tmp/add.blade.php",
 		"/F/wwwroot/XYShop/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php",
@@ -785,11 +803,9 @@
 		"/F/wwwroot/XYShop/public/statics/home/js/cookie.js",
 		"/F/wwwroot/包/v9.6/statics/js/cookie.js",
 		"/F/wwwroot/XYShop/resources/views/admin/good/index.blade.php",
-		"/F/wwwroot/XYShop/resources/views/home/layout.blade.php",
 		"/F/wwwroot/XYShop/resources/views/home/good.blade.php",
 		"/F/wwwroot/XYShop/resources/views/home/user/login.blade.php",
 		"/F/希夷/懂秘帮/文档/服务器.txt",
-		"/F/wwwroot/XYShop/resources/views/home/layout_simple.blade.php",
 		"/F/wwwroot/XYShop/resources/views/home/head.blade.php",
 		"/F/wwwroot/XYShop/resources/views/home/usercenter/head.blade.php",
 		"/F/wwwroot/XYShop/app/Models/Good/Good.php",
@@ -876,23 +892,7 @@
 		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/index.html",
 		"/G/soft/FlashFXP4/Cache/~flashfxp/028C9D32_edit.tmp/database.php",
 		"/G/soft/FlashFXP4/Cache/~flashfxp/782C9A87_edit.tmp/footer-qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/782C9A87_edit.tmp/footer.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/show-qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/show.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/list.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/jj.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/index.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/header-qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/header.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/footer.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/footer-qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/category.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/bq.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/C8B6D195_edit.tmp/bj.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/70536B3C_edit.tmp/bjxx.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/70536B3C_edit.tmp/bqxx.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/70536B3C_edit.tmp/szjy.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/70536B3C_edit.tmp/zzjj.html"
+		"/G/soft/FlashFXP4/Cache/~flashfxp/782C9A87_edit.tmp/footer.html"
 	],
 	"find":
 	{
@@ -1012,6 +1012,30 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"div",
+			"paylist",
+			"good",
+			"cart_ids",
+			"ziti",
+			"type",
+			"CouponUser",
+			"alert_addorder",
+			"75rem",
+			"px",
+			"h2",
+			"order_people_info",
+			"vice",
+			"\"",
+			"address_id",
+			"adpx",
+			"l_a_left",
+			"$v",
+			"attrs",
+			"$v",
+			"\"",
+			"area1",
+			"required|integer",
+			"area1",
 			"orderinfo",
 			"sendtoconfirm",
 			"orderinfo",
@@ -1115,31 +1139,7 @@
 			"3",
 			"ss_brand_list ",
 			"'like',\"%",
-			"@",
-			",'like',\"%$attr_vals%\"",
-			"dump(",
-			"text",
-			"spec_group2[0]",
-			"text",
-			"clear_selected",
-			"text_b",
-			"urldecode",
-			"name",
-			"pids",
-			"cid",
-			"key_name",
-			"shop_price",
-			"item_name",
-			"key",
-			"key_name",
-			"'key_name'",
-			"'item_id'",
-			"'key'",
-			"key",
-			"good_spec_item_id",
-			" . '_' . $v['good_attr_value']",
-			" . '_' . $vv",
-			"catid"
+			"@"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1147,6 +1147,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"/75rem",
 			"'item_name'",
 			"'item_id'",
 			"{{ $sites['static']}}home/images/",
@@ -1351,6 +1352,26 @@
 		"selected_items":
 		[
 			[
+				"orderinfo",
+				"resources\\views\\home\\orderinfo.blade.php"
+			],
+			[
+				"ajaxuser",
+				"app\\Http\\Controllers\\Common\\AjaxUserController.php"
+			],
+			[
+				"address.",
+				"app\\Models\\User\\Address.php"
+			],
+			[
+				"community/add",
+				"resources\\views\\admin\\community\\add.blade.php"
+			],
+			[
+				"home/orderinfo",
+				"resources\\views\\home\\orderinfo.blade.php"
+			],
+			[
 				"good/index",
 				"resources\\views\\admin\\good\\index.blade.php"
 			],
@@ -1549,10 +1570,6 @@
 			[
 				"goodattr/add",
 				"resources\\views\\admin\\goodattr\\add.blade.php"
-			],
-			[
-				"community/add",
-				"resources\\views\\admin\\community\\add.blade.php"
 			],
 			[
 				"goodattr/ed",
@@ -1845,22 +1862,6 @@
 			[
 				"ziti/ed",
 				"resources\\views\\admin\\ziti\\edit.blade.php"
-			],
-			[
-				"ziti/add",
-				"resources\\views\\admin\\ziti\\add.blade.php"
-			],
-			[
-				"group/in",
-				"resources\\views\\admin\\group\\index.blade.php"
-			],
-			[
-				"ziti/index",
-				"resources\\views\\admin\\ziti\\index.blade.php"
-			],
-			[
-				"group/edit",
-				"resources\\views\\admin\\group\\edit.blade.php"
 			]
 		],
 		"width": 0.0

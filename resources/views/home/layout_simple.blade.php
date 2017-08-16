@@ -58,6 +58,16 @@
 
     @include('home.foot')
     
+    @if(session('message'))
+    <div class="alert_home">
+        {{ session('message') }}
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('div.alert_home').delay(1500).slideUp(300);
+        })
+    </script>
+    @endif
     <div class="alert_home alert_msg dn">
     </div>
 </body>
