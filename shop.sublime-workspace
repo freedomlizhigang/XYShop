@@ -544,7 +544,7 @@
 	"command_palette":
 	{
 		"height": 392.0,
-		"last_filter": "",
+		"last_filter": "re",
 		"selected_items":
 		[
 			[
@@ -716,7 +716,7 @@
 				"phpfmt: toggle PHP 5.5 compatibility mode"
 			]
 		],
-		"width": 856.0
+		"width": 500.0
 	},
 	"console":
 	{
@@ -749,25 +749,63 @@
 		"/F/wwwroot/XYShop/app",
 		"/F/wwwroot/XYShop/app/Http",
 		"/F/wwwroot/XYShop/app/Http/Controllers",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Common",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Home",
-		"/F/wwwroot/XYShop/public",
-		"/F/wwwroot/XYShop/public/statics",
-		"/F/wwwroot/XYShop/public/statics/home",
-		"/F/wwwroot/XYShop/public/statics/home/css",
-		"/F/wwwroot/XYShop/public/statics/home/js",
 		"/F/wwwroot/XYShop/resources",
+		"/F/wwwroot/XYShop/resources/assets",
+		"/F/wwwroot/XYShop/resources/assets/js",
+		"/F/wwwroot/XYShop/resources/assets/js/components",
 		"/F/wwwroot/XYShop/resources/views",
-		"/F/wwwroot/XYShop/resources/views/home",
-		"/F/wwwroot/XYShop/resources/views/home/user",
-		"/F/wwwroot/XYShop/resources/views/wx",
+		"/F/wwwroot/XYShop/resources/views/vue",
 		"/F/wwwroot/XYShop/routes"
 	],
 	"file_history":
 	[
+		"/F/wwwroot/XYShop/resources/assets/js/components/App.vue",
+		"/F/wwwroot/XYShop/resources/assets/js/app.js",
+		"/F/wwwroot/XYShop/resources/assets/js/components/Logo.vue",
+		"/F/wwwroot/XYShop/resources/assets/js/components/Logout.vue",
+		"/F/wwwroot/XYShop/resources/views/vue/index.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Home/HomeController.php",
+		"/F/wwwroot/XYShop/resources/assets/js/components/Login.vue",
+		"/F/wwwroot/XYShop/resources/assets/js/components/Count.vue",
+		"/F/wwwroot/XYShop/resources/assets/js/vuex/modules/user.js",
+		"/F/wwwroot/XYShop/resources/assets/js/vuex/store.js",
+		"/F/wwwroot/XYShop/resources/assets/js/vuex/mutation_types.js",
+		"/F/wwwroot/XYShop/routes/home.php",
+		"/F/wwwroot/XYShop/resources/assets/js/router/index.js",
+		"/E/vuejs/v-one/src/components/Artshow.vue",
+		"/E/vuejs/v-one/src/router/index.js",
+		"/F/wwwroot/XYShop/public/.htaccess",
+		"/F/wwwroot/XYShop/shop.sublime-project",
+		"/F/wwwroot/XYShop/node_modules/._acorn@4.0.13@acorn/dist/acorn.es.js",
+		"/F/wwwroot/XYShop/resources/assets/js/vuex/modules/login.js",
+		"/F/wwwroot/XYShop/resources/assets/js/vuex/modules/counter.js",
+		"/F/wwwroot/XYShop/routes/api.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Api/AdController.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/DataController.php",
+		"/F/wwwroot/XYShop/package.json",
+		"/F/wwwroot/lh_a/resources/assets/js/app.js",
+		"/F/wwwroot/XYCMF/config/app.php",
+		"/F/wwwroot/XYShop/config/app.php",
+		"/F/wwwroot/XYShop/app/Providers/ComServiceProvider.php",
+		"/F/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
+		"/F/wwwroot/XYShop/app/Http/Kernel.php",
+		"/F/wwwroot/XYCMF/app/Http/Kernel.php",
+		"/F/wwwroot/XYShop/.env",
+		"/F/wwwroot/XYShop/app/Providers/RouteServiceProvider.php",
+		"/F/wwwroot/XYShop/composer.json",
+		"/F/wwwroot/XYShop/webpack.mix.js",
+		"/F/wwwroot/XYCMF/webpack.mix.js",
+		"/F/wwwroot/XYCMF/composer.json",
+		"/F/wwwroot/XYShop/sftp-config.json",
+		"/F/wwwroot/XYShop/public/statics/home/js/com.js",
+		"/F/wwwroot/XYShop/app/Services/ComService.php",
+		"/F/wwwroot/XYShop/resources/views/admin/promotion/add.blade.php",
+		"/F/wwwroot/XYShop/resources/views/admin/promotion/goodlist.blade.php",
+		"/F/wwwroot/lh_a/resources/views/admin/wxmenu/index.blade.php",
+		"/F/wwwroot/XYShop/app/Http/Controllers/Common/BaseController.php",
 		"/F/wwwroot/XYShop/public/statics/home/css/home.css",
 		"/F/wwwroot/XYShop/public/statics/home/css/home.scss",
-		"/F/wwwroot/XYShop/routes/home.php",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Home/PayController.php",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Home/ShopController.php",
 		"/F/wwwroot/XYShop/resources/views/home/pay.blade.php",
@@ -776,7 +814,6 @@
 		"/F/wwwroot/XYShop/resources/views/home/cart.blade.php",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
 		"/F/wwwroot/XYShop/resources/views/home/orderinfo.blade.php",
-		"/F/wwwroot/XYShop/routes/api.php",
 		"/F/wwwroot/XYShop/app/Models/Good/CouponUser.php",
 		"/F/wwwroot/XYShop/app/Models/Good/Coupon.php",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCommonController.php",
@@ -790,10 +827,8 @@
 		"/F/scss/bootstrap/index.html",
 		"/F/scss/reset/mb/index_mb.html",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
-		"/F/wwwroot/XYShop/public/statics/home/js/com.js",
 		"/F/wwwroot/XYShop/app/Models/User/Address.php",
 		"/F/wwwroot/XYShop/resources/views/admin/community/add.blade.php",
-		"/F/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
 		"/F/wwwroot/XYShop/vendor/laravel/framework/src/Illuminate/Contracts/Session/Session.php",
 		"/G/soft/FlashFXP4/Cache/~flashfxp/41F864EF_edit.tmp/add.blade.php",
 		"/F/wwwroot/XYShop/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php",
@@ -820,7 +855,6 @@
 		"/F/wwwroot/XYShop/resources/views/home/user/foot.blade.php",
 		"/F/wwwroot/XYShop/app/Http/Controllers/Home/UserController.php",
 		"/F/wwwroot/XYShop/resources/views/home/user/forpwd2.blade.php",
-		"/F/wwwroot/XYShop/.env",
 		"/F/wwwroot/XYShop/resources/views/home/user/forpwd.blade.php",
 		"/F/wwwroot/XYShop/resources/views/home/emails/forpwd.blade.php",
 		"/F/wwwroot/CIS/app/Jobs/SendEmail.php",
@@ -838,7 +872,6 @@
 		"/F/wwwroot/XYShop/app/Http/Requests/User/UserRequest.php",
 		"/F/scss/shop/login.html",
 		"/F/scss/shop/show.html",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Home/HomeController.php",
 		"/F/wwwroot/XYShop/resources/views/home/state.blade.php",
 		"/F/wwwroot/XYShop/resources/views/home_old/good.blade.php",
 		"/F/wwwroot/XYShop/resources/views/home/home.blade.php",
@@ -854,49 +887,11 @@
 		"/G/soft/FlashFXP4/Cache/~flashfxp/A5F1FF49_edit.tmp/index.php",
 		"/G/soft/FlashFXP4/Cache/~flashfxp/365F5C3A_edit.tmp/index.php",
 		"/G/soft/FlashFXP4/Cache/~flashfxp/EDE60E9A_edit.tmp/footer.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/AD96F7D8_edit.tmp/index.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/5F5A8074_edit.tmp/show_qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/5F5A8074_edit.tmp/footer-qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/A5F1FF49.tmp/index.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/5F5A8074_edit.tmp/footer.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/AD96F7D8.tmp/index.html",
-		"/F/wwwroot/lunwen/public/vhost.map",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/D923AE31_edit.tmp/vhost.map",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/365F5C3A.tmp/index.php",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/A5F1FF49.tmp/index.php",
-		"/C/Users/Administrator/Documents/vhost.map",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/A5F1FF49.tmp/vhost.map",
-		"/F/张/客户万网密码(1).txt",
-		"/F/wwwroot/XYShop/app/Http/Controllers/Common/GoodSelect.php",
-		"/C/Users/Administrator/Downloads/header.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/196C8E92_edit.tmp/header.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/A78F8BE4_edit.tmp/list_m.html",
-		"/F/张/压缩包/wwwroot/phpcms/modules/search/index.php",
-		"/C/Users/Administrator/Documents/index.php",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/842C7ECC_edit.tmp/index.php",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/B69D6C4F_edit.tmp/index.php",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/F8447D42_edit.tmp/global.func.php",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/52E0C7F5_edit.tmp/global.func.php",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/196C8E92_edit.tmp/meta.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/A78F8BE4_edit.tmp/list.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/196C8E92_edit.tmp/list.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/196C8E92_edit.tmp/index.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/meta.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/header.html",
-		"/C/Users/Administrator/Downloads/index.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/dzdx.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/show_qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/show.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/right-qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/right.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/0067F5DF_edit.tmp/index.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/028C9D32_edit.tmp/database.php",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/782C9A87_edit.tmp/footer-qk.html",
-		"/G/soft/FlashFXP4/Cache/~flashfxp/782C9A87_edit.tmp/footer.html"
+		"/G/soft/FlashFXP4/Cache/~flashfxp/AD96F7D8_edit.tmp/index.html"
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 41.0
 	},
 	"find_in_files":
 	{
@@ -1012,6 +1007,21 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"login",
+			"id",
+			"html",
+			"islogin",
+			"Login",
+			"Count",
+			"login",
+			"Login",
+			"Count",
+			"COUNTTEST",
+			"ShowCounter2",
+			"COUNTTEXT",
+			"Example",
+			"xycmf",
+			"menu",
 			"div",
 			"paylist",
 			"good",
@@ -1124,22 +1134,7 @@
 			"img-responsive",
 			"<img src",
 			"img",
-			"img-responsive",
-			"src",
-			"img",
-			"sl_value_a",
-			"vv",
-			"goodspecitem",
-			"val",
-			"submitMoreFilter",
-			".siblings('.sl_value')",
-			"'@'",
-			"'.'",
-			"64",
-			"3",
-			"ss_brand_list ",
-			"'like',\"%",
-			"@"
+			"img-responsive"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1289,7 +1284,7 @@
 	},
 	"input":
 	{
-		"height": 34.0
+		"height": 39.0
 	},
 	"layout":
 	{
@@ -1342,7 +1337,7 @@
 	"project": "shop.sublime-project",
 	"replace":
 	{
-		"height": 62.0
+		"height": 48.0
 	},
 	"save_all_on_build": false,
 	"select_file":
@@ -1351,6 +1346,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"com.js",
+				"public\\statics\\home\\js\\com.js"
+			],
 			[
 				"orderinfo",
 				"resources\\views\\home\\orderinfo.blade.php"
@@ -1394,10 +1393,6 @@
 			[
 				"home",
 				"public\\statics\\home\\css\\home.scss"
-			],
-			[
-				"com.js",
-				"public\\statics\\home\\js\\com.js"
 			],
 			[
 				"home.css",

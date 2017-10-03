@@ -377,11 +377,12 @@ class ComService
             {
                 // 移动到新的位置，先创建目录及更新文件名为时间点
                 $dir = public_path('upload/'.date('Ymd').'/');
-                if(!is_dir($dir)){
-                    Storage::makeDirectory(date('Ymd'));
-                }
+                // if(!is_dir($dir)){
+                //     Storage::makeDirectory(date('Ymd'));
+                // }
                 $outPath = $dir.$filename.'.jpg';
-                $isTrue = $res->file('imgFile')->move($dir, $filename.'.'.$ext);
+                // $isTrue = $res->file('imgFile')->move($dir, $filename.'.'.$ext);
+                $isTrue = Storage::putFileAs(date('Ymd'),$res->file('imgFile'),$filename.'.'.$ext);
                 $localurl = '/'.date('Ymd').'/'.$filename.'.'.$ext;
             }
             $url = '/upload'.$localurl;

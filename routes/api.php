@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
+// vuejs用api接口
+Route::group(['namespace'=>'Api'],function(){
+    // 取广告
+    Route::get('ad/index','AdController@getIndex');
+});
+
 // 商城功能
 Route::group(['namespace'=>'Common'],function(){
     // 加购物车

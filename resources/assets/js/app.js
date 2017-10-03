@@ -6,17 +6,35 @@
  */
 
 require('./bootstrap');
+// 引入基础类
+import Vue from 'vue'
+import router from './router'
+import VueResource from 'vue-resource'
+// 首页模板
+import App from './components/App.vue'
 
-window.Vue = require('vue');
+import store from './vuex/store'
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+Vue.use(VueResource)
+Vue.config.productionTip = false
 
-Vue.component('example', require('./components/Example.vue'));
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: { App }
+})
 
-const app = new Vue({
-    el: '#app'
-});
+router.beforeEach((to, from, next) => {
+  // console.log(to);
+  if (to.meta.requiresAuth && store.getters.get_user_id == 0 && to.name != 'Login') {
+    next({
+      name:'Login'
+    });
+  }
+  else
+  {
+    next();
+  }
+})

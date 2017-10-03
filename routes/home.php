@@ -11,13 +11,12 @@
 |
 */
 
-Route::get('/data','DataController@index');
-
 
 // Home PC版
 Route::group(['namespace' => 'Home'],function(){
     // 首页
     Route::get('/','HomeController@getIndex');
+    Route::get('/{all}','HomeController@getIndex')->where('all','.*');
     // 分类页面
     Route::get('list/{id}','HomeController@getList');
     // 商品页面

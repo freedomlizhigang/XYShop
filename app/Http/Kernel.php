@@ -18,6 +18,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\TrustProxies::class,
     ];
 
     /**
@@ -37,7 +38,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:600,1',
+            'throttle:60,1',
             'bindings',
         ],
     ];
@@ -63,6 +64,6 @@ class Kernel extends HttpKernel
         // APP用户认证
         'jwt'=> \App\Http\Middleware\Jwt::class,
         // 微信授权
-        'wechat.oauth' => \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
+        // 'wechat.oauth' => \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
     ];
 }

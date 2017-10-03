@@ -19,6 +19,9 @@
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
     "vue": "^2.1.10",
-    "webpack-livereload-plugin": "^0.11.0"
+    "webpack-livereload-plugin": "^0.11.0",
+    "vue-resource": "^0.9.3",
+    "vue-router": "^2.0.0-rc.3",
+    "vuex": "^2.3.1"
   }
 }
