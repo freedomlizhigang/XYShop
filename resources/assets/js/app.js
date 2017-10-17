@@ -16,7 +16,10 @@ import App from './components/App.vue'
 import store from './vuex/store'
 
 Vue.use(VueResource)
+// Vue.http.options.emulateJSON = true;
+
 Vue.config.productionTip = false
+
 
 /* eslint-disable no-new */
 new Vue({

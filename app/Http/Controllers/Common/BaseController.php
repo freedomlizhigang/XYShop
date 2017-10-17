@@ -18,7 +18,7 @@ class BaseController extends Controller
     public $theme = 'home';
     public function __construct()
     {
-        $this->theme = isset(cache('config')['theme']) && cache('config')['theme'] != null ? cache('config')['theme'] : 'home';
+        $this->theme = isset(cache('config')['theme']) && cache('config')['theme'] != null ? cache('config')['theme'] : 'mobile';
     }
     // 更新购物车
 	public function updateCart($uid)

@@ -119,11 +119,11 @@ function ajax_submit_form(form_id,submit_url)
 		data: data, // 你的formid                
 		error: function(v) {
 		    before_request = 1;
-			console.log(v.responseText);
-			// 提示信息转为json对象，并弹出提示
-		    var errors = $.parseJSON(v.responseText);
-		    $.each(errors, function(index, value) {
-		    	// 弹出提示
+      // 提示信息转为json对象，并弹出提示
+        var errors = $.parseJSON(v.responseText);
+          // console.log(errors.errors);
+        $.each(errors.errors, function(index, value) {
+          // 弹出提示
 				$('#error_alert').text(value).fadeIn('fast').delay(1000).fadeOut();
 				// 标识ajax 请求成功，可以再次发送
 	    		return false;

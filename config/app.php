@@ -199,12 +199,6 @@ return [
         // 转拼音
         Overtrue\LaravelPinyin\ServiceProvider::class,
 
-        // 生成二维码
-        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-        
-        // 社会化登陆
-        Overtrue\LaravelSocialite\ServiceProvider::class,
-
         // excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
@@ -263,12 +257,6 @@ return [
         // 转拼音
         'Pinyin' => Overtrue\LaravelPinyin\Facades\Pinyin::class,
         
-        // 生成二维码
-        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
-
-        // 社会化登陆
-        'Socialite' => Overtrue\LaravelSocialite\Socialite::class,
-
         // excel
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],

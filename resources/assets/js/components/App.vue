@@ -2,6 +2,10 @@
   <div id="app">
     <my-logo title="VueJs Test Li!">
     </my-logo>
+
+    
+    <ads pos_id='1' nums='3'></ads>
+
     <router-link :to="{name: 'Example'}">
           示例
     </router-link>
@@ -14,21 +18,24 @@
     <router-link :to="{name: 'Count'}">
           计数页面
     </router-link>
+
     <router-view></router-view>
   </div>
 </template>
 
 <script>
   import MyLogo from './Logo'
+  import Ads from './Ads'
   import store from '.././vuex/store'
   import { LOGIN } from '.././vuex/mutation_types'
   export default {
     name: 'app',
     components: {
-      MyLogo
+      MyLogo,
+      Ads
     },
     store,
-    created : function(){
+    created(){
       // 自动登陆
       store.commit(LOGIN,userinfo)
       console.log(store.getters.get_user_name);

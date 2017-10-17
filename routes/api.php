@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 // vuejs用api接口
 Route::group(['namespace'=>'Api'],function(){
     // 取广告
-    Route::get('ad/index','AdController@getIndex');
+    Route::post('ad/index','AdController@postIndex');
 });
 
 // 商城功能
