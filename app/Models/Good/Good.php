@@ -47,6 +47,52 @@ class Good extends Model
      * @var array
      */
 
+    // 活动
+    public function getPromTagAttribute()
+    {
+        // 0普通商品，1限时，2团购，3满赠，4活动
+        switch ($this->attributes['prom_type']) {
+            case '4':
+                $str = '活动';
+                break;
+
+            case '3':
+                $str = '满赠';
+                break;
+
+            case '2':
+                $str = '团购';
+                break;
+
+            case '1':
+                $str = '限时';
+                break;
+            
+            default:
+                $str = '';
+                break;
+        }
+        return  $str;
+    }
+
+    // 新品
+    public function getNewTagAttribute()
+    {
+        return $this->attributes['is_new'] ? '新品' : '';
+    }
+
+    // 推荐
+    public function getPosTagAttribute()
+    {
+        return $this->attributes['is_pos'] ? '推荐' : '';
+    }
+
+    // 热卖
+    public function getHotTagAttribute()
+    {
+        return $this->attributes['is_hot'] ? '热卖' : '';
+    }
+
     // 二级分类
     public function getUrlAttribute()
     {
@@ -101,6 +147,12 @@ class Good extends Model
     public function fullgift()
     {
         return $this->hasMany('\App\Models\Good\Fullgift','good_id','id');
+    }
+
+    // 限时
+    public function timetobuy()
+    {
+        return $this->hasMany('\App\Models\Good\Timetobuy','good_id','id');
     }
 
     // 团购

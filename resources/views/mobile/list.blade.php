@@ -17,8 +17,21 @@
     <ul class="list_good clearfix">
       @foreach($list as $l)
       <li>
-        <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_img"><img src="{{ $l->thumb }}" width="345px" height="345px" alt="{{ $l->title }}"></a>
-        <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_t slh">{{ $l->title }}</a>
+        <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_img"><img src="{{ $l->thumb }}" width="345" height="345" alt="{{ $l->title }}"></a>
+        <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_t slh">
+          @if($l->prom_tag != '')
+          <i class="label label-red">{{ $l->prom_tag }}</i>
+          @endif
+          @if($l->new_tag != '')
+          <i class="label label-red">{{ $l->new_tag }}</i>
+          @endif
+          @if($l->pos_tag != '')
+          <i class="label label-red">{{ $l->pos_tag }}</i>
+          @endif
+          @if($l->hot_tag != '')
+          <i class="label label-red">{{ $l->hot_tag }}</i>
+          @endif
+          {{ $l->title }}</a>
         <div class="l_g_info clearfix">
           <span class="l_g_price color_main">￥{{ $l->shop_price }}</span>
           <span class="l_g_btn_addcart iconfont icon-cart"></span>

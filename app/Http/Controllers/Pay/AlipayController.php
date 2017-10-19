@@ -43,20 +43,20 @@ class AlipayController extends BaseController
                 $oid = $resData['out_trade_no'];
                 $order = Order::where('order_id',$oid)->first();
                 $this->updateOrder($order,$paymod = '支付宝');
-                Storage::prepend('alipay.log',json_encode($resData));
+                Storage::disk('log')->prepend('alipay.log',json_encode($resData));
                 die('success'); //The notify response should be 'success' only
             }else{
                 /**
                  * Payment is not successful
                  */
-                Storage::prepend('alipay.log',json_encode($resData));
+                Storage::disk('log')->prepend('alipay.log',json_encode($resData));
                 die('fail'); //The notify response
             }
         } catch (Exception $e) {
             /**
              * Payment is not successful
              */
-            Storage::prepend('alipay.log',$e->getMessage());
+            Storage::disk('log')->prepend('alipay.log',$e->getMessage());
             die('fail'); //The notify response
         }
     }

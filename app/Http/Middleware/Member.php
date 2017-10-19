@@ -17,7 +17,7 @@ class Member
     {
         if(is_null(session('member')))
         {
-            return redirect('/user/login')->with('message','请先登录！');
+            return redirect(url('login'))->with('message','请先登录！');
         }
         else
         {

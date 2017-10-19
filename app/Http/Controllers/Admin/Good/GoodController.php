@@ -421,8 +421,9 @@ class GoodController extends BaseController
                 foreach($v as $k2 => $v2)
                 {
                     $str .="<td>".$specItem[$v2]['item']."</td>";
-                    $item_key_name[$v2] = $spec[$specItem[$v2]['good_spec_id']]['name'].':'.$specItem[$v2]['item'];
-                }   
+                    $item_key_name[$v2] = $specItem[$v2]['item'];
+                    // $item_key_name[$v2] = $spec[$specItem[$v2]['good_spec_id']]['name'].':'.$specItem[$v2]['item'];
+                }
                 ksort($item_key_name);            
                 $item_key = '_'.implode('_', array_keys($item_key_name)).'_';
                 $item_name = implode(' ', $item_key_name);

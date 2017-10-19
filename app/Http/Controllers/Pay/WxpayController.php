@@ -27,7 +27,7 @@ class WxpayController extends BaseController
             if ($response->isPaid()) {
                 //pay success
                 // 写入到日日志里方便查看
-                Storage::prepend('wxpay.log',json_encode($response->getRequestData()).date('Y-m-d H:i:s'));
+                Storage::disk('log')->prepend('wxpay.log',json_encode($response->getRequestData()).date('Y-m-d H:i:s'));
                 $resData = $response->getRequestData();
                 // 库存计算
                 $oid = $resData['out_trade_no'];
@@ -36,7 +36,7 @@ class WxpayController extends BaseController
                 $msg = ['msg'=>'OK','code'=>'SUCCESS'];
             }else{
                 //pay fail
-                Storage::prepend('wxpay.log',json_encode($response->getRequestData()).date('Y-m-d H:i:s'));
+                Storage::disk('log')->prepend('wxpay.log',json_encode($response->getRequestData()).date('Y-m-d H:i:s'));
                 $msg = ['msg'=>'error','code'=>'FAIL'];
             }
             $tpl = "<xml>
@@ -46,7 +46,7 @@ class WxpayController extends BaseController
                         ";
             return $tpl;
         } catch (\Exception $e) {
-            Storage::prepend('wxpay.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
+            Storage::disk('log')->prepend('wxpay.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
         }
     }
 }

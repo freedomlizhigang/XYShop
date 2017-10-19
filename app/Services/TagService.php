@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Common\Ad;
 use App\Models\Good\Good;
 use App\Models\Good\GoodCate;
+use App\Models\Good\Timetobuy;
 use App\Models\Good\Tuan;
 
 class TagService
@@ -80,6 +81,15 @@ class TagService
         }
     }
 
+    // 抢购
+    public function timetobuy($num = 10)
+    {
+        $tuan = Timetobuy::with(['good'=>function($q){
+                $q->where('status',1)->select('id','title','thumb','shop_price');
+            }])->where('good_num','>',0)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->orderBy('sort','desc')->orderBy('id','desc')->limit($num)->get();
+        return $tuan;
+    }
+
     // 团购
     public function tuan($num = 10)
     {
@@ -98,7 +108,7 @@ class TagService
                     $cid = GoodCate::where('id',$cid)->value('arrchildid');
                     $q->whereIn('cate_id',explode(',',$cid));
                 }
-            })->where('status',1)->select('id','title','thumb','shop_price','is_pos','is_hot','is_new')->limit($num)->orderBy('sort','desc')->orderBy('id','desc')->get();
+            })->where('status',1)->select('id','title','thumb','shop_price','is_pos','is_hot','is_new','prom_type')->limit($num)->orderBy('sort','desc')->orderBy('id','desc')->get();
         return $good;
     }
 

@@ -13,34 +13,30 @@ use Illuminate\Http\Request;
 |
 */
 
-// vuejs用api接口
-Route::group(['namespace'=>'Api'],function(){
-    // 取广告
-    Route::post('ad/index','AdController@postIndex');
-});
-
 // 商城功能
 Route::group(['namespace'=>'Common'],function(){
     // 加购物车
     Route::post('good/addcart','AjaxGoodController@postAddcart');
     // 修改购物车
     Route::post('good/changecart','AjaxGoodController@postChangecart');
-    // 移除购物车
-    Route::post('good/removecart','AjaxGoodController@postRemovecart');
     // 取购物车数量
     Route::post('good/cartnums','AjaxGoodController@postCartnums');
+    // 移除购物车
+    Route::post('good/removecart','AjaxGoodController@postRemovecart');
     // 提交订单
     Route::post('good/addorder','AjaxGoodController@postAddorder');
+    // 领券
+    Route::post('coupon/get','AjaxCouponController@postGet');
+    
+
+
+    // 还未写到
+    // 删除优惠券
+    Route::post('coupon/del','AjaxCouponController@postDel');
     // 取消订单
     Route::post('good/removeorder','AjaxGoodController@postRemoveOrder');
     // 提交团购
     Route::post('good/addtuan','AjaxTuanController@postAddTuan');
-    // 领券
-    Route::post('yhq/get','AjaxYhqController@postGet');
-    // 删除优惠券
-    Route::post('yhq/del','AjaxYhqController@postDel');
-    // 领券
-    Route::post('yhq/price','AjaxYhqController@postPrice');
 });
 
 

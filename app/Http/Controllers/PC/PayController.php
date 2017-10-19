@@ -123,8 +123,8 @@ class PayController extends BaseController
                 exit('fail');
             }
         } catch (\Exception $e) {
-            Storage::prepend('unionpay.log',json_encode($req->all()).date('Y-m-d H:i:s'));
-            Storage::prepend('unionpay.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
+            Storage::disk('log')->prepend('unionpay.log',json_encode($req->all()).date('Y-m-d H:i:s'));
+            Storage::disk('log')->prepend('unionpay.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
             exit('fail');
         }
     }
@@ -208,7 +208,7 @@ class PayController extends BaseController
 		}
 		else
 		{
-			Storage::prepend('weixin.log',json_encode($response->getData()).date('Y-m-d H:i:s'));
+			Storage::disk('log')->prepend('weixin.log',json_encode($response->getData()).date('Y-m-d H:i:s'));
 			return back()->with('message','微信支付失败，请稍后再试！');
 		}
 
@@ -255,7 +255,7 @@ class PayController extends BaseController
         	$filename = date('Ymdhis').rand(100, 999);
             $dir = public_path('upload/qrcode/'.date('Ymd').'/');
             if(!is_dir($dir)){
-                Storage::makeDirectory('qrcode/'.date('Ymd'));
+                Storage::disk('log')->makeDirectory('qrcode/'.date('Ymd'));
             }
             $path = $dir.$filename.'.png';
             $src = '/upload/qrcode/'.date('Ymd').'/'.$filename.'.png';

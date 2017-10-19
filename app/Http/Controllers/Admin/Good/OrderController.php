@@ -213,7 +213,7 @@ class OrderController extends BaseController
             // 出错回滚
             DB::rollBack();
             // dd($e->getMessage());
-            Storage::prepend('updateStore.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
+            Storage::disk('log')->prepend('updateStore.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
             return false;
         }
     }

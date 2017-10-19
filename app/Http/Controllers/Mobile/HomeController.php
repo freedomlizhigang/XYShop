@@ -7,6 +7,7 @@ use App\Http\Controllers\Common\GoodSelect;
 use App\Models\Common\Article;
 use App\Models\Common\Cate;
 use App\Models\Good\Brand;
+use App\Models\Good\Coupon;
 use App\Models\Good\Good;
 use App\Models\Good\GoodAttr;
 use App\Models\Good\GoodCate;
@@ -14,6 +15,9 @@ use App\Models\Good\GoodComment;
 use App\Models\Good\GoodSpec;
 use App\Models\Good\GoodSpecItem;
 use App\Models\Good\GoodSpecPrice;
+use App\Models\Good\Timetobuy;
+use App\Models\Good\Tuan;
+use App\Models\Good\TuanUser;
 use Illuminate\Http\Request;
 
 class HomeController extends BaseController
@@ -107,13 +111,27 @@ class HomeController extends BaseController
             }
             // 查出第一个规格信息来，标红用的
             $good_spec_price = GoodSpecPrice::where('good_id',$id)->get()->keyBy('item_id')->toJson();
-            // 取评价，20条
-            $goodcomment = GoodComment::with(['user'=>function($q){
-                    $q->select('id','nickname','thumb','username');
-                }])->where('good_id',$id)->where('delflag',1)->orderBy('id','desc')->limit(20)->get();
 
+            // 找出来可以用的优惠券
+            $date = date('Y-m-d H:i:s');
+            $coupon = Coupon::where('starttime','<=',$date)->where('endtime','>=',$date)->where('delflag',1)->where('status',1)->orderBy('sort','desc')->orderBy('id','desc')->limit(3)->get();
             $seo = (object) ['title'=>$good->title,'keyword'=>$good->keyword,'describe'=>$good->describe];
-            return view($this->theme.'.good',compact('seo','good','good_spec_price','filter_spec','goodcomment'));
+            // 如果是参加活动的商品，对应到不同的页面上
+            // 抢购
+            if ($good->prom_type === 1) {
+                $timetobuy = Timetobuy::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
+                if (!is_null($timetobuy)) {
+                    return view($this->theme.'.timetobuy',compact('seo','good','good_spec_price','filter_spec','coupon','timetobuy'));
+                }
+            }
+            // 团,查参加过没有
+            if ($good->prom_type === 2 && is_null(TuanUser::where('t_id',$good->prom_id)->where('user_id',session('member')->id)->where('status',1)->first())) {
+                $tuan = Tuan::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
+                if (!is_null($tuan)) {
+                    return view($this->theme.'.tuan',compact('seo','good','good_spec_price','filter_spec','coupon','tuan'));
+                }
+            }
+            return view($this->theme.'.good',compact('seo','good','good_spec_price','filter_spec','coupon'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');

@@ -13,7 +13,7 @@
 
 // 手机版
 
-Route::group(['namespace' => 'Mobile'],function(){
+Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     // 首页
     Route::get('/','HomeController@getIndex');
     // 分类页面
@@ -23,7 +23,25 @@ Route::group(['namespace' => 'Mobile'],function(){
     // 商品页面
     Route::get('good/{id}','HomeController@getGood');
     // 搜索
-    Route::get('/search','HomeController@getSearch');
+    Route::get('search','HomeController@getSearch');
+    // 购物车
+    Route::get('cart','OrderController@getCart');
+    // 结算页面
+    Route::post('createorder','OrderController@postCreateorder');
+    Route::get('createorder','OrderController@getCreateorder');
+    // 选择支付页面
+    Route::get('pay/{oid}','OrderController@getPay');
+    // 用户中心
+    Route::get('center','UserController@getCenter');
+    // 用户订单
+    Route::get('user/orderlist/{sid?}','UserController@getOrderlist');
+});
+// 用户
+Route::group(['namespace' => 'Mobile'],function(){
+    // 登陆
+    Route::get('login','UserController@getLogin');
+    // 微信登陆页面
+    Route::get('wxlogin','UserController@getWxLogin');
 });
 
 // 社会化登录认证

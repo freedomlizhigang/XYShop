@@ -6,16 +6,33 @@
   @endcomponent
 	<!-- 首页顶图 -->
 	<div class="top_banner overh">
-		@foreach(app('tag')->ad(1,5) as $k => $c)
-      <a href="{{ $c->url }}"><img src="{{ $c->thumb }}" width="750px" height="335px" alt="{{ $c->title }}"></a>
-    @endforeach
+		@php $indexAd = app('tag')->ad(1,5); @endphp
+    <div class="touchslider touchslider-shop pr">
+      <div class="touchslider-viewport pr">
+        <div style="width: 10000px;">
+        @foreach($indexAd as $k => $c)
+        <div class="touchslider-item"><a href="{{ $c->url }}"><img src="{{ $c->thumb }}" width="750" height="335" alt="{{ $c->title }}"></a></div>
+        @endforeach
+        </div>
+      </div>
+      <div class="touchslider-nav ps">
+        @foreach($indexAd as $k => $c)
+        <a class="touchslider-nav-item @if($loop->first) touchslider-nav-item-current @endif"></a>
+        @endforeach
+      </div>
+    </div>
+    <script>
+      $(function(){
+        $(".touchslider-shop").touchSlider({mouseTouch: true});
+      })
+    </script>
 	</div>
 	<!-- 分类 -->
 	<nav class="menu bgc_f clearfix">
 		<ul>
 			@foreach(app('tag')->catelist(0,10,0,1) as $c)
 			<li>
-				<a href="{{ url('/catelist',['id'=>$c->id]) }}" class="menu_img db_ma"><img src="{{ $c->thumb }}" width="70px" height="70px" alt="{{ $c->mobilename }}"></a>
+				<a href="{{ url('/catelist',['id'=>$c->id]) }}" class="menu_img db_ma"><img src="{{ $c->thumb }}" width="70" height="70" alt="{{ $c->mobilename }}"></a>
 				<a href="{{ url('/catelist',['id'=>$c->id]) }}" class="menu_title">{{ $c->mobilename }}</a>
 			</li>
 			@endforeach
@@ -24,7 +41,7 @@
 	<!-- ad -->
 	<div class="ads mt20">
 		@foreach(app('tag')->ad(2,1) as $k => $c)
-      <a href="{{ $c->url }}"><img src="{{ $c->thumb }}" width="750px" height="190px" alt="{{ $c->title }}"></a>
+    <a href="{{ $c->url }}"><img src="{{ $c->thumb }}" width="750" height="190" alt="{{ $c->title }}"></a>
     @endforeach
 	</div>
 	<!-- 团 -->
@@ -33,18 +50,32 @@
 		<ul class="list_tuan clearfix">
 			@foreach(app('tag')->tuan(3) as $c)
 			<li>
-				<a href="{{ url('tuan',['id'=>$c->id]) }}" class="l_t_img db_ma"><img src="{{ $c->good->thumb }}" width="200px" height="200px" alt="{{ $c->title }}"></a>
-				<a href="{{ url('tuan',['id'=>$c->id]) }}" class="l_t_title">{{ $c->title }}</a>
+				<a href="{{ url('good',['id'=>$c->good_id]) }}" class="l_t_img db_ma"><img src="{{ $c->good->thumb }}" width="200" height="200" alt="{{ $c->title }}"></a>
+				<a href="{{ url('good',['id'=>$c->good_id]) }}" class="l_t_title slh">{{ $c->title }}</a>
 				<span class="l_t_price"><em>{{ $c->tuan_num }}人团</em><i>￥{{ $c->price }}</i></span>
 				<del class="l_t_oldprice">￥{{ $c->good->shop_price }}</del>
 			</li>
 			@endforeach
 		</ul>
 	</section>
+  <!-- 抢购活动 -->
+  <section class="bgc_f sec_tuan mt20 clearfix overh">
+    <h2 class="t2_tuan">全民<span class="color_shenred">抢购</span><span class="t2_span_2">尽享优惠，Top单品</span></h2>
+    <ul class="list_tuan clearfix">
+      @foreach(app('tag')->timetobuy(3) as $c)
+      <li>
+        <a href="{{ url('good',['id'=>$c->good_id]) }}" class="l_t_img db_ma"><img src="{{ $c->good->thumb }}" width="200" height="200" alt="{{ $c->title }}"></a>
+        <a href="{{ url('good',['id'=>$c->good_id]) }}" class="l_t_title slh">{{ $c->title }}</a>
+        <span class="l_t_price"><em>{{ $c->buy_num }}人团</em><i>￥{{ $c->price }}</i></span>
+        <del class="l_t_oldprice">￥{{ $c->good->shop_price }}</del>
+      </li>
+      @endforeach
+    </ul>
+  </section>
 	<!-- ad -->
 	<div class="ads mt20">
 		@foreach(app('tag')->ad(3,1) as $k => $c)
-      <a href="{{ $c->url }}"><img src="{{ $c->thumb }}" width="750px" height="190px" alt="{{ $c->title }}"></a>
+      <a href="{{ $c->url }}"><img src="{{ $c->thumb }}" width="750" height="190" alt="{{ $c->title }}"></a>
     @endforeach
 	</div>
 	<!-- 循环分类信息 -->
@@ -54,8 +85,21 @@
 		<ul class="list_good clearfix">
 			@foreach(app('tag')->good($c->id,8) as $g)
 			<li>
-				<a href="{{ url('good',['id'=>$g->id]) }}" class="l_g_img"><img src="{{ $g->thumb }}" width="345px" height="345px" alt="{{ $g->title }}"></a>
-				<a href="{{ url('good',['id'=>$g->id]) }}" class="l_g_t slh">{{ $g->title }}</a>
+				<a href="{{ url('good',['id'=>$g->id]) }}" class="l_g_img"><img src="{{ $g->thumb }}" width="345" height="345" alt="{{ $g->title }}"></a>
+				<a href="{{ url('good',['id'=>$g->id]) }}" class="l_g_t slh">
+          @if($g->prom_tag != '')
+          <i class="label label-red">{{ $g->prom_tag }}</i>
+          @endif
+          @if($g->new_tag != '')
+          <i class="label label-red">{{ $g->new_tag }}</i>
+          @endif
+          @if($g->pos_tag != '')
+          <i class="label label-red">{{ $g->pos_tag }}</i>
+          @endif
+          @if($g->hot_tag != '')
+          <i class="label label-red">{{ $g->hot_tag }}</i>
+          @endif
+          {{ $g->title }}</a>
 				<div class="l_g_info clearfix">
 					<span class="l_g_price color_main">￥{{ $g->shop_price }}</span>
 					<span class="l_g_btn_addcart iconfont icon-cart"></span>

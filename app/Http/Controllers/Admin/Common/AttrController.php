@@ -44,7 +44,7 @@ class AttrController extends Controller
             // 数据库删除
             Attr::destroy($id);
             // 文件删除
-            // Storage::delete($url);
+            // Storage::disk('log')->delete($url);
         }
         return back()->with('message', '删除附件成功！');
     }

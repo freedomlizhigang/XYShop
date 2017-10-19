@@ -82,7 +82,7 @@ class WxController extends BaseController
         {
             User::where('openid',$user->id)->update(['thumb'=>$user->avatar,'nickname'=>$user->name]);
         }
-        // Storage::prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
+        // Storage::disk('log')->prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
         // 实现登录功能
         $user = User::where('status',1)->where('openid',$user->id)->orderBy('id','asc')->first();
         User::where('id',$user->id)->update(['last_ip'=>$req->ip(),'last_time'=>Carbon::now()]);
@@ -120,7 +120,7 @@ class WxController extends BaseController
         if (is_null(User::where('openid',$user->id)->where('status',1)->first())) {
             User::create(['openid'=>$user->id,'nickname'=>$user->name,'thumb'=>$user->avatar]);
         }
-        // Storage::prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
+        // Storage::disk('log')->prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
         // 更新购物车
         // $this->updateCart($user->id);
         $url = session('homeurl') == config('app.url').'/user/register' || is_null(session('homeurl')) ? '/' : session('homeurl');
@@ -164,7 +164,7 @@ class WxController extends BaseController
         {
             User::where('openid',$user->id)->update(['thumb'=>$user->avatar,'nickname'=>$user->name]);
         }
-        // Storage::prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
+        // Storage::disk('log')->prepend('oauth.log',json_encode($user).date('Y-m-d H:i:s'));
         // 更新购物车
         // $this->updateCart($user->id);
         $url = session('homeurl') == config('app.url').'/user/login' || is_null(session('homeurl')) ? '/' : session('homeurl');

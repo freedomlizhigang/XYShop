@@ -23,6 +23,7 @@ class VerifyCsrfToken extends BaseVerifier
         'oauth/*',
         // 订单结算临时数据
         'shop/orderinfo',
+        'createorder',
     	// 后台文件上传
         'console/attr/uploadimg',
         // 取规格

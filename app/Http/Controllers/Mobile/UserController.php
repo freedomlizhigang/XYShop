@@ -1,217 +1,90 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Http\Requests\User\UserRequest;
+use App\Models\Good\Order;
 use App\Models\User\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Mail;
 
 class UserController extends BaseController
 {
-	// 登录
-	public function getLogin()
-	{
-		if(!is_null(session('member')))
-		{
-			// 如果上次的页面是登录页面，回首页
-			if (strpos(url()->previous(),'/user/login')) {
-				return redirect('/')->with('message','您已登录！');
-			}
-			else
-			{
-				return redirect(url()->previous())->with('message','您已登录！');
-			}
-		}
-        $ref = url()->previous();
-        session()->put('homeurl',url()->previous());
-        $seo = ['title'=>'用户登录 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
-        return view($this->theme.'.user.login',compact('seo','ref'));
-	}
-	// 登录
-    public function postLogin(UserRequest $res)
-    {
-        if(!is_null(session('member')))
-        {
-            return redirect(url()->previous())->with('message','您已登录！');
-        }
-        $username = $res->input('username');
-        $pwd = $res->input('password');
-        $user = User::where('status',1)->where('username',$username)->first();
-	    if (is_null($user)) {
-	    	return back()->with('message','用户不存在或已被禁用！');
-	    }
-	    else
-	    {
-		    try {
-                if ($pwd != decrypt($user->password)) {
-                    return back()->with('message','密码不正确！');
-                }
-            } catch (\Exception $e) {
-                return back()->with('message','密码不正确！');
-            }
-            User::where('id',$user->id)->update(['last_ip'=>$res->ip(),'last_time'=>Carbon::now()]);
-            // 计算折扣比例
-            /*$points = session('member')->points;
-            $discount = Group::where('points','<=',$points)->orderBy('points','desc')->value('discount');
-            if (is_null($discount)) {
-                $discount = Group::orderBy('points','desc')->value('discount');
-            }
-            $user->discount = $discount;*/
-	    	session()->put('member',$user);
-            // 更新购物车
-            // $this->updateCart($user->id);
-	    	return redirect(session('homeurl'));
-	    }
+  // 用户中心
+  public function getCenter()
+  {
+    $pos_id = 'center';
+    $seo = (object) ['title'=>'用户中心-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+    $info = User::where('id',session('member')->id)->first();
+    return view($this->theme.'.user.center',compact('pos_id','seo','info'));
+  }
+  // 订单列表
+  public function getOrderlist($sid = '')
+  {
+    // $sid ''全部，1待付款，2待收货，3已完成，4已经关闭
+    $pos_id = 'center';
+    $seo = (object) ['title'=>'用户中心-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+    $list = Order::with(['good'=>function($q){
+              $q->select('id','good_id','order_id','good_title')->with(['good'=>function($r){
+                $r->select('id','thumb');
+              }]);
+            }])->where('user_id',session('member')->id)->where('status',1)->where(function($q) use($sid){
+      switch ($sid) {
+        case '4':
+          $q->where('orderstatus',0);
+          break;
+
+        case '3':
+          $q->where('orderstatus',2);
+          break;
+
+        case '2':
+          $q->where('paystatus',1)->where('shipstatus',1)->where('orderstatus',1);
+          break;
+
+        case '1':
+          $q->where('paystatus',0);
+          break;
+
+        default:
+          break;
+       }
+    })->orderBy('id','desc')->paginate(20);
+    return view($this->theme.'.user.order',compact('pos_id','seo','list','sid'));
+  }
+  // 登陆
+  public function getLogin()
+  {
+    // 存下来源页面
+    session()->put('backurl',url()->previous());
+    $wechat = app('wechat');
+    $oauth = $wechat->oauth->withRedirectUrl(config('app.url').'/wxlogin');
+    return $oauth->redirect();
+    /*$pos_id = 'center';
+    $seo = (object) ['title'=>'用户登陆-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+    return view($this->theme.'.user.login',compact('pos_id','seo'));*/
+  }
+  // 微信直接登陆
+  public function getWxLogin(Request $req)
+  {
+    try {
+      $wechat = app('wechat');
+      $oauth = $wechat->oauth;
+      // 获取 OAuth 授权结果用户信息
+      $wxuser = $oauth->user();
+      // 看这个用户在不在数据库，不在，添加并登录，在直接登录
+      $user = User::where('openid',$wxuser->id)->where('status',1)->first();
+      if (is_null($user)) {
+        $res = User::create(['openid'=>$wxuser->id,'nickname'=>$wxuser->name,'sex'=>$wxuser->sex,'thumb'=>$wxuser->avatar,'status'=>1,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
+        session()->put('member',(object)['id'=>$res->id,'openid'=>$res->openid]);
+      }
+      else
+      {
+        User::where('openid',$wxuser->id)->update(['thumb'=>$wxuser->avatar,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
+        session()->put('member',(object)['id'=>$user->id,'openid'=>$user->openid]);
+      }
+      return redirect(session('backurl'));
+    } catch (\Exception $e) {
+      return redirect(session('backurl'));
     }
-    // 注册
-	public function getRegister()
-	{
-		if(!is_null(session('member')))
-		{
-			// 如果上次的页面是登录页面，回首页
-			if (strpos(url()->previous(),'/user/register')) {
-				return redirect('/')->with('message','您已登录！');
-			}
-			else
-			{
-				return redirect(url()->previous())->with('message','您已登录！');
-			}
-		}
-        $ref = url()->previous();
-        session()->put('homeurl',url()->previous());
-        $seo = ['title'=>'用户注册 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
-        return view($this->theme.'.user.register',compact('seo','ref'));
-	}
-	// 注册
-    public function postRegister(UserRequest $res)
-    {
-    	if(!is_null(session('member')))
-		{
-			return redirect(url()->previous())->with('message','您已登录！');
-		}
-    	$username = trim($res->input('username'));
-    	// 查一样有没有重复的用户名
-    	$ishav = User::where('username',$username)->first();
-    	if (!is_null($ishav)) {
-    		return back()->with('message','用户名已经被使用，请换一个再试！');
-    	}
-    	$pwd = encrypt($res->input('password'));
-    	$email = $res->input('email');
-    	try {
-	    	$user = User::create(['username'=>$username,'password'=>$pwd,'email'=>$email,'last_ip'=>$res->ip(),'last_time'=>Carbon::now()]);
-            // 计算折扣比例
-            // $user->discount = 100;
-	    	session()->put('member',$user);
-            // 更新购物车
-            // $this->updateCart($user->id);
-	    	return redirect(session('homeurl'));
-    	} catch (\Exception $e) {
-    		return back()->with('message','注册失败，请稍候再试！');
-    	}
-    }
-    // 忘记密码
-    public function getForpwd()
-    {
-        if(!is_null(session('member')))
-        {
-            // 如果上次的页面是登录页面，回首页
-            if (strpos(url()->previous(),'/user/forpwd')) {
-                return redirect('/')->with('message','您已登录！');
-            }
-            else
-            {
-                return redirect(url()->previous())->with('message','您已登录！');
-            }
-        }
-        $ref = url()->previous();
-        session()->put('homeurl',url()->previous());
-        $seo = ['title'=>'忘记密码 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
-        return view($this->theme.'.user.forpwd',compact('seo','ref'));
-    }
-    // 忘记密码
-    public function postForpwd(Request $res)
-    {
-        if(!is_null(session('member')))
-        {
-            return redirect(url()->previous())->with('message','您已登录！');
-        }
-        $username = $res->input('username');
-        $email = $res->input('email');
-        // 查一样有没有重复的用户名
-        $ishav = User::where('username',$username)->where('email',$email)->first();
-        if (is_null($ishav)) {
-            return back()->with('message','没有找到用户，请确认用户名及邮箱是否正确！');
-        }
-        try {
-            // 发邮件
-            $code = str_random(6);
-            // 把code保存在密码字段里，省时省力~
-            User::where('id',$ishav->id)->update(['password'=>$code]);
-            // 发送邮件
-            Mail::send('home.emails.forpwd', ['code'=>$code], function($message) use($email){
-                $message->to($email)->subject('希夷SHOP修改密码验证码~');
-            });
-            // 把用户ID保存到session里
-            session()->put('tmp_id',$ishav->id);
-            return redirect('/user/forpwd2')->with('message','验证码发送成功，请尽快完成修改！');
-        } catch (\Exception $e) {
-            dd($e);
-            return back()->with('message','验证码发送失败，请稍候再试！');
-        }
-    }
-    // 忘记密码2
-    public function getForpwd2()
-    {
-        if(!is_null(session('member')))
-        {
-            // 如果上次的页面是登录页面，回首页
-            if (strpos(url()->previous(),'/user/forpwd2')) {
-                return redirect('/')->with('message','您已登录！');
-            }
-            else
-            {
-                return redirect(url()->previous())->with('message','您已登录！');
-            }
-        }
-        $seo = ['title'=>'修改密码 - '.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
-        return view($this->theme.'.user.forpwd2',compact('seo'));
-    }
-    // 忘记密码2
-    public function postForpwd2(Request $res)
-    {
-        if(!is_null(session('member')))
-        {
-            return redirect(url()->previous())->with('message','您已登录！');
-        }
-        try {
-            $code = $res->code;
-            if (!session()->has('tmp_id') || is_null(session('tmp_id'))) {
-                return redirect('/user/forpwd')->with('message','验证码已经失效，请重新发送！');
-            }
-            // 把code保存在密码字段里，省时省力~
-            $old_pwd = User::where('id',session('tmp_id'))->value('password');
-            if ($code != $old_pwd) {
-                return back()->with('message','验证码错误！');
-            }
-            User::where('id',session('tmp_id'))->update(['password'=>encrypt($res->password),'last_ip'=>$res->ip(),'last_time'=>Carbon::now()]);
-            $user = User::findOrFail(session('tmp_id'));
-            // 登录
-            session()->put('member',$user);
-            session()->forget('tmp_id');
-            return redirect(session('homeurl'))->with('message','修改密码成功！');
-        } catch (\Exception $e) {
-            return back()->with('message','验证码发送失败，请稍候再试！');
-        }
-    }
-    // 退出登录
-    public function getLogout(Request $res)
-    {
-    	session()->pull('member');
-        // 重新生成session_id
-        session()->regenerate();
-    	return back()->with('message','您已退出登录！');
-    }
+  }
 }

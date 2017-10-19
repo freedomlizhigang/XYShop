@@ -18,7 +18,9 @@ class BaseController extends Controller
     public $theme = 'home';
     public function __construct()
     {
-        $this->theme = isset(cache('config')['theme']) && cache('config')['theme'] != null ? cache('config')['theme'] : 'mobile';
+        session()->put('member',(object)['id'=>1,'points'=>10000,'openid'=>'osxIs0mmwpMH5jHrcRFESwSEnW4k']);
+        // $this->theme = isset(cache('config')['theme']) && cache('config')['theme'] != null ? cache('config')['theme'] : 'mobile';
+        $this->theme = 'mobile';
     }
     // 更新购物车
 	public function updateCart($uid)
@@ -53,50 +55,6 @@ class BaseController extends Controller
             }
         }
     }
-    // 更新库存
-    public function updateStore($oid = '',$type = 0)
-    {
-        // 事务
-        DB::beginTransaction();
-        try {
-            if ($type) {
-                // 加库存，先找出来所有的商品ID与商品属性ID
-                $goods = OrderGood::where('order_id',$oid)->where('status',1)->select('id','good_id','good_spec_key','nums')->get();
-                // 循环，判断是直接减商品库存，还是减带属性的库存
-                foreach ($goods as $k => $v) {
-                    if ($v->good_spec_key != '') {
-                        GoodSpecPrice::where('good_id',$v->good_id)->where('key',$v->spec_key)->increment('store',$v->nums);
-                    }
-                    Good::where('id',$v->good_id)->increment('store',$v->nums); 
-                    // 加销量
-                    Good::where('id',$v->good_id)->decrement('sales',$v->nums);
-                }
-            }
-            else
-            {
-                // 减库存，先找出来所有的商品ID与商品属性ID
-                $goods = OrderGood::where('order_id',$oid)->where('status',1)->select('id','good_id','good_spec_key','nums')->get();
-                // 循环，判断是直接减商品库存，还是减带属性的库存
-                foreach ($goods as $k => $v) {
-                    if ($v->good_spec_key != '') {
-                        GoodSpecPrice::where('good_id',$v->good_id)->where('key',$v->spec_key)->decrement('store',$v->nums);
-                    }
-                    Good::where('id',$v->good_id)->decrement('store',$v->nums); 
-                    // 加销量
-                    Good::where('id',$v->good_id)->increment('sales',$v->nums);
-                }
-            }
-            // 没出错，提交事务
-            DB::commit();
-            return true;
-        } catch (\Exception $e) {
-            // 出错回滚
-            DB::rollBack();
-            // dd($e->getMessage());
-            Storage::prepend('updateStore.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
-            return false;
-        }
-    }
     // 消费记录
     public function updateOrder($order = '',$paymod = '余额')
     {
@@ -114,7 +72,7 @@ class BaseController extends Controller
             // 出错回滚
             DB::rollBack();
             // dd($e->getMessage());
-            Storage::prepend('updateOrder.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
+            Storage::disk('log')->prepend('updateOrder.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
             return false;
         }
     }
