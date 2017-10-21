@@ -64,7 +64,7 @@ class BaseController extends Controller
             Order::where('id',$order->id)->update(['paystatus'=>1,'pay_name'=>$paymod]);
             User::where('id',$order->user_id)->increment('points',$order->total_prices);
             // 消费记录
-            app('com')->consume($order->user_id,$order->id,$order->total_prices,$paymod.'支付订单');
+            app('com')->consume($order->user_id,$order->id,$order->total_prices,$paymod.'支付订单（'.$order->order_id.'）');
             // 没出错，提交事务
             DB::commit();
             return true;

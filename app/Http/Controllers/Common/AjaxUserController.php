@@ -4,11 +4,40 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Common\BaseController;
 use App\Models\User\Address;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 use Validator;
 
 class AjaxUserController extends BaseController
 {
+    // 补充信息
+    public function postPerfect(Request $req)
+    {
+        try {
+            $validator = Validator::make($req->input(), [
+                'uid' => 'required|integer',
+                'phone' => 'required|digits:11',
+                'email' => 'required|email',
+                'passwd' => 'required|min:6|max:15',
+            ]);
+            $attrs = array(
+                'uid' => '用户ID',
+                'phone' => '手机号',
+                'email' => '邮箱',
+                'passwd' => '密码',
+            );
+            $validator->setAttributeNames($attrs);
+            if ($validator->fails()) {
+                // 如果有错误，提示第一条
+                $this->ajaxReturn('0',$validator->errors()->all()[0]);
+            }
+            $data = ['phone'=>$req->phone,'email'=>$req->email,'password'=>encrypt($req->passwd)];
+            User::where('id',$req->uid)->update($data);
+            $this->ajaxReturn('1','非常成功，请继续购物！');
+        } catch (\Exception $e) {
+            $this->ajaxReturn('0',$e->getMessage());
+        }
+    }
     // 添加收货人信息
     public function postAddress(Request $req)
     {
@@ -36,9 +65,9 @@ class AjaxUserController extends BaseController
             $this->ajaxReturn('0',$validator->errors()->all()[0]);
         }
     	try {
-    		$data = ['user_id'=>$req->uid,'address'=>$req->address,'people'=>$req->people,'phone'=>$req->phone,'area'=>$req->area1.'.'.$req->area2.'.'.$req->area3.'.'.$req->area4];
+    		$data = ['user_id'=>$req->uid,'address'=>$req->address,'people'=>$req->people,'phone'=>$req->phone,'area'=>$req->area1.'-'.$req->area2.'-'.$req->area3.'-'.$req->area4];
     		$address = Address::create($data);
-    		$msg = "<li data-aid=".$address->id." class='active'><span class='l_a_left'>".$address->people."</span><span class='l_a_right'>".$address->people." ".$address->areaname." ".$address->address." ".$address->phone."</span></li>";
+    		$msg = "<li data-aid=".$address->id." class='active'><span class='l_a_left'>".$address->people."</span><span class='l_a_right'>".$address->people." ".$address->area." ".$address->address." ".$address->phone."</span></li>";
             $this->ajaxReturn('1',$msg);
         } catch (\Exception $e) {
             $this->ajaxReturn('0',$e->getMessage());

@@ -31,8 +31,8 @@ class HomeController extends BaseController
     {
         try {
             $pos_id = 'home';
-            $seo = (object) ['title'=>cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
-            return view($this->theme.'.index',compact('pos_id','seo'));
+            $title = '首页';
+            return view($this->theme.'.index',compact('pos_id','title'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');
@@ -56,8 +56,8 @@ class HomeController extends BaseController
             {
                 $cates = GoodCate::where('parentid',$id)->select('id','name','mobilename','thumb')->orderBy('sort','asc')->orderBy('id','asc')->get();
             }
-            $seo = (object) ['title'=>'商品分类-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
-            return view($this->theme.'.catelist',compact('pos_id','seo','id','one','cates'));
+            $title = '商品分类';
+            return view($this->theme.'.catelist',compact('pos_id','title','id','one','cates'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');
@@ -76,14 +76,14 @@ class HomeController extends BaseController
                 $catids = GoodCate::where('id',$id)->value('arrchildid');
                 $catids = explode(',', $catids);
             }
-            $catname = $id ? '分部商品' : GoodCate::where('id',$id)->value('mobilename');
+            $catname = $id == 0 ? '全部商品' : GoodCate::where('id',$id)->value('mobilename');
             // 排序方式
             $sort = isset($req->sort) ? $req->sort : 'sort';
             $sc = isset($req->sc) ? $req->sc : 'desc';
             $list = Good::whereIn('cate_id',$catids)->where('status',1)->select('id','title','shop_price','thumb')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
             $pos_id = 'home';
-            $seo = (object) ['title'=>$catname.'-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
-            return view($this->theme.'.list',compact('pos_id','seo','list','sort','sc'));
+            $title = $catname;
+            return view($this->theme.'.list',compact('pos_id','title','list','sort','sc'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');
@@ -115,23 +115,25 @@ class HomeController extends BaseController
             // 找出来可以用的优惠券
             $date = date('Y-m-d H:i:s');
             $coupon = Coupon::where('starttime','<=',$date)->where('endtime','>=',$date)->where('delflag',1)->where('status',1)->orderBy('sort','desc')->orderBy('id','desc')->limit(3)->get();
-            $seo = (object) ['title'=>$good->title,'keyword'=>$good->keyword,'describe'=>$good->describe];
+            $title = $good->title;
+            $keyword = $good->keyword;
+            $describe = $good->describe;
             // 如果是参加活动的商品，对应到不同的页面上
             // 抢购
             if ($good->prom_type === 1) {
                 $timetobuy = Timetobuy::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
                 if (!is_null($timetobuy)) {
-                    return view($this->theme.'.timetobuy',compact('seo','good','good_spec_price','filter_spec','coupon','timetobuy'));
+                    return view($this->theme.'.timetobuy',compact('title','good','good_spec_price','filter_spec','coupon','timetobuy'));
                 }
             }
             // 团,查参加过没有
             if ($good->prom_type === 2 && is_null(TuanUser::where('t_id',$good->prom_id)->where('user_id',session('member')->id)->where('status',1)->first())) {
                 $tuan = Tuan::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
                 if (!is_null($tuan)) {
-                    return view($this->theme.'.tuan',compact('seo','good','good_spec_price','filter_spec','coupon','tuan'));
+                    return view($this->theme.'.tuan',compact('title','good','good_spec_price','filter_spec','coupon','tuan'));
                 }
             }
-            return view($this->theme.'.good',compact('seo','good','good_spec_price','filter_spec','coupon'));
+            return view($this->theme.'.good',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');

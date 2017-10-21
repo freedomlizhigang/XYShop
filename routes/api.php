@@ -25,18 +25,12 @@ Route::group(['namespace'=>'Common'],function(){
     Route::post('good/removecart','AjaxGoodController@postRemovecart');
     // 提交订单
     Route::post('good/addorder','AjaxGoodController@postAddorder');
-    // 领券
-    Route::post('coupon/get','AjaxCouponController@postGet');
-    
-
-
-    // 还未写到
-    // 删除优惠券
-    Route::post('coupon/del','AjaxCouponController@postDel');
     // 取消订单
     Route::post('good/removeorder','AjaxGoodController@postRemoveOrder');
-    // 提交团购
-    Route::post('good/addtuan','AjaxTuanController@postAddTuan');
+    // 确认收货
+    Route::post('good/confirmorder','AjaxGoodController@postConfirmOrder');
+    // 领券
+    Route::post('coupon/get','AjaxCouponController@postGet');
 });
 
 
@@ -53,8 +47,12 @@ Route::group(['prefix'=>'common','namespace'=>'Common'],function(){
     // 取品牌
     Route::post('brand','AjaxCommonController@postBrand');
     // 取下级地区
-    Route::post('area','AjaxCommonController@postArea');
+    Route::post('area2','AjaxCommonController@postArea2');
     // 取社区
+    Route::post('community2','AjaxCommonController@postCommunity2');
+    // 取下级地区 后台
+    Route::post('area','AjaxCommonController@postArea');
+    // 取社区 后台
     Route::post('community','AjaxCommonController@postCommunity');
     // 编辑器文件上传
     Route::get('ueditor_upload','UploaderController@getUeditorupload');
@@ -65,6 +63,8 @@ Route::group(['prefix'=>'common','namespace'=>'Common'],function(){
 
 // 会员功能
 Route::group(['prefix'=>'user'],function(){
+    // 补充信息
+    Route::post('perfect','Common\AjaxUserController@postPerfect');
     // 添加收货人信息
     Route::post('ajax_address','Common\AjaxUserController@postAddress');
     // 注册

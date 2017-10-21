@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Pay;
 
 use App\Http\Controllers\Common\BaseController;
-use App\Models\Common\Pay;
 use App\Models\Good\Order;
 use Illuminate\Http\Request;
-use Omnipay\Omnipay;
 use Storage;
 
 class AlipayController extends BaseController
@@ -39,10 +37,12 @@ class AlipayController extends BaseController
                 /**
                  * Payment is successful
                  */
-                // 库存计算
+                // 消费记录
                 $oid = $resData['out_trade_no'];
                 $order = Order::where('order_id',$oid)->first();
-                $this->updateOrder($order,$paymod = '支付宝');
+                if ($order->paystatus == 0) {
+                    $this->updateOrder($order,$paymod = '支付宝');
+                }
                 Storage::disk('log')->prepend('alipay.log',json_encode($resData));
                 die('success'); //The notify response should be 'success' only
             }else{

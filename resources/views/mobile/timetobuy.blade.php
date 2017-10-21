@@ -130,6 +130,7 @@
   <!-- 规格选项 -->
   <div class="pos_bg hidden"></div>
   <div class="pos_alert_con hidden">
+    <i class="pos_close iconfont icon-close"></i>
     <div class="clearfix g_s_select">
       <!-- 规格开始 -->
       @if(count($filter_spec) > 0)

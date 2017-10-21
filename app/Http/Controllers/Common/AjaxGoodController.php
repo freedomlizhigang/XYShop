@@ -325,24 +325,44 @@ class AjaxGoodController extends BaseController
         try {
             $id = $req->oid;
             $order = Order::findOrFail($id);
-            // 支付过退款到余额里
-            if ($order->paystatus) {
-                User::where('id',$order->user_id)->increment('user_money',$order->total_prices);
-                // 消费记录
-                app('com')->consume($order->user_id,$order->id,$order->total_prices,'取消订单退款！',1);
+            // 如果订单是正常状态
+            if ($order->orderstatus === 1) {
+                // 支付过退款到余额里
+                if ($order->paystatus) {
+                    User::where('id',$order->user_id)->increment('user_money',$order->total_prices);
+                    // 消费记录
+                    app('com')->consume($order->user_id,$order->id,$order->total_prices,'取消订单（'.$order->order_id.'）退款！',1);
+                }
+                Order::where('id',$id)->update(['orderstatus'=>0]);
+                // 增加库存
+                $this->updateStore($id,1);
+                // 没出错，提交事务
+                DB::commit();
             }
-            Order::where('id',$id)->update(['orderstatus'=>0]);
-            // 增加库存
-            $this->updateStore($id,1);
-            // 没出错，提交事务
-            DB::commit();
-            $this->ajaxReturn('1');
+            else
+            {
+                DB::commit();
+                $this->ajaxReturn('0','订单已经完成或关闭不能取消！');
+            }
+            $this->ajaxReturn('1','取消订单成功！');
         } catch (\Exception $e) {
             // 出错回滚
             DB::rollBack();
             // dd($e->getMessage());
             Storage::disk('log')->prepend('updateOrder.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
             $this->ajaxReturn('0','取消订单失败，请稍后再试！');
+        }
+    }
+    // 确认收货
+    public function postConfirmOrder(Request $req)
+    {
+        // 事务
+        try {
+            $id = $req->oid;
+            Order::where('id',$id)->update(['orderstatus'=>2,'confirm_at'=>date('Y-m-d H:i:s')]);
+            $this->ajaxReturn('1','确认收货成功！');
+        } catch (\Exception $e) {
+            $this->ajaxReturn('0','确认收货失败，请稍后再试！');
         }
     }
     // 检查库存

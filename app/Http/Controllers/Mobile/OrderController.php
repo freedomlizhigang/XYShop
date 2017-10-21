@@ -20,7 +20,7 @@ class OrderController extends BaseController
   {
     try {
         $pos_id = 'cart';
-        $seo = (object) ['title'=>'购物车-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+        $title = '购物车';
         $list = Cart::with(['good'=>function($q){
                     $q->select('id','thumb');
                 }])->where('user_id',session('member')->id)->orderBy('updated_at','desc')->get();
@@ -36,7 +36,7 @@ class OrderController extends BaseController
         }
         // 总价
         $total_prices = number_format($total_prices,2,'.','');
-        return view($this->theme.'.cart',compact('pos_id','seo','goodlists','total_prices'));
+        return view($this->theme.'.cart',compact('pos_id','title','goodlists','total_prices'));
     } catch (\Exception $e) {
         dd($e);
         return view('errors.404');
@@ -61,10 +61,16 @@ class OrderController extends BaseController
   public function getCreateorder(Request $req)
   {
     try {
+      session()->forget('backurl');
       $pos_id = 'cart';
-      $seo = (object) ['title'=>'结算信息-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+      $title = '结算信息';
       // 找出购物车
-      $cid = explode('.', trim(session('order_info_'.$req->rid),'.'));
+      $session_cid = trim(session('order_info_'.$req->rid),'.');
+      if ($session_cid == '') {
+        session()->forget('order_info_'.$req->rid);
+        return back()->with('message','购物车是空的，先去购物吧！');
+      }
+      $cid = explode('.',$session_cid);
       $goods = Cart::with(['good'=>function($q){
                   $q->select('id','thumb');
               }])->whereIn('id',$cid)->where('user_id',session('member')->id)->orderBy('updated_at','desc')->get();
@@ -93,7 +99,7 @@ class OrderController extends BaseController
       $gift = Fullgift::with(['good'=>function($q){
                         $q->select('id','shop_price','title','thumb');
                     }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->orderBy('price','desc')->first();
-      return view($this->theme.'.createorder',compact('seo','pos_id','goodlists','total_prices','default_address','address','coupon','count','cid_str','gift'));
+      return view($this->theme.'.createorder',compact('title','pos_id','goodlists','total_prices','default_address','address','coupon','count','cid_str','gift'));
     } catch (\Exception $e) {
       dd($e);
       return view('errors.404');
@@ -104,11 +110,11 @@ class OrderController extends BaseController
   {
       try {
         $pos_id = 'cart';
-        $seo = (object) ['title'=>'结算信息-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+        $title = '选择支付方式';
         $order = Order::findOrFail($oid);
         $info = (object)['pid'=>3];
         $paylist = Pay::where('status',1)->where('paystatus',1)->orderBy('id','asc')->get();
-        return view($this->theme.'.pay',compact('info','order','paylist','seo','pos_id'));
+        return view($this->theme.'.pay',compact('info','order','paylist','title','pos_id'));
       } catch (\Exception $e) {
         dd($e);
         return view('errors.404');

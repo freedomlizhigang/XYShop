@@ -12,7 +12,6 @@
 */
 
 // 手机版
-
 Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     // 首页
     Route::get('/','HomeController@getIndex');
@@ -29,31 +28,36 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     // 结算页面
     Route::post('createorder','OrderController@postCreateorder');
     Route::get('createorder','OrderController@getCreateorder');
-    // 选择支付页面
+    // 选择支付方式页面
     Route::get('pay/{oid}','OrderController@getPay');
     // 用户中心
     Route::get('center','UserController@getCenter');
     // 用户订单
     Route::get('user/orderlist/{sid?}','UserController@getOrderlist');
+    // 个人信息
+    Route::get('userinfo','UserController@getUserinfo');
+    Route::post('userinfo','UserController@postUserinfo');
+    // 改密码
+    Route::get('passwd','UserController@getPasswd');
+    Route::post('passwd','UserController@postPasswd');
+    // 消费记录
+    Route::get('consume','UserController@getConsume');
+    // 优惠券
+    Route::get('user/coupon','UserController@getCoupon');
+    // 地址
+    Route::get('user/address','UserAddressController@getAddress');
+    Route::get('user/address/add','UserAddressController@getAddressAdd');
+    Route::post('user/address/add','UserAddressController@postAddressAdd');
+    Route::get('user/address/edit/{id}','UserAddressController@getAddressEdit');
+    Route::post('user/address/edit/{id}','UserAddressController@postAddressEdit');
+    Route::get('user/address/del/{id}','UserAddressController@getAddressDel');
 });
+// 发起支付
+Route::get('order/pay/{oid}','Pay\PayController@getTopay')->middleware('member');
 // 用户
 Route::group(['namespace' => 'Mobile'],function(){
     // 登陆
     Route::get('login','UserController@getLogin');
     // 微信登陆页面
     Route::get('wxlogin','UserController@getWxLogin');
-});
-
-// 社会化登录认证
-Route::group(['prefix' => 'oauth','namespace'=>'Auth'],function(){
-    // 真正的微信登录地址
-    Route::get('wxlogin', 'WxController@getWxlogin');
-    // 微信登陆回调地址
-    Route::get('wxlogincallback', 'WxController@getLogincallback');
-    // 真正的微信注册地址
-    Route::get('wxreg', 'WxController@getWxreg');
-    // 微信注册回调地址
-    Route::get('wxregcallback', 'WxController@getRegcallback');
-    // 轮询微信登录扫码地址
-    Route::get('wxscancode', 'WxController@getWxscancode');
 });

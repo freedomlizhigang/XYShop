@@ -10,15 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// 手机版
-
-
 // Home PC版
 Route::group(['namespace' => 'Pc'],function(){
     // 首页
     Route::get('/','HomeController@getIndex');
-
     // 分类页面
     Route::get('list/{id}','HomeController@getList');
     // 商品页面
@@ -117,20 +112,6 @@ Route::group(['prefix'=>'shop','middleware' => ['member'],'namespace' => 'Pc'],f
 });
 
 
-// 支付回调
-Route::group([],function(){
-    // 支付宝应用网关,异步回调
-    Route::post('alipay/gateway','Pay\AlipayController@gateway');
-    // 支付宝应用网关,同步回调
-    Route::post('alipay/return','Pay\AlipayController@gateway');
-    // 微信回调
-    Route::post('weixin/return','Pay\WxpayController@gateway');
-    // 银联回调接口
-    // Route::get('/pay/unionpay','PayController@unionpay');
-    Route::post('union/return','Pc\PayController@unionNotify');
-    Route::any('union/success','Pc\PayController@unionSuccess');
-});
-
 // 社会化登录认证
 Route::group(['prefix' => 'oauth','namespace'=>'Auth'],function(){
     // 真正的微信登录地址
@@ -144,12 +125,3 @@ Route::group(['prefix' => 'oauth','namespace'=>'Auth'],function(){
     // 轮询微信登录扫码地址
     Route::get('wxscancode', 'WxController@getWxscancode');
 });
-
-// 微信功能
-Route::group(['prefix'=>'wx'],function(){
-    // 接口,注意：一定是 Route::any, 因为微信服务端认证的时候是 GET, 接收用户消息时是 POST ！
-    Route::any('index','Wx\WxController@index');
-});
-
-// vue路由用的
-// Route::get('/{all}','HomeController@getIndex')->where('all','.*');

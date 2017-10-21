@@ -10,7 +10,7 @@
     <div class="c_a_info">
     @if(!is_null($default_address))
       <p class="font_md">{{ $default_address->people }} {{ $default_address->phone }}</p>
-      <p>{{ $default_address->address }}</p>
+      <p>{{ $default_address->area.'-'.$default_address->address }}</p>
     @else
       <p class="font_md">请选择收货地址</p>
     @endif
@@ -68,12 +68,13 @@
     <span class="show_btn_submitorder">提交订单</span>
   </div>
   <!-- 要提交的信息 -->
-  <input type="hidden" name="address_id" class="address_id" value="0">
+  <input type="hidden" name="address_id" class="address_id" value="{{ is_null($default_address) ? 0 : $default_address->id }}">
   <input type="hidden" name="ziti" class="ziti" value="0">
   <input type="hidden" name="coupon_id" class="coupon_id" value="0">
   <!-- 地址、优惠券 -->
   <div class="pos_bg hidden"></div>
   <div class="pos_alert_con select_address hidden">
+    <i class="pos_close iconfont icon-close"></i>
     <ul>
       @foreach($address as $a)
       <li class="clearfix s_a_li" data-aid="{{ $a->id }}">
@@ -85,6 +86,7 @@
     <a href="{{ url('user/address/add') }}" class="btn_add_address">添加新收货地址</a>
   </div>
   <div class="pos_alert_con select_coupon hidden">
+    <i class="pos_close iconfont icon-close"></i>
     <ul class="list_coupon clearfix">
       @foreach($coupon as $c)
       <li class="s_c_li" data-cid="{{ $c->id }}" data-title="{{ $c->title }}">
@@ -125,7 +127,7 @@
           else
           {
             // alert(ss.msg);
-            $('.alert_msg').text(ss.msg).slideToggle();
+            $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
           }
           ss = null;
           ajaxLock = 1;

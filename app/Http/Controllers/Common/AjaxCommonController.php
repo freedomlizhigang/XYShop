@@ -33,11 +33,34 @@ class AjaxCommonController extends Controller
 		}
 	}
 
-	// 取下级地区
+    // 取下级地区后台
     public function postArea(Request $req)
     {
+        try {
+            $res = Area::where('parentid',$req->pid)->where('is_show',1)->select('id','areaname')->orderBy('sort','asc')->orderBy('id','asc')->get();
+            return $this->ajaxReturn('1',$res);
+        } catch (\Exception $e) {
+            return $this->ajaxReturn('0',$e->getMessage());
+        }
+    }
+
+    // 取社区后台
+    public function postCommunity(Request $req)
+    {
+        try {
+            $res = Community::where('areaid3',$req->areaid3)->where('is_show',1)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
+            return $this->ajaxReturn('1',$res);
+        } catch (\Exception $e) {
+            return $this->ajaxReturn('0',$e->getMessage());
+        }
+    }
+
+	// 取下级地区
+    public function postArea2(Request $req)
+    {
     	try {
-			$res = Area::where('parentid',$req->pid)->where('is_show',1)->select('id','areaname')->orderBy('sort','asc')->orderBy('id','asc')->get();
+            $pid = $req->pid == '0' ? 0 : Area::where('areaname',$req->pid)->value('id');
+			$res = Area::where('parentid',$pid)->where('is_show',1)->select('id','areaname')->orderBy('sort','asc')->orderBy('id','asc')->get();
 			return $this->ajaxReturn('1',$res);
 		} catch (\Exception $e) {
 			return $this->ajaxReturn('0',$e->getMessage());
@@ -45,10 +68,11 @@ class AjaxCommonController extends Controller
     }
 
     // 取社区
-    public function postCommunity(Request $req)
+    public function postCommunity2(Request $req)
     {
     	try {
-			$res = Community::where('areaid3',$req->areaid3)->where('is_show',1)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
+            $pid = Area::where('areaname',$req->areaid3)->value('id');
+			$res = Community::where('areaid3',$pid)->where('is_show',1)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
 			return $this->ajaxReturn('1',$res);
 		} catch (\Exception $e) {
 			return $this->ajaxReturn('0',$e->getMessage());

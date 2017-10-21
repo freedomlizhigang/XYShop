@@ -61,8 +61,8 @@ $(function() {
 	$(".pos_show").click(function(){
 		$(".pos_bg,.pos_alert_con").fadeIn();
 	});
-	$(".pos_bg").click(function(){
-		$(".pos_bg,.pos_alert_con").fadeOut();
+	$(".pos_close").click(function(){
+		$(".pos_bg,.pos_bg_1,.pos_alert_con,.nophone").fadeOut();
 	});
 	// 重新计算字体大小
 	$(window).resize(function(){
@@ -146,4 +146,50 @@ function cartnum(uid)
 	$.post(host + 'api/good/cartnums',{uid:uid},function(data){
 		$('.cart_total_nums').html(data);
 	});
+}
+// 取地区
+function get_area(pid,subid,selectid)
+{
+    // 取一级子分类
+    var goodcateurl = host + 'api/common/area2';
+    // 取子分类
+    $.post(goodcateurl, {pid: pid}, function(d) {
+        var ss = jQuery.parseJSON(d);
+        if (ss.code == 1) {
+            var str = '<option value="">选择地区</option>';
+            $.each(ss.msg, function(i,n) {
+                str += '<option value="' + n.areaname + '">' + n.areaname + '</option>';
+            });
+            $('#' + subid).html(str);
+		    (selectid != 0) && $('#' + subid).val(selectid);
+        }
+        else
+        {
+            // 失败的时候重置数量
+            console.log(ss.msg);
+        }
+    });
+}
+// 取乡镇
+function get_community(pid,subid,selectid)
+{
+    // 取一级子分类
+    var goodcateurl = host + 'api/common/community2';
+    // 取子分类
+    $.post(goodcateurl, {areaid3: pid}, function(d) {
+        var ss = jQuery.parseJSON(d);
+        if (ss.code == 1) {
+            var str = '<option value="">选择地区</option>';
+            $.each(ss.msg, function(i,n) {
+                str += '<option value="' + n.name + '">' + n.name + '</option>';
+            });
+            $('#' + subid).html(str);
+		    (selectid != 0) && $('#' + subid).val(selectid);
+        }
+        else
+        {
+            // 失败的时候重置数量
+            console.log(ss.msg);
+        }
+    });
 }

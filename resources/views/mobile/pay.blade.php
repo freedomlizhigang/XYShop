@@ -4,22 +4,22 @@
   
   <div class="tips"><i class="iconfont icon-notification"></i>订单结算页面！</div>
   <form action="{{ url('order/pay',['oid'=>$order->id]) }}" method="get">
-  <section class="bgc_f sec_pay clearfix overh pd20">
-    <div class="mt20">
-      <h4 class="t4_pay">订单已提交!</h4>
-      <p class="p_pay_orderid">单号：<span class="text-info">{{ $order->order_id }}</span></p>
-    </div>
     {{ csrf_field() }}
-    @foreach($paylist as $l)
-    <div class="mt20 clearfix pay_mod">
-      <input type="radio" name="pay" value="{{ $l->id }}" class="pay_radio">
-      <img src="{{ $l->thumb }}" width="64" height="64" class="pay_icon" alt="{{ $l->name }}">
-      <p class="pay_text">{{ $l->content }}</p>
-    </div>
-    @endforeach
-    <p class="cart_send">总计：<strong class="total_prices color_main">￥{{ $order->total_prices }}</strong></p>
-    <div class="sendtoconfirm mt20">去支付</div>
-  </section>
+    <section class="bgc_f sec_pay clearfix overh pd20">
+      <div class="mt20">
+        <h4 class="t4_pay">订单已提交!</h4>
+        <p class="p_pay_orderid">单号：<span class="text-info">{{ $order->order_id }}</span></p>
+      </div>
+      @foreach($paylist as $l)
+      <div class="mt20 clearfix pay_mod">
+        <input type="radio" name="pay" value="{{ $l->id }}" class="pay_radio">
+        <img src="{{ $l->thumb }}" width="64" height="64" class="pay_icon" alt="{{ $l->name }}">
+        <p class="pay_text">{{ $l->content }}</p>
+      </div>
+      @endforeach
+      <p class="cart_send">总计：<strong class="total_prices color_main">￥{{ $order->total_prices }}</strong></p>
+      <input type="submit" value="去支付" class="sendtoconfirm mt20">
+    </section>
   </form>
   <script>
     $(function(){

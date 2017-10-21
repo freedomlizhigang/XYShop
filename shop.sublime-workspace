@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"confirm",
+				"confirm_at"
+			],
+			[
+				"ab",
+				"absolute"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"pure-f",
+				"pure-form-stacked\t(passwd.blade.php)"
+			],
+			[
+				"pri",
+				"previous"
+			],
+			[
+				"pure-b",
+				"pure-button-primary \tPureCSS class"
+			],
+			[
+				"pure-btn",
+				"pure-button \tPureCSS class"
+			],
+			[
+				"for",
+				"for\tfor …"
+			],
+			[
 				"prom",
 				"prom_id"
 			],
@@ -190,10 +222,6 @@
 			[
 				"Prom",
 				"PromGood"
-			],
-			[
-				"for",
-				"foreach\tforeach …"
 			],
 			[
 				"tmp",
@@ -486,34 +514,6 @@
 			[
 				"colo",
 				"color_l\t(order.blade.php)"
-			],
-			[
-				"text-de",
-				"text-danger \tBootstrap 3 Class"
-			],
-			[
-				"lh",
-				"lh\tline-height"
-			],
-			[
-				"sess",
-				"session"
-			],
-			[
-				"images",
-				"images/"
-			],
-			[
-				"with",
-				"with('message','添加购物车成功！"
-			],
-			[
-				"t",
-				"this\t$(this)"
-			],
-			[
-				"cart_n",
-				"cart_num_\t(cart.blade.php)"
 			]
 		]
 	},
@@ -552,6 +552,22 @@
 				"File: Rename"
 			],
 			[
+				"sftp",
+				"SFTP: Cancel Upload"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
 				"close",
 				"File: Close All"
 			],
@@ -566,10 +582,6 @@
 			[
 				"save",
 				"File: Save All"
-			],
-			[
-				"install",
-				"Package Control: Install Package"
 			],
 			[
 				"mov",
@@ -588,10 +600,6 @@
 				"File: Rename"
 			],
 			[
-				"remov",
-				"Package Control: Remove Package"
-			],
-			[
 				"dele",
 				"File: Delete"
 			],
@@ -602,10 +610,6 @@
 			[
 				"git:add",
 				"Git: Add Remote"
-			],
-			[
-				"insta",
-				"Package Control: Install Package"
 			],
 			[
 				"Package Control: remov",
@@ -716,7 +720,7 @@
 				"phpfmt: toggle PHP 5.5 compatibility mode"
 			]
 		],
-		"width": 500.0
+		"width": 1219.0
 	},
 	"console":
 	{
@@ -749,47 +753,86 @@
 		"/D/wwwroot/XYShop/app",
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile",
-		"/D/wwwroot/XYShop/public",
-		"/D/wwwroot/XYShop/public/statics",
-		"/D/wwwroot/XYShop/public/statics/mobile",
-		"/D/wwwroot/XYShop/public/statics/mobile/js",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay",
 		"/D/wwwroot/XYShop/resources",
 		"/D/wwwroot/XYShop/resources/views",
 		"/D/wwwroot/XYShop/resources/views/mobile",
-		"/D/wwwroot/XYShop/resources/views/mobile/user",
+		"/D/wwwroot/XYShop/resources/views/mobile/pay",
 		"/D/wwwroot/XYShop/routes"
 	],
 	"file_history":
 	[
+		"/D/wwwroot/XYShop/README.md",
+		"/D/wwwroot/XYShop/public/statics/mobile/css/home.css",
+		"/D/wwwroot/XYShop/public/statics/mobile/css/home.scss",
+		"/D/wwwroot/XYShop/routes/pc.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/AlipayController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/PayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/BaseController.php",
+		"/D/wwwroot/XYShop/routes/webcommon.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/OrderController.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/consume.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
+		"/D/wwwroot/XYShop/routes/api.php",
+		"/D/wwwroot/XYShop/routes/nouser.php",
 		"/D/wwwroot/XYShop/routes/mobile.php",
+		"/D/wwwroot/XYShop/app/Providers/RouteServiceProvider.php",
+		"/D/wwwroot/XYShop/routes/console.php",
+		"/D/wwwroot/XYShop/routes/admin.php",
+		"/D/wwwroot/XYCMF/routes/console.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/order.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/pay.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
+		"/D/wwwroot/XYShop/app/Services/ComService.php",
+		"/D/wwwroot/XYShop/app/Models/User/Consume.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/HomeController.php",
+		"/E/scss/reset/css/reset.scss",
+		"/D/wwwroot/XYShop/public/statics/mobile/js/com.js",
+		"/D/wwwroot/XYShop/resources/views/mobile/tuan.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/timetobuy.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/good.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/createorder.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/userinfo.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserAddressController.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/passwd.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/address_add.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/address.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/address_edit.blade.php",
+		"/D/wwwroot/XYShop/resources/views/admin/community/edit.blade.php",
+		"/D/wwwroot/XYShop/resources/views/home_old/user/address_add.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCommonController.php",
+		"/D/wwwroot/XYShop/public/statics/admin/js/com.js",
+		"/D/wwwroot/XYShop/app/Models/User/Address.php",
+		"/E/scss/pure-release-1.0.0/bower.json",
+		"/E/scss/pure-release-1.0.0/buttons.css",
+		"/E/scss/pure-release-1.0.0/forms-min.css",
+		"/E/scss/pure-release-1.0.0/forms-nr.css",
+		"/E/scss/pure-release-1.0.0/base.css",
+		"/E/scss/pure-release-1.0.0/pure.css",
+		"/D/wwwroot/XYShop/public/statics/common/css/pure-min.css",
+		"/E/scss/reset/css/pure-min.css",
+		"/D/wwwroot/XYShop/public/statics/pc/js/com.js",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/coupon.blade.php",
+		"/D/wwwroot/XYShop/app/Models/Good/CouponUser.php",
+		"/D/志功网络/同城小程序/淘宝左歌科技同城源码/后台/index.php",
+		"/D/志功网络/同城小程序/淘宝左歌科技同城源码/后台/framework/version.inc.php",
 		"/D/wwwroot/XYShop/app/Models/Good/Order.php",
 		"/E/scss/b2c_m/order.html",
-		"/D/wwwroot/XYShop/public/statics/mobile/js/com.js",
 		"/D/wwwroot/XYShop/config/wechat.php",
 		"/D/wwwroot/XYShop/app/Models/User/User.php",
 		"/E/scss/b2c_m/center.html",
-		"/D/wwwroot/XYShop/README.md",
 		"/D/wwwroot/XYShop/app/Http/Middleware/Member.php",
 		"/D/wwwroot/XYShop/public/MP_verify_CYMxtYRg0jliZQ5N.txt",
 		"/D/wwwroot/XYShop/sftp-config.json",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/login.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/tuan.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/HomeController.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/timetobuy.blade.php",
 		"/D/wwwroot/XYShop/resources/views/tuan.balde.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/createorder.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/OrderController.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/good.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/PC/PayController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/AlipayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/OrderController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AttrController.php",
@@ -798,12 +841,10 @@
 		"/D/wwwroot/vhost.map",
 		"/C/Windows/System32/drivers/etc/hosts",
 		"/D/wwwroot/XYShop/app/Models/Good/Good.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCommonController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Api/UserController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Api/BaseController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Api/AdController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/UploaderController.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
 		"/D/wwwroot/XYShop/resources/views/pc/good.blade.php",
 		"/D/wwwroot/XYShop/resources/views/pc/head.blade.php",
 		"/D/wwwroot/XYShop/resources/views/pc/home.blade.php",
@@ -818,7 +859,6 @@
 		"/D/希夷/懂秘帮/敏感词.txt",
 		"/D/希夷/懂秘帮/173.txt",
 		"/D/wwwroot/XYShop/resources/views/mobile/index.blade.php",
-		"/D/wwwroot/XYShop/routes/api.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/list.blade.php",
 		"/D/wwwroot/XYShop/public/statics/home/js/com.js",
 		"/D/wwwroot/XYShop/public/statics/home/css/home.scss",
@@ -837,7 +877,6 @@
 		"/D/wwwroot/XYShop/resources/views/pc/cart.blade.php",
 		"/D/wwwroot/XYShop/resources/views/pc/orderinfo.blade.php",
 		"/D/wwwroot/XYShop/resources/views/pc/pay.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/pay.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/catelist.blade.php",
 		"/D/wwwroot/XYShop/resources/views/home/orderinfo.blade.php",
 		"/E/scss/b2c_m/submit.html",
@@ -851,56 +890,19 @@
 		"/D/wwwroot/XYShop/app/Http/Kernel.php",
 		"/D/wwwroot/XYShop/resources/views/home/good.blade.php",
 		"/C/Users/Administrator/AppData/Local/Temp/HZ$D.262.2454/HZ$D.262.2455/public/statics/home/js/com.js",
-		"/E/scss/shop/js/com.js",
-		"/D/wwwroot/XYShop/resources/views/admin/good/goodspec.blade.php",
-		"/D/wwwroot/XYShop/resources/views/admin/good/add.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodController.php",
-		"/D/wwwroot/XYShop/app/Models/Good/GoodSpec.php",
-		"/E/scss/shop/show.html",
-		"/E/scss/shop/css/home.scss",
-		"/C/Users/Administrator/AppData/Local/Temp/HZ$D.417.3178/HZ$D.417.3179/public/statics/home/css/home.scss",
-		"/D/wwwroot/XYShop/public/statics/home/js/jquery.touchslider.min.js",
-		"/D/wwwroot/XYShop/resources/views/admin/good/index.blade.php",
-		"/E/scss/b2c_m/show.html",
-		"/D/wwwroot/XYShop/resources/views/errors/404.blade.php",
-		"/D/wwwroot/jxf/resources/views/home/page.blade.php",
-		"/D/wwwroot/jxf/resources/views/home/goodlist.blade.php",
-		"/D/wwwroot/jxf/resources/views/home/list.blade.php",
-		"/D/wwwroot/jxf/app/Http/Controllers/Home/ShopController.php",
-		"/D/wwwroot/jxf/app/Http/Controllers/Home/HomeController.php",
-		"/E/scss/b2c_m/list.html",
-		"/D/wwwroot/XYShop/resources/views/mobile/common/search.blade.php",
-		"/E/scss/b2c_m/cate.html",
-		"/D/wwwroot/XYShop/resources/views/mobile/common/footer.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/common/pos_menu.blade.php",
-		"/D/wwwroot/XYShop/app/Providers/RouteServiceProvider.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/PC/HuodongController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/PC/ShopController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/PC/TuanController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/PC/UserCenterController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/PC/UserController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/PC/YhqController.php",
-		"/D/wwwroot/XYShop/routes/pc.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/HuodongController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Home/HomeController.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/component/pos_menu.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/component/pos_nav.html",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AdController.php",
-		"/D/wwwroot/XYShop/public/statics/admin/js/com.js",
-		"/D/wwwroot/XYShop/resources/views/admin/ad/index.blade.php",
-		"/D/wwwroot/XYShop/resources/views/admin/ad/edit.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Requests/Common/AdRequest.php",
-		"/D/wwwroot/XYShop/vendor/laravel/framework/src/Illuminate/Foundation/Http/FormRequest.php"
+		"/E/scss/shop/js/com.js"
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 41.0
 	},
 	"find_in_files":
 	{
 		"height": 105.0,
 		"where_history":
 		[
+			"D:\\wwwroot\\XYShop\\resources\\views\\mobile",
+			"D:\\wwwroot\\XYShop\\public\\statics\\admin",
 			"D:\\wwwroot\\XYShop\\app\\Services",
 			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers",
 			"D:\\wwwroot\\XYShop\\app\\Http\\Middleware",
@@ -1017,6 +1019,70 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"order",
+			"$l->",
+			"$l",
+			"出错了",
+			"$js",
+			"QrCode",
+			"order/pay",
+			"getPay",
+			"closeOrder",
+			"list_consume",
+			"ajaxReturn",
+			"50",
+			"9",
+			"rem",
+			"pos_al",
+			"pos_con",
+			"pos_show",
+			"pos_bg",
+			"pos_show",
+			"reset",
+			"phone",
+			"Validator",
+			"Address",
+			"seo",
+			"(object) ['title'=>",
+			"seo",
+			"(object) ['title'=>'",
+			"seo",
+			"title",
+			"mt15 input-text",
+			"UserController",
+			"data[",
+			"data.",
+			"|integer",
+			"phone",
+			"api/common/area",
+			"get",
+			"{{ $areaname[3] }}",
+			"{{ $areaname[2] }}",
+			"{{ $areaname[1] }}",
+			"{{ $areaname[0] }}",
+			"margin:.25em ",
+			"height:2.",
+			"height",
+			"font-size",
+			" class=\"mt15 input-text\"",
+			" class=\"input-text\"",
+			"form-control",
+			"get_area",
+			"get",
+			"sex",
+			"nickname",
+			"0.133333rem",
+			"consume",
+			"$c",
+			"consume",
+			"span",
+			"to",
+			"password",
+			"{{ $info->address }}",
+			"data[",
+			"Userinfo",
+			"span",
+			"get",
 			"span",
 			"Storage::",
 			"Storage::prepend",
@@ -1080,71 +1146,7 @@
 			"pay",
 			"c_g_img",
 			" border-radius: 3px;",
-			"px",
-			"c_g_img",
-			"2",
-			".666667",
-			"px",
-			"Fullgift",
-			"$c",
-			"address_id",
-			"points",
-			"before_request",
-			"=<",
-			"cart_coupon",
-			"date('Y-m-d H:i:s')",
-			"c_a_info",
-			"default_address",
-			"orderinfo",
-			"shop/orderinfo",
-			"before_request",
-			"total_prices",
-			"gid",
-			"selected_checkbox",
-			"strong",
-			"one_total_price",
-			"$g",
-			"gid",
-			"$g",
-			"gid",
-			"total_prices",
-			"before_request",
-			"cartNumsChange",
-			"$good->prom_type",
-			"$good->isxl",
-			"$good->xlnums",
-			"session",
-			"cartnum",
-			"price",
-			"before_request",
-			"input",
-			"hidden",
-			"\"",
-			"price",
-			"shop_price",
-			"spec_key",
-			"good_spec",
-			"cartnum",
-			"nums",
-			"num_num",
-			"num_dec",
-			"spec_item",
-			"spec_key",
-			".hidden",
-			"demo",
-			"touchslider-demo",
-			"8",
-			"06667",
-			"12px",
-			"16px",
-			".466667",
-			"touchslider-item",
-			"touchslider-viewport",
-			"goodattr",
-			"goodspecprice",
-			"#",
-			"gs",
-			"info"
+			"px"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1361,12 +1363,36 @@
 		"selected_items":
 		[
 			[
+				"home.css",
+				"public\\statics\\mobile\\css\\home.css"
+			],
+			[
+				"home.scss",
+				"public\\statics\\mobile\\css\\home.scss"
+			],
+			[
 				"com.js",
 				"public\\statics\\mobile\\js\\com.js"
 			],
 			[
-				"home.scss",
-				"public\\statics\\home\\css\\home.scss"
+				"mobile/userinfo",
+				"resources\\views\\mobile\\user\\userinfo.blade.php"
+			],
+			[
+				"createorder",
+				"resources\\views\\mobile\\createorder.blade.php"
+			],
+			[
+				"community/edi",
+				"resources\\views\\admin\\community\\edit.blade.php"
+			],
+			[
+				"address_add",
+				"resources\\views\\mobile\\user\\address_add.blade.php"
+			],
+			[
+				"pure-m",
+				"public\\statics\\common\\css\\pure-min.css"
 			],
 			[
 				"home",
@@ -1455,10 +1481,6 @@
 			[
 				"goodcontroller",
 				"app\\Http\\Controllers\\Admin\\Good\\GoodController.php"
-			],
-			[
-				"home.css",
-				"public\\statics\\home\\css\\home.css"
 			],
 			[
 				"home/list",
@@ -1851,26 +1873,6 @@
 			[
 				"ziti/in",
 				"resources\\views\\admin\\ziti\\index.blade.php"
-			],
-			[
-				"user/index",
-				"resources\\views\\admin\\user\\index.blade.php"
-			],
-			[
-				"consume",
-				"resources\\views\\admin\\index\\consume.blade.php"
-			],
-			[
-				"main.ba",
-				"resources\\views\\admin\\index\\main.blade.php"
-			],
-			[
-				"user/info",
-				"resources\\views\\user\\info.blade.php"
-			],
-			[
-				"home.bl",
-				"resources\\views\\default\\home.blade.php"
 			]
 		],
 		"width": 0.0

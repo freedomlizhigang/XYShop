@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-use App\Models\Consume;
+use App\Models\User\Consume;
 use Cache;
 use Gate;
 use Storage;
