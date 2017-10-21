@@ -34,7 +34,7 @@
           {{ $l->title }}</a>
         <div class="l_g_info clearfix">
           <span class="l_g_price color_main">￥{{ $l->shop_price }}</span>
-          <span class="l_g_btn_addcart iconfont icon-cart"></span>
+          <a class="l_g_btn_addcart iconfont icon-cart" href="{{ url('good',['id'=>$l->id]) }}"></a>
         </div>
       </li>
       @endforeach

@@ -29,4 +29,9 @@ class Promotion extends Model
      * @var bool
      */
     public $timestamps = true;
+    // 对应的商品
+    public function good()
+    {
+        return $this->hasMany('\App\Models\Good\Good','prom_id','id');
+    }
 }

@@ -15,6 +15,7 @@ use App\Models\Good\GoodComment;
 use App\Models\Good\GoodSpec;
 use App\Models\Good\GoodSpecItem;
 use App\Models\Good\GoodSpecPrice;
+use App\Models\Good\Promotion;
 use App\Models\Good\Timetobuy;
 use App\Models\Good\Tuan;
 use App\Models\Good\TuanUser;
@@ -80,7 +81,7 @@ class HomeController extends BaseController
             // 排序方式
             $sort = isset($req->sort) ? $req->sort : 'sort';
             $sc = isset($req->sc) ? $req->sc : 'desc';
-            $list = Good::whereIn('cate_id',$catids)->where('status',1)->select('id','title','shop_price','thumb')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
+            $list = Good::whereIn('cate_id',$catids)->where('status',1)->select('id','title','shop_price','thumb','prom_type','is_new','is_pos','is_hot')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
             $pos_id = 'home';
             $title = $catname;
             return view($this->theme.'.list',compact('pos_id','title','list','sort','sc'));
@@ -127,13 +128,53 @@ class HomeController extends BaseController
                 }
             }
             // 团,查参加过没有
-            if ($good->prom_type === 2 && is_null(TuanUser::where('t_id',$good->prom_id)->where('user_id',session('member')->id)->where('status',1)->first())) {
+            if ($good->prom_type === 2) {
                 $tuan = Tuan::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
                 if (!is_null($tuan)) {
                     return view($this->theme.'.tuan',compact('title','good','good_spec_price','filter_spec','coupon','tuan'));
                 }
             }
-            return view($this->theme.'.good',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon'));
+            // 如果是活动里的商品，取出来活动的信息
+            $prom_val = $prom_title = '';
+            if ($good->prom_type === 4) {
+                $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->where('id',$good->prom_id)->first();
+                if (!is_null($promotion)) {
+                    $prom_val = $promotion->type === 1 ? ($promotion->type_val/10)." 折" : "减 $promotion->type_val 元";
+                    $prom_title = $promotion->title;
+                }
+            }
+            return view($this->theme.'.good',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon','prom_title','prom_val'));
+        } catch (\Exception $e) {
+            dd($e);
+            return view('errors.404');
+        }
+    }
+    // 活动列表
+    public function getHot()
+    {
+        try {
+            // 排序方式
+            $list = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->orderBy('sort','desc')->orderBy('id','desc')->simplePaginate(20);
+            $pos_id = 'hot';
+            $title = '促销活动';
+            return view($this->theme.'.hot',compact('pos_id','title','list'));
+        } catch (\Exception $e) {
+            dd($e);
+            return view('errors.404');
+        }
+    }
+    // 活动商品列表
+    public function getHotList(Request $req,$id = 0)
+    {
+        try {
+            $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->findOrFail($id);
+            // 排序方式
+            $sort = isset($req->sort) ? $req->sort : 'sort';
+            $sc = isset($req->sc) ? $req->sc : 'desc';
+            $list = Good::where('prom_type',4)->where('prom_id',$id)->where('status',1)->select('id','title','shop_price','thumb','prom_type','is_new','is_pos','is_hot')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
+            $pos_id = 'hot';
+            $title = $promotion->title;
+            return view($this->theme.'.list',compact('pos_id','title','list','sort','sc'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');

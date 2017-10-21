@@ -21,6 +21,10 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::get('list/{id?}','HomeController@getList');
     // 商品页面
     Route::get('good/{id}','HomeController@getGood');
+    // 活动列表
+    Route::get('hot','HomeController@getHot');
+    Route::get('hot/{id}','HomeController@getHotList');
+
     // 搜索
     Route::get('search','HomeController@getSearch');
     // 购物车
@@ -30,6 +34,8 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::get('createorder','OrderController@getCreateorder');
     // 选择支付方式页面
     Route::get('pay/{oid}','OrderController@getPay');
+
+    // 以下是用户功能
     // 用户中心
     Route::get('center','UserController@getCenter');
     // 用户订单

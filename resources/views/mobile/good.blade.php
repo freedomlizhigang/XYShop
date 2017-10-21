@@ -23,22 +23,6 @@
       })
     </script>
   </section>
-
-  <!-- 团 -->
-  <!-- <div class="tuaninfo clearfix overh bgc_f">
-    <div class="ti_left f-l overh">
-      <em class="font_lg">团购</em>
-      <i>数量：200</i>
-    </div>
-    <div class="ti_right overh f-l">
-      <div class="ti_r_t overh bgc_m">
-        2017-10-12 10:00 至 2017-10-12 24:00
-      </div>
-      <div class="ti_r_b overh bgc_sr">
-        <del>原价：￥10000.00</del> 团购价：<span class="font_md">￥8999.00</span>
-      </div>
-    </div>
-  </div> -->
   <!-- 产品信息 -->
   <section class="goodinfo clearfix mt20 bgc_f pd20">
     <h1 class="good_title">
@@ -54,12 +38,20 @@
       @if($good->hot_tag != '')
       <i class="label label-red">{{ $good->hot_tag }}</i>
       @endif
+      @if($prom_val != '')
+      <i class="label label-red">{{ $prom_val }}</i>
+      @endif
       {{ $good->title }}</h1>
     <div class="g_i_prices mt10 clearfix">
       <span class="gi_price font_lg color_main f-l">￥<i class="shop_price">{{ $good->shop_price }}</i></span>
       <span class="label label-hui f-r">库存：<i class="color_main store">{{ $good->sales }}+</i></span>
       <span class="label label-hui f-r">销量：<i class="color_cheng">{{ $good->store }}+</i></span>
     </div>
+    @if($prom_title != '')
+    <p class="mt10 color_fen">
+      {{ $prom_title }}
+    </p>
+    @endif
     <p class="ti_title color_9">{{ $good->describe }}</p>
   </section>
   <!-- 规格 -->

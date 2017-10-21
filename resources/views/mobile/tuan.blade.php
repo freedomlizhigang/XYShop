@@ -35,7 +35,7 @@
         {{ $tuan->starttime }} 至 {{ $tuan->endtime }}
       </div>
       <div class="ti_r_b overh bgc_sr">
-        <del>原价：￥{{ $good->shop_price }}</del> 团购价：<span class="font_md">￥{{ $tuan->price }}</span>
+        <del>原价：￥<i class="old_shop_price">{{ $good->shop_price }}</i></del> 团购价：<span class="font_md">￥{{ $tuan->price }}</span>
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@
       @endif
       {{ $good->title }}</h1>
     <div class="g_i_prices mt10 clearfix">
-      <span class="gi_price font_lg color_main f-l">￥<i class="shop_price">{{ $tuan->price }}</i></span>
+      <span class="gi_price font_lg color_main f-l"><del>￥<i class="old_shop_price">{{ $good->shop_price }}</i></del>￥<i class="shop_price">{{ $tuan->price }}</i></span>
       <span class="label label-hui f-r">库存：<i class="color_main store">{{ $good->sales }}+</i></span>
       <span class="label label-hui f-r">销量：<i class="color_cheng">{{ $good->store }}+</i></span>
     </div>
@@ -180,8 +180,8 @@
                 store = spec_goods_price[spec_key]['store']; // 找到对应规格的库存
             }
             $('.store').html(store);    //对应规格库存显示出来
-            // $('.shop_price').html(price); // 变动价格显示
-            // $('.price').val(price); // 提交时价格
+            $('.old_shop_price').html(price); // 变动价格显示
+            $('.old_price').val(price); // 提交时价格
             $('.g_s_name').text(spec_goods_price[spec_key]['item_name']);
         }
         /***用作 sort 排序用*/
@@ -213,6 +213,7 @@
       <input type="text" name="nums" class="nums" value="1">
       <!-- 价格 -->
       <input type="text" name="shop_price" class="price" value="{{ $tuan->price }}">
+      <input type="text" name="old_price" class="old_price" value="{{ $good->shop_price }}">
     </form>
     <!-- 购物车、直接买 -->
     <script>
@@ -225,9 +226,10 @@
           var num = $('.nums').val();
           var spec_key = $('.spec_key').val();
           var gp = $('.price').val();
+          var old_price = $('.old_price').val();
           var url = "{{ url('api/good/addcart') }}";
           ajaxLock = 0;
-          $.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid},function(d){
+          $.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid,old_price:old_price},function(d){
             var ss = jQuery.parseJSON(d);
             if (ss.code == '1') {
               // console.log(ss);

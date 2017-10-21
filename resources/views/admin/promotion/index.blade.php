@@ -34,6 +34,7 @@
 		<th width="80">排序</th>
 		<th width="50">ID</th>
 		<th>标题</th>
+		<th width="80">类型</th>
 		<th width="80">状态</th>
 		<th width="160">开始时间</th>
 		<th width="160">结束时间</th>
@@ -46,6 +47,13 @@
 			<td>{{ $a->id }}</td>
 			<td>
 				{{ $a->title }}
+			</td>
+			<td>
+				@if($a->type === 1)
+				<span class="text-primary">折扣</span>
+				@else
+				<span class="text-success">减价</span>
+				@endif
 			</td>
 			<td>
 				@if($a->status == 1)

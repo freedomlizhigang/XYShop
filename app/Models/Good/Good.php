@@ -165,4 +165,9 @@ class Good extends Model
     {
         return $this->hasMany('\App\Models\Good\ReturnGood','good_id','id');
     }
+    // 活动
+    public function promotion()
+    {
+        return $this->belongsTo('\App\Models\Good\Promotion','prom_id','id');
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\Good\Good;
 use App\Models\Good\GoodSpecPrice;
 use App\Models\Good\Order;
 use App\Models\Good\OrderGood;
+use App\Models\Good\Promotion;
 use App\Models\Good\Timetobuy;
 use App\Models\Good\Tuan;
 use App\Models\Good\TuanUser;
@@ -36,7 +37,7 @@ class AjaxGoodController extends BaseController
             $spec_key = $req->spec_key;
             $num = $req->num;
             $userid = $req->uid;
-            $price = $req->gp;
+            $new_price = $old_price = $req->gp;
             // 商品信息
             $good = Good::findOrFail($id);
             // 如果用户已经登录，查以前的购物车
@@ -59,6 +60,7 @@ class AjaxGoodController extends BaseController
                             $this->ajaxReturn('0','限量购买，本次超过限制份数！');
                         }
                     }
+                    $old_price = $req->old_price;
                 }
                 // 团购
                 if ($good->prom_type === 2) {
@@ -73,6 +75,14 @@ class AjaxGoodController extends BaseController
                     if(Tuan::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->orderBy('sort','desc')->orderBy('id','desc')->value('store') == 0)
                     {
                         $this->ajaxReturn('0','已经满员，等待下次机会吧！');
+                    }
+                    $old_price = $req->old_price;
+                }
+                // 活动里的，重新计算价格
+                if ($good->prom_type === 4) {
+                    $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->where('id',$good->prom_id)->first();
+                    if (!is_null($promotion)) {
+                        $new_price = $promotion->type === 1 ? ($old_price * $promotion->type_val / 100) : $old_price - $promotion->type_val;
                     }
                 }
                 // 当前用户此次登录添加的
@@ -99,10 +109,10 @@ class AjaxGoodController extends BaseController
             if ($this->store($id,$spec_key,$nums) == false) {
                 $this->ajaxReturn('0','库存不足！');
             }
-            $total_prices = $price * $nums;
+            $total_prices = $new_price * $nums;
             // 规格信息
             $spec_key_name = GoodSpecPrice::where('good_id',$id)->where('item_id',$spec_key)->value('item_name');
-            $a = ['session_id'=>$sid,'user_id'=>$userid,'good_id'=>$id,'good_title'=>$good->title,'good_spec_key'=>$spec_key,'good_spec_name'=>$spec_key_name,'nums'=>$nums,'price'=>$price,'total_prices'=>$total_prices,'selected'=>1,'prom_type'=>$good->prom_type,'prom_id'=>$good->prom_id];
+            $a = ['session_id'=>$sid,'user_id'=>$userid,'good_id'=>$id,'good_title'=>$good->title,'good_spec_key'=>$spec_key,'good_spec_name'=>$spec_key_name,'nums'=>$nums,'old_price'=>$old_price,'price'=>$new_price,'total_prices'=>$total_prices,'selected'=>1,'prom_type'=>$good->prom_type,'prom_id'=>$good->prom_id];
             // 查看有没有在购物车里，有累计数量
             if (!is_null($tmp)) {
                 Cart::where('id',$tmp->id)->update($a);
@@ -283,7 +293,7 @@ class AjaxGoodController extends BaseController
             $clear_ids = [];
             $date = date('Y-m-d H:i:s');
             foreach ($carts as $k => $v) {
-                $order_goods[$k] = ['user_id'=>$uid,'order_id'=>$order->id,'good_id'=>$v->good_id,'good_title'=>$v->good_title,'good_spec_key'=>$v->good_spec_key,'good_spec_name'=>$v->good_spec_name,'nums'=>$v->nums,'price'=>$v->price,'total_prices'=>$v->total_prices,'created_at'=>$date,'updated_at'=>$date,'prom_type'=>$v->prom_type,'prom_id'=>$v->prom_id];
+                $order_goods[$k] = ['user_id'=>$uid,'order_id'=>$order->id,'good_id'=>$v->good_id,'good_title'=>$v->good_title,'good_spec_key'=>$v->good_spec_key,'good_spec_name'=>$v->good_spec_name,'nums'=>$v->nums,'old_price'=>$v->old_price,'price'=>$v->price,'total_prices'=>$v->total_prices,'created_at'=>$date,'updated_at'=>$date,'prom_type'=>$v->prom_type,'prom_id'=>$v->prom_id];
                 $clear_ids[] = $v->id;
             }
             // 如果有赠品，加上赠品
@@ -292,7 +302,7 @@ class AjaxGoodController extends BaseController
                 $good_spec_key = is_null($mz_good_spec) ? '' : $mz_good_spec->good_spec_key;
                 $good_spec_name = is_null($mz_good_spec) ? '' : $mz_good_spec->good_spec_name;
                 $price = is_null($mz_good_spec) ? $mz->good->price : $mz_good_spec->price;
-                $order_goods[] = ['user_id'=>$uid,'order_id'=>$order->id,'good_id'=>$mz->good_id,'good_title'=>'赠品-'.$mz->good->title,'good_spec_key'=>$good_spec_key,'good_spec_name'=>$good_spec_name,'nums'=>1,'price'=>$price,'total_prices'=>0,'created_at'=>$date,'updated_at'=>$date,'prom_type'=>3,'prom_id'=>$mz->id];
+                $order_goods[] = ['user_id'=>$uid,'order_id'=>$order->id,'good_id'=>$mz->good_id,'good_title'=>'赠品-'.$mz->good->title,'good_spec_key'=>$good_spec_key,'good_spec_name'=>$good_spec_name,'nums'=>1,'old_price'=>$price,'price'=>0,'total_prices'=>0,'created_at'=>$date,'updated_at'=>$date,'prom_type'=>3,'prom_id'=>$mz->id];
             }
             // 如果商品是空回滚
             if (count($order_goods) == 0) {
