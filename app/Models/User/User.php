@@ -71,5 +71,10 @@ class User extends Model
     {
         return $this->hasMany('\App\Models\User\Consume','user_id','id');
     }
+    // 充值记录
+    public function recharge()
+    {
+        return $this->hasMany('\App\Models\User\Recharge','user_id','id');
+    }
    
 }

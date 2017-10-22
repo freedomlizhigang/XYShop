@@ -1,4 +1,10 @@
 $(function() {
+    // 图片懒加载
+    $(".lazy").lazyload({
+         effect : "fadeIn",
+         threshold : 200,
+         failure_limit : 100, // 加大这个数值可以显示出float布局过的图片，但是太大影响性能，自己做取舍
+    });
 	// 给购物车页面变化数量加锁，防止连点
 	// 购物车页面数量变化
 	$('.num_reduce').on('click',function(event) {

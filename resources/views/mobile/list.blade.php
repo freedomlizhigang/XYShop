@@ -17,7 +17,7 @@
     <ul class="list_good clearfix">
       @foreach($list as $l)
       <li>
-        <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_img"><img src="{{ $l->thumb }}" width="345" height="345" alt="{{ $l->title }}"></a>
+        <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_img"><img data-original="{{ $l->thumb }}" width="345" height="345" alt="{{ $l->title }}" class="lazy"></a>
         <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_t slh">
           @if($l->prom_tag != '')
           <i class="label label-red">{{ $l->prom_tag }}</i>

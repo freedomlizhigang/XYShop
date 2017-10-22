@@ -16,7 +16,7 @@
 		<td>{{ $m->id }}</td>
 		<td>{{ $m->people }}</td>
 		<td>{{ $m->phone }}</td>
-		<td>{{ $m->area }}{{ $m->address }}</td>
+		<td>{{ $m->area }}-{{ $m->address }}</td>
 	</tr>
 	@endforeach
 </table>

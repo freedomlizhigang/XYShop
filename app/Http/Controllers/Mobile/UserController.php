@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Common\BaseController;
+use App\Models\Common\Pay;
 use App\Models\Good\Coupon;
 use App\Models\Good\CouponUser;
 use App\Models\Good\Order;
+use App\Models\Good\OrderGood;
+use App\Models\Good\ReturnGood;
 use App\Models\User\Consume;
 use App\Models\User\User;
 use Illuminate\Http\Request;
@@ -55,11 +58,53 @@ class UserController extends BaseController
     })->orderBy('id','desc')->paginate(20);
     return view($this->theme.'.user.order',compact('pos_id','title','list','sid'));
   }
+  // 订单详细页面
+  public function getOrderInfo($id = '')
+  {
+    try {
+      $pos_id = 'center';
+      $title = '订单详情';
+      $order = Order::with('good')->findOrFail($id);
+      return view($this->theme.'.user.orderinfo',compact('pos_id','title','order'));
+    } catch (\Exception $e) {
+      dd($e);
+      return view('errors.404');
+    }
+  }
+  // 申请退换
+  public function getReturnGood($ogid = '')
+  {
+    $pos_id = 'center';
+    $title = '申请退换';
+    $ordergood = OrderGood::with('order')->findOrFail($ogid);
+    // 判断是不是已经完成，三天内
+    if ($ordergood->order->orderstatus !== 2 || strtotime($ordergood->order->confirm_at) <= time()-259200) {
+      return back()->with('message','订单不在售后时间！');
+    }
+    if ($ordergood->shipstatus === 2 || $ordergood->shipstatus === 3) {
+      return back()->with('message','已退货请不要重复提交！');
+    }
+    return view($this->theme.'.user.returngood',compact('pos_id','title','ordergood'));
+  }
+  public function postReturnGood(Request $req,$ogid = '')
+  {
+    try {
+      $og = OrderGood::where('id',$ogid)->first();
+      $data = ['user_id'=>$og->user_id,'order_id'=>$og->order_id,'good_id'=>$og->good_id,'good_title'=>$og->good_title,'good_spec_key'=>$og->good_spec_key,'good_spec_name'=>$og->good_spec_name,'nums'=>$og->nums,'price'=>$og->price,'total_prices'=>$og->total_prices,'mark'=>$req->mark];
+      // OrderGood::where('id',$ogid)->update(['status'=>0]);
+      ReturnGood::create($data);
+      return redirect(url('user/orderinfo/'.$og->order_id))->with('message','退货申请已提交，请等待管理员联系您！');
+    } catch (\Exception $e) {
+      dd($e);
+      return back()->with('message','提交失败，稍后再试！');
+    }
+  }
   // 登陆
   public function getLogin()
   {
     // 存下来源页面
-    session()->put('backurl',url()->previous());
+    $backurl = url()->previous() == '' ? url('') : url()->previous();
+    session()->put('backurl',$backurl);
     $wechat = app('wechat');
     $oauth = $wechat->oauth->withRedirectUrl(config('app.url').'/wxlogin');
     return $oauth->redirect();

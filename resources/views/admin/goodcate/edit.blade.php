@@ -74,7 +74,7 @@
             <td class="td_left">排序：</td>
             <td>
                 <input type="text" name="data[sort]" value="{{ $info->sort }}" class="form-control input-xs">
-                <p class="input-info"><span class="color_red">*</span>越大越靠前</p>
+                <p class="input-info"><span class="color_red">*</span>越小越靠前</p>
             </td>
         </tr>
 

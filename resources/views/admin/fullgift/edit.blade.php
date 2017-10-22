@@ -4,7 +4,6 @@
 
 <form action="javascript:;" method="post" id="form_ajax">
     {{ csrf_field() }}
-    <input type="hidden" name="ref" value="{!! $ref !!}">
     <table class="table table-striped">
 
         <tr>

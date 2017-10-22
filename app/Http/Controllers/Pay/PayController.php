@@ -116,8 +116,7 @@ class PayController extends BaseController
                 'body'             => cache('config')['title'].'订单',
                 'detail'           => cache('config')['title'].'订单',
                 'out_trade_no'     => $order->order_id,
-                // 'total_fee'        => $order->total_prices * 100, // 单位：分
-                'total_fee'        => 1, // 单位：分
+                'total_fee'        => $order->total_prices * 100, // 单位：分
                 'notify_url'       => config('app.url').'/weixin/return', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
                 'openid'           => $openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
             ];
@@ -127,11 +126,11 @@ class PayController extends BaseController
             $config = $payment->configForJSSDKPayment($prepayId);
             $js = $wechat->js;
             $pos_id = 'cart';
-            $title = '微信支付';
+            $title = '订单结算-微信支付';
             return view($this->theme.'.pay.wxpay',compact('title','pos_id','config','js','oid','order'));
         } catch (\Exception $e) {
-            dd($e);
-            Storage::disk('log')->prepend('weixin.log',json_encode($response->getData()).date('Y-m-d H:i:s'));
+            // dd($e);
+            Storage::disk('log')->prepend('weixin.log',json_encode($e->getData()).date('Y-m-d H:i:s'));
             return back()->with('message','微信支付失败，请稍后再试！');
         }
     }

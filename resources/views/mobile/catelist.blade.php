@@ -26,7 +26,7 @@
           @foreach(app('tag')->catelist($c->id,8) as $g)
           <li>
             @if($g->thumb != '')
-            <a href="{{ url('list',['id'=>$g->id]) }}" class="l_c_s_img db_ma"><img src="{{ $g->thumb }}" width="70" height="70" alt="{{ $g->mobilename }}"></a>
+            <a href="{{ url('list',['id'=>$g->id]) }}" class="l_c_s_img db_ma"><img data-original="{{ $g->thumb }}" width="70" height="70" alt="{{ $g->mobilename }}" class="lazy"></a>
             @endif
             <a href="{{ url('list',['id'=>$g->id]) }}" class="l_c_s_title">{{ $g->mobilename }}</a>
           </li>

@@ -27,7 +27,7 @@ class RetrunGoodController extends BaseController
     				$q->select('id','nickname','username');
     			},'order'=>function($q){
                     $q->select('id','order_id');
-                }])->where(function($r) use($q){
+                },'good'])->where(function($r) use($q){
                     if ($q != '') {
                         // 查出来用户ID
                         $uid = User::where('nickname','like',"%$q%")->orWhere('phone','like',"%$q%")->pluck('id')->toArray();
@@ -105,11 +105,13 @@ class RetrunGoodController extends BaseController
         DB::transaction(function() use ($id,$req){
             ReturnGood::where('id',$id)->update($req->input('data'));
             // 如果同意退货
-            if ($req->input('data.status') == 1) {
-                $order = ReturnGood::findOrFail($id);
-                User::where('id',$order->user_id)->increment('user_money',$order->total_prices);
+            if ($req->input('data.status') === 1) {
+                $rg = ReturnGood::findOrFail($id);
+                User::where('id',$rg->user_id)->increment('user_money',$rg->total_prices);
+                // 完成退货
+                OrderGood::where('user_id',$rg->user_id)->where('order_id',$rg->order_id)->where('good_id',$rg->good_id)->where('good_spec_key',$rg->good_spec_key)->update(['shipstatus'=>3]);
                 // 消费记录
-                app('com')->consume($order->user_id,$order->order_id,$order->total_prices,'退货返现',1);
+                app('com')->consume($rg->user_id,$rg->order_id,$rg->total_prices,'退货返现('.$rg->order_id.'),商品：('.$rg->good_title.')',1);
             }
         });
         return $this->ajaxReturn(1,'处理成功！');

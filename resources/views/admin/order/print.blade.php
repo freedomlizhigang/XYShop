@@ -32,7 +32,7 @@
 </head>
 
 <body>
-    <h4 class="text-center" style="margin-bottom: 5px">泰华集团吉鲜蜂商城订单信息</h4>
+    <h4 class="text-center" style="margin-bottom: 5px">{{ cache('config')['title'] }}订单信息</h4>
     <table class="table">
         <tr>
             <td>收货人：{{ !is_null($order->address) ? $order->address->people : $order->user->nickname }}</td>
@@ -46,7 +46,7 @@
         </tr>
         <tr>
             <td colspan="2">收货地址：{{ !is_null($order->address) ? $order->address->area.$order->address->address : $order->zitidian->address }}</td>
-            <td class="text-right">电话：0318-6667780</td>
+            <td class="text-right">电话：{{ cache('config')['phone'] }}</td>
         </tr>
     </table>
     <table class="table table-bordered">

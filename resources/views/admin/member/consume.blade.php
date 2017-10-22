@@ -7,8 +7,8 @@
 <table class="table table-striped table-hover mt10">
 	<tr class="active">
 		<th width="50">ID</th>
-		<th width="220">备注</th>
-		<th>金额变动情况</th>
+		<th>备注</th>
+		<th width="220">金额变动情况</th>
 		<th>消费时间</th>
 	</tr>
 	@foreach($list as $m)

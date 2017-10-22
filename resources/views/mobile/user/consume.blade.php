@@ -6,7 +6,11 @@
     @foreach($consume as $l)
     <li class="clearfix">
       <span>{{ $l->created_at }}</span>
-      <span class="label label-red f-r">{{ $l->type ? '充值' : '消费' }}</span>
+      @if($l->type)
+      <span class="label label-red f-r">充值 +{{ $l->price }}</span>
+      @else
+      <span class="label label-hui f-r">消费 -{{ $l->price }}</span>
+      @endif
       <p>{{ $l->mark }}</p>
     </li>
     @endforeach

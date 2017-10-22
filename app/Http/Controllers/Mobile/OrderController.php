@@ -98,7 +98,7 @@ class OrderController extends BaseController
       // 查有没有赠品
       $gift = Fullgift::with(['good'=>function($q){
                         $q->select('id','shop_price','title','thumb');
-                    }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->orderBy('price','desc')->first();
+                    }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->first();
       return view($this->theme.'.createorder',compact('title','pos_id','goodlists','total_prices','default_address','address','coupon','count','cid_str','gift'));
     } catch (\Exception $e) {
       dd($e);

@@ -56,7 +56,7 @@ class FullgiftController extends BaseController
     {
     	$title = '修改满赠';
     	$info = Fullgift::with('good')->findOrFail($id);
-    	return view('admin.fullgift.edit',compact('title','info'));
+    	return view('admin.fullgift.edit',compact('title','info','ref'));
     }
     public function postEdit(FullgiftRequest $req,$id = '')
     {

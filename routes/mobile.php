@@ -40,6 +40,10 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::get('center','UserController@getCenter');
     // 用户订单
     Route::get('user/orderlist/{sid?}','UserController@getOrderlist');
+    Route::get('user/orderinfo/{id}','UserController@getOrderInfo');
+    // 退换
+    Route::get('user/returngood/{ogid}','UserController@getReturnGood');
+    Route::post('user/returngood/{ogid}','UserController@postReturnGood');
     // 个人信息
     Route::get('userinfo','UserController@getUserinfo');
     Route::post('userinfo','UserController@postUserinfo');
@@ -48,6 +52,9 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::post('passwd','UserController@postPasswd');
     // 消费记录
     Route::get('consume','UserController@getConsume');
+    // 充值
+    Route::get('user/recharge','RechargeController@getRecharge');
+    Route::post('user/recharge','RechargeController@postRecharge');
     // 优惠券
     Route::get('user/coupon','UserController@getCoupon');
     // 地址

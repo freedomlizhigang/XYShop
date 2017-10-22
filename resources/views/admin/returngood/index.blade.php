@@ -31,15 +31,15 @@
 		<th width="50">ID</th>
 		<th width="150">用户</th>
 		<th width="150">订单号</th>
-		<th width="200">商品名</th>
-		<th width="200">备注</th>
-		<th width="200">处理意见</th>
+		<th>商品名</th>
+		<th width="150">备注</th>
+		<th width="150">处理意见</th>
 		<th width="50">数量</th>
 		<th width="50">总价</th>
 		<th width="80">状态</th>
 		<th width="160">提交时间</th>
 		<th width="160">退货时间</th>
-		<th width="180">操作</th>
+		<th width="80">操作</th>
 	</tr>
 	@foreach($list as $a)
 	<tr>

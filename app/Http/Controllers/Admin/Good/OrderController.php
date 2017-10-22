@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin\Good;
 
 use App\Http\Controllers\Admin\BaseController;
+use App\Models\Good\Fullgift;
 use App\Models\Good\Good;
 use App\Models\Good\GoodSpecPrice;
 use App\Models\Good\Order;
 use App\Models\Good\OrderGood;
+use App\Models\Good\Timetobuy;
+use App\Models\Good\Tuan;
+use App\Models\Good\TuanUser;
 use App\Models\User\Address;
 use App\Models\User\User;
 use DB;
@@ -25,11 +29,10 @@ class OrderController extends BaseController
         $status = $req->input('status');
         $shipstatus = $req->input('shipstatus');
         $paystatus = $req->input('paystatus');
-        $ziti = $req->input('ziti');
         // 找出订单
         $orders = Order::with(['good'=>function($q){
-                    $q->select('id','user_id','order_id','good_id','good_title','good_spec_key','good_spec_name','nums','price','total_prices');
-                },'address','zitidian'])->where(function($r) use($q){
+                    $q->select('id','user_id','order_id','good_id','good_title','good_spec_key','good_spec_name','nums','price','total_prices')->with('good');
+                },'address','user'])->where(function($r) use($q){
                     if ($q != '') {
                         // 查出来收货人ID
                         $uid = Address::where('people','like',"%$q%")->orWhere('phone','like',"%$q%")->pluck('id')->toArray();
@@ -64,16 +67,8 @@ class OrderController extends BaseController
                     if ($paystatus != '') {
                         $q->where('paystatus',$paystatus);
                     }
-                })->where(function($q) use($ziti){
-                    if ($ziti != 0 && $ziti != '') {
-                        $q->where('ziti','!=',0);
-                    }
-                    elseif($ziti == 0 && $ziti != '')
-                    {
-                        $q->where('ziti',0);
-                    }
                 })->where('status',1)->orderBy('id','desc')->paginate(10);
-        return view('admin.order.index',compact('title','orders','q','status','starttime','endtime','ziti','paystatus','shipstatus','key'));
+        return view('admin.order.index',compact('title','orders','q','status','starttime','endtime','paystatus','shipstatus','key'));
     }
     // 打印
     public function getPrint($id)
@@ -90,14 +85,6 @@ class OrderController extends BaseController
         Order::whereIn('id',$sids)->update(['shipstatus'=>1,'ship_at'=>date('Y-m-d H:i:s')]);
         return back()->with('message','发货成功！');
     }
-    // 批量自提
-    public function postAllZiti(Request $req)
-    {
-        $sids = $req->sids;
-        $sids = Order::whereIn('id',$sids)->where('paystatus',1)->pluck('id');
-        Order::whereIn('id',$sids)->update(['orderstatus'=>2]);
-        return back()->with('message','设置自提成功！');
-    }
     // 批量关闭
     public function postAllDel(Request $req)
     {
@@ -110,7 +97,7 @@ class OrderController extends BaseController
                 if ($v->paystatus && $v->orderstatus == 1) {
                     User::where('id',$v->user_id)->increment('user_money',$v->total_prices);
                     // 消费记录
-                    app('com')->consume($v->user_id,$v->order_id,$v->total_prices,'退货返现',1);
+                    app('com')->consume($v->user_id,$v->order_id,$v->total_prices,'取消订单返现('.$v->order_id.')',1);
                 }
                 // 增加库存
                 $this->updateStore($v->id,1);
@@ -138,7 +125,7 @@ class OrderController extends BaseController
             if ($order->paystatus && $order->orderstatus == 1) {
                 User::where('id',$order->user_id)->increment('user_money',$order->total_prices);
                 // 消费记录
-                app('com')->consume($order->user_id,$order->order_id,$order->total_prices,'退货返现',1);
+                app('com')->consume($order->user_id,$order->order_id,$order->total_prices,'取消订单返现('.$order->order_id.')',1);
             }
             // 增加库存
             $this->updateStore($v->id,1);
@@ -151,12 +138,6 @@ class OrderController extends BaseController
             DB::rollBack();
             return back()->with('message','关闭失败，请稍后再试！');
         }
-    }
-    // 自提、完成
-    public function getZiti($id = '')
-    {
-        Order::where('id',$id)->update(['orderstatus'=>2]);
-        return back()->with('message','自提成功！');
     }
     // 发货
     public function getShip($id = '')
@@ -177,7 +158,6 @@ class OrderController extends BaseController
     public function updateStore($oid = '',$type = 0)
     {
         // 事务
-        DB::beginTransaction();
         try {
             if ($type) {
                 // 加库存，先找出来所有的商品ID与商品属性ID
@@ -190,6 +170,20 @@ class OrderController extends BaseController
                     Good::where('id',$v->good_id)->increment('store',$v->nums); 
                     // 加销量
                     Good::where('id',$v->good_id)->decrement('sales',$v->nums);
+                    // 查看活动情况，参加人加一，数量减一
+                    if ($v->prom_type === 1) {
+                        Timetobuy::where('id',$v->prom_id)->increment('good_num',$v->nums);
+                        Timetobuy::where('id',$v->prom_id)->decrement('buy_num');
+                        Timetobuy::where('id',$v->prom_id)->decrement('order_num',$v->nums);
+                    }
+                    if ($v->prom_type === 2) {
+                        TuanUser::create(['status'=>1,'t_id'=>$v->prom_id,'user_id'=>$v->user_id]);
+                        Tuan::where('id',$v->prom_id)->increment('store',$v->nums);
+                        Tuan::where('id',$v->prom_id)->decrement('buy_num',$v->nums);
+                    }
+                    if ($v->prom_type === 3) {
+                        Fullgift::where('id',$v->prom_id)->increment('store',$v->nums);
+                    }
                 }
             }
             else
@@ -204,17 +198,43 @@ class OrderController extends BaseController
                     Good::where('id',$v->good_id)->decrement('store',$v->nums); 
                     // 加销量
                     Good::where('id',$v->good_id)->increment('sales',$v->nums);
+                    // 查看活动情况，参加人加一，数量减一
+                    if ($v->prom_type === 1) {
+                        Timetobuy::where('id',$v->prom_id)->decrement('good_num',$v->nums);
+                        Timetobuy::where('id',$v->prom_id)->increment('buy_num');
+                        Timetobuy::where('id',$v->prom_id)->increment('order_num',$v->nums);
+                    }
+                    if ($v->prom_type === 2) {
+                        TuanUser::where('t_id',$v->prom_id)->where('user_id',$v->user_id)->update(['status'=>0]);
+                        Tuan::where('id',$v->prom_id)->decrement('store',$v->nums);
+                        Tuan::where('id',$v->prom_id)->increment('buy_num',$v->nums);
+                    }
+                    if ($v->prom_type === 3) {
+                        Fullgift::where('id',$v->prom_id)->decrement('store',$v->nums);
+                    }
                 }
             }
             // 没出错，提交事务
-            DB::commit();
             return true;
         } catch (\Exception $e) {
             // 出错回滚
-            DB::rollBack();
             // dd($e->getMessage());
             Storage::disk('log')->prepend('updateStore.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
             return false;
         }
+    }
+    // 自提、完成
+    public function getZiti($id = '')
+    {
+        Order::where('id',$id)->update(['orderstatus'=>2]);
+        return back()->with('message','自提成功！');
+    }
+    // 批量自提
+    public function postAllZiti(Request $req)
+    {
+        $sids = $req->sids;
+        $sids = Order::whereIn('id',$sids)->where('paystatus',1)->pluck('id');
+        Order::whereIn('id',$sids)->update(['orderstatus'=>2]);
+        return back()->with('message','设置自提成功！');
     }
 }

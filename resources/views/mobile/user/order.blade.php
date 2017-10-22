@@ -14,7 +14,7 @@
     <li class="mt20 clearfix overh bgc_f pl20 pr20">
       <!-- top -->
       <header class="l_o_top clearfix pt20 pb20">
-        <span class="l_o_t_title"><i class="iconfont icon-evaluate color_main"></i>单号：{{ $l->order_id }}</span>
+        <span class="l_o_t_title"><i class="iconfont icon-evaluate color_main"></i><a href="{{ url('user/orderinfo',['id'=>$l->id]) }}">单号：{{ $l->order_id }}</a></span>
         <span class="l_o_t_right f-r">
           @if($l->orderstatus == '1')
             @if($l->paystatus == 0)
@@ -41,8 +41,8 @@
       <ul class="l_o_goods clearfix">
         @foreach($l->good as $lg)
         <li class="clearfix mb20">
-          <a href="{{ url('good',['id'=>$lg->good_id]) }}" class="l_o_g_img"><img src="{{ $lg->good->thumb }}" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
-          <h3 class="l_o_g_title">{{ $lg->good_title }}</h3>
+          <a href="{{ url('good',['id'=>$lg->good_id]) }}" class="l_o_g_img"><img data-original="{{ $lg->good->thumb }}" class="lazy" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
+          <h3 class="l_o_g_title slh">{{ $lg->good_title }}</h3>
         </li>
         @endforeach
       </ul>
@@ -51,7 +51,7 @@
       <ul class="l_o_goods l_o_goods_2 clearfix">
         @foreach($l->good as $lg)
         <li>
-          <a href="{{ url('good',['id'=>$lg->good_id]) }}" class="l_o_g_img"><img src="{{ $lg->good->thumb }}" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
+          <a href="{{ url('good',['id'=>$lg->good_id]) }}" class="l_o_g_img"><img data-original="{{ $lg->good->thumb }}" class="lazy" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
         </li>
         @endforeach
       </ul>

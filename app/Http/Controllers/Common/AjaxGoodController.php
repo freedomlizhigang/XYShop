@@ -276,7 +276,7 @@ class AjaxGoodController extends BaseController
             {
                 $mz = Fullgift::with(['good'=>function($q){
                         $q->select('id','shop_price','title');
-                    }])->where('price','<=',$prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->orderBy('price','desc')->first();
+                    }])->where('price','<=',$prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->first();
             }
             $area = Address::where('id',$req->aid)->value('area');
             $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'old_prices'=>$old_prices,'total_prices'=>$prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];

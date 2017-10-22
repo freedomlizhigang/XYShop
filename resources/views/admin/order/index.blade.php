@@ -22,24 +22,17 @@
 			<option value="0"@if($shipstatus == '0') selected="selected" @endif>未发货</option>
 			<option value="1"@if($shipstatus == '1') selected="selected" @endif>已发货</option>
 		</select>
-		<select name="ziti" id="ziti" class="form-control">
-			<option value="">自提状态</option>
-			<option value="0"@if($ziti == '0') selected="selected" @endif>不自提</option>
-			<option value="1"@if($ziti == '1') selected="selected" @endif>自提</option>
-		</select>
 		<input name="starttime" placeholder="开始时间" class="form-control" value="{{ $starttime }}" id="laydate">
 		<input name="endtime" placeholder="结束时间" class="form-control" value="{{ $endtime }}" id="laydate2">
 		<input type="text" name="key" value="{{ $key }}" class="form-control" placeholder="请输入商品名或订单号查询..">
 		<button class="btn btn-xs btn-info">查找</button>
-		<!-- @if(App::make('com')->ifCan('index-excel_order'))
-		<button class="btn btn-xs btn-primary btn_order">导出订单表</button>
-		@endif -->
 	</form>
 
 	<form action="" class="form-inline pull-right" method="get">
 		<input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="请输入手机号或昵称查询..">
 		<button class="btn btn-xs btn-info">搜索</button>
 	</form>
+    
 </div>
 
 <form action="" class="form-inline form_submit" method="get">
@@ -93,7 +86,7 @@
         	@if($o->shipstatus == 0)
         	<span class="text-primary">未发货</span>
         	@else
-        	<span class="text-success">已发货</span>
+        	<span class="text-success">{{ $o->ship_at }}</span>
         	@endif
         </td>
         <td>{{ $o->created_at }}</td>
@@ -103,10 +96,6 @@
 			@if(!is_null($o->address))
     		<p>{{ $o->address->area }}{{ $o->address->address }}</p>
     		<p>{{ $o->address->people }}：{{ $o->address->phone }}</p>
-    		@endif
-    		@if(!is_null($o->zitidian))
-    		<p>{{ $o->zitidian->area }}{{ $o->zitidian->address }}</p>
-    		<p>{{ $o->zitidian->phone }}</p>
     		@endif
     	</td>
 	</tr>
@@ -119,8 +108,8 @@
 					<img src="{{ $l->good->thumb }}" class="img-responsive img-thumbnail mr10 pull-left" width="100" alt="">
 					<h5 class="mt10">
 						<a href="{{ url('/shop/good',['id'=>$l->good->id]) }}">{{ $l->good_title }}</a>
-						@if($l->good_spec_name != '')<span class="label label-warning">{{ $l->good_spec_name }}</span>@endif
-					</h5>
+                    </h5>
+					@if($l->good_spec_name != '')<p class="label label-warning mt10">{{ $l->good_spec_name }}</p>@endif
 				</td>
 				<td width="15%">数量：{{ $l->nums }}</td>
 				<td width="15%">单价：<span class="good_prices color_1">￥{{ $l->price }}</span></td>
@@ -141,15 +130,12 @@
 		@if(App::make('com')->ifCan('order-allship'))
 		<span class="btn btn-xs btn-success btn_allship">发货</span>
 		@endif
-		@if(App::make('com')->ifCan('order-allziti'))
-		<span class="btn btn-xs btn-info btn_ziti">自提</span>
-		@endif
 		@if(App::make('com')->ifCan('order-allclose'))
 		<span class="btn btn-xs btn-warning btn_close">关闭</span>
 		@endif
 	</div>
 	<div class="pull-right">
-	    {!! $orders->appends(['q'=>$q,'key'=>$key,'status'=>$status,'ziti'=>$ziti,'starttime'=>$starttime,'endtime'=>$endtime,'shipstatus'=>$shipstatus,'paystatus'=>$paystatus])->links() !!}
+	    {!! $orders->appends(['q'=>$q,'key'=>$key,'status'=>$status,'starttime'=>$starttime,'endtime'=>$endtime,'shipstatus'=>$shipstatus,'paystatus'=>$paystatus])->links() !!}
 	</div>
 </div>
 <script>

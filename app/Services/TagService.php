@@ -10,17 +10,6 @@ use App\Models\Good\Tuan;
 class TagService
 {
 
-    // 活动
-    public function hd($num = 5)
-    {
-        $hd = Huodong::where('starttime','<',date('Y-m-d H:i:s'))->where('endtime','>',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->orderBy('sort','desc')->orderBy('id','desc')->limit($num)->get();
-        return $hd;
-    }
-
-    
-
-
-    
 
     // 面包屑导航
     public function goodcatpos($cid)
@@ -39,11 +28,6 @@ class TagService
             echo '';
         }
     }
-
-    
-
-    
-    
     /*
     * 取栏目
      */
@@ -105,7 +89,7 @@ class TagService
         $good = Good::where(function($q)use($cid){
                 if($cid != '')
                 {
-                    $cid = GoodCate::where('id',$cid)->value('arrchildid');
+                    // $cid = GoodCate::where('id',$cid)->value('arrchildid');
                     $q->whereIn('cate_id',explode(',',$cid));
                 }
             })->where('status',1)->select('id','title','thumb','shop_price','is_pos','is_hot','is_new','prom_type')->limit($num)->orderBy('sort','desc')->orderBy('id','desc')->get();
@@ -123,7 +107,7 @@ class TagService
                         if ($ismenu) {
                             $q->where('ismenu',1);
                         }
-                    })->select('id','name','mobilename','sort','thumb')->limit($num)->orderBy('sort','desc')->orderBy('id','desc')->get(); 
+                    })->select('id','name','mobilename','sort','thumb','arrchildid')->limit($num)->orderBy('sort','asc')->orderBy('id','asc')->get(); 
         return $goodcate;
     }
 
