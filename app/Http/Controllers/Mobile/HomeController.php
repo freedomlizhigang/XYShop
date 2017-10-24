@@ -33,7 +33,8 @@ class HomeController extends BaseController
         try {
             $pos_id = 'home';
             $title = '首页';
-            return view($this->theme.'.index',compact('pos_id','title'));
+            $wechat_js = app('wechat')->js;
+            return view($this->theme.'.index',compact('pos_id','title','wechat_js'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');
@@ -94,6 +95,8 @@ class HomeController extends BaseController
     public function getGood($id = '')
     {
         try {
+            // 分享用的
+            $wechat_js = app('wechat')->js;
             $good = Good::findOrFail($id);
             /*
             * 查出来所有的规格信息
@@ -124,14 +127,14 @@ class HomeController extends BaseController
             if ($good->prom_type === 1) {
                 $timetobuy = Timetobuy::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
                 if (!is_null($timetobuy)) {
-                    return view($this->theme.'.timetobuy',compact('title','good','good_spec_price','filter_spec','coupon','timetobuy'));
+                    return view($this->theme.'.timetobuy',compact('title','good','good_spec_price','filter_spec','coupon','timetobuy','wechat_js'));
                 }
             }
             // 团,查参加过没有
             if ($good->prom_type === 2) {
                 $tuan = Tuan::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
                 if (!is_null($tuan)) {
-                    return view($this->theme.'.tuan',compact('title','good','good_spec_price','filter_spec','coupon','tuan'));
+                    return view($this->theme.'.tuan',compact('title','good','good_spec_price','filter_spec','coupon','tuan','wechat_js'));
                 }
             }
             // 如果是活动里的商品，取出来活动的信息
@@ -143,9 +146,9 @@ class HomeController extends BaseController
                     $prom_title = $promotion->title;
                 }
             }
-            return view($this->theme.'.good',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon','prom_title','prom_val'));
+            return view($this->theme.'.good',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon','prom_title','prom_val','wechat_js'));
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return view('errors.404');
         }
     }

@@ -757,13 +757,21 @@
 		"/D/wwwroot/XYShop/app",
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin",
-		"/D/wwwroot/XYShop/config"
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile",
+		"/D/wwwroot/XYShop/resources",
+		"/D/wwwroot/XYShop/resources/views",
+		"/D/wwwroot/XYShop/resources/views/mobile"
 	],
 	"file_history":
 	[
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/AdminController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/HomeController.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/index.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/timetobuy.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/tuan.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/good.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/common/share.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/BaseController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/AdminController.php",
 		"/D/wwwroot/XYShop/shop.sublime-project",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCouponController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserController.php",
@@ -772,7 +780,6 @@
 		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/phpfmt.sublime-settings",
 		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/phpfmt/phpfmt.sublime-settings",
 		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/phpfmt/Default.sublime-keymap",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/HomeController.php",
 		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/PHP Companion.sublime-settings",
 		"/D/wwwroot/XYShop/resources/views/admin/member/consume.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/member/address.blade.php",
@@ -782,12 +789,10 @@
 		"/D/wwwroot/XYShop/resources/views/mobile/createorder.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/cart.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/order.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/index.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
 		"/D/wwwroot/XYShop/public/statics/mobile/js/com.js",
 		"/D/wwwroot/XYShop/public/statics/pc/js/com.js",
 		"/D/wwwroot/XYShop/public/statics/admin/js/com.js",
-		"/D/wwwroot/XYShop/resources/views/mobile/tuan.blade.php",
 		"/D/wwwroot/XYShop/resources/views/pc/home.blade.php",
 		"/D/wwwroot/XYShop/README.md",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/PayController.php",
@@ -840,8 +845,6 @@
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/FullgiftController.php",
 		"/D/wwwroot/XYShop/resources/views/admin/fullgift/edit.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/order/print.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/timetobuy.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/good.blade.php",
 		"/D/wwwroot/XYShop/app/Models/Good/Good.php",
 		"/D/wwwroot/XYShop/app/Models/Good/Promotion.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/promotion.blade.php",
@@ -888,8 +891,7 @@
 		"/D/wwwroot/XYShop/resources/views/tuan.balde.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/PC/PayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AttrController.php",
-		"/D/wamp/bin/mysql/mysql5.7.9/my.ini"
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AttrController.php"
 	],
 	"find":
 	{

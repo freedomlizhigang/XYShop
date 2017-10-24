@@ -303,4 +303,6 @@
     <span class="show_btn_addcart">加入购物车</span>
     <span class="show_btn_createorder">直接购买</span>
   </div>
+  <!-- 分享 -->
+  @include('mobile.common.share')
 @endsection

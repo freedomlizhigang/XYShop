@@ -110,7 +110,9 @@
 	</section>
 	@endforeach
 	<!-- 底 -->
-  @include('mobile.common.footer')
+    @include('mobile.common.footer')
 	<!-- 公用底 -->
 	@include('mobile.common.pos_menu')
+    <!-- 分享 -->
+    @include('mobile.common.share')
 @endsection
