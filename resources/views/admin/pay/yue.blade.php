@@ -1,7 +1,7 @@
 @extends('admin.right')
 
 @section('content')
-<form action="" class="pure-form pure-form-stacked" method="post">
+<form action="" class="form-inline" id="form_ajax" method="post">
     {{ csrf_field() }}
     <table class="table table-striped">
         <tr>

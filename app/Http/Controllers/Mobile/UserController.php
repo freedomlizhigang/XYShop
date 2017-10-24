@@ -16,6 +16,57 @@ use Validator;
 
 class UserController extends BaseController
 {
+  // 登陆
+  public function getLogin()
+  {
+    // 存下来源页面
+    $backurl = url()->previous() == '' ? url('/') : url()->previous();
+    session()->put('backurl',$backurl);
+    if (!session()->has('member')) {
+      $wechat = app('wechat');
+      $oauth = $wechat->oauth->withRedirectUrl(config('app.url').'/wxlogin');
+      return $oauth->redirect();
+    }
+    else
+    {
+      return redirect($backurl);
+    }
+    /*$pos_id = 'center';
+    $seo = (object) ['title'=>'用户登陆-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
+    return view($this->theme.'.user.login',compact('pos_id','seo'));*/
+  }
+  // 微信直接登陆
+  public function getWxLogin(Request $req)
+  {
+    $backurl = session('backurl') == '' || session('backurl') == url('login') ? url('/') : session('backurl');
+    try {
+      $wechat = app('wechat');
+      $oauth = $wechat->oauth;
+      // 获取 OAuth 授权结果用户信息
+      $wxuser = $oauth->user();
+      // 看这个用户在不在数据库，不在，添加并登录，在直接登录
+      $user = User::where('openid',$wxuser->id)->where('status',1)->first();
+      if (is_null($user)) {
+        $sex = $wxuser->sex == '' ? 0 : $wxuser->sex;
+        $res = User::create(['openid'=>$wxuser->id,'nickname'=>$wxuser->name,'sex'=>$sex,'thumb'=>$wxuser->avatar,'status'=>1,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
+        session()->put('member',(object)['id'=>$res->id,'openid'=>$res->openid]);
+        // 弹出填写手机号功能
+        session()->flash('nophone',1);
+      }
+      else
+      {
+        User::where('openid',$wxuser->id)->update(['thumb'=>$wxuser->avatar,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
+        session()->put('member',(object)['id'=>$user->id,'openid'=>$user->openid]);
+        if ($user->phone == '') {
+          // 弹出填写手机号功能
+          session()->flash('nophone',1);
+        }
+      }
+      return redirect($backurl);
+    } catch (\Exception $e) {
+      return redirect($backurl);
+    }
+  }
   // 用户中心
   public function getCenter()
   {
@@ -97,49 +148,6 @@ class UserController extends BaseController
     } catch (\Exception $e) {
       dd($e);
       return back()->with('message','提交失败，稍后再试！');
-    }
-  }
-  // 登陆
-  public function getLogin()
-  {
-    // 存下来源页面
-    $backurl = url()->previous() == '' ? url('') : url()->previous();
-    session()->put('backurl',$backurl);
-    $wechat = app('wechat');
-    $oauth = $wechat->oauth->withRedirectUrl(config('app.url').'/wxlogin');
-    return $oauth->redirect();
-    /*$pos_id = 'center';
-    $seo = (object) ['title'=>'用户登陆-'.cache('config')['title'],'keyword'=>cache('config')['keyword'],'describe'=>cache('config')['describe']];
-    return view($this->theme.'.user.login',compact('pos_id','seo'));*/
-  }
-  // 微信直接登陆
-  public function getWxLogin(Request $req)
-  {
-    try {
-      $wechat = app('wechat');
-      $oauth = $wechat->oauth;
-      // 获取 OAuth 授权结果用户信息
-      $wxuser = $oauth->user();
-      // 看这个用户在不在数据库，不在，添加并登录，在直接登录
-      $user = User::where('openid',$wxuser->id)->where('status',1)->first();
-      if (is_null($user)) {
-        $res = User::create(['openid'=>$wxuser->id,'nickname'=>$wxuser->name,'sex'=>$wxuser->sex,'thumb'=>$wxuser->avatar,'status'=>1,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
-        session()->put('member',(object)['id'=>$res->id,'openid'=>$res->openid]);
-        // 弹出填写手机号功能
-        session()->flash('nophone',1);
-      }
-      else
-      {
-        User::where('openid',$wxuser->id)->update(['thumb'=>$wxuser->avatar,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
-        session()->put('member',(object)['id'=>$user->id,'openid'=>$user->openid]);
-        if ($user->phone == '') {
-          // 弹出填写手机号功能
-          session()->flash('nophone',1);
-        }
-      }
-      return redirect(session('backurl'));
-    } catch (\Exception $e) {
-      return redirect(session('backurl'));
     }
   }
   // 修改个人信息

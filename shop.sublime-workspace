@@ -544,9 +544,17 @@
 	"command_palette":
 	{
 		"height": 392.0,
-		"last_filter": "sftpdel",
+		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
 			[
 				"sftpdel",
 				"SFTP: Delete Server…"
@@ -558,14 +566,6 @@
 			[
 				"sftp",
 				"SFTP: Cancel Upload"
-			],
-			[
-				"insta",
-				"Package Control: Install Package"
-			],
-			[
-				"remov",
-				"Package Control: Remove Package"
 			],
 			[
 				"install",
@@ -757,11 +757,23 @@
 		"/D/wwwroot/XYShop/app",
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Pay",
-		"/D/wwwroot/XYShop/resources"
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin",
+		"/D/wwwroot/XYShop/config"
 	],
 	"file_history":
 	[
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/AdminController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/BaseController.php",
+		"/D/wwwroot/XYShop/shop.sublime-project",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCouponController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserAddressController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/OrderController.php",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/phpfmt.sublime-settings",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/phpfmt/phpfmt.sublime-settings",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/phpfmt/Default.sublime-keymap",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/HomeController.php",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/PHP Companion.sublime-settings",
 		"/D/wwwroot/XYShop/resources/views/admin/member/consume.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/member/address.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/hot.blade.php",
@@ -803,13 +815,11 @@
 		"/D/wwwroot/XYShop/config/wechat.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay.blade.php",
 		"/D/wwwroot/XYShop/routes/mobile.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/BaseController.php",
 		"/D/wwwroot/XYShop/app/Services/ComService.php",
 		"/D/wwwroot/XYShop/routes/console.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/recharge.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/pay/recharge_wxpay.blade.php",
 		"/D/wwwroot/XYShop/vendor/omnipay/common/src/Omnipay/Omnipay.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserController.php",
 		"/D/wwwroot/XYShop/database/migrations/2017_10_22_101529_create_user_recharge.php",
 		"/D/wwwroot/XYShop/app/Models/User/Recharge.php",
 		"/D/wwwroot/XYShop/app/Models/User/User.php",
@@ -818,7 +828,6 @@
 		"/D/wwwroot/XYShop/resources/views/admin/goodcate/add.blade.php",
 		"/D/wwwroot/XYShop/app/Services/TagService.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodCateController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/HomeController.php",
 		"/D/wwwroot/XYShop/public/statics/mobile/css/home.scss",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/orderinfo.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/RetrunGoodController.php",
@@ -828,7 +837,6 @@
 		"/D/wwwroot/XYShop/app/Models/Good/ReturnGood.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/OrderController.php",
 		"/D/wwwroot/XYShop/resources/views/admin/order/index.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/OrderController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/FullgiftController.php",
 		"/D/wwwroot/XYShop/resources/views/admin/fullgift/edit.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/order/print.blade.php",
@@ -849,7 +857,6 @@
 		"/E/scss/reset/css/reset.scss",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/userinfo.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserAddressController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/passwd.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/address_add.blade.php",
@@ -882,18 +889,11 @@
 		"/D/wwwroot/XYShop/app/Http/Controllers/PC/PayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AttrController.php",
-		"/D/wamp/bin/mysql/mysql5.7.9/my.ini",
-		"/D/wwwroot/vhost.map",
-		"/C/Windows/System32/drivers/etc/hosts",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Api/UserController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Api/BaseController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Api/AdController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/UploaderController.php",
-		"/D/wwwroot/XYShop/resources/views/pc/good.blade.php"
+		"/D/wamp/bin/mysql/mysql5.7.9/my.ini"
 	],
 	"find":
 	{
-		"height": 41.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -1018,6 +1018,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\\",
 			"src",
 			"img src=",
 			"paymod",
@@ -1144,8 +1145,7 @@
 			"$good->prom_type",
 			"updateStore",
 			"updateOrder",
-			"tid",
-			"carts->good_spec_key"
+			"tid"
 		],
 		"highlight": true,
 		"in_selection": false,

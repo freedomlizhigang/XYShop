@@ -18,7 +18,7 @@ class BaseController extends Controller
     public $theme = 'home';
     public function __construct()
     {
-        session()->put('member',(object)['id'=>1,'points'=>10000,'openid'=>'osxIs0mmwpMH5jHrcRFESwSEnW4k']);
+        // session()->put('member',(object)['id'=>1,'points'=>10000,'openid'=>'osxIs0mmwpMH5jHrcRFESwSEnW4k']);
         // $this->theme = isset(cache('config')['theme']) && cache('config')['theme'] != null ? cache('config')['theme'] : 'mobile';
         $this->theme = 'mobile';
     }

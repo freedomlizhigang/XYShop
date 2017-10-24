@@ -46,7 +46,9 @@ class AdminController extends BaseController
     {
         $data = $request->input('data');
         unset($data['password_confirmation']);
-        $data['password'] = bcrypt($request->input('data.password'));
+        $crypt = str_random(10);
+        $data['crypt'] = $crypt;
+        $data['password'] = app('com')->makepwd($req->input('data.password'),$crypt);
         $data['lastip'] = $request->ip();
         $data['lasttime'] = Carbon::now();
         // 添加，事务
