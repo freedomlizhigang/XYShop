@@ -21,20 +21,28 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::get('list/{id?}','HomeController@getList');
     // 商品页面
     Route::get('good/{id}','HomeController@getGood');
-    // 活动列表
-    Route::get('hot','HomeController@getHot');
-    Route::get('hot/{id}','HomeController@getHotList');
-
+    // 抢购商品
+    Route::get('timetobuy/{id}','TimetobuyController@getGood');
+    // 抢购订单
+    Route::get('timetobuy/order/{oid}','TimetobuyController@getCreateorder');
+    // 团购商品
+    Route::get('tuan/{id}','TuanController@getGood');
+    // 团购订单
+    Route::get('tuan/order/{oid}','TuanController@getCreateorder');
     // 搜索
     Route::get('search','HomeController@getSearch');
+    // 活动列表
+    Route::get('hot','HotController@getHot');
+    Route::get('hot/{id}','HotController@getHotList');
+    // 活动商品
+    Route::get('hotgood/{id}','HotController@getGood');
     // 购物车
     Route::get('cart','OrderController@getCart');
     // 结算页面
-    Route::post('createorder','OrderController@postCreateorder');
     Route::get('createorder','OrderController@getCreateorder');
+    Route::post('createorder','OrderController@postCreateorder');
     // 选择支付方式页面
     Route::get('pay/{oid}','OrderController@getPay');
-
     // 以下是用户功能
     // 用户中心
     Route::get('center','UserController@getCenter');
@@ -70,7 +78,10 @@ Route::get('order/pay/{oid}','Pay\PayController@getTopay')->middleware('member')
 // 用户
 Route::group(['namespace' => 'Mobile'],function(){
     // 登陆
-    Route::get('login','UserController@getLogin');
+    Route::get('login','LoginController@getLogin');
+    Route::post('login','LoginController@postLogin');
     // 微信登陆页面
-    Route::get('wxlogin','UserController@getWxLogin');
+    Route::get('wxlogin','LoginController@getWxLogin');
 });
+// 退出登录
+Route::get('logout','Mobile\LoginController@getLogout');

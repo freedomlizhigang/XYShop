@@ -13,7 +13,7 @@ use App\Models\Good\GoodSpec;
 use App\Models\Good\GoodSpecItem;
 use App\Models\Good\GoodSpecPrice;
 use App\Models\Good\GoodsAttr;
-use App\Models\Good\HdGood;
+use App\Models\Good\PromGood;
 use App\Models\Good\Tuan;
 use DB;
 use Illuminate\Http\Request;
@@ -101,7 +101,7 @@ class GoodController extends BaseController
     public function getNostore(Request $res)
     {
         $title = '无库存商品列表';
-        $list = Good::with('goodspecprice')->where('status',1)->where('store',0)->orderBy('id','desc')->get()->keyBy('id');
+        $list = Good::with('goodspecprice')->where('status',1)->where('store',0)->orderBy('id','desc')->paginate(15);
         $count = $list->count();
         // 记录上次请求的url path，返回时用
         session()->put('backurl',$res->fullUrl());
@@ -327,7 +327,7 @@ class GoodController extends BaseController
                 // 购物车删除
                 Cart::whereIn('good_id',$ids)->delete();
                 // 活动
-                HdGood::whereIn('good_id',$ids)->delete();
+                PromGood::whereIn('good_id',$ids)->delete();
                 // 团购
                 Tuan::whereIn('good_id',$ids)->delete();
                 // 没出错，提交事务

@@ -34,7 +34,7 @@ $(function() {
 	// 点选择及取消时改价格
 	$('.cart_checkbox').change(function(event) {
 		var that = $(this);
-  	var cid = that.val();
+        var cid = that.val();
 		// 判断是选中还是没选中
 		if (that.is(':checked')) {
 			var price = $('.total_price_' + cid).text();
@@ -63,10 +63,7 @@ $(function() {
 		$('.g_s_num,.num_num').text(num + 1);
 		$('.nums').val(num + 1);
 	});
-	// 弹出
-	$(".pos_show").click(function(){
-		$(".pos_bg,.pos_alert_con").fadeIn();
-	});
+	// 关闭弹出的提交按钮
 	$(".pos_close").click(function(){
 		$(".pos_bg,.pos_bg_1,.pos_alert_con,.nophone").fadeOut();
 	});

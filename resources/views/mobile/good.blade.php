@@ -26,9 +26,6 @@
   <!-- 产品信息 -->
   <section class="goodinfo clearfix mt20 bgc_f pd20">
     <h1 class="good_title">
-      @if($good->prom_tag != '')
-      <i class="label label-red">{{ $good->prom_tag }}</i>
-      @endif
       @if($good->new_tag != '')
       <i class="label label-red">{{ $good->new_tag }}</i>
       @endif
@@ -38,27 +35,19 @@
       @if($good->hot_tag != '')
       <i class="label label-red">{{ $good->hot_tag }}</i>
       @endif
-      @if($prom_val != '')
-      <i class="label label-red">{{ $prom_val }}</i>
-      @endif
       {{ $good->title }}</h1>
     <div class="g_i_prices mt10 clearfix">
       <span class="gi_price font_lg color_main f-l">￥<i class="shop_price">{{ $good->shop_price }}</i></span>
       <span class="label label-hui f-r">库存：<i class="color_main store">{{ $good->sales }}+</i></span>
       <span class="label label-hui f-r">销量：<i class="color_cheng">{{ $good->store }}+</i></span>
     </div>
-    @if($prom_title != '')
-    <p class="mt10 color_fen">
-      {{ $prom_title }}
-    </p>
-    @endif
     <p class="ti_title color_9">{{ $good->describe }}</p>
   </section>
   <!-- 规格 -->
   <section class="good_spec mt20 clearfix bgc_f pd20">
     <h4 class="t4_show color_9">已选</h4>
     <div class="g_s_info pos_show">
-      <span class="g_s_name">冰蓝</span><span><i class="g_s_num">1</i>件</span>
+      <span class="g_s_name"></span><span><i class="g_s_num">1</i>件</span>
     </div>
   </section>
   <!-- 领券 -->
@@ -193,6 +182,7 @@
         <span class="num_inc">+</span>
       </span>
     </div>
+    <div class="btn-submit mt20">确定</div>
   </div>
   <!-- 购物车要提交的表单内容 -->
   <div class="submit_con hidden">
@@ -209,80 +199,60 @@
     <!-- 购物车、直接买 -->
     <script>
       $(function(){
-        // 添加到购物车
-        $('.show_btn_addcart').on('click',function(event) {
-          if(!ajaxLock)return false;
-          var sid = "{{ session()->getId() }}";
-          var gid = $('.good_id').val();
-          var num = $('.nums').val();
-          var spec_key = $('.spec_key').val();
-          var gp = $('.price').val();
-          var url = "{{ url('api/good/addcart') }}";
-          ajaxLock = 0;
-          $.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid},function(d){
-            var ss = jQuery.parseJSON(d);
-            if (ss.code == '1') {
-              // console.log(ss);
-              $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-            }
-            else
-            {
-              $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-              if (ss.code == '2') {
-                setTimeout(function(){
-                  window.location.href = "{{ url('login') }}";
-                },2000);
-              }
-              // alert(ss.msg);
-            }
-            ajaxLock = 1;
-            return;
-          }).error(function() {
-            ajaxLock = 1;
-            return;
-          });
+        // 弹出确认的按钮
+        $(".btn-addcart ,.pos_show").click(function(){
+          $(".pos_bg,.pos_alert_con").fadeIn();
+          $('.btn-submit').removeClass('btn-createorder-submit').addClass('btn-addcart-submit');
         });
-
-
+        $(".btn-createorder").click(function(){
+          $(".pos_bg,.pos_alert_con").fadeIn();
+          $('.btn-submit').removeClass('btn-addcart-submit').addClass('btn-createorder-submit');
+        });
+        // 添加到购物车
+        $(".pos_alert_con").on("click",".btn-addcart-submit",function(){addcart(0);});
         // 直接购买
-        $('.show_btn_createorder').on('click',function(event) {
-          if(!ajaxLock)return false;
-          var sid = "{{ session()->getId() }}";
-          var gid = $('.good_id').val();
-          var num = $('.nums').val();
-          var spec_key = $('.spec_key').val();
-          var gp = $('.price').val();
-          var url = "{{ url('api/good/addcart') }}";
-          ajaxLock = 0;
-          $.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid},function(d){
-            var ss = jQuery.parseJSON(d);
-            if (ss.code == '1') {
-              // 成功以后跳转到购物车页面上
-              $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-              // alert(ss.msg);
+        $(".pos_alert_con").on("click",".btn-createorder-submit",function(){addcart(1);});
+      })
+      function addcart(iscreate)
+      {
+        if(!ajaxLock)return false;
+        var sid = "{{ session()->getId() }}";
+        var gid = $('.good_id').val();
+        var num = $('.nums').val();
+        var spec_key = $('.spec_key').val();
+        var gp = $('.price').val();
+        var url = "{{ url('api/good/addcart') }}";
+        ajaxLock = 0;
+        $.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid},function(d){
+          var ss = jQuery.parseJSON(d);
+          if (ss.code == '1') {
+            // 成功以后跳转到购物车页面上
+            $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
+            $(".pos_bg,.pos_alert_con").fadeOut();
+            // alert(ss.msg);
+            if (iscreate) {
               setTimeout(function(){
                 window.location.href = "{{ url('cart') }}";
               },2000);
             }
-            else
-            {
-              $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-              // alert(ss.msg);
-              if (ss.code == '2') {
-                setTimeout(function(){
-                  window.location.href = "{{ url('user/login') }}";
-                },2000);
-              }
+          }
+          else
+          {
+            $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
+            // alert(ss.msg);
+            if (ss.code == '2') {
+              setTimeout(function(){
+                window.location.href = "{{ url('user/login') }}";
+              },2000);
             }
-            ajaxLock = 1;
-            return;
-          }).error(function() {
-            ajaxLock = 1;
-            return;
-          });
+          }
+          ajaxLock = 1;
+          return;
+        }).error(function() {
+          ajaxLock = 1;
+          return;
         });
-
-      })
+      }
     </script>
   </div>
   <!-- 底 -->
@@ -290,8 +260,8 @@
   <div class="pos_foot">
     <a href="{{ url('/') }}" class="p_f_link iconfont icon-home"><em>首页</em></a>
     <a href="{{ url('cart') }}" class="p_f_link iconfont icon-cart"><em>购物车</em></a>
-    <span class="show_btn_addcart">加入购物车</span>
-    <span class="show_btn_createorder">直接购买</span>
+    <span class="btn-createorder">直接购买</span>
+    <span class="btn-addcart">加入购物车</span>
   </div>
   <!-- 分享 -->
   @include('mobile.common.share')

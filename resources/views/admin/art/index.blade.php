@@ -103,27 +103,19 @@
 </form>
 <!-- 分页，appends是给分页添加参数 -->
 <div class="pages clearfix">
-	<!-- 页面跳转 -->
-	<div class="pull-right page-div">
-		<form action="" class="form-inline" method="get">
-			<input type="hidden" name="catid" value="{{ $catid }}">
-			<input type="text" class="form-control input-xs" name="page">
-			<button class="btn btn-info btn-xs">跳转</button>
-		</form>
-	</div>
 	{!! $list->appends(['catid' =>$catid,'q'=>$key,'status'=>$status,'starttime'=>$starttime,'endtime'=>$endtime])->links() !!}
 </div>
 <!-- 选中当前栏目 -->
 <script>
 	$(function(){
 		$('.btn_listrorder').click(function(){
-			$('.form_status').attr({'action':"{{ url('admin/art/sort') }}",'method':'post'}).submit();
+			$('.form_status').attr({'action':"{{ url('console/art/sort') }}",'method':'post'}).submit();
 		});
 		$('.btn_del').click(function(){
 			if (!confirm("确实要删除吗?")){
 				return false;
 			}else{
-				$('.form_status').attr({'action':"{{ url('admin/art/alldel') }}",'method':'post'}).submit();
+				$('.form_status').attr({'action':"{{ url('console/art/alldel') }}",'method':'post'}).submit();
 			}
 		});
 		$(".checkall").bind('change',function(){

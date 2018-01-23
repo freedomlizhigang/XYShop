@@ -22,7 +22,7 @@
     <ul class="cart_goods clearfix">
       @foreach($goodlists as $c)
       <li>
-        <a href="{{ url('good',['id'=>$c->good_id]) }}" class="c_g_img"><img src="{{ $c->good->thumb }}" height="200" width="200" alt="{{ $c->good_title }}"></a>
+        <a href="{{ $c->good->url }}" class="c_g_img"><img src="{{ $c->good->thumb }}" height="200" width="200" alt="{{ $c->good_title }}"></a>
         <p><i class="iconfont icon-close"></i>{{ $c->nums }}</p>
       </li>
       @endforeach

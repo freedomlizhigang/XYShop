@@ -28,7 +28,7 @@
   <div class="tuaninfo clearfix overh bgc_f">
     <div class="ti_left f-l overh">
       <em class="font_lg">团购</em>
-      <i>数量：{{ $tuan->store }}</i>
+      <i>剩余：{{ $tuan->store }}</i>
     </div>
     <div class="ti_right overh f-l">
       <div class="ti_r_t overh bgc_m">
@@ -41,24 +41,9 @@
   </div>
   <!-- 产品信息 -->
   <section class="goodinfo clearfix mt20 bgc_f pd20">
-    <h1 class="good_title">
-      @if($good->prom_tag != '')
-      <i class="label label-red">{{ $good->prom_tag }}</i>
-      @endif
-      @if($good->new_tag != '')
-      <i class="label label-red">{{ $good->new_tag }}</i>
-      @endif
-      @if($good->pos_tag != '')
-      <i class="label label-red">{{ $good->pos_tag }}</i>
-      @endif
-      @if($good->hot_tag != '')
-      <i class="label label-red">{{ $good->hot_tag }}</i>
-      @endif
-      {{ $good->title }}</h1>
+    <h1 class="good_title">{{ $good->title }}</h1>
     <div class="g_i_prices mt10 clearfix">
-      <span class="gi_price font_lg color_main f-l"><del>￥<i class="old_shop_price">{{ $good->shop_price }}</i></del>￥<i class="shop_price">{{ $tuan->price }}</i></span>
-      <span class="label label-hui f-r">库存：<i class="color_main store">{{ $good->sales }}+</i></span>
-      <span class="label label-hui f-r">销量：<i class="color_cheng">{{ $good->store }}+</i></span>
+      <span class="label label-hui f-r">参团人数：<i class="color_cheng">{{ $tuan->buy_num }}+</i></span>
     </div>
     <p class="ti_title color_9">{{ $good->describe }}</p>
   </section>
@@ -68,45 +53,6 @@
     <div class="g_s_info pos_show">
       <span class="g_s_name">冰蓝</span><span><i class="g_s_num">1</i>件</span>
     </div>
-  </section>
-  <!-- 领券 -->
-  <section class="good_coupon mt20 clearfix bgc_f pd20">
-    <h4 class="t4_show color_9">领券</h4>
-    <ul class="list_coupon mt20 clearfix">
-      @foreach($coupon as $c)
-      <li>
-        <span class="l_c_price f-l">￥{{ $c->lessprice }}</span>
-        <span class="l_c_btn f-r" data-cid="{{ $c->id }}">领取</span>
-        <span class="l_c_info f-l">满{{ $c->price }}可用</span>
-      </li>
-      @endforeach
-      <script>
-        $(function(){
-          $('.l_c_btn').click(function(){
-            if(!ajaxLock)return false;
-            var cid = $(this).attr('data-cid');
-            var url = "{{ url('api/coupon/get') }}";
-            ajaxLock = 0;
-            $.post(url,{cid:cid,uid:uid},function(d){
-              var ss = jQuery.parseJSON(d);
-              if (ss.code == '1') {
-                // console.log(ss);
-                $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-              }
-              else
-              {
-                $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-              }
-              ajaxLock = 1;
-              return;
-            }).error(function() {
-              ajaxLock = 1;
-              return;
-            });
-          });
-        })
-      </script>
-    </ul>
   </section>
   <!-- ad -->
   <div class="ads mt20">
@@ -201,6 +147,7 @@
         <span class="num_inc">+</span>
       </span>
     </div>
+    <div class="btn-submit mt20">确定</div>
   </div>
   <!-- 购物车要提交的表单内容 -->
   <div class="submit_con hidden">
@@ -218,60 +165,29 @@
     <!-- 购物车、直接买 -->
     <script>
       $(function(){
-        // 添加到购物车
-        $('.show_btn_addcart').on('click',function(event) {
-          if(!ajaxLock)return false;
-          var sid = "{{ session()->getId() }}";
-          var gid = $('.good_id').val();
-          var num = $('.nums').val();
-          var spec_key = $('.spec_key').val();
-          var gp = $('.price').val();
-          var old_price = $('.old_price').val();
-          var url = "{{ url('api/good/addcart') }}";
-          ajaxLock = 0;
-          $.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid,old_price:old_price},function(d){
-            var ss = jQuery.parseJSON(d);
-            if (ss.code == '1') {
-              // console.log(ss);
-              $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-            }
-            else
-            {
-              $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-              if (ss.code == '2') {
-                setTimeout(function(){
-                  window.location.href = "{{ url('login') }}";
-                },2000);
-              }
-              // alert(ss.msg);
-            }
-            ajaxLock = 1;
-            return;
-          }).error(function() {
-            ajaxLock = 1;
-            return;
-          });
+        // 弹出确认的按钮
+        $(".btn-addcart ,.pos_show").click(function(){
+          $(".pos_bg,.pos_alert_con").fadeIn();
         });
-
-
         // 直接购买
-        $('.show_btn_createorder').on('click',function(event) {
+        $('.btn-submit').on('click',function(event) {
           if(!ajaxLock)return false;
           var sid = "{{ session()->getId() }}";
           var gid = $('.good_id').val();
           var num = $('.nums').val();
           var spec_key = $('.spec_key').val();
           var gp = $('.price').val();
-          var url = "{{ url('api/good/addcart') }}";
+          var url = "{{ url('api/tuan/createorder') }}";
           ajaxLock = 0;
           $.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid},function(d){
             var ss = jQuery.parseJSON(d);
             if (ss.code == '1') {
               // 成功以后跳转到购物车页面上
-              $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-              // alert(ss.msg);
+              $('.alert_msg').text('参团成功~').slideToggle().delay(1500).slideToggle();
+              $(".pos_bg,.pos_alert_con").fadeOut();
+              // 下订单完成，跳转到支付上
               setTimeout(function(){
-                window.location.href = "{{ url('cart') }}";
+                window.location.href = "{{ url('tuan/order') }}" + '/' + ss.msg;
               },2000);
             }
             else
@@ -300,8 +216,7 @@
   <div class="pos_foot">
     <a href="{{ url('/') }}" class="p_f_link iconfont icon-home"><em>首页</em></a>
     <a href="{{ url('cart') }}" class="p_f_link iconfont icon-cart"><em>购物车</em></a>
-    <span class="show_btn_addcart">加入购物车</span>
-    <span class="show_btn_createorder">直接购买</span>
+    <span class="btn-addcart btn-createorder-lg">立即参团</span>
   </div>
   <!-- 分享 -->
   @include('mobile.common.share')

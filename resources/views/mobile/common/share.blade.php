@@ -1,6 +1,6 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
-  wx.config(<?php echo $wechat_js->config(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false) ?>);
+  wx.config(<?php echo $wechat_js->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false) ?>);
   $(function(){
     // 分享
     setTimeout(function(){

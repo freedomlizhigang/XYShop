@@ -85,6 +85,17 @@ class CardController extends BaseController
     	Card::insert($tmp);
     	return $this->ajaxReturn(1,'添加成功！');
     }
+    // 修改卡金额
+    public function getEdit($id = 0)
+    {
+        $info = Card::findOrFail($id);
+        return view('admin.card.edit',compact('info'));
+    }
+    public function postEdit(Request $req,$id = 0)
+    {
+        Card::where('id',$id)->update(['price'=>$req->price]);
+        return $this->ajaxReturn(1,'修改成功！');
+    }
     // 批量删除
     public function postAlldel(Request $req)
     {

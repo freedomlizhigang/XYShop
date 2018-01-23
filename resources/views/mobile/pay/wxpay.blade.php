@@ -35,7 +35,7 @@
       });
     $(function(){
       // 支付
-      setTimeout(function(){
+      wx.ready(function(){
         wx.chooseWXPay({
           timestamp: {{ $config['timestamp'] }},
           nonceStr: "{{ $config['nonceStr'] }}",
@@ -63,7 +63,7 @@
             },200);
           }
         });
-      },500);
+      });
     })
   </script>
 

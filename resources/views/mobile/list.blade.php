@@ -17,8 +17,8 @@
     <ul class="list_good clearfix">
       @foreach($list as $l)
       <li>
-        <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_img"><img data-original="{{ $l->thumb }}" width="345" height="345" alt="{{ $l->title }}" class="lazy"></a>
-        <a href="{{ url('good',['id'=>$l->id]) }}" class="l_g_t slh">
+        <a href="{{ $l->url }}" class="l_g_img"><img data-original="{{ $l->thumb }}" width="345" height="345" alt="{{ $l->title }}" class="lazy"></a>
+        <a href="{{ $l->url }}" class="l_g_t slh">
           @if($l->prom_tag != '')
           <i class="label label-red">{{ $l->prom_tag }}</i>
           @endif
@@ -34,7 +34,7 @@
           {{ $l->title }}</a>
         <div class="l_g_info clearfix">
           <span class="l_g_price color_main">￥{{ $l->shop_price }}</span>
-          <a class="l_g_btn_addcart iconfont icon-cart" href="{{ url('good',['id'=>$l->id]) }}"></a>
+          <a class="l_g_btn_addcart iconfont icon-cart" href="{{ $l->url }}"></a>
         </div>
       </li>
       @endforeach

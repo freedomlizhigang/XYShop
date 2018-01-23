@@ -103,6 +103,7 @@ form label {margin-bottom: 5px;}
 .input-md {width:50% !important; float: left; margin-right: 10px;}
 .input-sm {width:260px !important; float: left; margin-right: 10px;}
 .input-xs {width:50px !important; float: left; margin-right: 10px;}
+input[type="number"].input-xs {width:100px !important;}
 .input-info {color:#999; span {margin-right: 5px;}}
 .help-block { font-weight: normal; display: block;color: red;}
 .add_submenu {margin-left: 10px;}

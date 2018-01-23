@@ -32,7 +32,7 @@
       <ul class="l_o_goods clearfix">
         @foreach($order->good as $lg)
         <li class="clearfix mb20">
-          <a href="{{ url('good',['id'=>$lg->good_id]) }}" class="l_o_g_img"><img src="{{ $lg->good->thumb }}" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
+          <a href="{{ $lg->good->url }}" class="l_o_g_img"><img src="{{ $lg->good->thumb }}" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
           <h3 class="l_o_g_title slh">{{ $lg->good_title }}</h3>
           <!-- 完成的，三天内 -->
           @if($order->orderstatus === 2 && strtotime($order->confirm_at) >= time()-259200 && $lg->shipstatus === 1)

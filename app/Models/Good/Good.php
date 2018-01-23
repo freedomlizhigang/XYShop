@@ -32,7 +32,7 @@ class Good extends Model
     public $timestamps = true;
 
     // 计算会员价
-/*    public function getUserPriceAttribute()
+    /* public function getUserPriceAttribute()
     {
         if (!session()->has('member')) {
             return $this->price;
@@ -93,10 +93,34 @@ class Good extends Model
         return $this->attributes['is_hot'] ? '热卖' : '';
     }
 
-    // 二级分类
+    // 取链接
     public function getUrlAttribute()
     {
-        $url = url('good',['id'=>$this->attributes['id']]);
+        // 0普通商品，1限时，2团购，3满赠，4活动
+        switch ($this->attributes['prom_type']) {
+            // 活动
+            case '4':
+                $url = url('hotgood',['id'=>$this->attributes['id']]);
+                break;
+            // 满赠
+            case '3':
+                $url = url('good',['id'=>$this->attributes['id']]);
+                break;
+
+            // 团购
+            case '2':
+                $url = url('tuan',['id'=>$this->attributes['id']]);
+                break;
+
+            // 限时
+            case '1':
+                $url = url('timetobuy',['id'=>$this->attributes['id']]);
+                break;
+            
+            default:
+                $url = url('good',['id'=>$this->attributes['id']]);
+                break;
+        }
         return $url;
     }
 
@@ -111,6 +135,9 @@ class Good extends Model
     public function getGoodcateOneIdAttribute()
     {
         $one_id = GoodCate::where('id',$this->attributes['cate_id'])->value('arrparentid');
+        if (is_null($one_id)) {
+            return '';
+        }
         $one_id = explode(',', $one_id)[1];
         return $one_id;
     }

@@ -32,15 +32,22 @@
             }
 
             .title {
-                font-size: 72px;
+                font-size: 56px;
                 margin-bottom: 40px;
+                text-align: center;
             }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Be right back.</div>
+                <div class="title">
+                @if(isset($message))
+                {{ $message }}
+                @else
+                Be right back.
+                @endif
+                </div>
             </div>
         </div>
     </body>

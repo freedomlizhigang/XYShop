@@ -106,7 +106,7 @@ class PayController extends BaseController
     private function weixin($oid,$pay,$ip)
     {
         try {
-            $wechat = app('wechat');
+            $wechat = app('wechat.payment');
             $payment = $wechat->payment;
             $openid = session('member')->openid;
             $order = Order::with('good')->findOrFail($oid);

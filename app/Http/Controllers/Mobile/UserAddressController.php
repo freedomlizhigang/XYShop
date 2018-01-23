@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Mobile;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\User\Address;
 use Illuminate\Http\Request;
 use Validator;
 
-class UserAddressController extends BaseController
+class UserAddressController extends Controller
 {
     // 收货地址
     public function getAddress()
@@ -15,7 +15,7 @@ class UserAddressController extends BaseController
         $pos_id = 'center';
         $title = '收货地址';
         $list = Address::where('user_id',session('member')->id)->where('delflag',1)->orderBy('id','desc')->paginate(20);
-        return view($this->theme.'.user.address',compact('pos_id','title','list'));
+        return view(cache('config')['theme'].'.user.address',compact('pos_id','title','list'));
     }
     // 添加收货地址
     public function getAddressAdd()
@@ -23,7 +23,7 @@ class UserAddressController extends BaseController
         session()->put('backurl',url()->previous());
         $pos_id = 'center';
         $title = '添加收货地址';
-        return view($this->theme.'.user.address_add',compact('pos_id','title'));
+        return view(cache('config')['theme'].'.user.address_add',compact('pos_id','title'));
     }
     public function postAddressAdd(Request $req)
     {
@@ -63,7 +63,7 @@ class UserAddressController extends BaseController
         $title = '修改收货地址';
         $info = Address::findOrFail($id);
         $areaname = explode('-', $info->area);
-        return view($this->theme.'.user.address_edit',compact('pos_id','title','info','areaname'));
+        return view(cache('config')['theme'].'.user.address_edit',compact('pos_id','title','info','areaname'));
     }
     public function postAddressEdit(Request $req,$id = '')
     {

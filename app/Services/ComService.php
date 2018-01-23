@@ -8,7 +8,14 @@ use Storage;
 
 class ComService
 {
-    
+    // 判断是不是微信浏览器
+    public function is_weixin()
+    {
+        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+            return true;
+        } 
+        return false;
+    }
     // 密码生成及判断
     public function makepwd($pwd = '',$crypt = '')
     {

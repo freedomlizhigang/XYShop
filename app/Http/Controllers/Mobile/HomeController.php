@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Mobile;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\GoodSelect;
 use App\Models\Common\Article;
 use App\Models\Common\Cate;
@@ -21,7 +21,7 @@ use App\Models\Good\Tuan;
 use App\Models\Good\TuanUser;
 use Illuminate\Http\Request;
 
-class HomeController extends BaseController
+class HomeController extends Controller
 {
     /**
      * Show the application dashboard.
@@ -33,8 +33,8 @@ class HomeController extends BaseController
         try {
             $pos_id = 'home';
             $title = '首页';
-            $wechat_js = app('wechat')->js;
-            return view($this->theme.'.index',compact('pos_id','title','wechat_js'));
+            $wechat_js = app('wechat.official_account')->jssdk;
+            return view(cache('config')['theme'].'.index',compact('pos_id','title','wechat_js'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');
@@ -59,7 +59,7 @@ class HomeController extends BaseController
                 $cates = GoodCate::where('parentid',$id)->select('id','name','mobilename','thumb')->orderBy('sort','asc')->orderBy('id','asc')->get();
             }
             $title = '商品分类';
-            return view($this->theme.'.catelist',compact('pos_id','title','id','one','cates'));
+            return view(cache('config')['theme'].'.catelist',compact('pos_id','title','id','one','cates'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');
@@ -85,7 +85,7 @@ class HomeController extends BaseController
             $list = Good::whereIn('cate_id',$catids)->where('status',1)->select('id','title','shop_price','thumb','prom_type','is_new','is_pos','is_hot')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
             $pos_id = 'home';
             $title = $catname;
-            return view($this->theme.'.list',compact('pos_id','title','list','sort','sc'));
+            return view(cache('config')['theme'].'.list',compact('pos_id','title','list','sort','sc'));
         } catch (\Exception $e) {
             dd($e);
             return view('errors.404');
@@ -96,7 +96,7 @@ class HomeController extends BaseController
     {
         try {
             // 分享用的
-            $wechat_js = app('wechat')->js;
+            $wechat_js = app('wechat.official_account')->jssdk;
             $good = Good::findOrFail($id);
             /*
             * 查出来所有的规格信息
@@ -115,71 +115,31 @@ class HomeController extends BaseController
             }
             // 查出第一个规格信息来，标红用的
             $good_spec_price = GoodSpecPrice::where('good_id',$id)->get()->keyBy('item_id')->toJson();
-
             // 找出来可以用的优惠券
             $date = date('Y-m-d H:i:s');
             $coupon = Coupon::where('starttime','<=',$date)->where('endtime','>=',$date)->where('delflag',1)->where('status',1)->orderBy('sort','desc')->orderBy('id','desc')->limit(3)->get();
             $title = $good->title;
             $keyword = $good->keyword;
             $describe = $good->describe;
-            // 如果是参加活动的商品，对应到不同的页面上
-            // 抢购
-            if ($good->prom_type === 1) {
-                $timetobuy = Timetobuy::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
-                if (!is_null($timetobuy)) {
-                    return view($this->theme.'.timetobuy',compact('title','good','good_spec_price','filter_spec','coupon','timetobuy','wechat_js'));
-                }
-            }
-            // 团,查参加过没有
-            if ($good->prom_type === 2) {
-                $tuan = Tuan::where('id',$good->prom_id)->where('status',1)->where('delflag',1)->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->first();
-                if (!is_null($tuan)) {
-                    return view($this->theme.'.tuan',compact('title','good','good_spec_price','filter_spec','coupon','tuan','wechat_js'));
-                }
-            }
-            // 如果是活动里的商品，取出来活动的信息
-            $prom_val = $prom_title = '';
-            if ($good->prom_type === 4) {
-                $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->where('id',$good->prom_id)->first();
-                if (!is_null($promotion)) {
-                    $prom_val = $promotion->type === 1 ? ($promotion->type_val/10)." 折" : "减 $promotion->type_val 元";
-                    $prom_title = $promotion->title;
-                }
-            }
-            return view($this->theme.'.good',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon','prom_title','prom_val','wechat_js'));
+            return view(cache('config')['theme'].'.good',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon','wechat_js'));
         } catch (\Exception $e) {
             // dd($e);
             return view('errors.404');
         }
     }
-    // 活动列表
-    public function getHot()
+    // 搜索
+    public function getSearch(Request $req)
     {
         try {
-            // 排序方式
-            $list = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->orderBy('sort','desc')->orderBy('id','desc')->simplePaginate(20);
-            $pos_id = 'hot';
-            $title = '促销活动';
-            return view($this->theme.'.hot',compact('pos_id','title','list'));
-        } catch (\Exception $e) {
-            dd($e);
-            return view('errors.404');
-        }
-    }
-    // 活动商品列表
-    public function getHotList(Request $req,$id = 0)
-    {
-        try {
-            $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->findOrFail($id);
             // 排序方式
             $sort = isset($req->sort) ? $req->sort : 'sort';
             $sc = isset($req->sc) ? $req->sc : 'desc';
-            $list = Good::where('prom_type',4)->where('prom_id',$id)->where('status',1)->select('id','title','shop_price','thumb','prom_type','is_new','is_pos','is_hot')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
-            $pos_id = 'hot';
-            $title = $promotion->title;
-            return view($this->theme.'.list',compact('pos_id','title','list','sort','sc'));
+            $list = Good::where('title','like',"%".$req->key."%")->where('status',1)->select('id','title','shop_price','thumb','prom_type','is_new','is_pos','is_hot')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
+            $pos_id = 'home';
+            $title = "搜索结果";
+            return view(cache('config')['theme'].'.list',compact('pos_id','title','list','sort','sc'));
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return view('errors.404');
         }
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Mobile;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Common\Pay;
 use App\Models\User\Recharge;
 use EasyWeChat\Payment\Order as WxOrder;
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Omnipay\Omnipay;
 use Storage;
 
-class RechargeController extends BaseController
+class RechargeController extends Controller
 {
     // 充值
     public function getRecharge()
@@ -19,7 +19,7 @@ class RechargeController extends BaseController
         $title = '余额充值';
         // 取出来支付方式，不能用余额支付
         $paylist = Pay::where('status',1)->where('paystatus',1)->where('id','!=',3)->orderBy('id','asc')->get();
-        return view($this->theme.'.user.recharge',compact('pos_id','title','paylist'));
+        return view(cache('config')['theme'].'.user.recharge',compact('pos_id','title','paylist'));
     }
     public function postRecharge(Request $req)
     {
@@ -83,7 +83,7 @@ class RechargeController extends BaseController
     private function weixin($oid,$pay,$ip)
     {
         try {
-            $wechat = app('wechat');
+            $wechat = app('wechat.payment');
             $payment = $wechat->payment;
             $openid = session('member')->openid;
             $order = Recharge::findOrFail($oid);
@@ -104,7 +104,7 @@ class RechargeController extends BaseController
             $js = $wechat->js;
             $pos_id = 'center';
             $title = '会员充值-微信支付';
-            return view($this->theme.'.pay.recharge_wxpay',compact('title','pos_id','config','js','oid','order'));
+            return view(cache('config')['theme'].'.pay.recharge_wxpay',compact('title','pos_id','config','js','oid','order'));
         } catch (\Exception $e) {
             // dd($e);
             Storage::disk('log')->prepend('weixin.log',json_encode($e->getData()).date('Y-m-d H:i:s'));

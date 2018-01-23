@@ -41,7 +41,7 @@
       <ul class="l_o_goods clearfix">
         @foreach($l->good as $lg)
         <li class="clearfix mb20">
-          <a href="{{ url('good',['id'=>$lg->good_id]) }}" class="l_o_g_img"><img data-original="{{ $lg->good->thumb }}" class="lazy" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
+          <a href="{{ $l->good->url }}" class="l_o_g_img"><img data-original="{{ $lg->good->thumb }}" class="lazy" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
           <h3 class="l_o_g_title slh">{{ $lg->good_title }}</h3>
         </li>
         @endforeach
@@ -51,7 +51,7 @@
       <ul class="l_o_goods l_o_goods_2 clearfix">
         @foreach($l->good as $lg)
         <li>
-          <a href="{{ url('good',['id'=>$lg->good_id]) }}" class="l_o_g_img"><img data-original="{{ $lg->good->thumb }}" class="lazy" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
+          <a href="{{ $l->good->url }}" class="l_o_g_img"><img data-original="{{ $lg->good->thumb }}" class="lazy" height="200px" width="200px" alt="{{ $lg->good_title }}"></a>
         </li>
         @endforeach
       </ul>

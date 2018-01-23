@@ -204,4 +204,17 @@ class ArtController extends BaseController
             return back()->with('message', '请先选择文章！');
         }
     }
+    // 选择素材
+    public function getSelect(Request $res)
+    {
+        $title = '选择素材';
+        // 搜索关键字
+        $key = trim($res->input('q',''));
+        $list = Article::where(function($q) use($key){
+                if ($key != '') {
+                    $q->where('title','like','%'.$key.'%');
+                }
+            })->where('iswx',1)->orderBy('id','desc')->paginate(10);
+        return view('admin.art.select',compact('title','list','key'));
+    }
 }

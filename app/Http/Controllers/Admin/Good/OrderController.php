@@ -128,7 +128,7 @@ class OrderController extends BaseController
                 app('com')->consume($order->user_id,$order->order_id,$order->total_prices,'取消订单返现('.$order->order_id.')',1);
             }
             // 增加库存
-            $this->updateStore($v->id,1);
+            $this->updateStore($order->id,1);
             Order::where('id',$id)->update(['orderstatus'=>0]);
             // 没出错，提交事务
             DB::commit();

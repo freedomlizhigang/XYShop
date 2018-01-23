@@ -27,7 +27,7 @@
           </div>
         </header>
         <section class="mt20 clearfix">
-          <a href="{{ url('good',['id'=>$c->good_id]) }}" class="c_g_s_img"><img src="{{ $c->good->thumb }}" height="200" width="200" alt="{{ $c->good_title }}"></a>
+          <a href="{{ $c->good->url }}" class="c_g_s_img"><img src="{{ $c->good->thumb }}" height="200" width="200" alt="{{ $c->good_title }}"></a>
           <h3 class="c_g_s_title slh">{{ $c->good_title }}</h3>
           <p class="f-l label mt10">{{ $c->good_spec_name }}</p>
           <!-- 删除 -->

@@ -38,65 +38,19 @@ class AjaxGoodController extends BaseController
             $num = $req->num;
             $userid = $req->uid;
             $new_price = $old_price = $req->gp;
+            $type = $req->input('type','');
             // 商品信息
             $good = Good::findOrFail($id);
             // 如果用户已经登录，查以前的购物车
-            if ($userid) {
-                // 查看是不是活动中的商品，团购-限时-限量
-                // 限时，限购
-                if ($good->prom_type === 1) {
-                    // 查出来是哪个活动
-                    $timetobuy = Timetobuy::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->first();
-                    // 看限时
-                    if (!is_null($timetobuy)) {
-                        if (strtotime($timetobuy->endtime) < time()) {
-                            $this->ajaxReturn('0','限时抢购，已经结束！');
-                        }
-                        // 购物车里有，过往30天订单里有，都算已经购买过
-                        if (Cart::where('good_id',$id)->where('good_spec_key',$spec_key)->where('user_id',$userid)->sum('nums') >= $timetobuy->buy_max || OrderGood::where('good_id',$id)->where('good_spec_key',$spec_key)->where('user_id',$userid)->where('status',1)->where('created_at','>',Carbon::now()->subday(30))->sum('nums') >= $timetobuy->buy_max) {
-                            $this->ajaxReturn('0','限量购买，超过限制份数！');
-                        }
-                        if ($num > $timetobuy->buy_max) {
-                            $this->ajaxReturn('0','限量购买，本次超过限制份数！');
-                        }
-                    }
-                    $old_price = $req->old_price;
-                }
-                // 团购
-                if ($good->prom_type === 2) {
-                    if ($num > 1) {
-                        $this->ajaxReturn('0','团购限量购买，超过限制份数！');
-                    }
-                    if(!is_null(TuanUser::where('user_id',$userid)->where('t_id',$good->prom_id)->where('status',1)->first()) || !is_null(Cart::where('user_id',$userid)->where('good_id',$id)->where('good_spec_key',$spec_key)->where('prom_type',2)->where('prom_id',$good->prom_id)->first()))
-                    {
-                        $this->ajaxReturn('0','参加过，请不要重复参加！');
-                    }
-                    // 没参过团的
-                    if(Tuan::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->orderBy('sort','desc')->orderBy('id','desc')->value('store') == 0)
-                    {
-                        $this->ajaxReturn('0','已经满员，等待下次机会吧！');
-                    }
-                    $old_price = $req->old_price;
-                }
-                // 活动里的，重新计算价格
-                if ($good->prom_type === 4) {
-                    $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->where('id',$good->prom_id)->first();
-                    if (!is_null($promotion)) {
-                        $new_price = $promotion->type === 1 ? ($old_price * $promotion->type_val / 100) : $old_price - $promotion->type_val;
-                    }
-                }
-                // 当前用户此次登录添加的
-                $tmp = Cart::where('session_id',$sid)->where('user_id',$userid)->where('good_id',$id)->where('good_spec_key',$spec_key)->orderBy('id','desc')->first();
-                // 如果没有，看以前有没有添加过这类商品
-                if(is_null($tmp))
-                {
-                    $tmp = Cart::where('user_id',$userid)->where('good_id',$id)->where('good_spec_key',$spec_key)->orderBy('id','desc')->first();
-                }
-            }
-            else
-            {
+            if (!$userid) {
                 $this->ajaxReturn('2',"请先登录！");
             }
+            if ($type == 'promotion') {
+                // 活动里的，重新计算价格
+                $new_price = $this->promotion($new_price,$old_price,$good->prom_id);
+            }
+            // 当前用户此次登录添加的
+            $tmp = Cart::where('user_id',$userid)->where('good_id',$id)->where('good_spec_key',$spec_key)->orderBy('id','desc')->first();
             // 查看有没有在购物车里，有累计数量
             if (!is_null($tmp)) {
                 $nums = $num + $tmp->nums;
@@ -126,6 +80,15 @@ class AjaxGoodController extends BaseController
             $this->ajaxReturn('0',$e->getMessage());
         }
     }
+    // 计算活动价格
+    private function promotion($new_price = 0,$old_price = 0,$prom_id = 0)
+    {
+        $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->where('id',$prom_id)->first();
+        if (!is_null($promotion)) {
+            $new_price = $promotion->type === 1 ? ($old_price * $promotion->type_val / 100) : $old_price - $promotion->type_val;
+        }
+        return $new_price;
+    }
     // 修改数量
     public function postChangecart(Request $req)
     {
@@ -136,31 +99,6 @@ class AjaxGoodController extends BaseController
             $carts = Cart::where('id',$cid)->select('good_id','good_spec_key')->first();
             // 商品信息
             $good = Good::findOrFail($carts->good_id);
-            // 查看是不是活动中的商品，团购-限时-限量
-            // 限时，限购
-            if ($carts->prom_type === 1) {
-                // 查出来是哪个活动
-                $timetobuy = Timetobuy::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->first();
-                // 看限时
-                if (!is_null($timetobuy)) {
-                    if (strtotime($timetobuy->endtime) < time()) {
-                        $this->ajaxReturn('0','限时抢购，已经结束！');
-                    }
-                    // 购物车里有，过往30天订单里有，都算已经购买过
-                    if ($carts->nums >= $timetobuy->buy_max || OrderGood::where('good_id',$carts->good_id)->where('good_spec_key',$carts->good_spec_key)->where('user_id',$carts->user_id)->where('status',1)->where('created_at','>',Carbon::now()->subday(30))->sum('nums') >= $timetobuy->buy_max) {
-                        $this->ajaxReturn('0','限量购买，超过限制份数！');
-                    }
-                    if ($num > $timetobuy->buy_max) {
-                        $this->ajaxReturn('0','限量购买，本次超过限制份数！');
-                    }
-                }
-            }
-            // 团购
-            if ($good->prom_type === 2) {
-                if ($num > 1) {
-                    $this->ajaxReturn('0','团购限量购买，超过限制份数！');
-                }
-            }
             // 检查库存
             if ($this->store($carts->good_id,$carts->good_spec_key,$num) == false && $req->type == 1) {
                 $this->ajaxReturn('0','库存不足！');return;
@@ -223,28 +161,6 @@ class AjaxGoodController extends BaseController
             // 在这里检查库存
             foreach ($carts as $v) {
                 // 查看是不是活动中的商品，团购-限时-限量
-                // 限时，限购--是不是已经满员
-                if ($v->prom_type === 1) {
-                    // 查出来是哪个活动
-                    $timetobuy = Timetobuy::where('delflag',1)->where('status',1)->where('id',$v->prom_id)->first();
-                    // 看限时
-                    if (!is_null($timetobuy)) {
-                        if (strtotime($timetobuy->endtime) < time()) {
-                            $this->ajaxReturn('0','活动已经结束，请删除（'.$v->good_title.'）！');
-                        }
-                        if ($timetobuy->good_num <= $timetobuy->buy_num) {
-                            $this->ajaxReturn('0',$v->good_title.' - 已被抢完，请删除！');
-                        }
-                    }
-                    else
-                    {
-                        $this->ajaxReturn('0','活动已经结束，请删除（'.$v->good_title.'）！');
-                    }
-                }
-                // 团购，是不是已经满员
-                if ($v->prom_type === 2 && (Tuan::where('delflag',1)->where('status',1)->where('id',$v->prom_id)->orderBy('sort','desc')->orderBy('id','desc')->value('store') === 0 || $v->nums > 1)) {
-                    $this->ajaxReturn('0',$v->good_title.'--团购已满员，请删除！！');
-                }
                 if($this->store($v->good_id,$v->good_spec_key,$v->nums) == false){
                     $this->ajaxReturn('0',$v->good_title.'，库存不足！');
                 }
@@ -373,102 +289,6 @@ class AjaxGoodController extends BaseController
             $this->ajaxReturn('1','确认收货成功！');
         } catch (\Exception $e) {
             $this->ajaxReturn('0','确认收货失败，请稍后再试！');
-        }
-    }
-    // 检查库存
-    private function store($id,$spec_key,$num)
-    {
-        if ($spec_key == '') {
-            $store = Good::where('id',$id)->where('status',1)->value('store');
-        }
-        else
-        {
-            $store = GoodSpecPrice::where('good_id',$id)->where('item_id',$spec_key)->value('store');
-        }
-        $store = is_null($store) ? 0 : $store;
-        if ($store < $num) {
-            return false;
-        }
-        return true;
-    }
-    // 更新库存，活动内容同时更新
-    private function updateStore($oid = '',$type = 0)
-    {
-        if ($type) {
-            // 加库存，先找出来所有的商品ID与商品属性ID
-            $goods = OrderGood::where('order_id',$oid)->where('status',1)->select('id','good_id','good_spec_key','nums','prom_id','prom_type','user_id')->get();
-            // 循环，判断是直接减商品库存，还是减带属性的库存
-            foreach ($goods as $k => $v) {
-                if ($v->good_spec_key != '') {
-                    GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->spec_key)->increment('store',$v->nums);
-                }
-                Good::where('id',$v->good_id)->increment('store',$v->nums); 
-                // 加销量
-                Good::where('id',$v->good_id)->decrement('sales',$v->nums);
-                // 查看活动情况，参加人加一，数量减一
-                if ($v->prom_type === 1) {
-                    Timetobuy::where('id',$v->prom_id)->increment('good_num',$v->nums);
-                    Timetobuy::where('id',$v->prom_id)->decrement('buy_num');
-                    Timetobuy::where('id',$v->prom_id)->decrement('order_num',$v->nums);
-                }
-                if ($v->prom_type === 2) {
-                    TuanUser::create(['status'=>1,'t_id'=>$v->prom_id,'user_id'=>$v->user_id]);
-                    Tuan::where('id',$v->prom_id)->increment('store',$v->nums);
-                    Tuan::where('id',$v->prom_id)->decrement('buy_num',$v->nums);
-                }
-                if ($v->prom_type === 3) {
-                    Fullgift::where('id',$v->prom_id)->increment('store',$v->nums);
-                }
-            }
-        }
-        else
-        {
-            // 减库存，先找出来所有的商品ID与商品属性ID
-            $goods = OrderGood::where('order_id',$oid)->where('status',1)->select('id','good_id','good_spec_key','nums','prom_id','prom_type','user_id')->get();
-            // 循环，判断是直接减商品库存，还是减带属性的库存
-            foreach ($goods as $k => $v) {
-                if ($v->good_spec_key != '') {
-                    GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->spec_key)->decrement('store',$v->nums);
-                }
-                Good::where('id',$v->good_id)->decrement('store',$v->nums); 
-                // 加销量
-                Good::where('id',$v->good_id)->increment('sales',$v->nums);
-                // 查看活动情况，参加人加一，数量减一
-                if ($v->prom_type === 1) {
-                    Timetobuy::where('id',$v->prom_id)->decrement('good_num',$v->nums);
-                    Timetobuy::where('id',$v->prom_id)->increment('buy_num');
-                    Timetobuy::where('id',$v->prom_id)->increment('order_num',$v->nums);
-                }
-                if ($v->prom_type === 2) {
-                    TuanUser::where('t_id',$v->prom_id)->where('user_id',$v->user_id)->update(['status'=>0]);
-                    Tuan::where('id',$v->prom_id)->decrement('store',$v->nums);
-                    Tuan::where('id',$v->prom_id)->increment('buy_num',$v->nums);
-                }
-                if ($v->prom_type === 3) {
-                    Fullgift::where('id',$v->prom_id)->decrement('store',$v->nums);
-                }
-            }
-        }
-    }
-    // 关单，有条件就做成定时任务，这里是个大坑
-    private function closeOrder()
-    {
-        DB::beginTransaction();
-        try {
-            $order_list = Order::where('orderstatus',1)->where('paystatus',0)->where('created_at','<',Carbon::now()->subday())->pluck('id');
-            foreach ($order_list as $o) {
-                // 增加库存
-                $this->updateStore($o,1);
-            }
-            // 关掉一天以前的未付款订单，同时把团购或者其它活动里的数量增加回去
-            Order::where('orderstatus',1)->where('paystatus',0)->where('created_at','<',Carbon::now()->subday())->update(['orderstatus'=>0]);
-            // 已经支付、发货的七天自动完成
-            Order::where('orderstatus',1)->where('shipstatus',1)->where('paystatus',1)->where('ship_at','<',Carbon::now()->subday(7))->update(['orderstatus'=>2,'confirm_at'=>date('Y-m-d H:i:s')]);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            Storage::disk('log')->prepend('updateOrder.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
-            $this->ajaxReturn('0','提交失败，请稍后再试！');
         }
     }
 }

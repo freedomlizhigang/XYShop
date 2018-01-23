@@ -69,7 +69,7 @@ class AdController extends BaseController
     // 删除
     public function getDel($id = '')
     {
-    	Ad::where('id',$id)->update(['del'=>0]);
+    	Ad::where('id',$id)->delete();
     	return back()->with('message','删除成功！');
     }
     // 排序
@@ -96,7 +96,7 @@ class AdController extends BaseController
         // 是数组更新数据，不是返回
         if(is_array($ids))
         {
-            Ad::whereIn('id',$ids)->update(['del'=>0]);
+            Ad::whereIn('id',$ids)->delete();
             return back()->with('message', '批量删除完成！');
         }
         else

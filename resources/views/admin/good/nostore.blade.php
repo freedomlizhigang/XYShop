@@ -65,5 +65,8 @@
 
 </form>
 <!-- 分页，appends是给分页添加参数 -->
-<div class="label label-danger">总共 {{ $count }} 条</div>
+<div class="pull-right">
+	<div class="pull-left mr10 mt5">总共 {{ $count }} 条</div>
+	{!! $list->links() !!}
+</div>
 @endsection

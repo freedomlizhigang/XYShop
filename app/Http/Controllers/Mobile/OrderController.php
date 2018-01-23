@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Mobile;
 
-use App\Http\Controllers\Common\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\Common\Pay;
 use App\Models\Good\Cart;
@@ -13,7 +12,7 @@ use App\Models\Good\Order;
 use App\Models\User\Address;
 use Illuminate\Http\Request;
 
-class OrderController extends BaseController
+class OrderController extends Controller
 {
   // 取所有购物车列表
   public function getCart()
@@ -22,7 +21,7 @@ class OrderController extends BaseController
         $pos_id = 'cart';
         $title = '购物车';
         $list = Cart::with(['good'=>function($q){
-                    $q->select('id','thumb');
+                    $q->select('id','thumb','prom_type');
                 }])->where('user_id',session('member')->id)->orderBy('updated_at','desc')->get();
         $goodlists = [];
         $total_prices = 0;
@@ -36,7 +35,7 @@ class OrderController extends BaseController
         }
         // 总价
         $total_prices = number_format($total_prices,2,'.','');
-        return view($this->theme.'.cart',compact('pos_id','title','goodlists','total_prices'));
+        return view(cache('config')['theme'].'.cart',compact('pos_id','title','goodlists','total_prices'));
     } catch (\Exception $e) {
         dd($e);
         return view('errors.404');
@@ -72,7 +71,7 @@ class OrderController extends BaseController
       }
       $cid = explode('.',$session_cid);
       $goods = Cart::with(['good'=>function($q){
-                  $q->select('id','thumb');
+                  $q->select('id','thumb','prom_type');
               }])->whereIn('id',$cid)->where('user_id',session('member')->id)->orderBy('updated_at','desc')->get();
       $goodlists = [];
       $total_prices = 0;
@@ -99,7 +98,7 @@ class OrderController extends BaseController
       $gift = Fullgift::with(['good'=>function($q){
                         $q->select('id','shop_price','title','thumb');
                     }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->first();
-      return view($this->theme.'.createorder',compact('title','pos_id','goodlists','total_prices','default_address','address','coupon','count','cid_str','gift'));
+      return view(cache('config')['theme'].'.createorder',compact('title','pos_id','goodlists','total_prices','default_address','address','coupon','count','cid_str','gift'));
     } catch (\Exception $e) {
       dd($e);
       return view('errors.404');
@@ -114,7 +113,7 @@ class OrderController extends BaseController
         $order = Order::findOrFail($oid);
         $info = (object)['pid'=>3];
         $paylist = Pay::where('status',1)->where('paystatus',1)->orderBy('id','asc')->get();
-        return view($this->theme.'.pay',compact('info','order','paylist','title','pos_id'));
+        return view(cache('config')['theme'].'.pay',compact('info','order','paylist','title','pos_id'));
       } catch (\Exception $e) {
         dd($e);
         return view('errors.404');

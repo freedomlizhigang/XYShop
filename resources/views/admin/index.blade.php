@@ -29,7 +29,7 @@
             <nav class="menu clearfix overh">
                 <ul id="mainmenu" class="clearfix">
                 @foreach($mainmenu as $mm)
-                    <li><a href="javascript:;" data-menuid="{{ $mm['id'] }}"@if($mm['id'] == 1) class="active"@endif>{{ $mm['name'] }}</a></li>
+                    <li><a href="javascript:;" data-menuid="{{ $mm['id'] }}"@if($mm['id'] == 174) class="active"@endif>{{ $mm['name'] }}</a></li>
                 @endforeach
                 </ul>
             </nav>
@@ -54,7 +54,7 @@
         var host = "{{ config('app.url') }}";
         $(function(){
             // 加载默认左侧菜单
-            $("#subnav").load('/console/index/left/1');
+            $("#subnav").load('/console/index/left/174');
             // 点击切换左侧菜单列表
             $(".logo").click(function(){
                 $("#rightMain").attr('src','/console/index/main');

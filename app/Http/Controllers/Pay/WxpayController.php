@@ -19,7 +19,7 @@ class WxpayController extends BaseController
     {
         DB::beginTransaction();
         try {
-            $app = app('wechat');
+            $app = app('wechat.payment');
             $response = $app->payment->handleNotify(function($notify, $successful){
                 // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
                 $order = Order::where('order_id',$notify->out_trade_no)->first(); 
@@ -58,7 +58,7 @@ class WxpayController extends BaseController
         // Storage::disk('log')->prepend('wxpay.log',json_encode($req->all()).date('Y-m-d H:i:s'));
         DB::beginTransaction();
         try {
-            $app = app('wechat');
+            $app = app('wechat.payment');
             $response = $app->payment->handleNotify(function($notify, $successful){
                 // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
                 $order = Recharge::where('order_id',$notify->out_trade_no)->first(); 

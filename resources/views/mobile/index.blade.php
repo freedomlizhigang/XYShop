@@ -50,8 +50,8 @@
 		<ul class="list_tuan clearfix">
 			@foreach(app('tag')->tuan(3) as $c)
 			<li>
-				<a href="{{ url('good',['id'=>$c->good_id]) }}" class="l_t_img db_ma"><img data-original="{{ $c->good->thumb }}" width="200" height="200" alt="{{ $c->title }}" class="lazy"></a>
-				<a href="{{ url('good',['id'=>$c->good_id]) }}" class="l_t_title slh">{{ $c->title }}</a>
+				<a href="{{ url('tuan',['id'=>$c->good_id]) }}" class="l_t_img db_ma"><img data-original="{{ $c->good->thumb }}" width="200" height="200" alt="{{ $c->title }}" class="lazy"></a>
+				<a href="{{ url('tuan',['id'=>$c->good_id]) }}" class="l_t_title slh">{{ $c->title }}</a>
 				<span class="l_t_price"><em>{{ $c->tuan_num }}人团</em><i>￥{{ $c->price }}</i></span>
 				<del class="l_t_oldprice">￥{{ $c->good->shop_price }}</del>
 			</li>
@@ -64,8 +64,8 @@
     <ul class="list_tuan clearfix">
       @foreach(app('tag')->timetobuy(3) as $c)
       <li>
-        <a href="{{ url('good',['id'=>$c->good_id]) }}" class="l_t_img db_ma"><img data-original="{{ $c->good->thumb }}" width="200" height="200" alt="{{ $c->title }}" class="lazy"></a>
-        <a href="{{ url('good',['id'=>$c->good_id]) }}" class="l_t_title slh">{{ $c->title }}</a>
+        <a href="{{ url('timetobuy',['id'=>$c->good_id]) }}" class="l_t_img db_ma"><img data-original="{{ $c->good->thumb }}" width="200" height="200" alt="{{ $c->title }}" class="lazy"></a>
+        <a href="{{ url('timetobuy',['id'=>$c->good_id]) }}" class="l_t_title slh">{{ $c->title }}</a>
         <span class="l_t_price"><em>{{ $c->buy_num }}人团</em><i>￥{{ $c->price }}</i></span>
         <del class="l_t_oldprice">￥{{ $c->good->shop_price }}</del>
       </li>
@@ -85,8 +85,8 @@
 		<ul class="list_good clearfix">
     		@foreach(app('tag')->good($c->arrchildid,8) as $g)
     		<li>
-    			<a href="{{ url('good',['id'=>$g->id]) }}" class="l_g_img"><img data-original="{{ $g->thumb }}" width="345" height="345" alt="{{ $g->title }}" class="lazy"></a>
-    			<a href="{{ url('good',['id'=>$g->id]) }}" class="l_g_t slh">
+    			<a href="{{ $g->url }}" class="l_g_img"><img data-original="{{ $g->thumb }}" width="345" height="345" alt="{{ $g->title }}" class="lazy"></a>
+    			<a href="{{ $g->url }}" class="l_g_t slh">
                 @if($g->prom_tag != '')
                 <i class="label label-red">{{ $g->prom_tag }}</i>
                 @endif
@@ -102,17 +102,17 @@
                 {{ $g->title }}</a>
 				<div class="l_g_info clearfix">
 					<span class="l_g_price color_main">￥{{ $g->shop_price }}</span>
-					<a class="l_g_btn_addcart iconfont icon-cart" href="{{ url('good',['id'=>$g->id]) }}"></a>
+					<a class="l_g_btn_addcart iconfont icon-cart" href="{{ $g->url }}"></a>
 				</div>
 			</li>
 			@endforeach
 		</ul>
 	</section>
 	@endforeach
-	<!-- 底 -->
+    <!-- 底 -->
     @include('mobile.common.footer')
-	<!-- 公用底 -->
-	@include('mobile.common.pos_menu')
+    <!-- 公用底 -->
+    @include('mobile.common.pos_menu')
     <!-- 分享 -->
     @include('mobile.common.share')
 @endsection

@@ -40,6 +40,7 @@
 			<th width="200">会员</th>
 			<th width="80">状态</th>
 			<th width="160">激活时间</th>
+			<th width="40">操作</th>
 		</tr>
 		@foreach($list as $a)
 		<tr>
@@ -57,6 +58,11 @@
 				@endif
 			</td>
 			<td>{{ $a->init_time }}</td>
+			<td>
+				@if(App::make('com')->ifCan('card-edit'))
+					<div data-url="{{ url('/console/card/edit',$a->id) }}" data-title="修改卡金额" title="修改卡金额" data-toggle='modal' data-target='#myModal' class="btn btn-xs btn-info btn_modal glyphicon glyphicon-edit"></div>
+				@endif
+			</td>
 		</tr>
 		@endforeach
 	</table>
