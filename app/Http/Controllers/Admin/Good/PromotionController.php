@@ -97,7 +97,14 @@ class PromotionController extends BaseController
             PromGood::where('prom_id',$id)->delete();
             // 加入新的
             PromGood::insert($insert);
-            Good::whereIn('id',$gids)->update(['prom_type'=>4,'prom_id'=>$id]);
+            // 商品状态更新
+            if ($data['status']) {
+                Good::whereIn('id',$gids)->update(['prom_type'=>4,'prom_id'=>$id]);
+            }
+            else
+            {
+                Good::whereIn('id',$gids)->update(['prom_type'=>0,'prom_id'=>$id]);
+            }
             // 没出错，提交事务
             DB::commit();
             return $this->ajaxReturn(1,'添加成功！',$req->ref);

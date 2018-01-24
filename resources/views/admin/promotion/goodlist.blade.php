@@ -21,7 +21,7 @@
 			{{ $a->title }}
 		</td>
 		<td>{{ cache('goodcateCache')[$a->cate_id]['name'] }}</td>
-		<td><span class="text-success">{{ $a->price }}￥</span></td>
+		<td><span class="text-success">{{ $a->shop_price }}￥</span></td>
 		<td><span class="text-primary">{{ $a->store }}</span></td>
 		<td>{{ $a->updated_at }}</td>
 		<td>

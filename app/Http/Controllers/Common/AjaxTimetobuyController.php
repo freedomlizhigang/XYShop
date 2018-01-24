@@ -8,7 +8,6 @@ use App\Models\Good\GoodSpecPrice;
 use App\Models\Good\Order;
 use App\Models\Good\OrderGood;
 use App\Models\Good\Timetobuy;
-use App\Models\User\Address;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -36,7 +35,7 @@ class AjaxTimetobuyController extends BaseController
             // 如果用户已经登录，查以前的购物车
             if (!$userid) {$this->ajaxReturn('2',"请先登录！");}
             // 限时，限购
-            $timetobuy = Timetobuy::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->first();
+            $timetobuy = Timetobuy::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->lockForUpdate()->first();
             // 看限时
             if (!is_null($timetobuy)) {
                 if (strtotime($timetobuy->endtime) < time() || $timetobuy->good_num <= 0) {
@@ -84,7 +83,7 @@ class AjaxTimetobuyController extends BaseController
             }
             // 插入
             OrderGood::insert($order_goods);
-            // 下单减库存
+            // 下单减库存，一定要放在加订单商品后边
             $this->updateStore($order->id);
             // 没出错，提交事务
             DB::commit();
@@ -97,22 +96,5 @@ class AjaxTimetobuyController extends BaseController
             $this->ajaxReturn('0',$e->getMessage());
         }
     }
-    // 完善订单信息
-    public function postEditorder(Request $req)
-    {
-        DB::beginTransaction();
-        try {
-            $oid = $req->oid;
-            $area = Address::where('id',$req->aid)->value('area');
-            Order::where('id',$oid)->update(['area'=>$area,'address_id'=>$req->aid,'ziti'=>$req->ziti,'mark'=>$req->mark]);
-            DB::commit();
-            $this->ajaxReturn('1',$req->oid);
-        } catch (\Exception $e) {
-            // 出错回滚
-            DB::rollBack();
-            Log::warning('抢购订单修改失败记录：',['line'=>$e->getLine(),'msg'=>$e->getMessage()]);
-            // $this->ajaxReturn('0','添加失败，请稍后再试！');
-            $this->ajaxReturn('0',$e->getMessage());
-        }
-    }
+    
 }

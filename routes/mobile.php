@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('lock','Mobile\TestController@getLock');
+Route::get('lockget','Mobile\TestController@getLockget');
+
 // 手机版
 Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     // 首页
@@ -23,12 +26,10 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::get('good/{id}','HomeController@getGood');
     // 抢购商品
     Route::get('timetobuy/{id}','TimetobuyController@getGood');
-    // 抢购订单
-    Route::get('timetobuy/order/{oid}','TimetobuyController@getCreateorder');
     // 团购商品
     Route::get('tuan/{id}','TuanController@getGood');
-    // 团购订单
-    Route::get('tuan/order/{oid}','TuanController@getCreateorder');
+    // 提交订单--活动的
+    Route::get('editorder/{oid}','OrderController@getEditorder');
     // 搜索
     Route::get('search','HomeController@getSearch');
     // 活动列表
@@ -47,11 +48,11 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     // 用户中心
     Route::get('center','UserController@getCenter');
     // 用户订单
-    Route::get('user/orderlist/{sid?}','UserController@getOrderlist');
-    Route::get('user/orderinfo/{id}','UserController@getOrderInfo');
+    Route::get('user/orderlist/{sid?}','UserOrderController@getOrderlist');
+    Route::get('user/orderinfo/{id}','UserOrderController@getOrderInfo');
     // 退换
-    Route::get('user/returngood/{ogid}','UserController@getReturnGood');
-    Route::post('user/returngood/{ogid}','UserController@postReturnGood');
+    Route::get('user/returngood/{ogid}','UserOrderController@getReturnGood');
+    Route::post('user/returngood/{ogid}','UserOrderController@postReturnGood');
     // 个人信息
     Route::get('userinfo','UserController@getUserinfo');
     Route::post('userinfo','UserController@postUserinfo');

@@ -469,7 +469,7 @@ class GoodController extends BaseController
                     $ids = GoodCate::where('id',$cate_id)->value('arrchildid');
                     $q->whereIn('cate_id',explode(',',$ids));
                 }
-            })->where('status',1)->where('prom_type',0)->orderBy('sort','desc')->orderBy('id','desc')->paginate(10);
+            })->where('status',1)->where('prom_type',0)->where('prom_id',0)->orderBy('sort','desc')->orderBy('id','desc')->paginate(10);
         return view('admin.good.select',compact('title','list','key','type','cate_id_1','cate_id_2','cate_id'));
     }
 }

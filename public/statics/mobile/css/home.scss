@@ -290,6 +290,7 @@ body {background-color: $color_f0; max-width:750px; margin:0 auto; min-height:66
 .l_o_goods_2 {
     padding:0.133333rem 0.266667rem;
     li {width:1.6rem; height:1.6rem; float: left; margin:0.133333rem 0; margin-right:10px;}
+    li:nth-of-type(2n) {background-color: #F8F8F8;}
 }
 // 会员中心
 .center_head {

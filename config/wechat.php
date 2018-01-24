@@ -113,7 +113,7 @@ return [
      */
     'payment' => [
         'default' => [
-            'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', true),
+            'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', false),
             'app_id'             => env('WECHAT_PAYMENT_APPID', 'wx0845c4b247acd58c'),
             'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', '1481529112'),
             'key'                => env('WECHAT_PAYMENT_KEY', 'kcpuFPHEClP9zhTWgRZji7lL98HHVtB4'),

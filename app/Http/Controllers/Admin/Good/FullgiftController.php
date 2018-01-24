@@ -62,7 +62,13 @@ class FullgiftController extends BaseController
     {
         $data = $req->input('data');
         Good::where('prom_id',$id)->where('prom_type',3)->update(['prom_type'=>0,'prom_id'=>0]);
-        Good::where('id',$data['good_id'])->update(['prom_type'=>3,'prom_id'=>$id]);
+        if ($data['status']) {
+            Good::where('id',$data['good_id'])->update(['prom_type'=>3,'prom_id'=>$id]);
+        }
+        else
+        {
+            Good::where('id',$data['good_id'])->update(['prom_type'=>0,'prom_id'=>$id]);
+        }
     	Fullgift::where('id',$id)->update($data);
         return $this->ajaxReturn(1,'修改成功！');
     }

@@ -4,70 +4,56 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Common\BaseController;
 use App\Http\Controllers\Controller;
+use App\Models\Good\Good;
+use App\Models\Good\GoodSpecPrice;
+use App\Models\Good\Order;
+use App\Models\Good\OrderGood;
+use App\Models\Good\Tuan;
+use App\Models\Good\TuanUser;
+use DB;
 use Illuminate\Http\Request;
+use Log;
 
 class AjaxTuanController extends BaseController
 {
-    // 提交订单功能
     public function postCreateorder(Request $req)
     {
         try {
-            $uid = $req->uid;
-            if (!$uid) {
-                $this->ajaxReturn('2',"请先登录！");
+            $sid = $req->sid;
+            $id = $req->gid;
+            // 规格key
+            $spec_key = $req->spec_key;
+            $num = $req->num;
+            $userid = $req->uid;
+            $price = $old_price = $req->gp;
+            // 商品信息
+            $good = Good::findOrFail($id);
+            // 检查库存
+            if ($this->store($id,$spec_key,$num) == false) {
+                $this->ajaxReturn('0','库存不足！');
             }
-            // 判断是否选择送货地址
-            if ((!isset($req->aid) && !isset($req->ziti)) || ($req->aid == 0 && $req->ziti == 0)) {
-                $this->ajaxReturn('0','请选择送货地址！');
+            // 如果用户已经登录，查以前的购物车
+            if (!$userid) {$this->ajaxReturn('2',"请先登录！");}
+
+            if ($num > 1) {
+                $this->ajaxReturn('0','团购限量购买，超过限制份数！');
             }
-            // 找出所有 购物车
-            $ids = explode(',', trim($req->cid,','));
-            if (count($ids) == 0) {
-                $this->ajaxReturn('0','购物车里是空的，请先购物！');
+
+            /*if(!is_null(TuanUser::where('user_id',$userid)->where('t_id',$good->prom_id)->where('status',1)->first()))
+            {
+                $this->ajaxReturn('0','参加过，请不要重复参加！');
+            }*/
+            // 没参过团的
+            if(Tuan::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->orderBy('sort','desc')->orderBy('id','desc')->value('store') <= 0)
+            {
+                $this->ajaxReturn('0','已经满员，等待下次机会吧！');
             }
-            // 关掉一天以前的未付款订单，已经支付、发货的七天自动完成
-            $this->closeOrder();
-            // 所有产品总价
-            $old_prices = Cart::whereIn('id',$ids)->sum('total_prices');
-            $carts = Cart::whereIn('id',$ids)->orderBy('updated_at','desc')->get();
-            // 在这里检查库存
-            foreach ($carts as $v) {
-                // 查看是不是活动中的商品，团购-限时-限量
-                if($this->store($v->good_id,$v->good_spec_key,$v->nums) == false){
-                    $this->ajaxReturn('0',$v->good_title.'，库存不足！');
-                }
-            }
+            $prices = $price * $num;
+            // 规格信息
+            $spec_key_name = GoodSpecPrice::where('good_id',$id)->where('item_id',$spec_key)->value('item_name');
             // 创建订单
             $order_id = app('com')->orderid();
-            // 查出优惠券优惠多少
-            $yh_price = 0;
-            // 算折扣
-            try {
-                $points = $req->points;
-                $discount = Group::where('points','<=',$points)->orderBy('points','desc')->value('discount');
-                if (is_null($discount)) {
-                    $discount = Group::orderBy('points','desc')->value('discount');
-                }
-            } catch (\Exception $e) {
-                $discount = 100;
-            }
-            $prices = ($old_prices * $discount) / 100;
-            // 优惠券
-            $yhq_id = isset($req->yid) ? $req->yid : 0;
-            if ($yhq_id) {
-                $yh = CouponUser::where('id',$req->yid)->first();
-                $yh_price = $yh->coupon->lessprice;
-                $prices = $prices - $yh_price;
-            }
-            // 没有优惠券时查有没有赠品
-            else
-            {
-                $mz = Fullgift::with(['good'=>function($q){
-                        $q->select('id','shop_price','title');
-                    }])->where('price','<=',$prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->first();
-            }
-            $area = Address::where('id',$req->aid)->value('area');
-            $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'old_prices'=>$old_prices,'total_prices'=>$prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
+            $order = ['order_id'=>$order_id,'user_id'=>$userid,'yhq_id'=>0,'yh_price'=>0,'old_prices'=>$old_price,'total_prices'=>$prices,'create_ip'=>$req->ip(),'address_id'=>0,'ziti'=>0,'area'=>'','mark'=>'','prom_type'=>2,'tuan_id'=>$good->prom_id,'display'=>0];
         } catch (\Exception $e) {
             // $this->ajaxReturn('0','添加失败，请稍后再试！');
             $this->ajaxReturn('0',$e->getMessage());
@@ -78,20 +64,8 @@ class AjaxTuanController extends BaseController
             $order = Order::create($order);
             // 组合order_goods数组
             $order_goods = [];
-            $clear_ids = [];
             $date = date('Y-m-d H:i:s');
-            foreach ($carts as $k => $v) {
-                $order_goods[$k] = ['user_id'=>$uid,'order_id'=>$order->id,'good_id'=>$v->good_id,'good_title'=>$v->good_title,'good_spec_key'=>$v->good_spec_key,'good_spec_name'=>$v->good_spec_name,'nums'=>$v->nums,'old_price'=>$v->old_price,'price'=>$v->price,'total_prices'=>$v->total_prices,'created_at'=>$date,'updated_at'=>$date,'prom_type'=>$v->prom_type,'prom_id'=>$v->prom_id];
-                $clear_ids[] = $v->id;
-            }
-            // 如果有赠品，加上赠品
-            if (isset($mz) && !is_null($mz) && !is_null($mz->good)) {
-                $mz_good_spec = GoodSpecPrice::where('good_id',$mz->good_id)->orderBy('price','asc')->first();
-                $good_spec_key = is_null($mz_good_spec) ? '' : $mz_good_spec->good_spec_key;
-                $good_spec_name = is_null($mz_good_spec) ? '' : $mz_good_spec->good_spec_name;
-                $price = is_null($mz_good_spec) ? $mz->good->price : $mz_good_spec->price;
-                $order_goods[] = ['user_id'=>$uid,'order_id'=>$order->id,'good_id'=>$mz->good_id,'good_title'=>'赠品-'.$mz->good->title,'good_spec_key'=>$good_spec_key,'good_spec_name'=>$good_spec_name,'nums'=>1,'old_price'=>$price,'price'=>0,'total_prices'=>0,'created_at'=>$date,'updated_at'=>$date,'prom_type'=>3,'prom_id'=>$mz->id];
-            }
+            $order_goods = ['user_id'=>$userid,'order_id'=>$order->id,'good_id'=>$good->id,'good_title'=>$good->title,'good_spec_key'=>$spec_key,'good_spec_name'=>$spec_key_name,'nums'=>$num,'old_price'=>$old_price,'price'=>$price,'total_prices'=>$prices,'created_at'=>$date,'updated_at'=>$date,'prom_type'=>$good->prom_type,'prom_id'=>$good->prom_id];
             // 如果商品是空回滚
             if (count($order_goods) == 0) {
                 // 出错回滚
@@ -100,9 +74,7 @@ class AjaxTuanController extends BaseController
             }
             // 插入
             OrderGood::insert($order_goods);
-            // 清空购物车里的这几个产品
-            Cart::whereIn('id',$clear_ids)->delete();
-            // 下单减库存
+            // 下单减库存，一定要放在加订单商品后边
             $this->updateStore($order->id);
             // 没出错，提交事务
             DB::commit();
@@ -110,7 +82,7 @@ class AjaxTuanController extends BaseController
         } catch (\Exception $e) {
             // 出错回滚
             DB::rollBack();
-            Storage::disk('log')->prepend('updateOrder.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
+            Log::warning('参团失败记录：',['line'=>$e->getLine(),'msg'=>$e->getMessage()]);
             // $this->ajaxReturn('0','添加失败，请稍后再试！');
             $this->ajaxReturn('0',$e->getMessage());
         }

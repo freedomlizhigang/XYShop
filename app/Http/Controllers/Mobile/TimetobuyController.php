@@ -8,7 +8,6 @@ use App\Models\Good\GoodSpecItem;
 use App\Models\Good\GoodSpecPrice;
 use App\Models\Good\Order;
 use App\Models\Good\Timetobuy;
-use App\Models\User\Address;
 use Illuminate\Http\Request;
 
 class TimetobuyController extends Controller
@@ -47,40 +46,6 @@ class TimetobuyController extends Controller
             return view(cache('config')['theme'].'.timetobuy',compact('title','good','good_spec_price','filter_spec','timetobuy','wechat_js'));
         } catch (\Exception $e) {
             // dd($e);
-            return view('errors.404');
-        }
-    }
-    // 提交订单
-    public function getCreateorder(Request $req)
-    {
-        try {
-            $pos_id = 'cart';
-            $title = '结算信息';
-            // 找出购物车
-            $oid = $req->oid;
-            $order = Order::with(['good'=>function($q){
-                        $q->with(['good'=>function($g){
-                            $g->select('id','thumb','prom_type');
-                        }]);
-                    }])->findOrFail($oid);
-            $goodlists = [];
-            $total_prices = 0;
-            // 如果有购物车
-            // 循环查商品，方便带出属性来
-            foreach ($order->good as $k => $v) {
-              $goodlists[$k] = $v;
-              $tmp_total_price = number_format($v->nums * $v->price,2,'.','');
-              $goodlists[$k]['total_prices'] = $tmp_total_price;
-              $total_prices += $tmp_total_price;
-            }
-            // 计算总价
-            $total_prices = number_format($total_prices,2,'.','');
-            // 送货地址
-            $address = Address::where('user_id',session('member')->id)->where('delflag',1)->orderBy('id','desc')->get();
-            $default_address = $address->where('default',1)->first();
-            return view(cache('config')['theme'].'.timetobuy/createorder',compact('title','pos_id','goodlists','total_prices','default_address','address','oid'));
-        } catch (\Exception $e) {
-            dd($e);
             return view('errors.404');
         }
     }

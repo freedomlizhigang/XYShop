@@ -183,7 +183,7 @@
               $(".pos_bg,.pos_alert_con").fadeOut();
               // 下订单完成，跳转到支付上
               setTimeout(function(){
-                window.location.href = "{{ url('timetobuy/order') }}" + '/' + ss.msg;
+                window.location.href = "{{ url('editorder') }}" + '/' + ss.msg;
               },2000);
             }
             else

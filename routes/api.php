@@ -27,7 +27,8 @@ Route::group(['namespace'=>'Common'],function(){
     Route::post('good/addorder','AjaxGoodController@postAddorder');
     // 抢购订单
     Route::post('timetobuy/createorder','AjaxTimetobuyController@postCreateorder');
-    Route::post('timetobuy/editorder','AjaxTimetobuyController@postEditorder');
+    // 修改订单-地址等
+    Route::post('good/editorder','AjaxGoodController@postEditorder');
     // 团购订单
     Route::post('tuan/createorder','AjaxTuanController@postCreateorder');
     // 取消订单

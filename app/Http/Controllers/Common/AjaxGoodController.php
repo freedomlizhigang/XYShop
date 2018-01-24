@@ -21,6 +21,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Storage;
+use Log;
 
 class AjaxGoodController extends BaseController
 {
@@ -153,11 +154,10 @@ class AjaxGoodController extends BaseController
             if (count($ids) == 0) {
                 $this->ajaxReturn('0','购物车里是空的，请先购物！');
             }
-            // 关掉一天以前的未付款订单，已经支付、发货的七天自动完成
-            $this->closeOrder();
             // 所有产品总价
             $old_prices = Cart::whereIn('id',$ids)->sum('total_prices');
             $carts = Cart::whereIn('id',$ids)->orderBy('updated_at','desc')->get();
+            
             // 在这里检查库存
             foreach ($carts as $v) {
                 // 查看是不是活动中的商品，团购-限时-限量
@@ -192,7 +192,7 @@ class AjaxGoodController extends BaseController
             {
                 $mz = Fullgift::with(['good'=>function($q){
                         $q->select('id','shop_price','title');
-                    }])->where('price','<=',$prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->first();
+                    }])->where('price','<=',$prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->lockForUpdate()->first();
             }
             $area = Address::where('id',$req->aid)->value('area');
             $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'old_prices'=>$old_prices,'total_prices'=>$prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
@@ -230,7 +230,7 @@ class AjaxGoodController extends BaseController
             OrderGood::insert($order_goods);
             // 清空购物车里的这几个产品
             Cart::whereIn('id',$clear_ids)->delete();
-            // 下单减库存
+            // 下单减库存，一定要放在加订单商品后边
             $this->updateStore($order->id);
             // 没出错，提交事务
             DB::commit();
@@ -255,7 +255,7 @@ class AjaxGoodController extends BaseController
             if ($order->orderstatus === 1) {
                 // 支付过退款到余额里
                 if ($order->paystatus) {
-                    User::where('id',$order->user_id)->increment('user_money',$order->total_prices);
+                    User::where('id',$order->user_id)->lockForUpdate()->increment('user_money',$order->total_prices);
                     // 消费记录
                     app('com')->consume($order->user_id,$order->id,$order->total_prices,'取消订单（'.$order->order_id.'）退款！',1);
                 }
@@ -289,6 +289,24 @@ class AjaxGoodController extends BaseController
             $this->ajaxReturn('1','确认收货成功！');
         } catch (\Exception $e) {
             $this->ajaxReturn('0','确认收货失败，请稍后再试！');
+        }
+    }
+    // 完善订单信息
+    public function postEditorder(Request $req)
+    {
+        DB::beginTransaction();
+        try {
+            $oid = $req->oid;
+            $area = Address::where('id',$req->aid)->value('area');
+            Order::where('id',$oid)->update(['area'=>$area,'address_id'=>$req->aid,'ziti'=>$req->ziti,'mark'=>$req->mark]);
+            DB::commit();
+            $this->ajaxReturn('1',$req->oid);
+        } catch (\Exception $e) {
+            // 出错回滚
+            DB::rollBack();
+            Log::warning('抢购订单修改失败记录：',['line'=>$e->getLine(),'msg'=>$e->getMessage()]);
+            // $this->ajaxReturn('0','添加失败，请稍后再试！');
+            $this->ajaxReturn('0',$e->getMessage());
         }
     }
 }

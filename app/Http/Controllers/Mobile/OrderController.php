@@ -9,6 +9,7 @@ use App\Models\Good\Coupon;
 use App\Models\Good\CouponUser;
 use App\Models\Good\Fullgift;
 use App\Models\Good\Order;
+use App\Models\Good\Promotion;
 use App\Models\User\Address;
 use Illuminate\Http\Request;
 
@@ -23,13 +24,20 @@ class OrderController extends Controller
         $list = Cart::with(['good'=>function($q){
                     $q->select('id','thumb','prom_type');
                 }])->where('user_id',session('member')->id)->orderBy('updated_at','desc')->get();
+        // 判断活动是不是已经结束了
+        $promotion = Promotion::whereIn('id',$list->pluck('prom_id')->unique())->where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->get();
         $goodlists = [];
         $total_prices = 0;
         // 如果有购物车
         // 循环查商品，方便带出属性来
         foreach ($list as $k => $v) {
-            $goodlists[$k] = $v;
             $tmp_total_price = number_format($v->nums * $v->price,2,'.','');
+            // 判断活动是不是已经结束了，结束以后恢复原价
+            if (is_null($promotion->where('id',$v->prom_id)->first())) {
+              $tmp_total_price = number_format($v->nums * $v->old_price,2,'.','');
+              Cart::where('id',$v->id)->update(['price'=>$v->old_price,'total_prices'=>$tmp_total_price]);
+            }
+            $goodlists[$k] = $v;
             $goodlists[$k]['total_prices'] = $tmp_total_price;
             $total_prices += $tmp_total_price;
         }
@@ -78,8 +86,8 @@ class OrderController extends Controller
       // 如果有购物车
       // 循环查商品，方便带出属性来
       foreach ($goods as $k => $v) {
-          $goodlists[$k] = $v;
           $tmp_total_price = number_format($v->nums * $v->price,2,'.','');
+          $goodlists[$k] = $v;
           $goodlists[$k]['total_prices'] = $tmp_total_price;
           $total_prices += $tmp_total_price;
       }
@@ -111,6 +119,18 @@ class OrderController extends Controller
         $pos_id = 'cart';
         $title = '选择支付方式';
         $order = Order::findOrFail($oid);
+        // 没选择收货地址
+        if ($order->address_id == 0 && $order->ziti == 0) {
+            if ($order->prom_type == '1')
+            {
+                $url = url('timetobuy/order',$oid);
+            }
+            if($order->prom_type == '2')
+            {
+                $url = url('tuan/order',$oid);
+            }
+            return redirect($url)->with('message','请先选择收货地址！');
+        }
         $info = (object)['pid'=>3];
         $paylist = Pay::where('status',1)->where('paystatus',1)->orderBy('id','asc')->get();
         return view(cache('config')['theme'].'.pay',compact('info','order','paylist','title','pos_id'));
@@ -118,5 +138,39 @@ class OrderController extends Controller
         dd($e);
         return view('errors.404');
       }
+  }
+  // 提交订单
+  public function getEditorder(Request $req)
+  {
+    try {
+        $pos_id = 'cart';
+        $title = '结算信息';
+        // 找出购物车
+        $oid = $req->oid;
+        $order = Order::with(['good'=>function($q){
+                    $q->with(['good'=>function($g){
+                        $g->select('id','thumb','prom_type');
+                    }]);
+                }])->findOrFail($oid);
+        $goodlists = [];
+        $total_prices = 0;
+        // 如果有购物车
+        // 循环查商品，方便带出属性来
+        foreach ($order->good as $k => $v) {
+          $goodlists[$k] = $v;
+          $tmp_total_price = number_format($v->nums * $v->price,2,'.','');
+          $goodlists[$k]['total_prices'] = $tmp_total_price;
+          $total_prices += $tmp_total_price;
+        }
+        // 计算总价
+        $total_prices = number_format($total_prices,2,'.','');
+        // 送货地址
+        $address = Address::where('user_id',session('member')->id)->where('delflag',1)->orderBy('id','desc')->get();
+        $default_address = $address->where('default',1)->first();
+        return view(cache('config')['theme'].'.editorder',compact('title','pos_id','goodlists','total_prices','default_address','address','oid'));
+    } catch (\Exception $e) {
+        dd($e);
+        return view('errors.404');
+    }
   }
 }
