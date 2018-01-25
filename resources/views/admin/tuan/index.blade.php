@@ -34,7 +34,7 @@
 		<th width="50">ID</th>
 		<th>标题</th>
 		<th width="80">团购价</th>
-		<th width="80">数量</th>
+		<th width="80">几人团</th>
 		<th width="80">已参团</th>
 		<th width="80">库存</th>
 		<th width="80">状态</th>

@@ -14,10 +14,10 @@
         </tr>
 
         <tr>
-            <td class="td_left">团购量：</td>
+            <td class="td_left">几人团：</td>
             <td>
                 <input type="text" min="0" name="data[tuan_num]" value="{{ old('data.tuan_num') }}" class="form-control input-xs">
-                <p class="input-info"><span class="color_red">*</span>数字</p>
+                <p class="input-info"><span class="color_red">*</span>数字，几个人成一团</p>
             </td>
         </tr>
 
@@ -25,7 +25,7 @@
             <td class="td_left">参团量：</td>
             <td>
                 <input type="text" min="0" name="data[buy_num]" value="{{ old('data.buy_num') }}" class="form-control input-xs">
-                <p class="input-info"><span class="color_red">*</span>数字</p>
+                <p class="input-info"><span class="color_red">*</span>数字，随意写</p>
             </td>
         </tr>
 

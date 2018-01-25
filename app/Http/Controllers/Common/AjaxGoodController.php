@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Common\OrderApi;
 use App\Models\Good\Cart;
 use App\Models\Good\CouponUser;
 use App\Models\Good\Fullgift;
@@ -20,8 +21,8 @@ use App\Models\User\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-use Storage;
 use Log;
+use Storage;
 
 class AjaxGoodController extends BaseController
 {
@@ -61,7 +62,7 @@ class AjaxGoodController extends BaseController
                 $nums = $num;
             }
             // 检查库存
-            if ($this->store($id,$spec_key,$nums) == false) {
+            if (OrderApi::store($id,$spec_key,$nums) == false) {
                 $this->ajaxReturn('0','库存不足！');
             }
             $total_prices = $new_price * $nums;
@@ -101,7 +102,7 @@ class AjaxGoodController extends BaseController
             // 商品信息
             $good = Good::findOrFail($carts->good_id);
             // 检查库存
-            if ($this->store($carts->good_id,$carts->good_spec_key,$num) == false && $req->type == 1) {
+            if (OrderApi::store($carts->good_id,$carts->good_spec_key,$num) == false && $req->type == 1) {
                 $this->ajaxReturn('0','库存不足！');return;
             }
             Cart::where('id',$cid)->update(['nums'=>$num,'total_prices'=>$num * $price]);
@@ -161,7 +162,7 @@ class AjaxGoodController extends BaseController
             // 在这里检查库存
             foreach ($carts as $v) {
                 // 查看是不是活动中的商品，团购-限时-限量
-                if($this->store($v->good_id,$v->good_spec_key,$v->nums) == false){
+                if(OrderApi::store($v->good_id,$v->good_spec_key,$v->nums) == false){
                     $this->ajaxReturn('0',$v->good_title.'，库存不足！');
                 }
             }
@@ -231,7 +232,7 @@ class AjaxGoodController extends BaseController
             // 清空购物车里的这几个产品
             Cart::whereIn('id',$clear_ids)->delete();
             // 下单减库存，一定要放在加订单商品后边
-            $this->updateStore($order->id);
+            OrderApi::updateStore($order->id);
             // 没出错，提交事务
             DB::commit();
             $this->ajaxReturn('1',$order->id);
@@ -261,7 +262,7 @@ class AjaxGoodController extends BaseController
                 }
                 Order::where('id',$id)->update(['orderstatus'=>0]);
                 // 增加库存
-                $this->updateStore($id,1);
+                OrderApi::updateStore($id,1);
                 // 没出错，提交事务
                 DB::commit();
             }

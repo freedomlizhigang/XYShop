@@ -113,11 +113,11 @@ body {background-color: $color_f0; max-width:750px; margin:0 auto; min-height:66
 }
 // 团
 .sec_tuan {
-    padding:0.266667rem;
     .t2_tuan {
         font-size: 16px; font-weight: normal; margin-bottom: 0.266667rem;
         .t2_span_2 {margin-left: 5px; display: inline-block;}
     }
+    padding:0.266667rem;
     .list_tuan {
         li {
             width:3.146667rem; float: left; overflow: hidden;text-align: center;
@@ -432,4 +432,20 @@ body {background-color: $color_f0; max-width:750px; margin:0 auto; min-height:66
 background-color: $color_f8; z-index: 100;}
 .list_consume {
     li {line-height: 2.4; margin-bottom: 5px; border-bottom:$color_e dashed 1px;}
+}
+// 团人
+.tuan-user {
+    li {
+        width:1.89rem; padding:0 0.2rem; text-align: center;
+    }
+    img {
+        border-radius: 3px;
+    }
+    p {color:$color_6;}
+}
+.tu-t3 {
+    font-size: 12px;
+    font-weight: normal;
+    color:$color_9;
+    margin-bottom: 0.2rem;
 }

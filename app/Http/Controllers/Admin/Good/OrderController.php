@@ -24,11 +24,12 @@ class OrderController extends BaseController
         $title = '订单列表';
         $q = $req->input('q');
         $key = $req->input('key');
+        $prom_type = $req->input('prom_type');
         $starttime = $req->input('starttime');
         $endtime = $req->input('endtime');
-        $status = $req->input('status');
-        $shipstatus = $req->input('shipstatus');
-        $paystatus = $req->input('paystatus');
+        $status = $req->input('status',1);
+        $shipstatus = $req->input('shipstatus',0);
+        $paystatus = $req->input('paystatus',1);
         // 找出订单
         $orders = Order::with(['good'=>function($q){
                     $q->select('id','user_id','order_id','good_id','good_title','good_spec_key','good_spec_name','nums','price','total_prices')->with('good');
@@ -67,8 +68,12 @@ class OrderController extends BaseController
                     if ($paystatus != '') {
                         $q->where('paystatus',$paystatus);
                     }
-                })->where('status',1)->orderBy('id','desc')->paginate(10);
-        return view('admin.order.index',compact('title','orders','q','status','starttime','endtime','paystatus','shipstatus','key'));
+                })->where(function($q) use($prom_type){
+                    if ($prom_type != '') {
+                        $q->where('prom_type',$prom_type);
+                    }
+                })->where('display',1)->where('status',1)->orderBy('id','desc')->paginate(10);
+        return view('admin.order.index',compact('title','orders','q','status','starttime','endtime','paystatus','shipstatus','key','prom_type'));
     }
     // 打印
     public function getPrint($id)

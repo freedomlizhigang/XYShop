@@ -6,6 +6,12 @@
 <!-- 选出栏目 -->
 <div class="clearfix">
 	<form action="" class="form-inline form_excel pull-left" method="get">
+        <select name="prom_type" id="prom_type" class="form-control">
+            <option value="">订单类型</option>
+            <option value="0"@if($prom_type == '0') selected="selected" @endif>普通</option>
+            <option value="1"@if($prom_type == '1') selected="selected" @endif>抢购</option>
+            <option value="2"@if($prom_type == '2') selected="selected" @endif>团购</option>
+        </select>
 		<select name="status" id="status" class="form-control">
 			<option value="">订单状态</option>
 			<option value="0"@if($status == '0') selected="selected" @endif>关闭</option>
@@ -25,14 +31,9 @@
 		<input name="starttime" placeholder="开始时间" class="form-control" value="{{ $starttime }}" id="laydate">
 		<input name="endtime" placeholder="结束时间" class="form-control" value="{{ $endtime }}" id="laydate2">
 		<input type="text" name="key" value="{{ $key }}" class="form-control" placeholder="请输入商品名或订单号查询..">
-		<button class="btn btn-xs btn-info">查找</button>
-	</form>
-
-	<form action="" class="form-inline pull-right" method="get">
 		<input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="请输入手机号或昵称查询..">
-		<button class="btn btn-xs btn-info">搜索</button>
-	</form>
-    
+        <button class="btn btn-xs btn-info">查找</button>
+    </form>
 </div>
 
 <form action="" class="form-inline form_submit" method="get">
@@ -52,6 +53,13 @@
     <tr>
     	<td><input type="checkbox" name="sids[]" class="check_s" value="{{ $o->id }}"></td>
     	<td>
+            @if($o->prom_type == 0)
+            <span class="label label-default">普</span>
+            @elseif($o->prom_type == 1)
+            <span class="label label-info">抢</span>
+            @elseif($o->prom_type == 2)
+            <span class="label label-danger">团</span>
+            @endif
             @if($o->orderstatus == 0)
         	<span class="color_red">已关闭</span>
         	@elseif($o->orderstatus == 1)
@@ -135,7 +143,7 @@
 		@endif
 	</div>
 	<div class="pull-right">
-	    {!! $orders->appends(['q'=>$q,'key'=>$key,'status'=>$status,'starttime'=>$starttime,'endtime'=>$endtime,'shipstatus'=>$shipstatus,'paystatus'=>$paystatus])->links() !!}
+	    {!! $orders->appends(['q'=>$q,'key'=>$key,'status'=>$status,'prom_type'=>$prom_type,'starttime'=>$starttime,'endtime'=>$endtime,'shipstatus'=>$shipstatus,'paystatus'=>$paystatus])->links() !!}
 	</div>
 </div>
 <script>

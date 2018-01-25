@@ -44,9 +44,24 @@
     <h1 class="good_title">{{ $good->title }}</h1>
     <div class="g_i_prices mt10 clearfix">
       <span class="label label-hui f-r">参团人数：<i class="color_cheng">{{ $tuan->buy_num }}+</i></span>
+      <span class="label label-hui f-r"><i class="color_cheng">{{ $tuan->tuan_num }}</i>人成团</span>
     </div>
     <p class="ti_title color_9">{{ $good->describe }}</p>
   </section>
+  <!-- 参团人 -->
+  @if($user->count())
+  <section class="goodinfo mt20 clearfix bgc_f pd20">
+    <h3 class="tu-t3">参团人员</h3>
+    <ul class="tuan-user clearfix">
+      @foreach($user as $u)
+      <li>
+        <img src="{{ $u->thumb }}" alt="{{ $u->nickname }}">
+        <p>{{ $u->nickname }}</p>
+      </li>
+      @endforeach
+    </ul>
+  </section>
+  @endif
   <!-- 规格 -->
   <section class="good_spec mt20 clearfix bgc_f pd20">
     <h4 class="t4_show color_9">已选</h4>
@@ -216,7 +231,7 @@
   <div class="pos_foot">
     <a href="{{ url('/') }}" class="p_f_link iconfont icon-home"><em>首页</em></a>
     <a href="{{ url('cart') }}" class="p_f_link iconfont icon-cart"><em>购物车</em></a>
-    <span class="btn-addcart btn-createorder-lg">立即参团</span>
+    <span class="btn-addcart btn-createorder-lg">@if($user->count() == 0)开团@else立即参团@endif</span>
   </div>
   <!-- 分享 -->
   @include('mobile.common.share')

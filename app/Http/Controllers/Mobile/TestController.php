@@ -14,13 +14,15 @@ class TestController extends Controller
     //
     public function getLock()
     {
-        /*
-        DB::beginTransaction();
+        
+       /* DB::beginTransaction();
         try {
-            $user = User::where('id',1)->sharedLock()->first();
-            sleep(10);
+            User::where('id',1)->sharedLock()->increment('user_money',10);
+            User::where('id',1)->sharedLock()->decrement('points',10);
+            // $user = User::where('id',1)->sharedLock()->first();
+            // sleep(10);
             DB::commit();
-            return $user;
+            // return $user;
         } catch (\Exception $e) {
             DB::rollback();
             dd($e);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Common\OrderApi;
 use App\Http\Controllers\Controller;
 use App\Models\Good\Good;
 use App\Models\Good\GoodSpecPrice;
@@ -29,7 +30,7 @@ class AjaxTuanController extends BaseController
             // 商品信息
             $good = Good::findOrFail($id);
             // 检查库存
-            if ($this->store($id,$spec_key,$num) == false) {
+            if (OrderApi::store($id,$spec_key,$num) == false) {
                 $this->ajaxReturn('0','库存不足！');
             }
             // 如果用户已经登录，查以前的购物车
@@ -75,7 +76,7 @@ class AjaxTuanController extends BaseController
             // 插入
             OrderGood::insert($order_goods);
             // 下单减库存，一定要放在加订单商品后边
-            $this->updateStore($order->id);
+            OrderApi::updateStore($order->id);
             // 没出错，提交事务
             DB::commit();
             $this->ajaxReturn('1',$order->id);
