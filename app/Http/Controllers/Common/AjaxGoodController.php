@@ -30,8 +30,6 @@ class AjaxGoodController extends BaseController
     public function postAddcart(Request $req)
     {
         try {
-            // 先清除一天以上的无用购物车，不登陆无法加购物车时不用清除
-            // Cart::where('user_id',0)->where('updated_at','<',Carbon::now()->subday())->delete();
             // 清除完成
             $sid = $req->sid;
             $id = $req->gid;

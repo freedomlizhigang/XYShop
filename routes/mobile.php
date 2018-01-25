@@ -66,6 +66,8 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::post('user/recharge','RechargeController@postRecharge');
     // 优惠券
     Route::get('user/coupon','UserController@getCoupon');
+    // 签到
+    Route::get('user/signin','SignController@getSignin');
     // 地址
     Route::get('user/address','UserAddressController@getAddress');
     Route::get('user/address/add','UserAddressController@getAddressAdd');

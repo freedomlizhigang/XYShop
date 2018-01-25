@@ -197,4 +197,9 @@ class Good extends Model
     {
         return $this->belongsTo('\App\Models\Good\Promotion','prom_id','id');
     }
+    // 砍价
+    public function bargain()
+    {
+        return $this->hasMany('\App\Models\Promotion\Bargain','good_id','id');
+    }
 }

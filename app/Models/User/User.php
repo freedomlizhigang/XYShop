@@ -76,5 +76,9 @@ class User extends Model
     {
         return $this->hasMany('\App\Models\User\Recharge','user_id','id');
     }
-   
+    // 砍价活动
+    public function bargain()
+    {
+        return $this->hasMany('\App\Models\Promotion\BargainOrder','user_id','id');
+    }
 }

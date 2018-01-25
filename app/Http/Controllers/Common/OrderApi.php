@@ -134,7 +134,6 @@ class OrderApi
             if ($order->prom_type == '2') {
                 $this->updateTuan($order);
             }
-            User::where('id',$order->user_id)->lockForUpdate()->increment('points',$order->total_prices);
             // 消费记录
             app('com')->consume($order->user_id,$order->id,$order->total_prices,$paymod.'支付订单（'.$order->order_id.'）');
             // 没出错，提交事务

@@ -8,6 +8,7 @@ use App\Models\Good\Order;
 use App\Models\Good\OrderGood;
 use App\Models\Good\ReturnGood;
 use App\Models\User\Consume;
+use App\Models\User\SignLog;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use Validator;
@@ -20,7 +21,9 @@ class UserController extends Controller
         $pos_id = 'center';
         $title = '用户中心';
         $info = User::where('id',session('member')->id)->first();
-        return view(cache('config')['theme'].'.user.center',compact('pos_id','title','info'));
+        // 查这个用户今天签没签到
+        $sign = SignLog::where('user_id',session('member')->id)->where('type',1)->where('signtime',date('Y-m-d 00:00:00'))->orderBy('id','desc')->first();
+        return view(cache('config')['theme'].'.user.center',compact('pos_id','title','info','sign'));
     }
     // 修改个人信息
     public function getUserinfo()

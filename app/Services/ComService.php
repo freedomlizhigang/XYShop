@@ -2,6 +2,8 @@
 namespace App\Services;
 
 use App\Models\User\Consume;
+use App\Models\User\SignLog;
+use App\Models\User\User;
 use Cache;
 use Gate;
 use Storage;
@@ -85,6 +87,11 @@ class ComService
     public function consume($uid,$oid = 0,$price = 0,$mark = '',$type = 0)
     {
         Consume::create(['user_id'=>$uid,'order_id'=>$oid,'price'=>$price,'mark'=>$mark,'type'=>$type]);
+        // 消费增加积分
+        if ($type == 0) {
+            User::where('id',$uid)->lockForUpdate()->increment('points',$price);
+            SignLog::create(['user_id'=>$uid,'point'=>$price,'days'=>0,'type'=>2,'signtime'=>date('Y-m-d H:i:s')]);
+        }
     }
     // 生成订单号
     // 基于当前时间的微秒+8位随机字符串，uniqid() 函数基于以微秒计的当前时间，生成一个唯一的 ID。

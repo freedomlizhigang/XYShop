@@ -6,7 +6,12 @@
     <img src="{{ $info->thumb }}" height="200" width="200" alt="{{ $info->nickname }}" class="c_header">
     <div class="c_h_info">
       <h3>{{ $info->nickname }} <em class="font_sm">{{ $info->groupname }}</em></h3>
-      <p>账户余额：<em class="font_md">￥{{ $info->user_money }}</em>，积分：<em class="font_md">{{ $info->points }}</em></p>
+      <p>账户余额：<em class="font_md">￥{{ $info->user_money }}</em>，积分：<em class="font_md">{{ $info->points }}</em>
+      <!-- 判断签到 -->
+      @if(is_null($sign))
+      <a href="{{ url('user/signin') }}" class="sign"><i class="iconfont icon-camera"></i>每日签到</a>
+      @endif
+      </p>
     </div>
   </header>
   <!-- 订单 -->

@@ -26,6 +26,9 @@ Route::group(['prefix'=>'console','namespace' => 'Admin'],function(){
 });
 
 Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin'],function(){
+    // 签到配置
+    Route::get('sign/config', 'User\SignController@getConfig');
+    Route::post('sign/config', 'User\SignController@postConfig');
     // 选择商品
     Route::get('good/select/{type?}', 'Good\GoodController@getSelect');
     // 抢购管理
