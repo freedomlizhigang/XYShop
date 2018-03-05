@@ -98,8 +98,12 @@ class ComService
     public function orderid()
     {
         // 系统生成订单号
-        $str = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        $orderid = uniqid().$this->random(8,$str);;
+        $str = '0123456789';
+        // 当前毫秒
+        list($usec, $sec) = explode(" ", microtime());
+        $msectime = (float)$usec + (float)$sec;
+        $msectime = str_replace('.','',$msectime);
+        $orderid = $msectime.$this->random(8,$str);
         return $orderid;
     }
 

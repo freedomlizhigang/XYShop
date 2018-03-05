@@ -41,6 +41,9 @@
         server : "{{ url('api/common/upload') }}",
         // 选择文件的按钮。可选。
         pick: '#album_btn',
+        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+        // resize: false,
+        compress: false,
         // inputime 字段名，检查上传字段用的，十分重要
         fileVal:'imgFile',
         // 只允许选择图片文件。

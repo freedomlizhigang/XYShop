@@ -68,7 +68,7 @@
           var ss = jQuery.parseJSON(d);
           if (ss.code == '1') {
             $('.alert_msg').text(ss.msg).slideToggle().delay(1500).slideToggle();
-            $('.pos_bg,.pos_alert_con').fadeOut();
+            $('.pos_bg_1,.nophone').fadeOut();
           }
           else
           {

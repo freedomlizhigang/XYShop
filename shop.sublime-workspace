@@ -519,6 +519,15 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 1046,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "Packages/SASS Build/SASS - Compressed.sublime-build",
 	"build_system_choices":
@@ -756,22 +765,23 @@
 		"/D/wwwroot/XYShop",
 		"/D/wwwroot/XYShop/app",
 		"/D/wwwroot/XYShop/app/Http",
-		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/app/Services",
-		"/D/wwwroot/XYShop/public",
-		"/D/wwwroot/XYShop/public/statics",
-		"/D/wwwroot/XYShop/resources",
-		"/D/wwwroot/XYShop/routes"
+		"/D/wwwroot/XYShop/resources"
 	],
 	"file_history":
 	[
 		"/D/wwwroot/XYShop/README.md",
+		"/D/wwwroot/XYShop/resources/views/admin/component/thumb.blade.php",
+		"/D/wwwroot/XYShop/resources/views/admin/component/album.blade.php",
 		"/D/wwwroot/XYShop/app/Services/ComService.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
+		"/D/wwwroot/XYShop/public/statics/mobile/css/home.scss",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/LoginController.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/hotgood.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/OrderApi.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/SignController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
-		"/D/wwwroot/XYShop/public/statics/mobile/css/home.scss",
 		"/D/wwwroot/XYShop/public/statics/mobile/css/home.css",
 		"/D/wwwroot/XYShop/routes/mobile.php",
 		"/D/wwwroot/XYShop/routes/admin.php",
@@ -858,11 +868,9 @@
 		"/F/soft/FlashFXP4/Cache/~flashfxp/0D1C83D8_edit.tmp/laravel-2018-01-23.log",
 		"/D/wwwroot/XYShop/.env",
 		"/D/wwwroot/XYShop/database/migrations/2018_01_23_172913_add_prom_type_to_orders.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/hotgood.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/pay.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/login.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/list.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/index.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/hot.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/catelist.blade.php",
@@ -877,11 +885,9 @@
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/User/CardController.php",
 		"/D/wwwroot/XYShop/resources/views/admin/card/index.blade.php",
 		"/D/wwwroot/XYShop/resources/views/errors/404.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/LoginController.php",
 		"/D/wwwroot/XYShop/resources/views/errors/503.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/RechargeController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserAddressController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
 		"/D/wwwroot/XYCMF/app/Services/ComService.php",
 		"/D/wwwroot/lh_a/app/Services/ComService.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/pay/recharge_wxpay.blade.php",
@@ -890,13 +896,11 @@
 		"/D/wwwroot/XYShop/resources/views/admin/good/nostore.blade.php",
 		"/D/wwwroot/XYShop/sftp-config.json",
 		"/D/wwwroot/jxf/resources/views/home/pay/recharge_wxpay.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/RoleController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Common/ArtController.php",
-		"/D/wwwroot/lh_a/app/Http/Controllers/Admin/Common/ArtController.php"
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/RoleController.php"
 	],
 	"find":
 	{
-		"height": 41.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -1028,6 +1032,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"pos_bg",
 			"points",
 			"$day->format('Y-m-d 00:00:00')",
 			"Carbon::now()->subDay()->format('Y-m-d 00:00:00')",
@@ -1154,8 +1159,7 @@
 			"Pay",
 			"app('wechat",
 			"app('wechat')",
-			"wechat",
-			"changecart"
+			"wechat"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1299,8 +1303,40 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "README.md",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1046,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								138,
+								138
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],

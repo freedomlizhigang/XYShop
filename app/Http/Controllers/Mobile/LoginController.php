@@ -76,35 +76,35 @@ class LoginController extends Controller
     {
         $backurl = session('backurl') == '' || session('backurl') == url('login') ? url('/') : session('backurl');
         try {
-          $wechat = app('wechat.official_account');
-          $oauth = $wechat->oauth;
-          // 获取 OAuth 授权结果用户信息
-          $wxuser = $oauth->user();
-          // 看这个用户在不在数据库，不在，添加并登录，在直接登录
-          $user = User::where('openid',$wxuser->id)->first();
-          if (is_null($user)) {
-            $sex = $wxuser->sex == '' ? 0 : $wxuser->sex;
-            $res = User::create(['openid'=>$wxuser->id,'nickname'=>$wxuser->name,'sex'=>$sex,'thumb'=>$wxuser->avatar,'status'=>1,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
-            session()->put('member',(object)['id'=>$res->id,'openid'=>$res->openid]);
-            // 弹出填写手机号功能
-            session()->flash('nophone',1);
-          }
-          else
-          {
-            if ($user->status == 0) {
-                $message = '用户被禁用，请联系管理员！';
-                return view('errors.404',compact('message'));
+            $wechat = app('wechat.official_account');
+            $oauth = $wechat->oauth;
+            // 获取 OAuth 授权结果用户信息
+            $wxuser = $oauth->user();
+            // 看这个用户在不在数据库，不在，添加并登录，在直接登录
+            $user = User::where('openid',$wxuser->id)->first();
+            if (is_null($user)) {
+                $sex = $wxuser->sex == '' ? 0 : $wxuser->sex;
+                $res = User::create(['openid'=>$wxuser->id,'nickname'=>$wxuser->name,'sex'=>$sex,'thumb'=>$wxuser->avatar,'status'=>1,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
+                session()->put('member',(object)['id'=>$res->id,'openid'=>$res->openid]);
+                // 弹出填写手机号功能
+                session()->flash('nophone',1);
             }
-            User::where('openid',$wxuser->id)->update(['thumb'=>$wxuser->avatar,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
-            session()->put('member',(object)['id'=>$user->id,'openid'=>$user->openid]);
-            if ($user->phone == '') {
-              // 弹出填写手机号功能
-              session()->flash('nophone',1);
+            else
+            {
+                if ($user->status == 0) {
+                    $message = '用户被禁用，请联系管理员！';
+                    return view('errors.404',compact('message'));
+                }
+                User::where('openid',$wxuser->id)->update(['thumb'=>$wxuser->avatar,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
+                session()->put('member',(object)['id'=>$user->id,'openid'=>$user->openid]);
+                if ($user->phone == '') {
+                  // 弹出填写手机号功能
+                  session()->flash('nophone',1);
+                }
             }
-          }
-          return redirect($backurl);
+            return redirect($backurl);
         } catch (\Exception $e) {
-          return redirect($backurl);
+            return redirect($backurl);
         }
     }
     // 退出登录
