@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Http\Controllers\Common\BaseController;
-use App\Http\Controllers\Common\OrderApi;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Common\OrderApi;
 use App\Models\Good\Good;
 use App\Models\Good\GoodSpecPrice;
 use App\Models\Good\Order;
@@ -15,7 +14,7 @@ use DB;
 use Illuminate\Http\Request;
 use Log;
 
-class AjaxTuanController extends BaseController
+class AjaxTuanController extends Controller
 {
     public function postCreateorder(Request $req)
     {

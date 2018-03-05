@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CardRequest;
 use App\Models\User\Card;
 use Excel;
 use Illuminate\Http\Request;
 
-class CardController extends BaseController
+class CardController extends Controller
 {
     // 查列表
     public function getIndex(Request $req)
@@ -83,7 +83,7 @@ class CardController extends BaseController
     		$tmp[] = ['card_id'=>app('com')->random(8),'card_pwd'=>app('com')->random(6),'price'=>$prices,'created_at'=>$date,'updated_at'=>$date];
     	}
     	Card::insert($tmp);
-    	return $this->ajaxReturn(1,'添加成功！');
+    	return $this->adminJson(1,'添加成功！');
     }
     // 修改卡金额
     public function getEdit($id = 0)
@@ -94,7 +94,7 @@ class CardController extends BaseController
     public function postEdit(Request $req,$id = 0)
     {
         Card::where('id',$id)->update(['price'=>$req->price]);
-        return $this->ajaxReturn(1,'修改成功！');
+        return $this->adminJson(1,'修改成功！');
     }
     // 批量删除
     public function postAlldel(Request $req)

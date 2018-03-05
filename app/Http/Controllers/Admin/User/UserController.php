@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\User\Address;
 use App\Models\User\Consume;
 use App\Models\User\User;
 use Excel;
 use Illuminate\Http\Request;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
     public function getIndex(Request $res)
     {
@@ -76,15 +76,15 @@ class UserController extends BaseController
         $rpwd = $req->input('data.repassword');
         if(strlen($pwd) < 6)
         {
-            return $this->ajaxReturn(0,'密码长度小于6位');
+            return $this->adminJson(0,'密码长度小于6位');
         }
         if ($pwd == $rpwd) {
             User::where('id',$id)->update(['password'=>encrypt($rpwd)]);
-            return $this->ajaxReturn(1,'改密码成功！');
+            return $this->adminJson(1,'改密码成功！');
         }
         else
         {
-            return $this->ajaxReturn(0,'两次密码不相同，请重新输入');
+            return $this->adminJson(0,'两次密码不相同，请重新输入');
         }
     }
     // 会员消费
@@ -97,13 +97,13 @@ class UserController extends BaseController
     {
         $pwd = $req->pwd;
         if (app('com')->makepwd($pwd,session('console')->crypt) != session('console')->password) {
-            return $this->ajaxReturn(0,'密码错误！');
+            return $this->adminJson(0,'密码错误！');
         }
         $money = $req->input('data.user_money');
         User::where('id',$id)->decrement('user_money',$money);
         // 消费记录
         app('com')->consume($id,'0',$money,'后台消费',0);
-        return $this->ajaxReturn(1,'会员消费成功！');
+        return $this->adminJson(1,'会员消费成功！');
     }
     // 会员充值
     public function getChong($id = '')
@@ -115,13 +115,13 @@ class UserController extends BaseController
     {
         $pwd = $req->pwd;
         if (app('com')->makepwd($pwd,session('console')->crypt) != session('console')->password) {
-            return $this->ajaxReturn(0,'密码错误！');
+            return $this->adminJson(0,'密码错误！');
         }
         $money = $req->input('data.user_money');
         User::where('id',$id)->increment('user_money',$money);
         // 消费记录
         app('com')->consume($id,0,$money,'后台充值',1);
-        return $this->ajaxReturn(1,'会员充值成功！');
+        return $this->adminJson(1,'会员充值成功！');
     }
     // 消费记录
     public function getConsume($id = '')

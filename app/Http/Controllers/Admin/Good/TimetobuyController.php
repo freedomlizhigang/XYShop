@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\TimetobuyRequest;
 use App\Models\Good\Good;
 use App\Models\Good\Timetobuy;
 use Illuminate\Http\Request;
 
-class TimetobuyController extends BaseController
+class TimetobuyController extends Controller
 {
     /**
      * 抢购管理
@@ -53,9 +52,9 @@ class TimetobuyController extends BaseController
     	   $tid = Timetobuy::create($data);
     	   // 设置商品类型及活动ID
     	   Good::where('id',$data['good_id'])->update(['prom_type'=>1,'prom_id'=>$tid->id]);
-           return $this->ajaxReturn(1,'添加成功！',url('console/timetobuy/index'));
+           return $this->adminJson(1,'添加成功！',url('console/timetobuy/index'));
         } catch (\Exception $e) {
-            return $this->ajaxReturn(0,$e->getMessage());
+            return $this->adminJson(0,$e->getMessage());
         }
     }
     // 修改抢购
@@ -78,7 +77,7 @@ class TimetobuyController extends BaseController
             Good::where('id',$data['good_id'])->update(['prom_type'=>0,'prom_id'=>$id]);
         }
     	Timetobuy::where('id',$id)->update($data);
-    	return $this->ajaxReturn(1,'修改成功！',$req->ref);
+    	return $this->adminJson(1,'修改成功！',$req->ref);
         
     }
     // 删除

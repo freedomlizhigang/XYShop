@@ -1,4 +1,14 @@
-<table class="table table-striped">
+<!-- 添加新规格 -->
+<form action="javascript:;" method="get" class="form form-inline">
+    <div class="form-group">
+        <input type="text" class="form-control good-spec" name="good_spec" placeholder="添加新规格">
+    </div>
+    <div class="form-group">
+        <span class="btn btn-xs btn-primary btn-goodspec">添加</span>
+    </div>
+</form>
+<!-- 新规格参数 -->
+<table class="table table-striped spec-select">
 @foreach($list as $l)
 <tr>
 	<td class="text-right" width="100">{{ $l->name }}：</td>
@@ -21,9 +31,18 @@
 </div>
 
 <script>
-	$(function(){
+    $(function(){
+        // 添加规格
+        $('.btn-goodspec').click(function() {
+            var url = "{{ url('/console/goodspec/add') }}";
+            var goodspec = $('.good-spec').val();
+            var good_id = "{{ $gid }}";
+            $.post(url,{'goodspec':goodspec,'good_id':good_id},function(d){
+                hbdyg();  // 合并单元格
+            });
+        });
 		// 按钮切换 class
-	   $("#good_spec .btn").click(function(){
+	   $(".spec-select .btn").click(function(){
 	    	   if($(this).hasClass('btn-success'))
 	    	   {
 	    		   $(this).removeClass('btn-success');
@@ -44,7 +63,7 @@
 	{
 	  var spec_arr = {};// 用户选择的规格数组 	  	  
 		// 选中了哪些属性	  
-		$("#good_spec .btn-success").each(function(){
+		$(".spec-select .btn-success").each(function(){
 			var spec_id = $(this).attr('data-spec_id');
 			var item_id = $(this).attr('data-item_id');
 			// if($.type(spec_arr[spec_id]) !== "array"){spec_arr[spec_id] = [];}

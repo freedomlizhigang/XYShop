@@ -22,16 +22,6 @@
         </tr>
 
         <tr>
-            <td class="td_left">选择品牌：</td>
-            <td>
-                <select name="data[brand_id]" id="brand_id" class="form-control input-sm">
-                    <option value="0">选择品牌</option>
-                </select>
-                <p class="input-info">商品归哪个品牌</p>
-            </td>
-        </tr>
-
-        <tr>
             <td class="td_left">商品标题：</td>
             <td>
                 <input type="text" name="data[title]" value="{{ old('data.title') }}" class="form-control input-sm">
@@ -51,13 +41,6 @@
             <td class="td_left">产品规格：</td>
             <td>
                 <div id="good_spec" class="form-group"></div>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="td_left">产品属性：</td>
-            <td>
-                <div id="good_attr" class="form-group"></div>
             </td>
         </tr>
 
@@ -140,6 +123,22 @@
                         <input type="radio" name="data[is_hot]" autocomplete="off" checked value="0"> 否
                     </label>
                 </div>
+            </td>
+        </tr>
+ 
+        <tr>
+            <td class="td_left">上架时间：</td>
+            <td>
+                <input type="text" name="data[lasttime]" value="{{ old('data.lasttime',date('Y-m-d H:i:s')) }}" class="form-control input-sm" id="lasttime">
+                <p class="input-info"><span class="color_red">*</span>从此刻开始商品可以被查到</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">下架时间：</td>
+            <td>
+                <input type="text" name="data[lowertime]" value="{{ old('data.lowertime',date('Y-m-d H:i:s')) }}" class="form-control input-sm" id="lowertime">
+                <p class="input-info"><span class="color_red">*</span>从此刻开始商品不再能被查到</p>
             </td>
         </tr>
 
@@ -230,22 +229,23 @@
     $(function(){
         get_goodcate(0,'catid_one',0);
         // 修改产品分类时，取出对应的属性及规格
-        $('#catid').change(function() {
-            var cid = $('#catid').val();
-            var attr_url = "{{url('/console/good/goodattr')}}";
-            var spec_url = "{{url('/console/good/goodspec')}}";
-            var good_id = 0;
-            // 属性
-            $.get(attr_url,{'cid':cid,'good_id':good_id},function(d){
-                $("#good_attr").html(d);
-
-            });
-            // 规格
-            $.get(spec_url,{'cid':cid,'good_id':good_id},function(d){
-                $("#good_spec").html(d);
-                ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
-            });
+        var good_id = '';
+        var spec_url = "{{url('/console/good/goodspec')}}";
+        // 规格
+        $.get(spec_url,{'good_id':good_id},function(d){
+            $("#good_spec").html(d);
+            ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
         });
+    });
+    laydate({
+        elem: '#lasttime',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime: true,
+    });
+    laydate({
+        elem: '#lowertime',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime: true,
     });
 </script>
 

@@ -23,16 +23,6 @@
         </tr>
 
         <tr>
-            <td class="td_left">选择品牌：</td>
-            <td>
-                <select name="data[brand_id]" id="brand_id" class="form-control input-sm">
-                    <option value="0">选择品牌</option>
-                </select>
-                <p class="input-info">商品归哪个品牌</p>
-            </td>
-        </tr>
-
-        <tr>
             <td class="td_left">商品标题：</td>
             <td>
                 <input type="text" name="data[title]" value="{{ $info->title }}" class="form-control input-sm">
@@ -145,6 +135,22 @@
         </tr>
 
         <tr>
+            <td class="td_left">上架时间：</td>
+            <td>
+                <input type="text" name="data[lasttime]" value="{{ old('data.lasttime',$info->lasttime) }}" class="form-control input-sm" id="lasttime">
+                <p class="input-info"><span class="color_red">*</span>从此刻开始商品可以被查到</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td_left">下架时间：</td>
+            <td>
+                <input type="text" name="data[lowertime]" value="{{ old('data.lowertime',$info->lowertime) }}" class="form-control input-sm" id="lowertime">
+                <p class="input-info"><span class="color_red">*</span>从此刻开始商品不再能被查到</p>
+            </td>
+        </tr>
+
+        <tr>
             <td class="td_left">关键字：</td>
             <td>
                 <input type="text" name="data[keyword]" value="{{ $info->keyword }}" class="form-control input-md">
@@ -231,38 +237,25 @@
         get_goodcate(0,'catid_one',"{{ $info->goodcate_one_id }}");
         get_goodcate("{{ $info->goodcate_one_id }}",'catid_two',"{{ $info->goodcate_two_id }}");
         get_goodcate("{{ $info->goodcate_two_id }}",'catid',"{{ $info->cate_id }}");
-        get_brand("{{ $info->goodcate_one_id }}","{{ $info->goodcate_two_id }}",'brand_id',"{{ $info->brand_id }}")
-        // 修改产品分类时，取出对应的属性及规格
-        $('#catid').on('change',function() {
-            var cid = $('#catid').val();
-            var attr_url = "{{url('/console/good/goodattr')}}";
-            var spec_url = "{{url('/console/good/goodspec')}}";
-            var good_id = $("input[name='goods_id']").val();
-            // 属性
-            $.get(attr_url,{'cid':cid,'good_id':good_id},function(d){
-                $("#good_attr").html(d);
-            });
-            // 规格
-            $.get(spec_url,{'cid':cid,'good_id':good_id},function(d){
-                $("#good_spec").html(d);
-            });
-        });
-
         // 初始化属性及规格
-        var init_cid = "{{ $info->cate_id }}";
-        var attr_url = "{{url('/console/good/goodattr')}}";
         var spec_url = "{{url('/console/good/goodspec')}}";
         var good_id = "{{ $info->id }}";
-        // 属性
-        $.get(attr_url,{'cid':init_cid,'good_id':good_id},function(d){
-            $("#good_attr").html(d);
-        });
         // 规格
-        $.get(spec_url,{'cid':init_cid,'good_id':good_id},function(d){
+        $.get(spec_url,{'good_id':good_id},function(d){
             $("#good_spec").html(d);
             ajaxGetSpecInput(); // 触发完  马上触发 规格输入框
         });
     })
+    laydate({
+        elem: '#lasttime',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime: true,
+    });
+    laydate({
+        elem: '#lowertime',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime: true,
+    });
 </script>
 
 @endsection

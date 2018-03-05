@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Common;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Common\AreaRequest;
 use App\Models\Common\Area;
 use App\Models\Common\Community;
 use DB;
 use Illuminate\Http\Request;
 
-class AreaController extends BaseController
+class AreaController extends Controller
 {
     /**
      * 地区列表
@@ -41,11 +41,11 @@ class AreaController extends BaseController
             $resId = Area::create($data);
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1, '添加成功！',url('console/area/index/'.$data['parentid']));
+            return $this->adminJson(1, '添加成功！',url('console/area/index/'.$data['parentid']));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0, '添加失败，请稍后再试！');
+            return $this->adminJson(0, '添加失败，请稍后再试！');
         }
     }
     /**
@@ -68,11 +68,11 @@ class AreaController extends BaseController
             Area::where('id',$id)->update($data);
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1, '修改成功！');
+            return $this->adminJson(1, '修改成功！');
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(1, '修改失败，请稍后再试！');
+            return $this->adminJson(1, '修改失败，请稍后再试！');
         }
     }
     public function getDel($id)

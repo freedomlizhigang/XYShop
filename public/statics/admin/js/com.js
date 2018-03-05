@@ -41,29 +41,6 @@ function get_goodcate(pid = '0',subid = '',selectid = '0')
         }
     });
 }
-// 取品牌
-function get_brand(pid = '0',cid = '0',subid = 'brand_id',selectid = '0')
-{
-    // 取一级子分类
-    var goodcateurl = host + '/api/common/brand';
-    // 取子分类
-    $.post(goodcateurl, {pid: pid,cid:cid}, function(d) {
-        var ss = jQuery.parseJSON(d);
-        if (ss.code == 1) {
-            var str = '<option value="0">选择品牌</option>';
-            $.each(ss.msg, function(i,n) {
-                str += '<option value="' + n.id + '">' + n.name + '</option>';
-            });
-            $('#' + subid).html(str);
-		    (selectid > 0) && $('#' + subid).val(selectid);
-        }
-        else
-        {
-            // 失败的时候重置数量
-            console.log(ss.msg);
-        }
-    });
-}
 // 取地区
 function get_area(pid = '0',subid = 'brand_id',selectid = '0')
 {

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Common;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Common\AdRequest;
 use App\Models\Common\Ad;
 use App\Models\Common\Adpos;
 use Illuminate\Http\Request;
 
-class AdController extends BaseController
+class AdController extends Controller
 {
     /**
      * 广告管理
@@ -50,7 +50,7 @@ class AdController extends BaseController
     {
     	$data = $req->input('data');
     	Ad::create($data);
-        return $this->ajaxReturn(1,'添加成功！',url('/console/ad/index'));
+        return $this->adminJson(1,'添加成功！',url('/console/ad/index'));
     }
     // 修改广告
     public function getEdit($id = '')
@@ -64,7 +64,7 @@ class AdController extends BaseController
     {
     	$data = $req->input('data');
     	Ad::where('id',$id)->update($data);
-        return $this->ajaxReturn(1,'修改成功！');
+        return $this->adminJson(1,'修改成功！');
     }
     // 删除
     public function getDel($id = '')

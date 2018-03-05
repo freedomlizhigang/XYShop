@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\GoodCateRequest;
 use App\Models\Good\GoodAttr;
 use App\Models\Good\GoodCate;
 use Illuminate\Http\Request;
 Use DB;
 
-class GoodCateController extends BaseController
+class GoodCateController extends Controller
 {
     /**
      * 商品分类列表
@@ -95,11 +95,11 @@ class GoodCateController extends BaseController
             app('com')->updateCache(new GoodCate(),'goodcateCache');
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'添加成功！',url('/console/goodcate/index'));
+            return $this->adminJson(1,'添加成功！',url('/console/goodcate/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'添加失败，请稍后再试！');
+            return $this->adminJson(0,'添加失败，请稍后再试！');
         }
     }
     /**
@@ -128,11 +128,11 @@ class GoodCateController extends BaseController
             app('com')->updateCache(new GoodCate(),'goodcateCache');
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'修改成功！',url('/console/goodcate/index'));
+            return $this->adminJson(1,'修改成功！',url('/console/goodcate/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'修改失败，请稍后再试！',url('/console/goodcate/index'));
+            return $this->adminJson(0,'修改失败，请稍后再试！',url('/console/goodcate/index'));
         }
     }
     public function getDel($id)

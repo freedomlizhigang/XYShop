@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\GoodSpecRequest;
 use App\Models\Good\Good;
 use App\Models\Good\GoodSpec;
@@ -11,46 +11,29 @@ use App\Models\Good\GoodSpecPrice;
 use DB;
 use Illuminate\Http\Request;
 
-class GoodSpecController extends BaseController
+class GoodSpecController extends Controller
 {
     public function getIndex(Request $res)
     {
     	$title = '商品规格列表';
-        $list = GoodSpec::with(['goodcate'=>function($q){
-                    $q->select('id','name');
-                },'goodspecitem'])->orderBy('id','desc')->paginate(15);
+        $list = GoodSpec::with('goodspecitem')->orderBy('id','desc')->paginate(15);
         return view('admin.goodspec.index',compact('list','title'));
     }
 
-    // 添加商品规格
-    public function getAdd()
+    public function postAdd(Request $req)
     {
-        $title = '添加商品规格';
-        return view('admin.goodspec.add',compact('title'));
-    }
-
-    public function postAdd(GoodSpecRequest $req)
-    {
-        $data = $req->input('data');
-        $items = app('com')->trim_value($req->input('items'));
+        $data['name'] = $req->goodspec;
+        $data['good_id'] = $req->good_id;
         // 开启事务
         DB::beginTransaction();
         try {
         	$goodspec = GoodSpec::create($data);
-        	$items = json_decode($items);
-        	$goodspecitem = [];
-        	$date = date('Y-m-d H:i:s');
-        	foreach ($items as $v) {
-        		$goodspecitem[] = ['good_spec_id'=>$goodspec->id,'item'=>$v,'created_at'=>$date,'updated_at'=>$date];
-        	}
-        	GoodSpecItem::insert($goodspecitem);
-            // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'添加商品规格成功！',url('/console/goodspec/index'));
+            return $this->resJson(1,'添加商品规格成功！',$goodspec->id);
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,$e->getMessage());
+            return $this->resJson(0,$e->getMessage());
         }
     }
     // 修改商品规格
@@ -103,11 +86,11 @@ class GoodSpecController extends BaseController
             }
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'修改商品规格成功！');
+            return $this->adminJson(1,'修改商品规格成功！');
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,$e->getMessage());
+            return $this->adminJson(0,$e->getMessage());
         }
     }
     // 删除商品规格

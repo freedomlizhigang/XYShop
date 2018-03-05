@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\GoodRequest;
 use App\Models\Common\Type;
 use App\Models\Good\Cart;
@@ -19,7 +19,7 @@ use DB;
 use Illuminate\Http\Request;
 use Storage;
 
-class GoodController extends BaseController
+class GoodController extends Controller
 {
     /**
      * 商品列表
@@ -150,11 +150,11 @@ class GoodController extends BaseController
             // 没出错，提交事务
             DB::commit();
             // 跳转回添加的栏目列表
-            return $this->ajaxReturn(1,'添加商品成功！',url('/console/good/index'));
+            return $this->adminJson(1,'添加商品成功！',url('/console/good/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,$e->getMessage());
+            return $this->adminJson(0,$e->getMessage());
             // return back()->with('message','添加失败，请稍后再试！');
         }
     }
@@ -221,11 +221,11 @@ class GoodController extends BaseController
             // 没出错，提交事务
             DB::commit();
             // 跳转回添加的栏目列表
-            return $this->ajaxReturn(1,'修改商品商品成功！',$res->ref);
+            return $this->adminJson(1,'修改商品商品成功！',$res->ref);
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,$e->getMessage());
+            return $this->adminJson(0,$e->getMessage());
         }
     }
     // 删除
@@ -348,9 +348,8 @@ class GoodController extends BaseController
     // 取商品分类下规格
     public function getGoodSpec(Request $req)
     {
-        $cid = $req->cid;
         $good_id = $req->good_id;
-        $list = GoodSpec::with('goodspecitem')->where('good_cate_id',$cid)->orderBy('id','asc')->get();
+        $list = GoodSpec::with('goodspecitem')->where('good_id',$good_id)->orderBy('id','asc')->get();
         // 查出来所有的规格ID
         $items_id = GoodSpecPrice::where('good_id',$good_id)->pluck('item_id');
         $items_ids = [];
@@ -359,7 +358,8 @@ class GoodController extends BaseController
             $items_ids = array_merge($items_ids,explode('_',$t));
         }
         $items_ids = array_unique($items_ids);
-        return view('admin.good.goodspec',compact('list','items_ids'));
+        $gid = str_replace('.','',microtime(TRUE));
+        return view('admin.good.goodspec',compact('list','items_ids','gid'));
     }
     // 取商品分类下属性
     public function getGoodAttr(Request $req)

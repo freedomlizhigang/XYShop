@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\ExtractRequest;
 use App\Models\Common\Type;
 use App\Models\Good\Extract;
 use Illuminate\Http\Request;
 
-class ExtractController extends BaseController
+class ExtractController extends Controller
 {
     /**
      * 自提管理
@@ -48,7 +48,7 @@ class ExtractController extends BaseController
     {
     	$data = $req->input('data');
     	Extract::create($data);
-        return $this->ajaxReturn(1,'添加成功！',url('/console/extract/index'));
+        return $this->adminJson(1,'添加成功！',url('/console/extract/index'));
     }
     // 修改自提
     public function getEdit($id = '')
@@ -62,7 +62,7 @@ class ExtractController extends BaseController
     {
     	$data = $req->input('data');
     	Extract::where('id',$id)->update($data);
-        return $this->ajaxReturn(1,'修改成功！');
+        return $this->adminJson(1,'修改成功！');
     }
     // 删除
     public function getDel($id = '')

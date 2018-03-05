@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Pay;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Common\Pay;
 use App\Models\Good\Order;
 use App\Models\User\Recharge;
@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Omnipay\Omnipay;
 use Storage;
 
-class WxpayController extends BaseController
+class WxpayController extends Controller
 {
     // 新版回调
     public function gateway(Request $req)

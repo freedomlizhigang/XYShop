@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Good\Coupon;
 use App\Models\Good\CouponUser;
 use Illuminate\Http\Request;
 
-class AjaxCouponController extends BaseController
+class AjaxCouponController extends Controller
 {
 	// 领
 	public function postGet(Request $req)

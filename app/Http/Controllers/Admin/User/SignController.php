@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\User\SignConfig;
 use Illuminate\Http\Request;
 
-class SignController extends BaseController
+class SignController extends Controller
 {
     public function getConfig(Request $req)
     {
@@ -18,6 +18,6 @@ class SignController extends BaseController
     {
         $data = $req->input('data');
         SignConfig::where('id',1)->update($data);
-        return $this->ajaxReturn(1,'更新成功');
+        return $this->adminJson(1,'更新成功');
     }
 }

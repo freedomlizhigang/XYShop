@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\GroupRequest;
 use App\Models\User\Group;
 use App\Models\User\User;
@@ -10,7 +10,7 @@ use Cache;
 use DB;
 use Illuminate\Http\Request;
 
-class GroupController extends BaseController
+class GroupController extends Controller
 {
     public function getIndex(Request $res)
     {
@@ -31,7 +31,7 @@ class GroupController extends BaseController
         $data = $request->input('data');
         Group::create($data);
         $this->groupCache();
-        return $this->ajaxReturn(1,'添加用户组成功！',url('/console/group/index'));
+        return $this->adminJson(1,'添加用户组成功！',url('/console/group/index'));
     }
     // 修改用户组
     public function getEdit($id)
@@ -45,7 +45,7 @@ class GroupController extends BaseController
     {
         Group::where('id',$id)->update($request->input('data'));
         $this->groupCache();
-        return $this->ajaxReturn(1,'修改用户组成功！');
+        return $this->adminJson(1,'修改用户组成功！');
     }
     // 删除用户组
     public function getDel($id)

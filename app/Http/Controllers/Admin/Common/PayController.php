@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Common;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Common\Pay;
 use DB;
 use Illuminate\Http\Request;
 
-class PayController extends BaseController
+class PayController extends Controller
 {
     // 
     public function getIndex(Request $res)
@@ -33,11 +33,11 @@ class PayController extends BaseController
             Pay::where('id',$id)->update($data);
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'修改支付配置成功！',url('/console/pay/index'));
+            return $this->adminJson(1,'修改支付配置成功！',url('/console/pay/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'修改失败，请稍后再试！');
+            return $this->adminJson(0,'修改失败，请稍后再试！');
         }
     }
 

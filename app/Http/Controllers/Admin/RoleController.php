@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
 use App\Models\Console\Menu;
 use App\Models\Console\Priv;
@@ -11,7 +11,7 @@ use App\Models\Console\RoleUser;
 use DB;
 use Illuminate\Http\Request;
 
-class RoleController extends BaseController
+class RoleController extends Controller
 {
     /**
      * 构造函数
@@ -43,7 +43,7 @@ class RoleController extends BaseController
     {
         $data = $request->input('data');
         $this->role->create($data);
-        return $this->ajaxReturn(1,'添加角色成功！',url('/console/role/index'));
+        return $this->adminJson(1,'添加角色成功！',url('/console/role/index'));
     }
     // 修改角色
     public function getEdit($rid)
@@ -56,7 +56,7 @@ class RoleController extends BaseController
     public function postEdit(RoleRequest $request,$rid)
     {
         $this->role->where('id',$rid)->update($request->input('data'));
-        return $this->ajaxReturn(1,'修改角色成功！');
+        return $this->adminJson(1,'修改角色成功！');
     }
     // 删除角色
     public function getDel($rid)

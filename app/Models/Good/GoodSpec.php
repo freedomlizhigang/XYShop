@@ -46,12 +46,6 @@ class GoodSpec extends Model
         return $one_id;
     }
 
-    // 关联商品分类表
-    public function goodcate()
-    {
-        return $this->belongsTo('\App\Models\Good\GoodCate','good_cate_id','id');
-    }
-
     // 关联商品规格值表
     public function goodspecitem()
     {

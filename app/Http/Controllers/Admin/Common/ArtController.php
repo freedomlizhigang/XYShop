@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Common;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Common\Article;
 use App\Models\Common\Cate;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
-class ArtController extends BaseController
+class ArtController extends Controller
 {
     public function __construct()
     {
@@ -88,11 +88,11 @@ class ArtController extends BaseController
             // 没出错，提交事务
             DB::commit();
             // 跳转回添加的栏目列表
-            return $this->ajaxReturn(1,'添加文章成功！',url('/console/art/index?catid='.$res->input('data.catid')));
+            return $this->adminJson(1,'添加文章成功！',url('/console/art/index?catid='.$res->input('data.catid')));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'添加失败，请稍后再试！');
+            return $this->adminJson(0,'添加失败，请稍后再试！');
         }
     }
     /**
@@ -122,11 +122,11 @@ class ArtController extends BaseController
             // 没出错，提交事务
             DB::commit();
             // 取得编辑前url参数，并跳转回去
-            return $this->ajaxReturn(1,'修改文章成功！',$res->input('ref'));
+            return $this->adminJson(1,'修改文章成功！',$res->input('ref'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'修改失败，请稍后再试！');
+            return $this->adminJson(0,'修改失败，请稍后再试！');
         }
     }
     /**

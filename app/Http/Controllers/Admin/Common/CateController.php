@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Common;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Common\CateRequest;
 use App\Models\Common\Article;
 use App\Models\Common\Cate;
@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
-class CateController extends BaseController
+class CateController extends Controller
 {
     public function __construct()
     {
@@ -84,11 +84,11 @@ class CateController extends BaseController
             app('com')->updateCache($this->cate,'cateCache');
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'添加成功',url('/console/cate/index'));
+            return $this->adminJson(1,'添加成功',url('/console/cate/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'添加失败，请稍后再试！');
+            return $this->adminJson(0,'添加失败，请稍后再试！');
         }
     }
     /**
@@ -119,11 +119,11 @@ class CateController extends BaseController
             app('com')->updateCache($this->cate,'cateCache');
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'修改成功！',url('/console/cate/index'));
+            return $this->adminJson(1,'修改成功！',url('/console/cate/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'修改失败，请稍后再试！');
+            return $this->adminJson(0,'修改失败，请稍后再试！');
         }
     }
     public function getDel($id)

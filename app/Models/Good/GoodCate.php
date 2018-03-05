@@ -41,16 +41,4 @@ class GoodCate extends Model
     {
         return $this->hasMany('\App\Models\Good\Good','cate_id','id');
     }
-
-    // 关联属性表
-    public function goodattr()
-    {
-        return $this->hasMany('\App\Models\Good\GoodAttr','good_cate_id','id');
-    }
-
-    // 关联规格表
-    public function goodspec()
-    {
-        return $this->hasMany('\App\Models\Good\GoodSpec','good_cate_id','id');
-    }
 }

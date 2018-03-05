@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\OrderApi;
 use App\Models\Good\Good;
 use App\Models\Good\GoodSpecPrice;
@@ -14,7 +14,7 @@ use DB;
 use Illuminate\Http\Request;
 use Log;
 
-class AjaxTimetobuyController extends BaseController
+class AjaxTimetobuyController extends Controller
 {
     // 提交订单功能
     public function postCreateorder(Request $req)

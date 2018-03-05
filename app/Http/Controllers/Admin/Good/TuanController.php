@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\TuanRequest;
 use App\Models\Good\Good;
 use App\Models\Good\Tuan;
 use Illuminate\Http\Request;
 
-class TuanController extends BaseController
+class TuanController extends Controller
 {
     /**
      * 团购管理
@@ -52,9 +52,9 @@ class TuanController extends BaseController
     	   $tid = Tuan::create($data);
            // 设置商品类型及活动ID
            Good::where('id',$data['good_id'])->update(['prom_type'=>2,'prom_id'=>$tid->id]);
-           return $this->ajaxReturn(1,'添加成功！');
+           return $this->adminJson(1,'添加成功！');
         } catch (\Exception $e) {
-            return $this->ajaxReturn(0,$e->getMessage());
+            return $this->adminJson(0,$e->getMessage());
         }
     }
     // 修改团购
@@ -78,7 +78,7 @@ class TuanController extends BaseController
             Good::where('id',$data['good_id'])->update(['prom_type'=>0,'prom_id'=>$id]);
         }
     	Tuan::where('id',$id)->update($data);
-    	return $this->ajaxReturn(1,'修改成功！',$req->ref);
+    	return $this->adminJson(1,'修改成功！',$req->ref);
         
     }
     // 删除

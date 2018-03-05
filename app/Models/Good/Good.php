@@ -154,11 +154,6 @@ class Good extends Model
     {
         return $this->hasMany('\App\Models\Good\GoodSpecPrice','good_id','id');
     }
-    // 商品对应属性表
-    public function goodattr()
-    {
-        return $this->hasMany('\App\Models\Good\GoodsAttr','good_id','id');
-    }
     // 关联商品分类
     public function goodcate()
     {

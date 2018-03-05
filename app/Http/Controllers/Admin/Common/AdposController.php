@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Common;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Common\AdposRequest;
 use App\Models\Common\Adpos;
 use Illuminate\Http\Request;
 
-class AdposController extends BaseController
+class AdposController extends Controller
 {
     /**
      * 广告位列表
@@ -37,9 +37,9 @@ class AdposController extends BaseController
         try {
             $data = $res->input('data');
             $resId = Adpos::create($data);
-            return $this->ajaxReturn(1, '添加成功！',url('console/adpos/index'));
+            return $this->adminJson(1, '添加成功！',url('console/adpos/index'));
         } catch (Exception $e) {
-            return $this->ajaxReturn(0, '添加失败，请稍后再试！');
+            return $this->adminJson(0, '添加失败，请稍后再试！');
         }
     }
     /**
@@ -56,9 +56,9 @@ class AdposController extends BaseController
         try {
             $data = $res->input('data');
             Adpos::where('id',$id)->update($data);
-            return $this->ajaxReturn(1, '修改成功！');
+            return $this->adminJson(1, '修改成功！');
         } catch (Exception $e) {
-            return $this->ajaxReturn(1, '修改失败，请稍后再试！');
+            return $this->adminJson(1, '修改失败，请稍后再试！');
         }
     }
     public function getDel($id)

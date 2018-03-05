@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\PromotionRequest;
 use App\Models\Good\Good;
 use App\Models\Good\PromGood;
@@ -10,7 +10,7 @@ use App\Models\Good\Promotion;
 use DB;
 use Illuminate\Http\Request;
 
-class PromotionController extends BaseController
+class PromotionController extends Controller
 {
     /**
      * 活动列表
@@ -63,11 +63,11 @@ class PromotionController extends BaseController
             Good::whereIn('id',$gids)->update(['prom_type'=>4,'prom_id'=>$pid->id]);
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'添加成功！',url('/console/promotion/index'));
+            return $this->adminJson(1,'添加成功！',url('/console/promotion/index'));
         } catch (\Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,$e->getMessage());
+            return $this->adminJson(0,$e->getMessage());
         }
     }
     // 修改活动
@@ -107,14 +107,14 @@ class PromotionController extends BaseController
             }
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'添加成功！',$req->ref);
+            return $this->adminJson(1,'添加成功！',$req->ref);
         } catch (\Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,$e->getMessage());
+            return $this->adminJson(0,$e->getMessage());
         }
         
-    	return $this->ajaxReturn(1,'修改成功！');
+    	return $this->adminJson(1,'修改成功！');
     }
     // 删除
     public function getDel($id = '')

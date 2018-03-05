@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\SectionRequest;
 use App\Models\Console\Section;
 use Illuminate\Http\Request;
 
-class SectionController extends BaseController
+class SectionController extends Controller
 {
     public function getIndex(Request $res)
     {
@@ -27,7 +27,7 @@ class SectionController extends BaseController
     {
         $data = $request->input('data');
         Section::create($data);
-        return $this->ajaxReturn(1,'添加部门成功！',url('/console/section/index'));
+        return $this->adminJson(1,'添加部门成功！',url('/console/section/index'));
     }
     // 修改部门
     public function getEdit($id)
@@ -40,7 +40,7 @@ class SectionController extends BaseController
     public function postEdit(SectionRequest $request,$id)
     {
         Section::where('id',$id)->update($request->input('data'));
-        return $this->ajaxReturn(1,'修改部门成功！');
+        return $this->adminJson(1,'修改部门成功！');
     }
     // 删除部门
     public function getDel($id)

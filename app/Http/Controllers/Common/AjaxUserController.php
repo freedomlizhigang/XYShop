@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\User\Address;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use Validator;
 
-class AjaxUserController extends BaseController
+class AjaxUserController extends Controller
 {
     // 补充信息
     public function postPerfect(Request $req)

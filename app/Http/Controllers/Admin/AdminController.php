@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest;
 use App\Models\Console\Admin;
 use App\Models\Console\Role;
@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
-class AdminController extends BaseController
+class AdminController extends Controller
 {
     /**
      * 构造函数
@@ -65,11 +65,11 @@ class AdminController extends BaseController
             RoleUser::insert($rdata);
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'添加用户成功！',url('/console/admin/index'));
+            return $this->adminJson(1,'添加用户成功！',url('/console/admin/index'));
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'添加失败，请稍后再试！');
+            return $this->adminJson(0,'添加失败，请稍后再试！');
         }
     }
     // 修改资料
@@ -104,11 +104,11 @@ class AdminController extends BaseController
             RoleUser::insert($rdata);
             // 没出错，提交事务
             DB::commit();
-            return $this->ajaxReturn(1,'修改用户成功！');
+            return $this->adminJson(1,'修改用户成功！');
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->ajaxReturn(0,'修改失败，请稍后再试！');
+            return $this->adminJson(0,'修改失败，请稍后再试！');
         }
     }
     // 修改密码
@@ -124,7 +124,7 @@ class AdminController extends BaseController
         $crypt = str_random(10);
         $pwd = app('com')->makepwd($req->input('data.password'),$crypt);
         $this->admin->where('id',$uid)->update(['password'=>$pwd,'crypt'=>$crypt]);
-        return $this->ajaxReturn(1,'修改密码成功！');
+        return $this->adminJson(1,'修改密码成功！');
     }
     // 删除用户
     public function getDel($uid)
@@ -152,7 +152,7 @@ class AdminController extends BaseController
     {
         $data = $request->input('datas');
         $this->admin->where('id',session('console')->id)->update($data);
-        return $this->ajaxReturn(1,'修改个人资料成功！');
+        return $this->adminJson(1,'修改个人资料成功！');
     }
     // 修改密码
     public function getMypwd()
@@ -168,11 +168,11 @@ class AdminController extends BaseController
         $res = $this->admin->where('id',session('console')->id)->update(['password'=>$pwd,'crypt'=>$crypt]);
         if ($res) {
             \Session::put('console',null);
-            return $this->ajaxReturn(1,'修改密码成功，请登陆登录！',url('/console/login'));
+            return $this->adminJson(1,'修改密码成功，请登陆登录！',url('/console/login'));
         }
         else
         {
-            return $this->ajaxReturn(0,'修改密码失败！');
+            return $this->adminJson(0,'修改密码失败！');
         }
     }
 }

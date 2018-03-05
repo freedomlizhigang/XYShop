@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\ReturnGoodRequest;
 use App\Models\Good\Order;
 use App\Models\Good\ReturnGood;
@@ -11,7 +11,7 @@ use DB;
 use Excel;
 use Illuminate\Http\Request;
 
-class RetrunGoodController extends BaseController
+class RetrunGoodController extends Controller
 {
     // 查列表
     public function getIndex(Request $req)
@@ -114,6 +114,6 @@ class RetrunGoodController extends BaseController
                 app('com')->consume($rg->user_id,$rg->order_id,$rg->total_prices,'退货返现('.$rg->order_id.'),商品：('.$rg->good_title.')',1);
             }
         });
-        return $this->ajaxReturn(1,'处理成功！');
+        return $this->adminJson(1,'处理成功！');
     }
 }

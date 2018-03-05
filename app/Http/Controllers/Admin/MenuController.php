@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\MenuRequest;
 use App\Models\Console\Menu;
 use Cache;
 use Illuminate\Http\Request;
 
-class MenuController extends BaseController
+class MenuController extends Controller
 {
     public function __construct()
     {
@@ -82,7 +82,7 @@ class MenuController extends BaseController
     	$data = request('data');
     	$this->menu->create($data);
         app('com')->updateCache($this->menu,'menuCache');
-        return $this->ajaxReturn(1,'添加菜单成功',url('/console/menu/index'));
+        return $this->adminJson(1,'添加菜单成功',url('/console/menu/index'));
     	// return redirect('')->with('message', '');
     }
     /**
@@ -104,7 +104,7 @@ class MenuController extends BaseController
         $data = $res->input('data');
         $this->menu->where('id',$id)->update($data);
         app('com')->updateCache($this->menu,'menuCache');
-        return $this->ajaxReturn(1,'修改菜单成功',url('/console/menu/index'));
+        return $this->adminJson(1,'修改菜单成功',url('/console/menu/index'));
         // return redirect('/console/menu/index')->with('message', '修改菜单成功！');
     }
     /**

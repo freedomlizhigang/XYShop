@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\OrderApi;
 use App\Models\Good\Cart;
 use App\Models\Good\CouponUser;
@@ -24,7 +24,7 @@ use Illuminate\Http\Request;
 use Log;
 use Storage;
 
-class AjaxGoodController extends BaseController
+class AjaxGoodController extends Controller
 {
     // 添加购物车
     public function postAddcart(Request $req)

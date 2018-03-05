@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Common\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Common\AuthTmp;
 use App\Models\User\User;
 use Carbon\Carbon;
@@ -11,7 +11,7 @@ use QrCode;
 use Socialite;
 use Storage;
 
-class WxController extends BaseController
+class WxController extends Controller
 {
     // 二维码登录
     public function getWxlogincode()

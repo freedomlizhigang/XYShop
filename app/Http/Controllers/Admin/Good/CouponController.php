@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\CouponRequest;
 use App\Models\Good\Coupon;
 use Illuminate\Http\Request;
 
-class CouponController extends BaseController
+class CouponController extends Controller
 {
     /**
      * 优惠券管理
@@ -46,7 +46,7 @@ class CouponController extends BaseController
     {
     	$data = $req->input('data');
     	Coupon::create($data);
-        return $this->ajaxReturn(1,'添加成功！',url('/console/coupon/index'));
+        return $this->adminJson(1,'添加成功！',url('/console/coupon/index'));
     }
     // 修改优惠券
     public function getEdit($id = '')
@@ -59,7 +59,7 @@ class CouponController extends BaseController
     {
     	$data = $req->input('data');
     	Coupon::where('id',$id)->update($data);
-        return $this->ajaxReturn(1,'修改成功！');
+        return $this->adminJson(1,'修改成功！');
     }
     // 删除
     public function getDel($id = '')

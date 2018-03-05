@@ -47,13 +47,6 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::get('adpos/edit/{id}', 'Common\AdposController@getEdit');
     Route::post('adpos/edit/{id}', 'Common\AdposController@postEdit');
     Route::get('adpos/del/{id}', 'Common\AdposController@getDel');
-    // 品牌
-    Route::get('brand/index', 'Good\BrandController@getIndex');
-    Route::get('brand/add', 'Good\BrandController@getAdd');
-    Route::post('brand/add', 'Good\BrandController@postAdd');
-    Route::get('brand/edit/{id}', 'Good\BrandController@getEdit');
-    Route::post('brand/edit/{id}', 'Good\BrandController@postEdit');
-    Route::get('brand/del/{id}', 'Good\BrandController@getDel');
     // 社区
     Route::get('community/index', 'Common\CommunityController@getIndex');
     Route::get('community/add', 'Common\CommunityController@getAdd');
@@ -179,13 +172,6 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::get('goodspec/edit/{id?}', 'Good\GoodSpecController@getEdit');
     Route::post('goodspec/edit/{id?}', 'Good\GoodSpecController@postEdit');
     Route::get('goodspec/del/{id?}', 'Good\GoodSpecController@getDel');
-    // 商品属性
-    Route::get('goodattr/index/{pid?}', 'Good\GoodAttrController@getIndex');
-    Route::get('goodattr/add', 'Good\GoodAttrController@getAdd');
-    Route::post('goodattr/add', 'Good\GoodAttrController@postAdd');
-    Route::get('goodattr/edit/{id?}', 'Good\GoodAttrController@getEdit');
-    Route::post('goodattr/edit/{id?}', 'Good\GoodAttrController@postEdit');
-    Route::get('goodattr/del/{id?}', 'Good\GoodAttrController@getDel');
     // 商品
     Route::get('good/index', 'Good\GoodController@getIndex');
     Route::get('good/nostore', 'Good\GoodController@getNostore');
@@ -200,7 +186,6 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::post('good/allstatus', 'Good\GoodController@postAllStatus');
     Route::post('good/allcate', 'Good\GoodController@postAllCate');
     // 取商品分类及规格
-    Route::get('good/goodattr', 'Good\GoodController@getGoodAttr');
     Route::get('good/goodspec', 'Good\GoodController@getGoodSpec');
     Route::post('good/goodspecinput', 'Good\GoodController@postGoodSpecInput');    
     // Index

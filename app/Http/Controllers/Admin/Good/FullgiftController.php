@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\FullgiftRequest;
 use App\Models\Good\Fullgift;
 use App\Models\Good\Good;
 use Illuminate\Http\Request;
 
-class FullgiftController extends BaseController
+class FullgiftController extends Controller
 {
     /**
      * 满赠管理
@@ -49,7 +49,7 @@ class FullgiftController extends BaseController
     	$fid = Fullgift::create($data);
         // 设置商品类型及活动ID
         Good::where('id',$data['good_id'])->update(['prom_type'=>3,'prom_id'=>$fid->id]);
-        return $this->ajaxReturn(1,'添加成功！',url('/console/fullgift/index'));
+        return $this->adminJson(1,'添加成功！',url('/console/fullgift/index'));
     }
     // 修改满赠
     public function getEdit($id = '')
@@ -70,7 +70,7 @@ class FullgiftController extends BaseController
             Good::where('id',$data['good_id'])->update(['prom_type'=>0,'prom_id'=>$id]);
         }
     	Fullgift::where('id',$id)->update($data);
-        return $this->ajaxReturn(1,'修改成功！');
+        return $this->adminJson(1,'修改成功！');
     }
     // 删除
     public function getDel($id = '')

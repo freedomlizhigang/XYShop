@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Good;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use App\Models\Good\Fullgift;
 use App\Models\Good\Good;
 use App\Models\Good\GoodSpecPrice;
@@ -17,7 +17,7 @@ use DB;
 use Illuminate\Http\Request;
 use Storage;
 
-class OrderController extends BaseController
+class OrderController extends Controller
 {
     public function index(Request $req)
     {
@@ -155,9 +155,9 @@ class OrderController extends BaseController
         // 更新为已经发货
         if (Order::where('id',$id)->value('paystatus') == 1) {
             Order::where('id',$id)->update(['shipstatus'=>1,'shopmark'=>$req->input('data.shopmark'),'ship_at'=>date('Y-m-d H:i:s')]);
-            return $this->ajaxReturn(1,'发货成功！');
+            return $this->adminJson(1,'发货成功！');
         }
-        return $this->ajaxReturn(0,'还未付款！');
+        return $this->adminJson(0,'还未付款！');
     }
     // 更新库存
     public function updateStore($oid = '',$type = 0)
