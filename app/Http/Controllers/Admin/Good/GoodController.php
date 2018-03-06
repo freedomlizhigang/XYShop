@@ -173,10 +173,10 @@ class GoodController extends Controller
     }
     public function postEdit(GoodRequest $res,$id)
     {
-        $data = $res->input('data');
         // 开启事务
         DB::beginTransaction();
         try {
+            $data = $res->input('data');
             Good::where('id',$id)->update($data);
             $date = date('Y-m-d H:i:s');
             // 如果分类变了要删除所有属性重新添加
@@ -193,16 +193,6 @@ class GoodController extends Controller
                 GoodSpecPrice::insert($tmp_spec);
                 Good::where('id',$id)->update(['store'=>$store,'shop_price'=>$tmp_spec[0]['price']]);
             }
-            $good_attr = $res->input('good_attr');
-            // 属性对应的值
-            GoodsAttr::where('good_id',$id)->delete();
-            if (is_array($good_attr)) {
-                $tmp_attr = [];
-                foreach ($good_attr as $ak => $av) {
-                    $tmp_attr[] = ['good_id'=>$id,'good_attr_id'=>$ak,'good_attr_value'=>json_encode($av),'created_at'=>$date,'updated_at'=>$date];
-                }
-                GoodsAttr::insert($tmp_attr);
-            }
             // 同步修改购物车里的价格
             $good_spec_names = GoodSpecPrice::where('good_id',$id)->get()->keyBy('item_name')->toArray();
             $carts = Cart::where('good_id',$id)->get();
@@ -214,18 +204,18 @@ class GoodController extends Controller
                 }
                 else
                 {
-                    $total_prices = $v->nums * $data['price'];
-                    Cart::where('good_id',$v->good_id)->update(['good_title'=>$data['title'],'price'=>$data['price'],'total_prices'=>$total_prices]);
+                    $total_prices = $v->nums * $data['shop_price'];
+                    Cart::where('good_id',$v->good_id)->update(['good_title'=>$data['title'],'price'=>$data['shop_price'],'total_prices'=>$total_prices]);
                 }
             }
             // 没出错，提交事务
             DB::commit();
             // 跳转回添加的栏目列表
             return $this->adminJson(1,'修改商品商品成功！',$res->ref);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->adminJson(0,$e->getMessage());
+            return $this->adminJson(0,$e->getLine().$e->getMessage());
         }
     }
     // 删除
@@ -349,6 +339,26 @@ class GoodController extends Controller
     public function getGoodSpec(Request $req)
     {
         $good_id = $req->good_id;
+        // 查出来所有的规格ID
+        $items_id = GoodSpecPrice::where('good_id',$good_id)->pluck('item_id');
+        $items_ids = [];
+        $items_id = $items_id->unique();
+        foreach ($items_id as $t) {
+            $items_ids = array_merge($items_ids,explode('_',$t));
+        }
+        $items_ids = array_unique($items_ids);
+        if ($good_id == '') {
+            $gid = str_replace('.','',microtime(TRUE));
+        }
+        else
+        {
+            $gid = $good_id;
+        }
+        return view('admin.good.goodspec',compact('items_ids','gid'));
+    }
+    public function getGoodSpecStr(Request $req)
+    {
+        $good_id = $req->good_id;
         $list = GoodSpec::with('goodspecitem')->where('good_id',$good_id)->orderBy('id','asc')->get();
         // 查出来所有的规格ID
         $items_id = GoodSpecPrice::where('good_id',$good_id)->pluck('item_id');
@@ -358,18 +368,24 @@ class GoodController extends Controller
             $items_ids = array_merge($items_ids,explode('_',$t));
         }
         $items_ids = array_unique($items_ids);
-        $gid = str_replace('.','',microtime(TRUE));
-        return view('admin.good.goodspec',compact('list','items_ids','gid'));
-    }
-    // 取商品分类下属性
-    public function getGoodAttr(Request $req)
-    {
-        $cid = $req->cid;
-        $good_id = $req->good_id;
-        $list = GoodAttr::where('good_cate_id',$cid)->orderBy('id','asc')->get();
-        // 查出来所有的属性值及ID
-        $good_attrs = GoodsAttr::where('good_id',$good_id)->orderBy('id','asc')->get()->keyBy('good_attr_id')->toArray();
-        return view('admin.good.goodattr',compact('list','good_attrs'));
+        $str = '';
+        foreach ($list as $l) {
+            $str .= '<tr><td class="text-right" width="200"><span data-id="'.$l->id.'" class="btn btn-xs btn-danger glyphicon glyphicon-trash btn-spec-del"></span> <a href="'.url('/console/goodspec/edit',$l->id).'" data-toggle="modal" data-target="#myModal" class="btn btn-xs btn-warning">'.$l->name.' <i class="glyphicon glyphicon-edit"></i></a>';
+            $str .= '：</td><td>';
+            foreach($l->goodspecitem as $gsi){
+                $str .= '<span class="btn btn-xs ';
+                if (!in_array($gsi->id,$items_ids)) {
+                    $str .= 'btn-info';
+                }
+                else
+                {
+                    $str .= 'btn-success';
+                }
+                $str .= '" data-spec_id="'.$l->id.'" data-item_id="'.$gsi->id.'">'.$gsi->item.' <span class="glyphicon glyphicon-plus"></span></span> ';
+            }
+            $str .= '</td></tr>';
+        }
+        return $str;
     }
     /**
      * 动态获取商品规格输入框 根据不同的数据返回不同的输入框
@@ -421,8 +437,8 @@ class GoodController extends Controller
                 foreach($v as $k2 => $v2)
                 {
                     $str .="<td>".$specItem[$v2]['item']."</td>";
-                    $item_key_name[$v2] = $specItem[$v2]['item'];
-                    // $item_key_name[$v2] = $spec[$specItem[$v2]['good_spec_id']]['name'].':'.$specItem[$v2]['item'];
+                    // $item_key_name[$v2] = $specItem[$v2]['item'];
+                    $item_key_name[$v2] = $spec[$specItem[$v2]['good_spec_id']]['name'].':'.$specItem[$v2]['item'];
                 }
                 ksort($item_key_name);            
                 $item_key = '_'.implode('_', array_keys($item_key_name)).'_';

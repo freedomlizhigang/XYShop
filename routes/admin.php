@@ -169,8 +169,8 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::get('goodspec/index/{pid?}', 'Good\GoodSpecController@getIndex');
     Route::get('goodspec/add', 'Good\GoodSpecController@getAdd');
     Route::post('goodspec/add', 'Good\GoodSpecController@postAdd');
-    Route::get('goodspec/edit/{id?}', 'Good\GoodSpecController@getEdit');
-    Route::post('goodspec/edit/{id?}', 'Good\GoodSpecController@postEdit');
+    Route::get('goodspec/edit/{id}', 'Good\GoodSpecController@getEdit');
+    Route::post('goodspec/edit/{id}', 'Good\GoodSpecController@postEdit');
     Route::get('goodspec/del/{id?}', 'Good\GoodSpecController@getDel');
     // 商品
     Route::get('good/index', 'Good\GoodController@getIndex');
@@ -187,6 +187,7 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::post('good/allcate', 'Good\GoodController@postAllCate');
     // 取商品分类及规格
     Route::get('good/goodspec', 'Good\GoodController@getGoodSpec');
+    Route::get('good/goodspecstr', 'Good\GoodController@getGoodSpecStr');
     Route::post('good/goodspecinput', 'Good\GoodController@postGoodSpecInput');    
     // Index
     Route::get('index/index', 'IndexController@getIndex');

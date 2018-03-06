@@ -31,6 +31,7 @@ class VerifyCsrfToken extends BaseVerifier
         'console/attr/uploadimg',
         // 取规格
         'console/good/goodspecinput',
+        'console/good/goodspecstr',
         'console/goodspec/*',
         'console/goodspecitem/*',
     ];

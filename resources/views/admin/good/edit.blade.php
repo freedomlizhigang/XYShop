@@ -46,13 +46,6 @@
         </tr>
 
         <tr>
-            <td class="td_left">产品属性：</td>
-            <td>
-                <div id="good_attr" class="form-group"></div>
-            </td>
-        </tr>
-
-        <tr>
             <td class="td_left">市场价：</td>
             <td>
                 <input type="text" name="data[market_price]" value="{{ $info->market_price }}" class="form-control input-sm">

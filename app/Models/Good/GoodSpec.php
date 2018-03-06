@@ -31,21 +31,6 @@ class GoodSpec extends Model
      */
     public $timestamps = true;
 
-    // 二级分类
-    public function getGoodcateTwoIdAttribute()
-    {
-        $two_id = GoodCate::where('id',$this->attributes['good_cate_id'])->value('parentid');
-        return $two_id;
-    }
-
-    // 一级分类
-    public function getGoodcateOneIdAttribute()
-    {
-        $one_id = GoodCate::where('id',$this->attributes['good_cate_id'])->value('arrparentid');
-        $one_id = explode(',', $one_id)[1];
-        return $one_id;
-    }
-
     // 关联商品规格值表
     public function goodspecitem()
     {

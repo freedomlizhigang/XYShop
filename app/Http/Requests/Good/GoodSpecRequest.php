@@ -24,19 +24,15 @@ class GoodSpecRequest extends FormRequest
     public function rules()
     {
         return [
-            'data.name' => 'required|max:100',
-            'data.good_cate_id'  => 'required|integer',
-            'data.sort'  => 'required|integer',
-            'items'  => 'required|max:1000',
+            'spec.name' => 'max:255',
+            'items'  => 'max:1000',
         ];
     }
     
     public function attributes()
     {
         return [
-            'data.name' => '名称',
-            'data.good_cate_id'  => '分类ID',
-            'data.sort'  => '排序',
+            'spec.name' => '名称',
             'items' => '规格项',
         ];
     }

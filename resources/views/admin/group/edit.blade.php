@@ -1,6 +1,5 @@
 <form action="javascript:ajax_submit();" method="post" id="form_ajax">
     {{ csrf_field() }}
-
     <table class="table table-striped">
         <tr>
             <td class="td_left">会员组名称：</td>

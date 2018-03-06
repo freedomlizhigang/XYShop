@@ -19,17 +19,35 @@ class GoodSpecController extends Controller
         $list = GoodSpec::with('goodspecitem')->orderBy('id','desc')->paginate(15);
         return view('admin.goodspec.index',compact('list','title'));
     }
-
     public function postAdd(Request $req)
     {
-        $data['name'] = $req->goodspec;
+        $data['name'] = $req->input('goodspec','');
         $data['good_id'] = $req->good_id;
+        $s['good_id'] = $req->good_id;
+        $s['item'] = $req->input('goodspecitem','');
+        if ($data['name'] == '' || $s['item'] == '') {
+            return $this->resJson(0,'规格及规格项不能为空');
+        }
         // 开启事务
         DB::beginTransaction();
         try {
-        	$goodspec = GoodSpec::create($data);
+            // 查有没有这个规格项
+            $hav = GoodSpec::where('good_id',$req->good_id)->where('name',$req->goodspec)->first();
+            if (is_null($hav)) {
+        	   $goodspec = GoodSpec::create($data);
+                $s['good_spec_id'] = $goodspec->id;
+            }
+            else
+            {
+                $s['good_spec_id'] = $hav->id;
+            }
+            // 有没有这个属性值
+            $havItem = GoodSpecItem::where($s)->first();
+            if (is_null($havItem)) {
+                GoodSpecItem::create($s);
+            }
             DB::commit();
-            return $this->resJson(1,'添加商品规格成功！',$goodspec->id);
+            return $this->resJson(1,'添加商品规格成功！','');
         } catch (Exception $e) {
             // 出错回滚
             DB::rollBack();
@@ -45,12 +63,12 @@ class GoodSpecController extends Controller
     }
     public function postEdit(GoodSpecRequest $req,$id)
     {
-        $data = $req->input('data');
-        $items = app('com')->trim_value($req->input('items'));
+        $goodspec = $req->input('goodspec');
+        $items = app('com')->trim_value($req->input('goodspecitem'));
         // 开启事务
         DB::beginTransaction();
         try {
-            GoodSpec::where('id',$id)->update($data);
+            GoodSpec::where('id',$id)->update(['name'=>$goodspec]);
             $items = json_decode($items);
             $goodspecitem = [];
             $date = date('Y-m-d H:i:s');
@@ -62,7 +80,7 @@ class GoodSpecController extends Controller
             foreach($items as $key => $val)
             {
                 if (array_search(trim($val),$old_item) === false) {
-                    $dataList[] = array('good_spec_id'=>$id,'item'=>trim($val),'created_at'=>$date,'updated_at'=>$date);
+                    $dataList[] = array('good_id'=>$req->good_id,'good_spec_id'=>$id,'item'=>trim($val),'created_at'=>$date,'updated_at'=>$date);
                 }
             }
             // 添加新的
@@ -86,26 +104,33 @@ class GoodSpecController extends Controller
             }
             // 没出错，提交事务
             DB::commit();
-            return $this->adminJson(1,'修改商品规格成功！');
-        } catch (Exception $e) {
+            return $this->resJson(1,'修改商品规格成功！');
+        } catch (\Exception $e) {
             // 出错回滚
             DB::rollBack();
-            return $this->adminJson(0,$e->getMessage());
+            return $this->resJson(0,$e->getMessage());
         }
     }
     // 删除商品规格
     public function getDel($id)
     {
-    	// 先查有没有过着的，有，不让删除
-        $keys = GoodSpecItem::where('good_spec_id',$id)->pluck('id');
-        foreach ($keys as $k) {
-            if (!is_null(GoodSpecPrice::where('item_id','like','%_'.$k.'_%')->first())) {
-                return back()->with('message', '商品规格正在使用中，不可删除！');
+        DB::beginTransaction();
+        try {
+            // 先查有没有过着的，有，不让删除
+            $keys = GoodSpecItem::where('good_spec_id',$id)->pluck('id');
+            foreach ($keys as $k) {
+                if (!is_null(GoodSpecPrice::where('item_id','like','%_'.$k.'_%')->first())) {
+                    return back()->with('message', '商品规格正在使用中，不可删除！');
+                }
             }
+            GoodSpec::destroy($id);
+            // 同时删除相关数据
+            GoodSpecItem::where('good_spec_id',$id)->delete();
+            DB::commit();
+            return $this->resJson(1,'删除商品规格成功！');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return $this->resJson(0,'删除商品规格失败！');
         }
-        GoodSpec::destroy($id);
-        // 同时删除相关数据
-        GoodSpecItem::where('good_spec_id',$id)->delete();
-        return back()->with('message', '商品规格删除成功！');
     }
 }

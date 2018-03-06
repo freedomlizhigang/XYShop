@@ -229,8 +229,8 @@
     $(function(){
         get_goodcate(0,'catid_one',0);
         // 修改产品分类时，取出对应的属性及规格
-        var good_id = '';
         var spec_url = "{{url('/console/good/goodspec')}}";
+        var good_id = '';
         // 规格
         $.get(spec_url,{'good_id':good_id},function(d){
             $("#good_spec").html(d);

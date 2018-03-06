@@ -1,24 +1,16 @@
 <!-- 添加新规格 -->
+<input type="hidden" name="good_id" value="{{ $gid }}">
 <form action="javascript:;" method="get" class="form form-inline">
     <div class="form-group">
         <input type="text" class="form-control good-spec" name="good_spec" placeholder="添加新规格">
+        <input type="text" class="form-control good-spec-item" name="good_spec_item" placeholder="属性值">
     </div>
     <div class="form-group">
         <span class="btn btn-xs btn-primary btn-goodspec">添加</span>
     </div>
 </form>
 <!-- 新规格参数 -->
-<table class="table table-striped spec-select">
-@foreach($list as $l)
-<tr>
-	<td class="text-right" width="100">{{ $l->name }}：</td>
-	<td>
-		@foreach($l->goodspecitem as $k => $gsi)
-		<span class="btn btn-xs @if(in_array($gsi->id,$items_ids)) btn-success @else btn-info @endif" data-spec_id='{{ $l->id }}' data-item_id='{{ $gsi->id }}'>{{ $gsi->item }} <span class="glyphicon glyphicon-plus"></span></span>
-		@endforeach
-	</td>
-</tr>
-@endforeach
+<table class="table table-striped spec-select mt10">
 </table>
 <!--ajax 返回 规格对应的库存-->
 <div id="goods_spec_table2">
@@ -31,33 +23,66 @@
 </div>
 
 <script>
+    var good_id = $("input[name='good_id']").val();
     $(function(){
+        // 初始化规格
+        ajaxGetSpec();
         // 添加规格
         $('.btn-goodspec').click(function() {
             var url = "{{ url('/console/goodspec/add') }}";
             var goodspec = $('.good-spec').val();
-            var good_id = "{{ $gid }}";
-            $.post(url,{'goodspec':goodspec,'good_id':good_id},function(d){
-                hbdyg();  // 合并单元格
+            var goodspecitem = $('.good-spec-item').val();
+            $.post(url,{'goodspec':goodspec,'good_id':good_id,'goodspecitem':goodspecitem},function(d){
+                if (!d.code) {
+                    $('#error_alert').text(d.msg).slideToggle().delay(1500).slideToggle();
+                    return;
+                }
+                $('#success_alert').text(d.msg).slideToggle().delay(1500).slideToggle();
+                $('.good-spec-item').val('');
+                // 结果更新
+                ajaxGetSpec();
+            });
+        });
+        // 删除规格
+        $('.spec-select').on('click', '.btn-spec-del', function() {
+            var url = "{{ url('/console/goodspec/del') }}" + '/' + $(this).attr('data-id');
+            $.get(url,function(d){
+                if (!d.code) {
+                    $('#error_alert').text(d.msg).slideToggle().delay(1500).slideToggle();
+                    return;
+                }
+                $('#success_alert').text(d.msg).slideToggle().delay(1500).slideToggle();
+                // 结果更新
+                ajaxGetSpec();
             });
         });
 		// 按钮切换 class
-	   $(".spec-select .btn").click(function(){
-	    	   if($(this).hasClass('btn-success'))
-	    	   {
-	    		   $(this).removeClass('btn-success');
-	    		   $(this).addClass('btn-info');		   
-	    	   }
-	    	   else
-	    	   {
-	    		   $(this).removeClass('btn-info');
-	    		   $(this).addClass('btn-success');		   
-	    	   }
-	    	   ajaxGetSpecInput();	  	   	 
+	   $(".spec-select").on('click','.btn',function(){
+            if($(this).hasClass('btn-success'))
+            {
+               $(this).removeClass('btn-success');
+               $(this).addClass('btn-info');		   
+            }
+            else
+            {
+               $(this).removeClass('btn-info');
+               $(this).addClass('btn-success');		   
+            }
+            ajaxGetSpecInput();
 	    });
 	})
+    // 加载出来所有的规格
+    function ajaxGetSpec()
+    {
+        $.get("{{ url('/console/good/goodspecstr') }}",{'good_id':good_id},function(d){
+            // console.log(d);
+            $('.spec-select').html(d);
+            // 找出来所有已经有的规格，对比一下生成出来输入框什么的
+            ajaxGetSpecInput(); // 显示下面的输入框
+        });
+    }
 	/**
-	*  点击商品规格处罚 下面输入框显示
+	*  点击商品规格 下面输入框显示
 	*/
 	function ajaxGetSpecInput()
 	{
@@ -78,13 +103,11 @@
 	*/
 	function ajaxGetSpecInput2(spec_arr)
 	{		
-	    var goods_id = $("input[name='goods_id']").val();
-		$.post("{{ url('/console/good/goodspecinput') }}",{'spec_arr':spec_arr,'goods_id':goods_id},
-			function(d){
-				// console.log(d);
-				   $("#goods_spec_table2").html('')
-				   $("#goods_spec_table2").append(d);
-				   hbdyg();  // 合并单元格
+		$.post("{{ url('/console/good/goodspecinput') }}",{'spec_arr':spec_arr,'goods_id':good_id},function(d){
+			// console.log(d);
+			$("#goods_spec_table2").html('')
+			$("#goods_spec_table2").append(d);
+			hbdyg();  // 合并单元格
 		});
 	}
 		
