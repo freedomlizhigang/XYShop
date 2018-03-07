@@ -125,6 +125,7 @@ class GoodController extends Controller
         DB::beginTransaction();
         try {
             $good = Good::create($data);
+            $good_id = $res->good_id;
             $date = date('Y-m-d H:i:s');
             // 规格对应的值
             $spec_item = $res->input('spec_item');
@@ -138,15 +139,9 @@ class GoodController extends Controller
                 GoodSpecPrice::insert($tmp_spec);
                 Good::where('id',$good->id)->update(['store'=>$store,'shop_price'=>$tmp_spec[0]['price']]);
             }
-            $good_attr = $res->input('good_attr');
-            // 属性对应的值
-            if (is_array($good_attr)) {
-                $tmp_attr = [];
-                foreach ($good_attr as $ak => $av) {
-                    $tmp_attr[] = ['good_id'=>$good->id,'good_attr_id'=>$ak,'good_attr_value'=>json_encode($av),'created_at'=>$date,'updated_at'=>$date];
-                }
-                GoodsAttr::insert($tmp_attr);
-            }
+            // 更新商品规格
+            GoodSpec::where('good_id',$good_id)->update(['good_id'=>$good->id]);
+            GoodSpecItem::where('good_id',$good_id)->update(['good_id'=>$good->id]);
             // 没出错，提交事务
             DB::commit();
             // 跳转回添加的栏目列表
@@ -218,7 +213,7 @@ class GoodController extends Controller
             return $this->adminJson(0,$e->getLine().$e->getMessage());
         }
     }
-    // 删除
+    // 上下架
     public function getDel(Request $req,$id = '',$status = '')
     {
     	Good::where('id',$id)->update(['status'=>$status]);
@@ -314,6 +309,10 @@ class GoodController extends Controller
             try {
                 // Good::whereIn('id',$ids)->update(['status'=>0]);
                 Good::whereIn('id',$ids)->delete();
+                // 删除对应的规格及价格等信息
+                GoodSpec::whereIn('good_id',$ids)->delete();
+                GoodSpecPrice::whereIn('good_id',$ids)->delete();
+                GoodSpecItem::whereIn('good_id',$ids)->delete();
                 // 购物车删除
                 Cart::whereIn('good_id',$ids)->delete();
                 // 活动

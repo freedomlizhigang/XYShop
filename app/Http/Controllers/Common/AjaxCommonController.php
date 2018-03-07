@@ -16,9 +16,9 @@ class AjaxCommonController extends Controller
 	{
 		try {
 			$res = GoodCate::where('parentid',$req->pid)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
-			return $this->ajaxReturn('1',$res);
+			$this->ajaxReturn('1',$res);
 		} catch (\Exception $e) {
-			return $this->ajaxReturn('0',$e->getMessage());
+			$this->ajaxReturn('0',$e->getMessage());
 		}
 	}
 
@@ -27,9 +27,9 @@ class AjaxCommonController extends Controller
 	{
 		try {
 			$res = Brand::where('goodcate_parentid',$req->pid)->where('goodcate_id',$req->cid)->select('id','name')->orderBy('id','asc')->get();
-			return $this->ajaxReturn('1',$res);
+			$this->ajaxReturn('1',$res);
 		} catch (\Exception $e) {
-			return $this->ajaxReturn('0',$e->getMessage());
+			$this->ajaxReturn('0',$e->getMessage());
 		}
 	}
 
@@ -38,9 +38,9 @@ class AjaxCommonController extends Controller
     {
         try {
             $res = Area::where('parentid',$req->pid)->where('is_show',1)->select('id','areaname')->orderBy('sort','asc')->orderBy('id','asc')->get();
-            return $this->ajaxReturn('1',$res);
+            $this->ajaxReturn('1',$res);
         } catch (\Exception $e) {
-            return $this->ajaxReturn('0',$e->getMessage());
+            $this->ajaxReturn('0',$e->getMessage());
         }
     }
 
@@ -49,9 +49,9 @@ class AjaxCommonController extends Controller
     {
         try {
             $res = Community::where('areaid3',$req->areaid3)->where('is_show',1)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
-            return $this->ajaxReturn('1',$res);
+            $this->ajaxReturn('1',$res);
         } catch (\Exception $e) {
-            return $this->ajaxReturn('0',$e->getMessage());
+            $this->ajaxReturn('0',$e->getMessage());
         }
     }
 
@@ -61,9 +61,9 @@ class AjaxCommonController extends Controller
     	try {
             $pid = $req->pid == '0' ? 0 : Area::where('areaname',$req->pid)->value('id');
 			$res = Area::where('parentid',$pid)->where('is_show',1)->select('id','areaname')->orderBy('sort','asc')->orderBy('id','asc')->get();
-			return $this->ajaxReturn('1',$res);
+			$this->ajaxReturn('1',$res);
 		} catch (\Exception $e) {
-			return $this->ajaxReturn('0',$e->getMessage());
+			$this->ajaxReturn('0',$e->getMessage());
 		}
     }
 
@@ -73,16 +73,9 @@ class AjaxCommonController extends Controller
     	try {
             $pid = Area::where('areaname',$req->areaid3)->value('id');
 			$res = Community::where('areaid3',$pid)->where('is_show',1)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
-			return $this->ajaxReturn('1',$res);
+			$this->ajaxReturn('1',$res);
 		} catch (\Exception $e) {
-			return $this->ajaxReturn('0',$e->getMessage());
+			$this->ajaxReturn('0',$e->getMessage());
 		}
-    }
-
-    // ajax返回
-    public function ajaxReturn($code = '1',$msg = '')
-    {
-        exit(json_encode(['code'=>$code,'msg'=>$msg]));
-        return;
     }
 }

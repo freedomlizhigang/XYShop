@@ -761,25 +761,24 @@
 		"/D/wwwroot/XYShop/app",
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good",
-		"/D/wwwroot/XYShop/app/Http/Middleware",
-		"/D/wwwroot/XYShop/app/Models",
-		"/D/wwwroot/XYShop/app/Models/Good",
-		"/D/wwwroot/XYShop/public",
-		"/D/wwwroot/XYShop/public/statics",
-		"/D/wwwroot/XYShop/public/statics/admin",
-		"/D/wwwroot/XYShop/public/statics/admin/js",
 		"/D/wwwroot/XYShop/resources",
 		"/D/wwwroot/XYShop/resources/views",
-		"/D/wwwroot/XYShop/resources/views/admin",
-		"/D/wwwroot/XYShop/resources/views/admin/good",
+		"/D/wwwroot/XYShop/resources/views/mobile",
 		"/D/wwwroot/XYShop/routes"
 	],
 	"file_history":
 	[
-		"/D/wwwroot/XYShop/resources/views/admin/good/goodspec.blade.php",
+		"/D/wwwroot/XYShop/README.md",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCommonController.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/good.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Controller.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodController.php",
+		"/D/wwwroot/XYShop/resources/views/admin/good/goodspec.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/RetrunGoodController.php",
+		"/C/Users/Administrator/Desktop/www.zhicheng118.com网站排名2018.03.07.txt",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/D/wwwroot/vhost.map",
 		"/D/wwwroot/XYShop/resources/views/admin/good/index.blade.php",
 		"/D/wwwroot/XYShop/app/Models/Good/GoodSpecPrice.php",
 		"/D/wwwroot/XYShop/app/Models/Good/Good.php",
@@ -796,13 +795,11 @@
 		"/D/wwwroot/cdd/resources/views/admin/goodspec/edit.blade.php",
 		"/D/wwwroot/XYShop/app/Models/Good/GoodSpec.php",
 		"/D/wwwroot/cdd/resources/views/admin/goodspec/index.blade.php",
-		"/D/wwwroot/XYShop/README.md",
 		"/D/wwwroot/cdd/resources/views/admin/good/goodspec.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
 		"/D/wwwroot/XYShop/public/statics/admin/js/com.js",
 		"/C/Users/Administrator/Desktop/aaa.txt",
 		"/F/soft/FlashFXP4/Cache/~flashfxp/E4B21832_edit.tmp/laravel-2018-03-05.log",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Controller.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/AlipayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Api/UserController.php",
@@ -811,7 +808,6 @@
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTuanController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTimetobuyController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCouponController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/BaseController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodCateController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/FullgiftController.php",
@@ -827,10 +823,8 @@
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AdposController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Common/AdController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/AdminController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCommonController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/OrderController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/PromotionController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/RetrunGoodController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/TimetobuyController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/TuanController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/MenuController.php",
@@ -901,11 +895,7 @@
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController - 副本.php",
 		"/F/soft/FlashFXP4/Cache/~flashfxp/8FCF9D51_edit.tmp/laravel-2018-01-24.log",
 		"/D/wwwroot/XYShop/resources/views/mobile/editorder.blade.php",
-		"/F/soft/FlashFXP4/Cache/~flashfxp/750A4921_edit.tmp/index.html",
-		"/D/wwwroot/XYShop/routes/api.php",
-		"/C/Users/Administrator/AppData/Local/Temp/HZ$D.034.2447/HZ$D.034.2448/phpcms/templates/default/content/index.html",
-		"/D/希夷/2017-07完成项目/旭高/xugao/content/index.html",
-		"/C/Users/Administrator/Documents/index.html"
+		"/F/soft/FlashFXP4/Cache/~flashfxp/750A4921_edit.tmp/index.html"
 	],
 	"find":
 	{
@@ -1044,6 +1034,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"return ",
+			"ajaxReturn",
+			"btn-addcart-submit",
+			"cate_id",
+			"中国老年学杂",
+			"60",
 			"item_name",
 			"goodspecprice",
 			"itemname",
@@ -1165,13 +1161,7 @@
 			"url('good',['id'=>$c->good_id])",
 			"url('good',['id'=>$l->id])",
 			"$c->url",
-			"url('good',['id'=>$g->id])",
-			"url('tuan',['id'=>$c->good_id])",
-			"btn-submit",
-			"btn-createorder-submit",
-			"pos_foot",
-			"btn-createorder",
-			"span"
+			"url('good',['id'=>$g->id])"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1398,6 +1388,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"goodspec.bl",
+				"resources\\views\\admin\\good\\goodspec.blade.php"
+			],
 			[
 				"user/center",
 				"resources\\views\\mobile\\user\\center.blade.php"
@@ -1905,10 +1899,6 @@
 			[
 				"member/in",
 				"resources\\views\\admin\\member\\index.blade.php"
-			],
-			[
-				"member/consumed",
-				"resources\\views\\admin\\member\\consumed.blade.php"
 			]
 		],
 		"width": 0.0

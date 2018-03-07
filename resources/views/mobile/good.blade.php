@@ -224,6 +224,7 @@
         var url = "{{ url('api/good/addcart') }}";
         ajaxLock = 0;
         $.post(url,{gid:gid,spec_key:spec_key,num:num,gp:gp,sid:sid,uid:uid},function(d){
+          // console.log(d);
           var ss = jQuery.parseJSON(d);
           if (ss.code == '1') {
             // 成功以后跳转到购物车页面上

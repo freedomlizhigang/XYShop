@@ -23,6 +23,7 @@ class Controller extends BaseController
     // 公用控制器ajax返回
     public function ajaxReturn($code = '1',$msg = '')
     {
-        return ['code'=>$code,'msg'=>$msg];
+        exit(json_encode(['code'=>$code,'msg'=>$msg]));
+        return;
     }
 }
