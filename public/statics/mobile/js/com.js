@@ -109,14 +109,15 @@ function cartNumsChange(className,oldnum,type)
 	// 更新购物车
 	ajaxLock = 0;
 	$.post(url,{cid:cid,num:num,price:price,type:type},function(d){
+        // console.log(d);
 		var ss = jQuery.parseJSON(d);
 		if (ss.code == 1) {
 	    	$('.total_price_' + cid).html(new_prices.toFixed(2));
 	    	$('.total_price_' + cid).attr('data-price',new_prices.toFixed(2));
 	    	that.val(ss.msg);
-				cartnum(uid);
+			cartnum(uid);
 	    	total_prices();
-				$('.alert_msg').text('更新成功！').slideToggle().delay(1500).slideToggle();
+			$('.alert_msg').text('更新成功！').slideToggle().delay(1500).slideToggle();
 		}
 		else
 		{

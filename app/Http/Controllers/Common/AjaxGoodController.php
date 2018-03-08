@@ -45,9 +45,23 @@ class AjaxGoodController extends Controller
             if (!$userid) {
                 $this->ajaxReturn('2',"请先登录！");
             }
+            // 活动 ？重新计算价格 ：计算会员折扣多少
             if ($type == 'promotion') {
-                // 活动里的，重新计算价格
-                $new_price = $this->promotion($new_price,$old_price,$good->prom_id);
+                $new_price = $this->promotion($old_price,$good->prom_id);
+            }
+            else
+            {
+                // 算折扣
+                try {
+                    $points = User::where('id',$userid)->value('points');
+                    $discount = Group::where('points','<=',$points)->orderBy('points','desc')->value('discount');
+                    if (is_null($discount)) {
+                        $discount = Group::orderBy('points','desc')->value('discount');
+                    }
+                } catch (\Exception $e) {
+                    $discount = 100;
+                }
+                $new_price = ($old_price * $discount) / 100;
             }
             // 当前用户此次登录添加的
             $tmp = Cart::where('user_id',$userid)->where('good_id',$id)->where('good_spec_key',$spec_key)->orderBy('id','desc')->first();
@@ -81,7 +95,7 @@ class AjaxGoodController extends Controller
         }
     }
     // 计算活动价格
-    private function promotion($new_price = 0,$old_price = 0,$prom_id = 0)
+    private function promotion($old_price = 0,$prom_id = 0)
     {
         $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->where('id',$prom_id)->first();
         if (!is_null($promotion)) {
@@ -96,14 +110,33 @@ class AjaxGoodController extends Controller
             $cid = $req->cid;
             $num = $req->num < 1 ? 1 : $req->num;
             $price = $req->price;
-            $carts = Cart::where('id',$cid)->select('good_id','good_spec_key')->first();
+            $carts = Cart::where('id',$cid)->select('good_id','good_spec_key','user_id')->first();
             // 商品信息
             $good = Good::findOrFail($carts->good_id);
             // 检查库存
             if (OrderApi::store($carts->good_id,$carts->good_spec_key,$num) == false && $req->type == 1) {
                 $this->ajaxReturn('0','库存不足！');return;
             }
-            Cart::where('id',$cid)->update(['nums'=>$num,'total_prices'=>$num * $price]);
+            // 此时商品活动 ？重新计算价格 ：计算会员折扣多少
+            if ($good->prom_type == 1) {
+                $new_price = $this->promotion($good->shop_price,$good->prom_id);
+            }
+            else
+            {
+                // 算折扣
+                try {
+                    $points = User::where('id',$carts->user_id)->value('points');
+                    $discount = Group::where('points','<=',$points)->orderBy('points','desc')->value('discount');
+                    if (is_null($discount)) {
+                        $discount = Group::orderBy('points','desc')->value('discount');
+                    }
+                } catch (\Exception $e) {
+                    $discount = 100;
+                }
+                $new_price = ($good->shop_price * $discount) / 100;
+            }
+            $total_prices = $num * $new_price;
+            Cart::where('id',$cid)->update(['nums'=>$num,'old_price'=>$good->shop_price,'price'=>$new_price,'total_prices'=>$total_prices]);
             $this->ajaxReturn('1',$num);
         } catch (\Exception $e) {
             $this->ajaxReturn('0','修改失败，请稍后再试！');
@@ -154,47 +187,38 @@ class AjaxGoodController extends Controller
                 $this->ajaxReturn('0','购物车里是空的，请先购物！');
             }
             // 所有产品总价
-            $old_prices = Cart::whereIn('id',$ids)->sum('total_prices');
             $carts = Cart::whereIn('id',$ids)->orderBy('updated_at','desc')->get();
-            
-            // 在这里检查库存
+            // 在这里检查库存,循环检查一下是否总价是对的
             foreach ($carts as $v) {
+                if($v->total_prices != $v->nums * $v->price)
+                {
+                    Cart::where('id',$v->id)->update(['total_prices'=>$v->nums * $v->price]);
+                }
                 // 查看是不是活动中的商品，团购-限时-限量
                 if(OrderApi::store($v->good_id,$v->good_spec_key,$v->nums) == false){
                     $this->ajaxReturn('0',$v->good_title.'，库存不足！');
                 }
             }
+            $old_prices = $total_prices = Cart::whereIn('id',$ids)->sum('total_prices');
             // 创建订单
             $order_id = app('com')->orderid();
             // 查出优惠券优惠多少
             $yh_price = 0;
-            // 算折扣
-            try {
-                $points = $req->points;
-                $discount = Group::where('points','<=',$points)->orderBy('points','desc')->value('discount');
-                if (is_null($discount)) {
-                    $discount = Group::orderBy('points','desc')->value('discount');
-                }
-            } catch (\Exception $e) {
-                $discount = 100;
-            }
-            $prices = ($old_prices * $discount) / 100;
-            // 优惠券
             $yhq_id = isset($req->yid) ? $req->yid : 0;
             if ($yhq_id) {
                 $yh = CouponUser::where('id',$req->yid)->first();
                 $yh_price = $yh->coupon->lessprice;
-                $prices = $prices - $yh_price;
+                $total_prices = $old_prices - $yh_price;
             }
             // 没有优惠券时查有没有赠品
             else
             {
                 $mz = Fullgift::with(['good'=>function($q){
                         $q->select('id','shop_price','title');
-                    }])->where('price','<=',$prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->lockForUpdate()->first();
+                    }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->lockForUpdate()->first();
             }
             $area = Address::where('id',$req->aid)->value('area');
-            $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'old_prices'=>$old_prices,'total_prices'=>$prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
+            $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'old_prices'=>$old_prices,'total_prices'=>$total_prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
         } catch (\Exception $e) {
             // $this->ajaxReturn('0','添加失败，请稍后再试！');
             $this->ajaxReturn('0',$e->getMessage());

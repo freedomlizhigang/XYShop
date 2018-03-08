@@ -109,11 +109,10 @@
         var aid = $('.address_id').val();
         var ziti = $('.ziti').val();
         var cid = '{{ $cid_str }}';
-        var points = "{{ isset(session('member')->points) ? session('member')->points : 0 }}";
         var yid = $('.coupon_id').val();
         var mark = $('.mark').val();
         ajaxLock = 0;
-        $.post( host +'api/good/addorder',{cid:cid,uid:uid,aid:aid,ziti:ziti,yid:yid,mark:mark,points:points},function(d){
+        $.post( host +'api/good/addorder',{cid:cid,uid:uid,aid:aid,ziti:ziti,yid:yid,mark:mark},function(d){
           var ss = jQuery.parseJSON(d);
           // console.log(ss);
           if (ss.code == 1) {

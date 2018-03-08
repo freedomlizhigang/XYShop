@@ -129,7 +129,7 @@ class OrderApi
         // 事务
         DB::beginTransaction();
         try {
-            Order::where('id',$order->id)->lockForUpdate()->update(['paystatus'=>1,'pay_name'=>$paymod]);
+            Order::where('id',$order->id)->lockForUpdate()->update(['paystatus'=>1,'pay_name'=>$paymod,'paytime'=>date('Y-m-d H:i:s')]);
             // 如果是团购，执行团购完成的操作
             if ($order->prom_type == '2') {
                 $this->updateTuan($order);

@@ -11,6 +11,8 @@ use App\Models\Good\Fullgift;
 use App\Models\Good\Order;
 use App\Models\Good\Promotion;
 use App\Models\User\Address;
+use App\Models\User\Group;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -32,10 +34,21 @@ class OrderController extends Controller
         // 循环查商品，方便带出属性来
         foreach ($list as $k => $v) {
             $tmp_total_price = number_format($v->nums * $v->price,2,'.','');
-            // 判断活动是不是已经结束了，结束以后恢复原价
-            if (is_null($promotion->where('id',$v->prom_id)->first())) {
-              $tmp_total_price = number_format($v->nums * $v->old_price,2,'.','');
-              Cart::where('id',$v->id)->update(['price'=>$v->old_price,'total_prices'=>$tmp_total_price]);
+            // 判断活动是不是已经结束了，结束以后重新计算折扣后的价格
+            if ($v->prom_type != 0 && is_null($promotion->where('id',$v->prom_id)->first())) {
+              // 算折扣
+              try {
+                  $points = User::where('id',$$v->user_id)->value('points');
+                  $discount = Group::where('points','<=',$points)->orderBy('points','desc')->value('discount');
+                  if (is_null($discount)) {
+                      $discount = Group::orderBy('points','desc')->value('discount');
+                  }
+              } catch (\Exception $e) {
+                  $discount = 100;
+              }
+              $new_price = ($v->old_price * $discount) / 100;
+              $tmp_total_price = number_format($v->nums * $new_price,2,'.','');
+              Cart::where('id',$v->id)->update(['price'=>$new_price,'total_prices'=>$tmp_total_price,'prom_type'=>0,'prom_id'=>0]);
             }
             $goodlists[$k] = $v;
             $goodlists[$k]['total_prices'] = $tmp_total_price;
