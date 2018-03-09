@@ -15,7 +15,7 @@
       </div>
       @endforeach
       <h3 class="mt20">请输入充值金额：</h3>
-      <input type="number" name="money" min="0" placeholder="充值金额" value="" class="pure-input-1">
+      <input type="number" min="0" name="money" placeholder="充值金额" value="" class="pure-input-1">
       <div class="btn_group mt20">
         <input type="reset" class="btn_reset" value="重置">
         <input type="submit" class="btn_submit" value="确认充值">

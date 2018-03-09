@@ -9,7 +9,6 @@ use App\Models\User\Recharge;
 use App\Models\User\User;
 use DB;
 use Illuminate\Http\Request;
-use Omnipay\Omnipay;
 use Storage;
 
 class WxpayController extends Controller
@@ -64,7 +63,7 @@ class WxpayController extends Controller
             $app = app('wechat.payment');
             $response = $app->handlePaidNotify(function($message, $fail){
                 // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
-                $order = Recharge::where('order_id',$message['out_trade_no'])->first(); 
+                $order = Recharge::where('order_id',$message['out_trade_no'])->sharedLock()->first(); 
                 // Storage::disk('log')->prepend('wxpay.log',json_encode($message).json_encode($fail).json_encode($order).date('Y-m-d H:i:s'));
                 if (is_null($order)) { // 如果订单不存在
                     return true; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
@@ -75,7 +74,7 @@ class WxpayController extends Controller
                     // 用户是否支付成功
                     if (array_get($message, 'result_code') === 'SUCCESS' && $order->paystatus == '0') {
                         // 写入到日日志里方便查看
-                        User::where('id',$order->user_id)->increment('user_money',$order->money);
+                        User::where('id',$order->user_id)->sharedLock()->increment('user_money',$order->money);
                         Recharge::where('id',$order->id)->update(['paystatus'=>1,'paymod'=>'微信','paytime'=>date('Y-m-d H:i:s')]);
                         // 消费记录
                         app('com')->consume($order->user_id,$order->id,$order->money,'微信充值支付订单（'.$order->order_id.'）',1);

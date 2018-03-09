@@ -19,6 +19,7 @@ class AjaxTimetobuyController extends Controller
     // 提交订单功能
     public function postCreateorder(Request $req)
     {
+        DB::beginTransaction();
         try {
             $sid = $req->sid;
             $id = $req->gid;
@@ -31,27 +32,32 @@ class AjaxTimetobuyController extends Controller
             $good = Good::findOrFail($id);
             // 检查库存
             if (OrderApi::store($id,$spec_key,$num) == false) {
+                DB::rollback();
                 $this->ajaxReturn('0','库存不足！');
             }
             // 如果用户已经登录，查以前的购物车
-            if (!$userid) {$this->ajaxReturn('2',"请先登录！");}
+            if (!$userid) {DB::rollback();$this->ajaxReturn('2',"请先登录！");}
             // 限时，限购
-            $timetobuy = Timetobuy::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->lockForUpdate()->first();
+            $timetobuy = Timetobuy::where('delflag',1)->where('status',1)->where('id',$good->prom_id)->sharedLock()->first();
             // 看限时
             if (!is_null($timetobuy)) {
                 if (strtotime($timetobuy->endtime) < time() || $timetobuy->good_num <= 0) {
+                    DB::rollback();
                     $this->ajaxReturn('0','限时抢购，已经结束！');
                 }
                 // 过往30天订单里有，都算已经购买过
                 if (OrderGood::where('good_id',$id)->where('good_spec_key',$spec_key)->where('user_id',$userid)->where('status',1)->where('created_at','>',Carbon::now()->subday(30))->sum('nums') >= $timetobuy->buy_max) {
+                    DB::rollback();
                     $this->ajaxReturn('0','限量购买，超过限制份数！');
                 }
                 if ($num > $timetobuy->buy_max) {
+                    DB::rollback();
                     $this->ajaxReturn('0','限量购买，本次超过限制份数！');
                 }
             }
             else
             {
+                DB::rollback();
                 $this->ajaxReturn('0','限时抢购，已经结束！');
             }
             $old_price = $old_price * $num;
@@ -65,11 +71,10 @@ class AjaxTimetobuyController extends Controller
             $order_id = app('com')->orderid();
             $order = ['order_id'=>$order_id,'user_id'=>$userid,'yhq_id'=>0,'yh_price'=>0,'old_prices'=>$old_price,'total_prices'=>$prices,'create_ip'=>$req->ip(),'address_id'=>0,'ziti'=>0,'area'=>'','mark'=>'','prom_type'=>1];
         } catch (\Exception $e) {
+            DB::rollback();
             // $this->ajaxReturn('0','添加失败，请稍后再试！');
             $this->ajaxReturn('0',$e->getMessage());
         }
-        // 事务
-        DB::beginTransaction();
         try {
             $order = Order::create($order);
             // 组合order_goods数组

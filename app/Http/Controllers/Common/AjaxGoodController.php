@@ -172,18 +172,23 @@ class AjaxGoodController extends Controller
     // 提交订单功能
     public function postAddorder(Request $req)
     {
+        // 事务
+        DB::beginTransaction();
         try {
             $uid = $req->uid;
             if (!$uid) {
+                DB::rollback();
                 $this->ajaxReturn('2',"请先登录！");
             }
             // 判断是否选择送货地址
             if ((!isset($req->aid) && !isset($req->ziti)) || ($req->aid == 0 && $req->ziti == 0)) {
+                DB::rollback();
                 $this->ajaxReturn('0','请选择送货地址！');
             }
             // 找出所有 购物车
             $ids = explode(',', trim($req->cid,','));
             if (count($ids) == 0) {
+                DB::rollback();
                 $this->ajaxReturn('0','购物车里是空的，请先购物！');
             }
             // 所有产品总价
@@ -196,6 +201,7 @@ class AjaxGoodController extends Controller
                 }
                 // 查看是不是活动中的商品，团购-限时-限量
                 if(OrderApi::store($v->good_id,$v->good_spec_key,$v->nums) == false){
+                    DB::rollback();
                     $this->ajaxReturn('0',$v->good_title.'，库存不足！');
                 }
             }
@@ -215,16 +221,15 @@ class AjaxGoodController extends Controller
             {
                 $mz = Fullgift::with(['good'=>function($q){
                         $q->select('id','shop_price','title');
-                    }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->lockForUpdate()->first();
+                    }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->sharedLock()->first();
             }
             $area = Address::where('id',$req->aid)->value('area');
             $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'old_prices'=>$old_prices,'total_prices'=>$total_prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
         } catch (\Exception $e) {
+            DB::rollback();
             // $this->ajaxReturn('0','添加失败，请稍后再试！');
             $this->ajaxReturn('0',$e->getMessage());
         }
-        // 事务
-        DB::beginTransaction();
         try {
             $order = Order::create($order);
             // 组合order_goods数组
@@ -278,7 +283,7 @@ class AjaxGoodController extends Controller
             if ($order->orderstatus === 1) {
                 // 支付过退款到余额里
                 if ($order->paystatus) {
-                    User::where('id',$order->user_id)->lockForUpdate()->increment('user_money',$order->total_prices);
+                    User::where('id',$order->user_id)->sharedLock()->increment('user_money',$order->total_prices);
                     // 消费记录
                     app('com')->consume($order->user_id,$order->id,$order->total_prices,'取消订单（'.$order->order_id.'）退款！',1);
                 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use Validator;
+use DB;
 
 class LoginController extends Controller
 {
@@ -36,6 +37,7 @@ class LoginController extends Controller
     // 登陆
     public function postLogin(Request $req)
     {
+        DB::beginTransaction();
         try {
             $validator = Validator::make($req->input(), [
               'phone' => 'required|numeric|digits_between:10,12',
@@ -51,7 +53,7 @@ class LoginController extends Controller
                 return back()->with('message',$validator->errors()->all()[0]);
             }
             // 看这个用户在不在数据库，不在，添加并登录，在直接登录
-            $user = User::where('phone',$req->phone)->first();
+            $user = User::where('phone',$req->phone)->sharedLock()->first();
             if (is_null($user)) {
                 return back()->with('message','没有找到当前用户，请确认手机号正确！');
             }
@@ -66,14 +68,17 @@ class LoginController extends Controller
                 User::where('id',$user->id)->update(['last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
                 session()->put('member',(object)['id'=>$user->id,'openid'=>$user->openid]);
             }
+            DB::commit();
             return redirect($backurl);
         } catch (\Exception $e) {
+            DB::rollback();
             return back()->with('message','登陆失败，请稍后再试！');
         }
     }
     // 微信直接登陆
     public function getWxLogin(Request $req)
     {
+        DB::beginTransaction();
         $backurl = session('backurl') == '' || session('backurl') == url('login') ? url('/') : session('backurl');
         try {
             $wechat = app('wechat.official_account');
@@ -81,7 +86,7 @@ class LoginController extends Controller
             // 获取 OAuth 授权结果用户信息
             $wxuser = $oauth->user();
             // 看这个用户在不在数据库，不在，添加并登录，在直接登录
-            $user = User::where('openid',$wxuser->id)->first();
+            $user = User::where('openid',$wxuser->id)->sharedLock()->first();
             if (is_null($user)) {
                 $sex = $wxuser->sex == '' ? 0 : $wxuser->sex;
                 $res = User::create(['openid'=>$wxuser->id,'nickname'=>$wxuser->name,'sex'=>$sex,'thumb'=>$wxuser->avatar,'status'=>1,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
@@ -102,8 +107,10 @@ class LoginController extends Controller
                   session()->flash('nophone',1);
                 }
             }
+            DB::commit();
             return redirect($backurl);
         } catch (\Exception $e) {
+            DB::rollback();
             return redirect($backurl);
         }
     }

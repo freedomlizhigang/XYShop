@@ -58,7 +58,7 @@ class OrderController extends Controller
         $total_prices = number_format($total_prices,2,'.','');
         return view(cache('config')['theme'].'.cart',compact('pos_id','title','goodlists','total_prices'));
     } catch (\Exception $e) {
-        dd($e);
+        // dd($e);
         return view('errors.404');
     }
   }

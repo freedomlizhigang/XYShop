@@ -82,33 +82,56 @@ class RechargeController extends Controller
     // 微信支付js
     private function weixin($oid,$pay,$ip)
     {
-        try {
-            $wechat = app('wechat.payment');
-            $payment = $wechat->payment;
-            $openid = session('member')->openid;
-            $order = Recharge::findOrFail($oid);
-            // $price * 100
-            $attributes = [
-                'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
-                'body'             => cache('config')['title'].'充值订单',
-                'detail'           => cache('config')['title'].'充值订单',
-                'out_trade_no'     => $order->order_id,
-                'total_fee'        => $order->money * 100, // 单位：分
-                'notify_url'       => config('app.url').'/weixin/recharge_return', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
-                'openid'           => $openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
-            ];
-            $wxorder = new WxOrder($attributes);
-            $result = $payment->prepare($wxorder);
-            $prepayId = $result->prepay_id;
-            $config = $payment->configForJSSDKPayment($prepayId);
-            $js = $wechat->js;
-            $pos_id = 'center';
-            $title = '会员充值-微信支付';
-            return view(cache('config')['theme'].'.pay.recharge_wxpay',compact('title','pos_id','config','js','oid','order'));
-        } catch (\Exception $e) {
-            // dd($e);
-            Storage::disk('log')->prepend('weixin.log',json_encode($e->getData()).date('Y-m-d H:i:s'));
-            return back()->with('message','微信支付失败，请稍后再试！');
+        // 判断是不是微信浏览器
+        if (app('com')->is_weixin()) {
+            try {
+                $payment = app('wechat.payment');
+                $openid = session('member')->openid;
+                $order = Recharge::findOrFail($oid);
+                $result = $payment->order->unify([
+                    'body'             => cache('config')['title'].'充值订单',
+                    'detail'           => cache('config')['title'].'充值订单',
+                    'out_trade_no'     => $order->order_id,
+                    'total_fee'        => $order->money * 100, // 单位：分
+                    'notify_url'       => config('app.url').'/weixin/recharge_return', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+                    'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+                    'openid'           => $openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+                ]);
+                $js = $payment->jssdk;
+                $config = $js->sdkConfig($result['prepay_id']);
+                $pos_id = 'center';
+                $title = '会员充值-微信支付';
+                return view(cache('config')['theme'].'.pay.recharge_wxpay',compact('title','pos_id','config','js','oid','order'));
+            } catch (\Exception $e) {
+                // dd($e);
+                Storage::disk('log')->prepend('weixin.log',$e->getMessage().date('Y-m-d H:i:s'));
+                return back()->with('message','充值失败，请稍后再试！');
+            }
+        }
+        else
+        {
+            try {
+                $payment = app('wechat.payment');
+                $openid = session('member')->openid;
+                $order = Recharge::findOrFail($oid);
+                $result = $payment->order->unify([
+                    'body'             => cache('config')['title'].'充值订单',
+                    'detail'           => cache('config')['title'].'充值订单',
+                    'out_trade_no'     => $order->order_id,
+                    'total_fee'        => $order->money * 100, // 单位：分
+                    'notify_url'       => config('app.url').'/weixin/recharge_return', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+                    'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+                    'openid'           => $openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+                ]);
+                $config = $payment->jssdk->bridgeConfig($result['prepay_id']);
+                $pos_id = 'center';
+                $title = '会员充值-微信支付';
+                return view(cache('config')['theme'].'.pay.recharge_wxpay_jsbridge',compact('title','pos_id','config','oid','order'));
+            } catch (\Exception $e) {
+                // dd($e);
+                Storage::disk('log')->prepend('weixin.log',$e->getMessage().date('Y-m-d H:i:s'));
+                return back()->with('message','充值失败，请稍后再试！');
+            }
         }
     }
 }
