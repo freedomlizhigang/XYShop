@@ -8,14 +8,14 @@
 			<td class="td_left">一级返现比例：</td>
 			<td>
 				<input type="number" name="data[son_proportion]" class="form-control input-xs" min="0" value="{{ $info->son_proportion }}">
-				<span class="color_red">*</span>按百分比，如 1 为 1%
+				<span class="color_red">*</span> 直接来的用户消费返现比例，按百分比：如 1 为 1%
 			</td>
 		</tr>
 		<tr>
 			<td class="td_left">二级返现比例：</td>
 			<td>
 				<input type="number" name="data[sun_proportion]" class="form-control input-xs" min="0" value="{{ $info->sun_proportion }}">
-				<span class="color_red">*</span>按百分比，如 1 为 1%
+				<span class="color_red">*</span> 间接来的用户消费返现比例，按百分比：如 1 为 1%
 			</td>
 		</tr>
 		<tr>

@@ -28,6 +28,8 @@
     <h4 class="t4_center pr"><i class="iconfont icon-my_light color_cheng"></i>个人信息<a href="{{ url('userinfo') }}" class="ps t4_center_r">修改<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-pay color_main"></i>会员充值<a href="{{ url('user/recharge') }}" class="ps t4_center_r">立即充值<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-sortlight color_lan"></i>消费记录<a href="{{ url('consume') }}" class="ps t4_center_r">查看全部<i class="iconfont icon-right"></i></a></h4>
+    <h4 class="t4_center pr"><i class="iconfont icon-moneybag color_red"></i>分享赚余额<a href="{{ url('user/distribution/shareurl') }}" class="ps t4_center_r">立即开赚<i class="iconfont icon-right"></i></a></h4>
+    <h4 class="t4_center pr"><i class="iconfont icon-people_list_light color_zi"></i>赚钱记录<a href="{{ url('user/distribution/logs') }}" class="ps t4_center_r">赚钱记录<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-edit_light color_cheng"></i>收货地址<a href="{{ url('user/address') }}" class="ps t4_center_r">管理<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-present color_fen"></i>我的优惠券<a href="{{ url('user/coupon') }}" class="ps t4_center_r">看可用<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-attention_light color_shenred"></i>修改密码<a href="{{ url('passwd') }}" class="ps t4_center_r">谨慎操作<i class="iconfont icon-right"></i></a></h4>

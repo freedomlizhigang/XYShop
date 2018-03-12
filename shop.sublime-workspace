@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"Dis",
+				"Distribution\t(Distribution.php)"
+			],
+			[
+				"orders",
+				"orders"
+			],
+			[
+				"sh",
+				"ship_at"
+			],
+			[
 				"back",
 				"backurl"
 			],
@@ -392,10 +404,6 @@
 				"yhq_id"
 			],
 			[
-				"orders",
-				"orderstatus"
-			],
-			[
 				"mz",
 				"mz_good_spec"
 			],
@@ -506,14 +514,6 @@
 			[
 				"arr",
 				"arrchildid"
-			],
-			[
-				"tex",
-				"text-danger \tBootstrap 3 Class"
-			],
-			[
-				"今日",
-				"今日销售统计表\t(main.blade.php)"
 			]
 		]
 	},
@@ -759,54 +759,60 @@
 	[
 		"/D/wwwroot/XYShop",
 		"/D/wwwroot/XYShop/app",
+		"/D/wwwroot/XYShop/app/Console",
+		"/D/wwwroot/XYShop/app/Console/Commands",
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile",
-		"/D/wwwroot/XYShop/app/Models",
-		"/D/wwwroot/XYShop/app/Models/Promotion",
 		"/D/wwwroot/XYShop/public",
 		"/D/wwwroot/XYShop/public/statics",
-		"/D/wwwroot/XYShop/public/statics/mobile",
-		"/D/wwwroot/XYShop/public/statics/mobile/css",
 		"/D/wwwroot/XYShop/resources",
 		"/D/wwwroot/XYShop/resources/views",
-		"/D/wwwroot/XYShop/resources/views/mobile",
 		"/D/wwwroot/XYShop/routes"
 	],
 	"file_history":
 	[
 		"/D/wwwroot/XYShop/README.md",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/DistributionController.php",
 		"/D/wwwroot/XYShop/routes/mobile.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/DistributionController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/Distribution.php",
+		"/D/wwwroot/XYShop/public/statics/mobile/css/home.scss",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/distributionlog.blade.php",
+		"/D/wwwroot/XYShop/app/Services/ComService.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/distributionlog.blade .php",
+		"/D/wwwroot/XYShop/app/Models/Promotion/DistributionLog.php",
+		"/D/wwwroot/XYShop/app/Models/User/User.php",
+		"/D/wwwroot/XYShop/app/Models/Good/GoodComment.php",
+		"/D/wwwroot/XYShop/routes/admin.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/OrderApi.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/PayController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/AlipayController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/PC/PayController.php",
+		"/D/wwwroot/XYShop/app/Console/Commands/CloseOrder.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserController.php",
+		"/D/wwwroot/XYShop/resources/views/admin/distributionconfig/index.blade.php",
+		"/D/wwwroot/XYShop/app/Models/Promotion/Distribution.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/TestController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/LoginController.php",
 		"/D/wwwroot/XYShop/database/migrations/2018_03_12_084349_create_distribution.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/distribution.blade.php",
-		"/D/wwwroot/XYShop/public/statics/mobile/css/home.scss",
-		"/D/wwwroot/XYShop/routes/admin.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/DistributionConfigController.php",
-		"/D/wwwroot/XYShop/resources/views/admin/distributionconfig/index.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/sign/index.blade.php",
-		"/D/wwwroot/XYShop/app/Models/Promotion/Distribution.php",
 		"/D/wwwroot/XYShop/app/Models/Promotion/DistributionConfig.php",
-		"/D/wwwroot/XYShop/app/Models/Promotion/DistributionLog.php",
 		"/D/wwwroot/XYShop/database/migrations/2018_03_12_084425_create_distribution_logs.php",
 		"/D/wwwroot/XYShop/database/migrations/2018_03_12_084410_create_distribution_config.php",
 		"/D/wwwroot/XYShop/database/migrations/2018_03_12_084244_add_shareurl_to_users.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/PayController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/recharge.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/RechargeController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/pay/recharge_wxpay.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay_jsbridge.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/pay/recharge_wxpay_jsbridge.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/TestController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/OrderController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/good.blade.php",
 		"/D/wwwroot/cdd/app/Http/Controllers/Mobile/OrderController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/OrderApi.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/SignController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTimetobuyController.php",
 		"/D/wwwroot/vhost.map",
@@ -846,7 +852,6 @@
 		"/D/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
 		"/D/wwwroot/XYShop/public/statics/admin/js/com.js",
 		"/F/soft/FlashFXP4/Cache/~flashfxp/E4B21832_edit.tmp/laravel-2018-03-05.log",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/AlipayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Api/UserController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
@@ -887,22 +892,13 @@
 		"/D/wwwroot/XYShop/database/migrations/2018_03_05_150126_add_lasttime_lowertime_to_goods.php",
 		"/D/wwwroot/XYShop/resources/views/admin/component/thumb.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/component/album.blade.php",
-		"/D/wwwroot/XYShop/app/Services/ComService.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserController.php",
 		"/D/wwwroot/XYShop/public/statics/mobile/css/home.css",
 		"/D/wwwroot/XYShop/app/Models/Promotion/Bargain.php",
 		"/D/wwwroot/XYShop/app/Models/Promotion/BargainLog.php",
 		"/D/wwwroot/XYShop/app/Models/Promotion/BargainOrder.php",
-		"/D/wwwroot/XYShop/app/Models/User/User.php",
 		"/D/wwwroot/XYShop/app/Models/User/SignLog.php",
-		"/D/wwwroot/XYShop/app/Models/User/SignConfig.php",
-		"/D/wwwroot/XYShop/database/migrations/2018_01_25_160944_create_bargain_orders.php",
-		"/D/wwwroot/XYShop/database/migrations/2018_01_25_153634_create_bargaons.php",
-		"/D/wwwroot/XYShop/database/migrations/2018_01_25_153647_create_bargaon_logs.php",
-		"/D/wwwroot/XYShop/database/migrations/2018_01_25_152218_create_user_sign_log.php",
-		"/D/wwwroot/XYShop/database/migrations/2018_01_25_152403_create_shop_config.php",
-		"/D/wwwroot/XYShop/app/Console/Commands/OverPromotion.php"
+		"/D/wwwroot/XYShop/app/Models/User/SignConfig.php"
 	],
 	"find":
 	{
@@ -913,6 +909,7 @@
 		"height": 105.0,
 		"where_history":
 		[
+			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers",
 			"D:\\wwwroot\\XYShop\\resources\\views\\mobile",
 			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers\\Common",
 			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers\\Mobile",
@@ -1045,6 +1042,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"realname",
+			"h4",
+			"father",
+			"parent",
+			"father",
+			"parent",
+			"updateOrder",
+			"money",
 			"session()",
 			"text-align: center",
 			"isset($describe) ? $describe : ",
@@ -1164,15 +1169,7 @@
 			"where()",
 			"Timetobuy",
 			"Address",
-			"editorder",
-			"sharedLock",
-			"updateStore",
-			"li:nth-of-type(2n)",
-			".l_o_goods li:nth-of-type(2n)",
-			"store",
-			"updateStore",
-			"v->nums",
-			"store"
+			"editorder"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1399,6 +1396,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"distributionconfig/",
+				"resources\\views\\admin\\distributionconfig\\index.blade.php"
+			],
 			[
 				"goodspec.bl",
 				"resources\\views\\admin\\good\\goodspec.blade.php"
@@ -1906,10 +1907,6 @@
 			[
 				"default/",
 				"resources\\views\\default\\order.blade.php"
-			],
-			[
-				"member/in",
-				"resources\\views\\admin\\member\\index.blade.php"
 			]
 		],
 		"width": 0.0

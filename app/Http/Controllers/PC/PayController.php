@@ -51,22 +51,26 @@ class PayController extends BaseController
     // 余额支付
     private function yue($oid,$pay,$ip = '')
     {
-    	// 查可用余额是否够用
-    	$order = Order::findOrFail($oid);
-    	$user_money = User::where('id',$order->user_id)->value('user_money');
-    	if ($user_money < $order->total_prices) {
-    		return back()->with('message','余额不足，请选择其它支付方式！');
-    	}
-    	// 支付
-    	try {
-    		DB::transaction(function() use($order){
-    			User::where('id',$order->user_id)->decrement('user_money',$order->total_prices);
-				// 库存计算
-				$this->updateOrder($order,$paymod = '余额');
-    		});
-    		return redirect('user/order/2')->with('message','支付成功！');
-    	} catch (\Exception $e) {
-    		return redirect('user/order/1')->with('message','支付失败，请稍后再试！');
+        // 支付事务
+        DB::beginTransaction();
+        try {
+        	// 查可用余额是否够用
+        	$order = Order::findOrFail($oid);
+        	$user_money = User::where('id',$order->user_id)->sharedLock()->value('user_money');
+        	if ($user_money < $order->total_prices) {
+        		return back()->with('message','余额不足，请选择其它支付方式！');
+        	}
+			User::where('id',$order->user_id)->decrement('user_money',$order->total_prices);
+			// 库存计算
+			if (!$this->updateOrder($order,$paymod = '余额')) {
+                DB::rollback();
+                return redirect('user/order/1')->with('message','支付失败，请稍后再试！');
+            }
+            DB::commit();
+            return redirect('user/order/2')->with('message','支付成功！');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect('user/order/1')->with('message','支付失败，请稍后再试！');
     	}
     }
 
@@ -111,18 +115,26 @@ class PayController extends BaseController
     }
     public function unionNotify(Request $req)
     {
+        DB::beginTransaction();
         try {
     		// 写入到日日志里方便查看
             if ($req->respCode == 00) {
                 // 库存计算
                 $oid = $req->orderId;
                 $order = Order::where('order_id',$oid)->first();
-                $this->updateOrder($order,$paymod = '银联');
+                if (!$this->updateOrder($order,$paymod = '银联')) {
+                    DB::rollback();
+                    Storage::disk('log')->prepend('unionpay.log',json_encode($req->all()).date('Y-m-d H:i:s'));
+                    exit('fail');
+                }
+                DB::commit();
                 exit('200');
             }else{
+                DB::rollback();
                 exit('fail');
             }
         } catch (\Exception $e) {
+            DB::rollback();
             Storage::disk('log')->prepend('unionpay.log',json_encode($req->all()).date('Y-m-d H:i:s'));
             Storage::disk('log')->prepend('unionpay.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
             exit('fail');

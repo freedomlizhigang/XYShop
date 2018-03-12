@@ -68,11 +68,27 @@ class TestController extends Controller
         DB::beginTransaction();
         try {
             $user = User::where('id',1)->where('points','>',10)->sharedLock()->decrement('points',10);
-            DB::commit();
+            if ($this->dbtest()) {
+                DB::commit();
+            }
+            else
+            {
+                DB::rollback();
+            }
             return $user;
         } catch (\Exception $e) {
             DB::rollback();
             dd($e);
         }
+    }
+    public function dbtest()
+    {
+        try {
+            User::where('id',1)->update(['nickname'=>'李志刚']);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+
     }
 }

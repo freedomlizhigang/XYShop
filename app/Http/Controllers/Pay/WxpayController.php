@@ -32,7 +32,10 @@ class WxpayController extends Controller
                     if (array_get($message, 'result_code') === 'SUCCESS' && $order->paystatus == '0') {
                         // 写入到日日志里方便查看
                         // 消费记录
-                        $this->updateOrder($order,$paymod = '微信');
+                        if (!$this->updateOrder($order,$paymod = '微信')) {
+                            DB::rollback();
+                            return $fail('通信失败，请稍后再通知我');
+                        }
                     } elseif ($order->paystatus == 1) {
                         return true; // 已经支付成功了就不再更新了
                     }

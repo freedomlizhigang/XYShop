@@ -29,4 +29,20 @@ class DistributionLog extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    // 用户
+    public function user()
+    {
+        return $this->belongsTo('\App\Models\User\User','user_id','id');
+    }
+    // 子级
+    public function son()
+    {
+        return $this->belongsTo('\App\Models\User\User','son_id','id');
+    }
+    // 孙级
+    public function sun()
+    {
+        return $this->belongsTo('\App\Models\User\User','sun_id','id');
+    }
 }

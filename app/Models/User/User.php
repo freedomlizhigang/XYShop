@@ -46,13 +46,13 @@ class User extends Model
     // 关联商品评价
     public function good_comment()
     {
-        return $this->hasMany('\App\Models\Home\Good\GoodComment','user_id','id');
+        return $this->hasMany('\App\Models\Good\GoodComment','user_id','id');
     }
 
     // 属性值
     public function return_good()
     {
-        return $this->hasMany('\App\Models\Home\Good\ReturnGood','user_id','id');
+        return $this->hasMany('\App\Models\Good\ReturnGood','user_id','id');
     }
 
     // 属性值
@@ -63,7 +63,7 @@ class User extends Model
     // 订单
     public function order()
     {
-        return $this->hasMany('\App\Models\Home\Good\Order','user_id','id');
+        return $this->hasMany('\App\Models\Good\Order','user_id','id');
     }
 
     // 关联消费记录
@@ -80,5 +80,23 @@ class User extends Model
     public function bargain()
     {
         return $this->hasMany('\App\Models\Promotion\BargainOrder','user_id','id');
+    }
+
+    // 被分销人
+    public function distribution_user()
+    {
+        return $this->hasMany('\App\Models\Promotion\DistributionLog','user_id','id');
+    }
+
+    // 一级分销人
+    public function distribution_son()
+    {
+        return $this->hasMany('\App\Models\Promotion\DistributionLog','son_id','id');
+    }
+
+    // 二级分销人
+    public function distribution_sun()
+    {
+        return $this->hasMany('\App\Models\Promotion\DistributionLog','sun_id','id');
     }
 }

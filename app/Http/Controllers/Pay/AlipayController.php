@@ -32,6 +32,7 @@ class AlipayController extends Controller
         //Don't use $_REQUEST for may contain $_COOKIE
         $request = $this->gateway->completePurchase();
         $request->setParams($req->all());//Optional
+        DB::beginTransaction();
         try {
             $response = $request->send();
             $resData = $response->getData();
@@ -43,18 +44,24 @@ class AlipayController extends Controller
                 $oid = $resData['out_trade_no'];
                 $order = Order::where('order_id',$oid)->first();
                 if ($order->paystatus == 0) {
-                    $this->updateOrder($order,$paymod = '支付宝');
+                    if (!$this->updateOrder($order,$paymod = '支付宝')) {
+                        DB::rollback();
+                        die('fail');
+                    }
                 }
                 Storage::disk('log')->prepend('alipay.log',json_encode($resData));
+                DB::commit();
                 die('success'); //The notify response should be 'success' only
             }else{
                 /**
                  * Payment is not successful
                  */
                 Storage::disk('log')->prepend('alipay.log',json_encode($resData));
+                DB::rollback();
                 die('fail'); //The notify response
             }
         } catch (Exception $e) {
+            DB::rollback();
             /**
              * Payment is not successful
              */

@@ -126,48 +126,51 @@ class OrderApi
     // 支付完成操作
     public static function updateOrder($order = '',$paymod = '余额')
     {
-        // 事务
-        DB::beginTransaction();
         try {
             Order::where('id',$order->id)->sharedLock()->update(['paystatus'=>1,'pay_name'=>$paymod,'paytime'=>date('Y-m-d H:i:s')]);
             // 如果是团购，执行团购完成的操作
             if ($order->prom_type == '2') {
-                $this->updateTuan($order);
+                if (!$this->updateTuan($order)) {
+                    return false;
+                }
             }
             // 消费记录
             app('com')->consume($order->user_id,$order->id,$order->total_prices,$paymod.'支付订单（'.$order->order_id.'）');
-            // 没出错，提交事务
-            DB::commit();
+            // 没出错
             return true;
         } catch (\Exception $e) {
             // 出错回滚
-            DB::rollBack();
             Log::warning('支付完成操作失败：'.$e->getLine().' - '.$e->getMessage());
             return false;
         }
     }
     private function updateTuan($order = '')
     {
-        /*
-        1. 按团购id找上一个支付完成的订单，得到团购订单号a
-        2. 看a是否存在（满员），存在不满员->更新成一致；不存在||满员->生成新的更新
-         */
-        $old_t_orderid = Order::where('tuan_id',$order->tuan_id)->where('paystatus',1)->where('orderstatus',1)->where('prom_type',2)->orderBy('id','desc')->value('t_orderid');
-        $nums = $old_t_orderid == '' || is_null($old_t_orderid) ? 0 : Order::where('tuan_id',$order->tuan_id)->where('t_orderid',$old_t_orderid)->where('paystatus',1)->where('orderstatus',1)->where('prom_type',2)->count();
-        $tuan_num = Tuan::where('id',$order->tuan_id)->value('tuan_num');
-        $t_orderid = md5(uniqid().str_random(20));
-        // 判断是新开团还是参团
-        if ($nums+1 <= $tuan_num) {
-            Order::where('id',$order->id)->update(['display'=>1,'t_orderid'=>$old_t_orderid]);
-        }
-        else
-        {
-            Order::where('id',$order->id)->update(['t_orderid'=>$t_orderid]);
-        }
-        // 满员显示订单
-        if ($nums+1 == $tuan_num)
-        {
-            Order::where('t_orderid',$old_t_orderid)->where('prom_type',2)->where('orderstatus',1)->where('paystatus',1)->update(['display'=>1]);
+        try {
+            /*
+            1. 按团购id找上一个支付完成的订单，得到团购订单号a
+            2. 看a是否存在（满员），存在不满员->更新成一致；不存在||满员->生成新的更新
+             */
+            $old_t_orderid = Order::where('tuan_id',$order->tuan_id)->where('paystatus',1)->where('orderstatus',1)->where('prom_type',2)->orderBy('id','desc')->value('t_orderid');
+            $nums = $old_t_orderid == '' || is_null($old_t_orderid) ? 0 : Order::where('tuan_id',$order->tuan_id)->where('t_orderid',$old_t_orderid)->where('paystatus',1)->where('orderstatus',1)->where('prom_type',2)->count();
+            $tuan_num = Tuan::where('id',$order->tuan_id)->value('tuan_num');
+            $t_orderid = md5(uniqid().str_random(20));
+            // 判断是新开团还是参团
+            if ($nums+1 <= $tuan_num) {
+                Order::where('id',$order->id)->update(['display'=>1,'t_orderid'=>$old_t_orderid]);
+            }
+            else
+            {
+                Order::where('id',$order->id)->update(['t_orderid'=>$t_orderid]);
+            }
+            // 满员显示订单
+            if ($nums+1 == $tuan_num)
+            {
+                Order::where('t_orderid',$old_t_orderid)->where('prom_type',2)->where('orderstatus',1)->where('paystatus',1)->update(['display'=>1]);
+            }
+            return true;
+        } catch (\Exception $e) {
+            return false;
         }
     }
 }
