@@ -26,6 +26,9 @@ Route::group(['prefix'=>'console','namespace' => 'Admin'],function(){
 });
 
 Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin'],function(){
+    // 分销配置
+    Route::get('distributionconfig/index', 'Good\DistributionConfigController@getIndex');
+    Route::post('distributionconfig/index', 'Good\DistributionConfigController@postIndex');
     // 签到配置
     Route::get('sign/config', 'User\SignController@getConfig');
     Route::post('sign/config', 'User\SignController@postConfig');

@@ -75,6 +75,10 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::get('user/address/edit/{id}','UserAddressController@getAddressEdit');
     Route::post('user/address/edit/{id}','UserAddressController@postAddressEdit');
     Route::get('user/address/del/{id}','UserAddressController@getAddressDel');
+    // 生成分销链接
+    Route::get('user/distribution/shareurl','DistributionController@getShareurl');
+    // 分成记录
+    Route::get('user/distribution/logs','DistributionController@getLogs');
 });
 // 发起支付
 Route::get('order/pay/{oid}','Pay\PayController@getTopay')->middleware('member');

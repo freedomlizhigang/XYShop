@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"back",
+				"backurl"
+			],
+			[
+				"tc",
+				"text-center \tBootstrap 3 Class"
+			],
+			[
+				"base",
+				"base64_encode"
+			],
+			[
+				"urld",
+				"urlencode"
+			],
+			[
 				"good",
 				"goodspecid"
 			],
@@ -498,22 +514,6 @@
 			[
 				"今日",
 				"今日销售统计表\t(main.blade.php)"
-			],
-			[
-				"table-",
-				"table-striped \tBootstrap 3 Class"
-			],
-			[
-				"label-de",
-				"label-danger \tBootstrap 3 Class"
-			],
-			[
-				"today_pri",
-				"today_prices_real"
-			],
-			[
-				"toda",
-				"today_prices"
 			]
 		]
 	},
@@ -761,23 +761,60 @@
 		"/D/wwwroot/XYShop/app",
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile",
+		"/D/wwwroot/XYShop/app/Models",
+		"/D/wwwroot/XYShop/app/Models/Promotion",
+		"/D/wwwroot/XYShop/public",
+		"/D/wwwroot/XYShop/public/statics",
+		"/D/wwwroot/XYShop/public/statics/mobile",
+		"/D/wwwroot/XYShop/public/statics/mobile/css",
 		"/D/wwwroot/XYShop/resources",
-		"/D/wwwroot/XYShop/resources/views"
+		"/D/wwwroot/XYShop/resources/views",
+		"/D/wwwroot/XYShop/resources/views/mobile",
+		"/D/wwwroot/XYShop/routes"
 	],
 	"file_history":
 	[
 		"/D/wwwroot/XYShop/README.md",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/DistributionController.php",
+		"/D/wwwroot/XYShop/routes/mobile.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/LoginController.php",
+		"/D/wwwroot/XYShop/database/migrations/2018_03_12_084349_create_distribution.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/distribution.blade.php",
+		"/D/wwwroot/XYShop/public/statics/mobile/css/home.scss",
+		"/D/wwwroot/XYShop/routes/admin.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/DistributionConfigController.php",
+		"/D/wwwroot/XYShop/resources/views/admin/distributionconfig/index.blade.php",
+		"/D/wwwroot/XYShop/resources/views/admin/sign/index.blade.php",
+		"/D/wwwroot/XYShop/app/Models/Promotion/Distribution.php",
+		"/D/wwwroot/XYShop/app/Models/Promotion/DistributionConfig.php",
+		"/D/wwwroot/XYShop/app/Models/Promotion/DistributionLog.php",
+		"/D/wwwroot/XYShop/database/migrations/2018_03_12_084425_create_distribution_logs.php",
+		"/D/wwwroot/XYShop/database/migrations/2018_03_12_084410_create_distribution_config.php",
+		"/D/wwwroot/XYShop/database/migrations/2018_03_12_084244_add_shareurl_to_users.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/PayController.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/recharge.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/RechargeController.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/pay/recharge_wxpay.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay_jsbridge.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/pay/recharge_wxpay_jsbridge.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/TestController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTimetobuyController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTuanController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/OrderApi.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/cart.blade.php",
-		"/D/wwwroot/XYShop/public/statics/mobile/js/com.js",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/OrderController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/good.blade.php",
+		"/D/wwwroot/cdd/app/Http/Controllers/Mobile/OrderController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/OrderApi.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/SignController.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTimetobuyController.php",
+		"/D/wwwroot/vhost.map",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTuanController.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/cart.blade.php",
+		"/D/wwwroot/XYShop/public/statics/mobile/js/com.js",
 		"/D/wwwroot/XYShop/app/Models/User/Group.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/LoginController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/createorder.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/hotgood.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/timetobuy.blade.php",
@@ -790,12 +827,9 @@
 		"/D/wwwroot/XYShop/resources/views/admin/good/goodspec.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/RetrunGoodController.php",
 		"/C/Users/Administrator/Desktop/www.zhicheng118.com网站排名2018.03.07.txt",
-		"/C/Windows/System32/drivers/etc/hosts",
-		"/D/wwwroot/vhost.map",
 		"/D/wwwroot/XYShop/resources/views/admin/good/index.blade.php",
 		"/D/wwwroot/XYShop/app/Models/Good/GoodSpecPrice.php",
 		"/D/wwwroot/XYShop/app/Models/Good/Good.php",
-		"/D/wwwroot/XYShop/routes/admin.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodSpecController.php",
 		"/D/wwwroot/XYShop/resources/views/admin/good/edit.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/good/add.blade.php",
@@ -813,7 +847,6 @@
 		"/D/wwwroot/XYShop/public/statics/admin/js/com.js",
 		"/F/soft/FlashFXP4/Cache/~flashfxp/E4B21832_edit.tmp/laravel-2018-03-05.log",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/AlipayController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Api/UserController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
@@ -856,13 +889,8 @@
 		"/D/wwwroot/XYShop/resources/views/admin/component/album.blade.php",
 		"/D/wwwroot/XYShop/app/Services/ComService.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
-		"/D/wwwroot/XYShop/public/statics/mobile/css/home.scss",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/SignController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/UserController.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
 		"/D/wwwroot/XYShop/public/statics/mobile/css/home.css",
-		"/D/wwwroot/XYShop/routes/mobile.php",
-		"/D/wwwroot/XYShop/resources/views/admin/sign/index.blade.php",
 		"/D/wwwroot/XYShop/app/Models/Promotion/Bargain.php",
 		"/D/wwwroot/XYShop/app/Models/Promotion/BargainLog.php",
 		"/D/wwwroot/XYShop/app/Models/Promotion/BargainOrder.php",
@@ -874,37 +902,20 @@
 		"/D/wwwroot/XYShop/database/migrations/2018_01_25_153647_create_bargaon_logs.php",
 		"/D/wwwroot/XYShop/database/migrations/2018_01_25_152218_create_user_sign_log.php",
 		"/D/wwwroot/XYShop/database/migrations/2018_01_25_152403_create_shop_config.php",
-		"/D/wwwroot/XYShop/app/Console/Commands/OverPromotion.php",
-		"/D/wwwroot/XYShop/app/Console/Commands/OverTuan.php",
-		"/D/wwwroot/XYShop/app/Console/Kernel.php",
-		"/D/wwwroot/XYShop/app/Console/Commands/CloseOrder.php",
-		"/D/wwwroot/XYShop/app/Console/Commands/CloseTimetobuy.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/TestController.php",
-		"/D/wwwroot/XYShop/app/Console/Commands/CloseTuan.php",
-		"/D/wwwroot/bluebox/app/Console/Kernel.php",
-		"/D/wwwroot/XYShop/resources/views/admin/order/index.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/tuan.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/TuanController.php",
-		"/D/wwwroot/XYShop/resources/views/admin/tuan/edit.blade.php",
-		"/D/wwwroot/XYShop/resources/views/admin/tuan/index.blade.php",
-		"/D/wwwroot/XYShop/resources/views/admin/tuan/add.blade.php",
-		"/F/soft/FlashFXP4/Cache/~flashfxp/E80933E6_edit.tmp/wxpay.log",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/PayController.php",
-		"/D/希夷文件/服务器信息/微信公众号信息.txt",
-		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay_jsbridge.blade.php",
-		"/D/wwwroot/jxf/resources/views/home/pay/wxpay_jsbridge.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/pay/wxpay_over.blade.php"
+		"/D/wwwroot/XYShop/app/Console/Commands/OverPromotion.php"
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 41.0
 	},
 	"find_in_files":
 	{
 		"height": 105.0,
 		"where_history":
 		[
+			"D:\\wwwroot\\XYShop\\resources\\views\\mobile",
+			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers\\Common",
+			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers\\Mobile",
 			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers\\Common",
 			"D:\\wwwroot\\XYShop\\resources\\views\\admin",
 			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers\\Admin",
@@ -1034,6 +1045,28 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"session()",
+			"text-align: center",
+			"isset($describe) ? $describe : ",
+			"()->full()",
+			"{{ $title }}-",
+			"share",
+			"session('member')->id",
+			".",
+			"config",
+			"status",
+			"days",
+			"onepoint",
+			"User",
+			"Omnipay",
+			"$order = Order::with('good')->findOrFail($oid);",
+			"订单",
+			"User::",
+			"share",
+			"lockForUpdate",
+			"ssss",
+			"aaaaaasass",
+			"aaaaaa",
 			"->lockForUpdate()",
 			"cartNumsChange",
 			"num_reduce",
@@ -1139,29 +1172,7 @@
 			"store",
 			"updateStore",
 			"v->nums",
-			"store",
-			"Exception",
-			"increment",
-			"decrement",
-			"increment",
-			"share",
-			"shared",
-			"->lockForUpdate()",
-			"->sharedLock()",
-			"oid",
-			"TimetobuyController",
-			"timetobuy/createorder",
-			"spec_key",
-			"Storage",
-			"private",
-			"User::",
-			"Order::",
-			"Order",
-			"Cart",
-			"new_price",
-			"updateOrder",
-			"$(\".pos_bg,.pos_alert_con\").fadeOut();",
-			"fadeOut"
+			"store"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1314,7 +1325,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 27.0
 	},
 	"input":
 	{
@@ -1379,7 +1390,7 @@
 	"project": "shop.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 50.0
 	},
 	"save_all_on_build": false,
 	"select_file":

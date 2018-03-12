@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Promotion\Distribution;
 use App\Models\User\User;
+use DB;
 use Illuminate\Http\Request;
 use Validator;
-use DB;
 
 class LoginController extends Controller
 {
@@ -15,6 +16,11 @@ class LoginController extends Controller
     {
         // 存下来源页面
         $backurl = url()->previous() == '' || url()->previous() == config('app.url').'/login' ? url('/') : url()->previous();
+        // 判断是否从分销来的
+        if (strpos($backurl,'shareurl')) {
+            $shareid = explode('-', base64_decode(str_replace(config('app.url').'/?shareurl=','',$backurl)))[0];
+            session()->put('shareid',$shareid);
+        }
         session()->put('backurl',$backurl);
         if (!session()->has('member')) {
             // 判断是不是微信
@@ -78,6 +84,7 @@ class LoginController extends Controller
     // 微信直接登陆
     public function getWxLogin(Request $req)
     {
+
         DB::beginTransaction();
         $backurl = session('backurl') == '' || session('backurl') == url('login') ? url('/') : session('backurl');
         try {
@@ -90,6 +97,14 @@ class LoginController extends Controller
             if (is_null($user)) {
                 $sex = $wxuser->sex == '' ? 0 : $wxuser->sex;
                 $res = User::create(['openid'=>$wxuser->id,'nickname'=>$wxuser->name,'sex'=>$sex,'thumb'=>$wxuser->avatar,'status'=>1,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
+                // 如果是分销过来的，建立分销关系
+                if (session()->has('shareid') && session('shareid') > 0) {
+                    $shareid = session('shareid');
+                    // 查这个用户的分销关系
+                    $havDis = Distribution::where('user_id',$shareid)->orderBy('id','desc')->sharedLock()->first();
+                    $dis = ['user_id'=>$res->id,'parent_id'=>$shareid,'father_id'=>is_null($havDis) ? 0 : $havDis->parent_id];
+                    Distribution::create($dis);
+                }
                 session()->put('member',(object)['id'=>$res->id,'openid'=>$res->openid]);
                 // 弹出填写手机号功能
                 session()->flash('nophone',1);
@@ -118,6 +133,7 @@ class LoginController extends Controller
     public function getLogout()
     {
         session()->put('member',null);
-        return redirect(url('login'))->with('message','退出登录成功！');
+        return '退出登录成功！';
+        // return redirect(url('login'))->with('message','退出登录成功！');
     }
 }
