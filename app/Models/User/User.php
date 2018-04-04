@@ -30,17 +30,10 @@ class User extends Model
      */
     public $timestamps = true;
 
-    // 增加会员等级的属性
-    public function getGroupnameAttribute()
+    // 关联用户组
+    public function group()
     {
-        $points = $this->attributes['points'];
-        try {
-            $groups = collect(cache('group'))->sortByDesc('points');
-            $groupname = $groups->where('points','<=',$points)->first()['name'];
-        } catch (\Exception $e) {
-            $groupname = '普通用户';
-        }
-        return $groupname;
+        return $this->belongsTo('\App\Models\User\Group','gid','id');
     }
 
     // 关联商品评价

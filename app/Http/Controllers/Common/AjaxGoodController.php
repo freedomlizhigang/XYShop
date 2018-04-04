@@ -221,8 +221,14 @@ class AjaxGoodController extends Controller
             $area = Address::where('id',$req->aid)->value('area');
             $points = $req->input('point',0);
             $cash = SignConfig::where('id',1)->value('cash');
-            $points_money = $point/$cash;
+            $points_money = $points/$cash;
             $total_prices = $total_prices - $points_money;
+            // 扣掉积分
+            if (User::where('id',$uid)->value('points') < $points) {
+                DB::rollback();
+                $this->ajaxReturn('0','积分不足了，请重新选择积分数量！');
+            }
+            User::where('id',$uid)->decrement('points',$points);
             $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'points'=>$points,'points_money'=>$points_money,'old_prices'=>$old_prices,'total_prices'=>$total_prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
         } catch (\Exception $e) {
             DB::rollback();
@@ -286,6 +292,8 @@ class AjaxGoodController extends Controller
                     // 消费记录
                     app('com')->consume($order->user_id,$order->id,$order->total_prices,'取消订单（'.$order->order_id.'）退款！',1);
                 }
+                // 返还积分
+                User::where('id',$order->user_id)->increment('points',$order->points);
                 Order::where('id',$id)->update(['orderstatus'=>0]);
                 // 增加库存
                 OrderApi::updateStore($id,1);

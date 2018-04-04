@@ -131,7 +131,7 @@
         var mark = $('.mark').val();
         var point = $('#points').val();
         ajaxLock = 0;
-        $.post( host +'api/good/addorder',{cid:cid,uid:uid,aid:aid,ziti:ziti,yid:yid,mark:mark,point:points},function(d){
+        $.post( host +'api/good/addorder',{cid:cid,uid:uid,aid:aid,ziti:ziti,yid:yid,mark:mark,point:point},function(d){
           var ss = jQuery.parseJSON(d);
           // console.log(ss);
           if (ss.code == 1) {

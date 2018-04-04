@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Controller;
 use App\Models\User\Address;
 use App\Models\User\Consume;
+use App\Models\User\Group;
 use App\Models\User\User;
 use Excel;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class UserController extends Controller
     {
     	$title = '会员列表';
     	$q = trim($res->input('q',''));
-        $list = User::where(function($r)use($q){
+        $list = User::with('group')->where(function($r)use($q){
         	if ($q != '') {
         		$r->where('username',$q)->orWhere('email',$q)->orWhere('phone',$q)->orWhere('nickname',$q);
         	}
@@ -62,6 +63,20 @@ class UserController extends Controller
     {
         User::where('id',$id)->update(['status'=>$status]);
         return back()->with('message', '修改会员状态成功！');
+    }
+
+    // 修改会员组
+    public function getEditGroup($id)
+    {
+        $title = '修改会员组';
+        $info = User::findOrFail($id);
+        $group = Group::where('status',1)->get();
+        return view('admin.member.group',compact('title','info','group'));
+    }
+    public function postEditGroup(Request $req,$id)
+    {
+        User::where('id',$id)->update(['gid'=>$req->gid]);
+        return $this->adminJson(1,'改会员组成功！');
     }
     // 修改会员
     public function getEdit($id)

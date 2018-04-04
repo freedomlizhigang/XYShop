@@ -105,6 +105,9 @@
     		<p>{{ $o->address->area }}{{ $o->address->address }}</p>
     		<p>{{ $o->address->people }}：{{ $o->address->phone }}</p>
     		@endif
+            @if($o->ziti)
+            <p>{{ $o->extract->address }}：{{ $o->extract->phone }}</p>
+            @endif
     	</td>
 	</tr>
     <tr>

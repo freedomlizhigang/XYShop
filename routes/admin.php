@@ -282,6 +282,8 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::get('group/del/{id}', 'User\GroupController@getDel');
     // 会员
     Route::get('user/index', 'User\UserController@getIndex');
+    Route::get('user/editgroup/{id}', 'User\UserController@getEditGroup');
+    Route::post('user/editgroup/{id}', 'User\UserController@postEditGroup');
     Route::get('user/edit/{id}', 'User\UserController@getEdit');
     Route::post('user/edit/{id}', 'User\UserController@postEdit');
     Route::get('user/status/{id}/{status}', 'User\UserController@getStatus');

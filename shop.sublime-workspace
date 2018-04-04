@@ -762,23 +762,31 @@
 		"/D/wwwroot/XYShop/app/Console",
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/public",
-		"/D/wwwroot/XYShop/public/statics",
-		"/D/wwwroot/XYShop/public/statics/mobile",
-		"/D/wwwroot/XYShop/public/statics/mobile/css",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/User",
 		"/D/wwwroot/XYShop/resources",
 		"/D/wwwroot/XYShop/resources/views",
 		"/D/wwwroot/XYShop/routes"
 	],
 	"file_history":
 	[
+		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
+		"/D/wwwroot/XYShop/app/Models/User/Group.php",
+		"/D/wwwroot/XYShop/app/Models/User/User.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/User/UserController.php",
+		"/D/wwwroot/XYShop/resources/views/admin/member/index.blade.php",
+		"/D/wwwroot/XYShop/resources/views/admin/member/group.blade.php",
+		"/D/wwwroot/XYShop/routes/admin.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
+		"/D/wwwroot/XYShop/app/Models/Good/Order.php",
+		"/D/wwwroot/XYShop/resources/views/admin/order/index.blade.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/createorder.blade.php",
 		"/D/wwwroot/XYShop/routes/api.php",
 		"/D/wwwroot/XYShop/routes/mobile.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
 		"/D/wwwroot/XYShop/app/Http/Middleware/Member.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
-		"/D/wwwroot/XYShop/resources/views/admin/order/index.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/good/nostore.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/good/index.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCouponController.php",
@@ -789,11 +797,9 @@
 		"/D/wwwroot/XYShop/resources/views/admin/component/album.blade.php",
 		"/D/wwwroot/XYShop/README.md",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/OrderController.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/createorder.blade.php",
 		"/D/wwwroot/jxshop/resources/views/mobile/createorder.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/good.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/sign/index.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxGoodController.php",
 		"/D/wwwroot/XYShop/database/migrations/2018_04_03_165026_add_proportion_cash_block.php",
 		"/D/wwwroot/XYShop/database/migrations/2018_04_03_161114_add_points_money.php",
 		"/D/wwwroot/jxshop/database/migrations/2018_04_03_054102_create_credit_voucher.php",
@@ -815,7 +821,6 @@
 		"/D/wwwroot/XYShop/resources/views/mobile/user/distribution.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/coupon.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/consume.blade.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/address_edit.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/address_add.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/address.blade.php",
@@ -848,9 +853,7 @@
 		"/D/wwwroot/XYShop/app/Services/ComService.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/distributionlog.blade .php",
 		"/D/wwwroot/XYShop/app/Models/Promotion/DistributionLog.php",
-		"/D/wwwroot/XYShop/app/Models/User/User.php",
 		"/D/wwwroot/XYShop/app/Models/Good/GoodComment.php",
-		"/D/wwwroot/XYShop/routes/admin.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/OrderApi.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/WxpayController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/AlipayController.php",
@@ -874,7 +877,6 @@
 		"/C/Windows/System32/drivers/etc/hosts",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxTuanController.php",
 		"/D/wwwroot/XYShop/public/statics/mobile/js/com.js",
-		"/D/wwwroot/XYShop/app/Models/User/Group.php",
 		"/F/soft/FlashFXP4/Cache/~flashfxp/5983337F_edit.tmp/.env",
 		"/F/soft/FlashFXP4/Cache/~flashfxp/5C54FA5D_edit.tmp/vhost.map",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCommonController.php",
@@ -895,11 +897,7 @@
 		"/D/wwwroot/cdd/resources/views/admin/goodspec/edit.blade.php",
 		"/D/wwwroot/XYShop/app/Models/Good/GoodSpec.php",
 		"/D/wwwroot/cdd/resources/views/admin/goodspec/index.blade.php",
-		"/D/wwwroot/cdd/resources/views/admin/good/goodspec.blade.php",
-		"/D/wwwroot/XYShop/public/statics/admin/js/com.js",
-		"/F/soft/FlashFXP4/Cache/~flashfxp/E4B21832_edit.tmp/laravel-2018-03-05.log",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Api/UserController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php"
+		"/D/wwwroot/cdd/resources/views/admin/good/goodspec.blade.php"
 	],
 	"find":
 	{
@@ -910,6 +908,7 @@
 		"height": 105.0,
 		"where_history":
 		[
+			"D:\\wwwroot\\XYShop\\resources\\views\\mobile",
 			"D:\\wwwroot\\XYShop\\resources\\views\\admin",
 			"D:\\wwwroot\\XYShop\\resources\\views\\mobile",
 			"D:\\wwwroot\\XYShop\\app\\Http\\Controllers",
@@ -1036,8 +1035,7 @@
 			"E:\\wamp\\www\\jhyixue\\statics",
 			"E:\\wamp\\www\\jhyixue\\phpcms\\modules\\content",
 			"E:\\wamp\\www\\jhyixue\\phpcms\\templates\\default\\member",
-			"E:\\wamp\\www\\jhyixue",
-			"E:\\wamp\\www\\jhyixue\\phpcms\\templates\\default\\content"
+			"E:\\wamp\\www\\jhyixue"
 		]
 	},
 	"find_state":
@@ -1045,6 +1043,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"groupname",
+			"span",
+			"充值",
 			"uid",
 			"shop/good",
 			"pos_close",
@@ -1169,10 +1170,7 @@
 			"order",
 			"total_price",
 			"order_list",
-			"orderids",
-			"1,",
-			"hourly()",
-			"updateStore"
+			"orderids"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1400,6 +1398,22 @@
 		"selected_items":
 		[
 			[
+				"member/index",
+				"resources\\views\\admin\\member\\index.blade.php"
+			],
+			[
+				"admin.php",
+				"routes\\admin.php"
+			],
+			[
+				"order.",
+				"app\\Models\\Good\\Order.php"
+			],
+			[
+				"order/index",
+				"resources\\views\\admin\\order\\index.blade.php"
+			],
+			[
 				"layout",
 				"resources\\views\\mobile\\layout.blade.php"
 			],
@@ -1474,10 +1488,6 @@
 			[
 				"order/pr",
 				"resources\\views\\admin\\order\\print.blade.php"
-			],
-			[
-				"order/index",
-				"resources\\views\\admin\\order\\index.blade.php"
 			],
 			[
 				"promotion/index",
@@ -1876,10 +1886,6 @@
 				"resources\\views\\user\\login.blade.php"
 			],
 			[
-				"member/index",
-				"resources\\views\\admin\\member\\index.blade.php"
-			],
-			[
 				"section/ed",
 				"resources\\views\\admin\\section\\edit.blade.php"
 			],
@@ -1902,14 +1908,6 @@
 			[
 				"config/in",
 				"resources\\views\\admin\\config\\index.blade.php"
-			],
-			[
-				"usercon",
-				"app\\Http\\Controllers\\Admin\\UserController.php"
-			],
-			[
-				"member/",
-				"resources\\views\\admin\\member\\edit.blade.php"
 			]
 		],
 		"width": 0.0

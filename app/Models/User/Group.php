@@ -29,4 +29,9 @@ class Group extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    public function user()
+    {
+        return $this->hasMany('\App\Models\User\User','gid','id');
+    }
 }
