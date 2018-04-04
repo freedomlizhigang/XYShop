@@ -17,13 +17,11 @@ class AjaxUserController extends Controller
             $validator = Validator::make($req->input(), [
                 'uid' => 'required|integer',
                 'phone' => 'required|digits:11',
-                'email' => 'required|email',
                 'passwd' => 'required|min:6|max:15',
             ]);
             $attrs = array(
                 'uid' => '用户ID',
                 'phone' => '手机号',
-                'email' => '邮箱',
                 'passwd' => '密码',
             );
             $validator->setAttributeNames($attrs);
@@ -31,8 +29,9 @@ class AjaxUserController extends Controller
                 // 如果有错误，提示第一条
                 $this->ajaxReturn('0',$validator->errors()->all()[0]);
             }
-            $data = ['phone'=>$req->phone,'email'=>$req->email,'password'=>encrypt($req->passwd)];
+            $data = ['username'=>$req->phone,'phone'=>$req->phone,'password'=>encrypt($req->passwd)];
             User::where('id',$req->uid)->update($data);
+            session()->forget('nophone');
             $this->ajaxReturn('1','非常成功，请继续购物！');
         } catch (\Exception $e) {
             $this->ajaxReturn('0',$e->getMessage());

@@ -5,10 +5,31 @@
 	{{ csrf_field() }}
 	<table class="table table-striped">
 		<tr>
+			<td class="td_left">可折现比例：</td>
+			<td>
+				<input type="number" name="data[proportion]" class="form-control input-xs" min="0" value="{{ $config->proportion }}">
+				<span class="color_red">*</span>订单里折现比例比如：50%，填50
+			</td>
+		</tr>
+		<tr>
+			<td class="td_left">抵扣比例：</td>
+			<td>
+				<input type="number" name="data[cash]" class="form-control input-xs" min="0" value="{{ $config->cash }}">
+				<span class="color_red">*</span>多少积分抵一块钱
+			</td>
+		</tr>
+		<tr>
+			<td class="td_left">分段：</td>
+			<td>
+				<input type="number" name="data[block]" class="form-control input-xs" min="0" value="{{ $config->block }}">
+				<span class="color_red">*</span>每次使用多少积分，比如500/1000/1500填500
+			</td>
+		</tr>
+		<tr>
 			<td class="td_left">每日奖励：</td>
 			<td>
 				<input type="number" name="data[onepoint]" class="form-control input-xs" min="0" value="{{ $config->onepoint }}">
-				<span class="color_red">*</span>
+				<span class="color_red">*</span>每天签到送多少积分
 			</td>
 		</tr>
 		<tr>

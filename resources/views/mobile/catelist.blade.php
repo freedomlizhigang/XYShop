@@ -9,7 +9,11 @@
   <section class="clearfix list_cate overh">
     <ul class="l_c_left bgc_f f-l">
       @foreach($one as $o)
+      @if($o->child)
       <li @if($o->id == $id) class="active"@endif><a href="{{ url('catelist',['id'=>$o->id]) }}">{{ $o->mobilename }}</a></li>
+      @else
+      <li @if($o->id == $id) class="active"@endif><a href="{{ url('list',['id'=>$o->id]) }}">{{ $o->mobilename }}</a></li>
+      @endif
       @endforeach
     </ul>
     <div class="l_c_right f-r pd20">
@@ -21,7 +25,7 @@
       <!-- 按二级分类再循环 -->
       @foreach($cates as $c)
       <div class="pd20 mt20 bgc_f">
-        <h3 class="t3_cate">{{ $c->mobilename }}</h3>
+        <h3 class="t3_cate"><a href="{{ url('list',['id'=>$c->id]) }}">{{ $c->mobilename }}</a></h3>
         <ul class="l_c_subcate clearfix">
           @foreach(app('tag')->catelist($c->id,8) as $g)
           <li>
@@ -36,8 +40,4 @@
       @endforeach
     </div>
   </section>
-  <!-- 底 -->
-  @include('mobile.common.footer')
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

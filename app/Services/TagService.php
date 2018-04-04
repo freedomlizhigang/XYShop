@@ -90,7 +90,7 @@ class TagService
                     // $cid = GoodCate::where('id',$cid)->value('arrchildid');
                     $q->whereIn('cate_id',explode(',',$cid));
                 }
-            })->where('status',1)->select('id','title','thumb','shop_price','is_pos','is_hot','is_new','prom_type')->limit($num)->orderBy('sort','desc')->orderBy('id','desc')->get();
+            })->where('status',1)->where('lasttime','>=',date('Y-m-d H:i:s'))->where('lowertime','<=',date('Y-m-d H:i:s'))->select('id','title','thumb','shop_price','is_pos','is_hot','is_new','prom_type','lowertime','lasttime')->limit($num)->orderBy('sort','desc')->orderBy('id','desc')->get();
         return $good;
     }
 

@@ -11,7 +11,7 @@
       <div class="touchslider-viewport pr">
         <div style="width: 10000px;">
         @foreach($indexAd as $k => $c)
-        <div class="touchslider-item"><a href="{{ $c->url }}"><img data-original="{{ $c->thumb }}" width="750" height="335" alt="{{ $c->title }}" class="lazy"></a></div>
+        <div class="touchslider-item"><a href="{{ $c->url }}"><img src="{{ $c->thumb }}" width="750" height="335" alt="{{ $c->title }}"></a></div>
         @endforeach
         </div>
       </div>
@@ -23,7 +23,7 @@
     </div>
     <script>
       $(function(){
-        $(".touchslider-shop").touchSlider({mouseTouch: true});
+        $(".touchslider-shop").touchSlider({mouseTouch: true,autoplay:true,delay:3500});
       })
     </script>
 	</div>
@@ -109,10 +109,6 @@
 		</ul>
 	</section>
 	@endforeach
-    <!-- 底 -->
-    @include('mobile.common.footer')
-    <!-- 公用底 -->
-    @include('mobile.common.pos_menu')
     <!-- 分享 -->
     @include('mobile.common.share')
 @endsection

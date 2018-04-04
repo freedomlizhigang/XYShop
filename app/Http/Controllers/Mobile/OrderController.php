@@ -119,7 +119,20 @@ class OrderController extends Controller
       $gift = Fullgift::with(['good'=>function($q){
                         $q->select('id','shop_price','title','thumb');
                     }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->first();
-      return view(cache('config')['theme'].'.createorder',compact('title','pos_id','goodlists','total_prices','default_address','address','coupon','count','cid_str','gift'));
+      // 输出积分可选项
+        $points = User::where('id',session('member')->id)->value('points');
+        // 最多可用积分数，先算此单可用多少，看是不是比总积分多
+        $pointconfig = SignConfig::findOrFail(1);
+        $max_point = ($total_prices * $pointconfig->cash * $pointconfig->proportion)/100;
+        $tmp_points = $max_point >= $points ? $points : $max_point;
+        // 最大循环次数
+        $max = floor($tmp_points/$pointconfig->block);
+        // 积分可选项
+        $point_select = [];
+        for ($i=0; $i <= $max; $i++) {
+            $point_select[] = $i*$pointconfig->block;
+        }
+      return view(cache('config')['theme'].'.createorder',compact('title','pos_id','goodlists','total_prices','default_address','address','coupon','count','cid_str','gift','point_select','points','pointconfig'));
     } catch (\Exception $e) {
       dd($e);
       return view('errors.404');
@@ -146,7 +159,8 @@ class OrderController extends Controller
         }
         $info = (object)['pid'=>3];
         $paylist = Pay::where('status',1)->where('paystatus',1)->orderBy('id','asc')->get();
-        return view(cache('config')['theme'].'.pay',compact('info','order','paylist','title','pos_id'));
+        $user = User::where('id',session('member')->id)->first();
+        return view(cache('config')['theme'].'.pay',compact('info','order','paylist','title','pos_id','user'));
       } catch (\Exception $e) {
         dd($e);
         return view('errors.404');

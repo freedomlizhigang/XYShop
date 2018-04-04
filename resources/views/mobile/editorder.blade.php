@@ -42,8 +42,6 @@
   <div class="bgc_f mt20 pd20 clearfix pr">
     <textarea name="shopmark" placeholder="添加备注信息" rows="3" class="mark"></textarea>
   </div>
-  <!-- 底 -->
-  @include('mobile.common.footer')
   <!-- 固定底 -->
   <div class="pos_foot pos_foot_cart">
     <span class="cart_prices color_main">实付款：￥<em class="cart_prices_num font_lg">{{ $total_prices }}</em></span>
@@ -115,6 +113,4 @@
       });
     })
   </script>
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Common;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Common\OrderApi;
+use App\Http\Controllers\Controller;
 use App\Models\Good\Cart;
 use App\Models\Good\CouponUser;
 use App\Models\Good\Fullgift;
@@ -17,6 +17,7 @@ use App\Models\Good\Tuan;
 use App\Models\Good\TuanUser;
 use App\Models\User\Address;
 use App\Models\User\Group;
+use App\Models\User\SignConfig;
 use App\Models\User\User;
 use Carbon\Carbon;
 use DB;
@@ -51,13 +52,10 @@ class AjaxGoodController extends Controller
             }
             else
             {
-                // 算折扣
+                // 算折扣，改为按用户组计算
                 try {
-                    $points = User::where('id',$userid)->value('points');
-                    $discount = Group::where('points','<=',$points)->orderBy('points','desc')->value('discount');
-                    if (is_null($discount)) {
-                        $discount = Group::orderBy('points','desc')->value('discount');
-                    }
+                    $gid = User::where('id',$userid)->value('gid');
+                    $discount = Group::where('id',$gid)->value('discount');
                 } catch (\Exception $e) {
                     $discount = 100;
                 }
@@ -123,13 +121,10 @@ class AjaxGoodController extends Controller
             }
             else
             {
-                // 算折扣
+                // 算折扣，改为按用户组计算
                 try {
-                    $points = User::where('id',$carts->user_id)->value('points');
-                    $discount = Group::where('points','<=',$points)->orderBy('points','desc')->value('discount');
-                    if (is_null($discount)) {
-                        $discount = Group::orderBy('points','desc')->value('discount');
-                    }
+                    $gid = User::where('id',$userid)->value('gid');
+                    $discount = Group::where('id',$gid)->value('discount');
                 } catch (\Exception $e) {
                     $discount = 100;
                 }
@@ -224,7 +219,11 @@ class AjaxGoodController extends Controller
                     }])->where('price','<=',$total_prices)->where('status',1)->where('endtime','>=',date('Y-m-d H:i:s'))->where('store','>',0)->orderBy('price','desc')->sharedLock()->first();
             }
             $area = Address::where('id',$req->aid)->value('area');
-            $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'old_prices'=>$old_prices,'total_prices'=>$total_prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
+            $points = $req->input('point',0);
+            $cash = SignConfig::where('id',1)->value('cash');
+            $points_money = $point/$cash;
+            $total_prices = $total_prices - $points_money;
+            $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'points'=>$points,'points_money'=>$points_money,'old_prices'=>$old_prices,'total_prices'=>$total_prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
         } catch (\Exception $e) {
             DB::rollback();
             // $this->ajaxReturn('0','添加失败，请稍后再试！');

@@ -17,6 +17,9 @@
         <p class="pay_text">{{ $l->content }}</p>
       </div>
       @endforeach
+      <div class="pay_mod_2 mt20 clearfix">
+        <p class="pay_text color_main">可用余额：{{ $user->user_money }}元，<a href="{{ url('user/recharge') }}" class="label label-hui">立即充值</a></p>
+      </div>
       <p class="cart_send">总计：<strong class="total_prices color_main">￥{{ $order->total_prices }}</strong></p>
       <input type="submit" value="去支付" class="sendtoconfirm mt20">
     </section>
@@ -36,8 +39,4 @@
   </div>
   @endforeach
 
-  <!-- 底 -->
-  @include('mobile.common.footer')
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

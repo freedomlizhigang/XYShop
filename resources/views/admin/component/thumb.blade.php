@@ -13,7 +13,7 @@
         <div id="ctlBtn" class="btn btn-sm btn-warning">取消文件</div>
     </div>
 </div>
-<p class="input-info">图片类型jpg/jpeg/gif/png，大小不超过2M</p>
+<p class="input-info">图片类型jpg/jpeg/gif/png，宽*高：375*375px，大小不超过2M</p>
 <input type="hidden" id="thumb" value="{{ $slot }}" name="data[{{ $filed_name }}]" >
 <script>
     $(function(){
@@ -48,9 +48,9 @@
         // 开起分片上传。
         // chunked: true,
         formData:{
-            // thumb : 1,
-            // thumbWidth:300,
-            // thumbHeight:240
+            thumb : 1,
+            thumbWidth:375,
+            thumbHeight:375
         },
         thumb: {
             width: 110,

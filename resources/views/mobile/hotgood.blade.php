@@ -19,7 +19,7 @@
       </div>
     <script>
       $(function(){
-        $(".touchslider-shop").touchSlider({mouseTouch: true});
+        $(".touchslider-shop").touchSlider({mouseTouch: true,autoplay:true,delay:3500});
       })
     </script>
   </section>
@@ -44,8 +44,8 @@
       {{ $good->title }}</h1>
     <div class="g_i_prices mt10 clearfix">
       <span class="gi_price font_lg color_main f-l">￥<i class="shop_price">{{ $good->shop_price }}</i></span>
-      <span class="label label-hui f-r">库存：<i class="color_main store">{{ $good->sales }}+</i></span>
-      <span class="label label-hui f-r">销量：<i class="color_cheng">{{ $good->store }}+</i></span>
+      <span class="label label-hui f-r">库存：<i class="color_main store">{{ $good->store }}+</i></span>
+      <span class="label label-hui f-r">销量：<i class="color_main">{{ $good->sales }}+</i></span>
     </div>
     @if($prom_title != '')
     <p class="mt10 color_fen">
@@ -267,8 +267,6 @@
       }
     </script>
   </div>
-  <!-- 底 -->
-  @include('mobile.common.footer')
   <div class="pos_foot">
     <a href="{{ url('/') }}" class="p_f_link iconfont icon-home"><em>首页</em></a>
     <a href="{{ url('cart') }}" class="p_f_link iconfont icon-cart"><em>购物车</em></a>

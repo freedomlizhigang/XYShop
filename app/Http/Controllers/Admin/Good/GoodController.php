@@ -32,15 +32,10 @@ class GoodController extends Controller
         $key = trim($res->input('q',''));
         $starttime = $res->input('starttime');
         $endtime = $res->input('endtime');
-        $status = $res->input('status');
-        $sort = $res->input('sort','sort');
-        if ($sort == 'sort') {
-            $sortDesc = 'desc';
-        }
-        else
-        {
-            $sortDesc = 'asc';
-        }
+        $status = $res->input('status',1);
+        $sort = $res->input('sort','id');
+        // 销量sales，价格shop_price，库存store
+        $sortDesc = $res->input('sc','desc');
         $cate_id_1 = $res->input('cate_id_1');
         $cate_id_2 = $res->input('cate_id_2');
         $cate_id = $res->input('cate_id');
@@ -91,7 +86,24 @@ class GoodController extends Controller
                 }})->count();
         // 记录上次请求的url path，返回时用
         session()->put('backurl',$res->fullUrl());
-    	return view('admin.good.index',compact('title','list','key','starttime','endtime','status','count','sort','cate_id_1','cate_id_2','cate_id'));
+        $thisUrlLink = url()->current();
+        $thisUrl = parse_url(url()->full());
+        if (isset($thisUrl['query'])) {
+            $query = explode('&',urldecode($thisUrl['query']));
+            $params = [];
+            foreach ($query as $k => $v) {
+                $tmp_v= explode('=',$v);
+                if ('sort' != $tmp_v[0] && $tmp_v[0] != 'sc') {
+                    $params[$tmp_v[0]] = $tmp_v[1];
+                }
+            }
+            $thisUrl = $thisUrlLink.'?'.http_build_query($params);
+        }
+        else
+        {
+            $thisUrl = $thisUrlLink.'?';
+        }
+    	return view('admin.good.index',compact('title','list','key','starttime','endtime','status','count','sort','cate_id_1','cate_id_2','cate_id','sortDesc','thisUrl'));
     }
 
     /**

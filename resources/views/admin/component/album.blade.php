@@ -6,7 +6,7 @@
         @foreach(explode(',',$slot) as $s)
     	<div class="file-item">
             <div class="file-panel"><span class="cancel">×</span></div>
-			<img src="{{ $s }}" width="110" height="110" alt="">
+			<img src="{{ $s }}" width="108" height="90" alt="">
             <div class="info"></div>
 		</div>
         @endforeach
@@ -17,7 +17,7 @@
         <!-- <div id="album_clt" class="btn btn-sm btn-warning">删除一张</div> -->
     </div>
 </div>
-<p class="input-info">图片类型jpg/jpeg/gif/png，单个大小不超过2M</p>
+<p class="input-info">图片类型jpg/jpeg/gif/png，宽*高：750*635px，单个大小不超过2M</p>
 <textarea class="hidden" id="album" name="data[{{ $filed_name }}]" >{{ $slot }}</textarea>
 <script>
     // 缩略图
@@ -55,13 +55,13 @@
         // 开起分片上传。
         // chunked: true,
         formData:{
-            // thumb : 1,
-            // thumbWidth:300,
-            // thumbHeight:240
+            thumb : 1,
+            thumbWidth:750,
+            thumbHeight:635
         },
         thumb: {
-            width: 110,
-            height: 110,
+            width: 108,
+            height: 90,
             quality: 70,
             allowMagnify: true,
             crop: true,

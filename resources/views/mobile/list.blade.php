@@ -11,9 +11,12 @@
     <a href="{{ url()->current() }}?sort=sort&sc=desc" class="t_s_link @if($sort == 'sort') active @endif">综合<i class="iconfont icon-unfold"></i></a>
     <a href="{{ url()->current() }}?sort=is_new&sc=desc" class="t_s_link @if($sort == 'is_new') active @endif">新品<i class="iconfont icon-unfold"></i></a>
     <a href="{{ url()->current() }}?sort=sales&sc=desc" class="t_s_link @if($sort == 'sales') active @endif">销量<i class="iconfont icon-unfold"></i></a>
-    <a href="{{ url()->current() }}?sort=shop_price&sc={{ $sc == 'desc' ? 'asc' : 'desc' }}" class="t_s_link @if($sort == 'shop_price') active @endif">价格<i class="iconfont icon-order"></i></a>
+    <a href="{{ url()->current() }}?sort=shop_price&sc={{ $sc == 'desc' ? 'asc' : 'desc' }}" class="t_s_link @if($sort == 'shop_price') active @endif">价格<i class="iconfont @if($sc == 'desc' && $sort == 'shop_price') icon-unfold @elseif($sc == 'asc' && $sort == 'shop_price') icon-fold @else icon-unfold @endif"></i></a>
   </section>
   <section class="sec_cate mt20 clearfix">
+    @if($list->count() == 0)
+    <p class="pd20 bgc_f">暂时还没有商品啊~</p>
+    @else
     <ul class="list_good clearfix">
       @foreach($list as $l)
       <li>
@@ -39,13 +42,9 @@
       </li>
       @endforeach
     </ul>
+    @endif
     <div class="pages">
         {!! $list->appends(['sort'=>$sort,'sc'=>$sc])->links() !!}
     </div>
   </section>
-
-  <!-- 底 -->
-  @include('mobile.common.footer')
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

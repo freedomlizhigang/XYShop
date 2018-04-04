@@ -26,18 +26,10 @@
 			<option value="0"@if($status == '0') selected @endif>下架</option>
 			<option value="1"@if($status == '1') selected @endif>在售</option>
 		</select>
-		<select name="sort" id="sort" class="form-control">
-			<option value="sort"@if($sort == 'sort') selected @endif>排序</option>
-			<option value="store"@if($sort == 'store') selected @endif>库存</option>
-		</select>
 		开始时间：<input type="text" name="starttime" class="form-control" value="{{ $starttime }}" id="laydate">
 		结束时间：<input type="text" name="endtime" class="form-control" value="{{ $endtime }}" id="laydate2">
-		<button class="btn btn-xs btn-info">查找</button>
-	</form>
-
-	<form action="" class="form-inline pull-right" method="get">
 		<input type="text" name="q" value="{{ $key }}" class="form-control" placeholder="请输入商品标题关键字..">
-		<button class="btn btn-xs btn-info">搜索</button>
+		<button class="btn btn-xs btn-info">查找</button>
 	</form>
 </div>
 <form action="" class="form-inline form_submit" method="get">
@@ -49,8 +41,9 @@
 		<th width="50">ID</th>
 		<th>标题</th>
 		<th width="100">分类</th>
-		<th width="100">价格</th>
-		<th width="100">库存</th>
+		<th width="100" @if($sort == 'shop_price') class="color_red" @endif>价格<a href="{{ $thisUrl }}&sort=shop_price&sc={{ $sortDesc == 'desc' ? 'asc' : 'desc' }}" class="ml5 @if($sort == 'shop_price') color_red @endif glyphicon glyphicon-sort"></a></th>
+		<th width="100" @if($sort == 'store') class="color_red" @endif>库存<a href="{{ $thisUrl }}&sort=store&sc={{ $sortDesc == 'desc' ? 'asc' : 'desc' }}" class="ml5 @if($sort == 'store') color_red @endif glyphicon glyphicon-sort"></a></th>
+		<th width="100" @if($sort == 'sales') class="color_red" @endif>销量<a href="{{ $thisUrl }}&sort=sales&sc={{ $sortDesc == 'desc' ? 'asc' : 'desc' }}" class="ml5 @if($sort == 'sales') color_red @endif glyphicon glyphicon-sort"></a></th>
 		<th width="80">状态</th>
 		<th width="180">修改时间</th>
 		<th width="120">操作</th>
@@ -79,6 +72,7 @@
 		<td>{{ isset(cache('goodcateCache')[$a->cate_id]) ? cache('goodcateCache')[$a->cate_id]['name'] : '' }}</td>
 		<td>{{ $a->shop_price }}￥</td>
 		<td>{{ $a->store }}</td>
+		<td>{{ $a->sales }}</td>
 		<td>
 			@if($a->status == 1)
 			<span class="text-success">在售</span>
@@ -91,7 +85,7 @@
 			@if(App::make('com')->ifCan('good-edit'))
 			<a href="{{ url('/console/good/edit',$a->id) }}" class="btn btn-xs btn-info glyphicon glyphicon-edit"></a>
 			@endif
-			<a href="{{ url('/shop/good',['id'=>$a->id]) }}" target="_blank" class="btn btn-xs btn-success glyphicon glyphicon-eye-open"></a>
+			<a href="{{ url('/good',['id'=>$a->id]) }}" target="_blank" class="btn btn-xs btn-success glyphicon glyphicon-eye-open"></a>
 			@if(App::make('com')->ifCan('good-del') && $a->status == 0)
 			<a href="{{ url('/console/good/del',['id'=>$a->id,'status'=>1]) }}" title="上架" class="btn btn-xs btn-success glyphicon glyphicon-ok-circle"></a>
 			@endif
@@ -130,7 +124,7 @@
 	<!-- 分页，appends是给分页添加参数 -->
 	<div class="pull-right">
 		<div class="pull-left mr10 mt5">总共 {{ $count }} 条</div>
-		{!! $list->appends(['q'=>$key,'status'=>$status,'starttime'=>$starttime,'endtime'=>$endtime,'cate_id'=>$cate_id,'sort'=>$sort])->links() !!}
+		{!! $list->appends(['q'=>$key,'status'=>$status,'starttime'=>$starttime,'endtime'=>$endtime,'cate_id'=>$cate_id,'sort'=>$sort,'sc'=>$sortDesc])->links() !!}
 	</div>
 </div>
 

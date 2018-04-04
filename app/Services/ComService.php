@@ -421,21 +421,22 @@ class ComService
         }
     }
     // 请求接口用的CURL功能
-    public function postCurl($url,$body,$type="POST"){
+    public function postCurl($url,$body,$type="POST",$json = 0){
         $header = array();
         //1.创建一个curl资源
         $ch = curl_init();
         //2.设置URL和相应的选项
         curl_setopt($ch,CURLOPT_URL,$url);//设置url
         //1)设置请求头
-        // array_push($header, 'Accept:application/json');
-        // array_push($header,'Content-Type:application/x-www-form-urlencoded;charset=utf-8');
-        // application/x-www-form-urlencoded
-        // array_push($header, 'http:multipart/form-data');
-        //设置请求头
-        if(count($header)>0){
-            curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+        if ($json) {
+            array_push($header, 'Content-Type:application/json');
         }
+        else
+        {
+            array_push($header,'Content-Type:application/x-www-form-urlencoded;charset=utf-8');
+        }
+        //设置请求头
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
         //设置为false,只会获得响应的正文(true的话会连响应头一并获取到)
         curl_setopt($ch,CURLOPT_HEADER,0);
         curl_setopt ( $ch, CURLOPT_TIMEOUT,5); // 设置超时限制防止死循环
@@ -466,15 +467,14 @@ class ComService
         }
         
         //2)设备请求体
-        if (count($body)>0) {
-            // $body = json_encode($body);
-            // dd($b);
+        if (count($body)>0 && $type == 'POST') {
+            $body = $json ? json_encode($body) : $body;
+            // dd($body);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $body);//全部数据使用HTTP协议中的"POST"操作来发送。
         }
         
         //3.抓取URL并把它传递给浏览器
         $res=curl_exec($ch);
-    
         $result=json_decode($res,true);
         //4.关闭curl资源，并且释放系统资源
         curl_close($ch);

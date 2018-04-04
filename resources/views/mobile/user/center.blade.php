@@ -33,10 +33,6 @@
     <h4 class="t4_center pr"><i class="iconfont icon-edit_light color_cheng"></i>收货地址<a href="{{ url('user/address') }}" class="ps t4_center_r">管理<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-present color_fen"></i>我的优惠券<a href="{{ url('user/coupon') }}" class="ps t4_center_r">看可用<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-attention_light color_shenred"></i>修改密码<a href="{{ url('passwd') }}" class="ps t4_center_r">谨慎操作<i class="iconfont icon-right"></i></a></h4>
-    <!-- <h4 class="t4_center pr"><i class="iconfont icon-warn color_zi"></i>退出登陆<a href="{{ url('logout') }}" class="ps t4_center_r">我要离开<i class="iconfont icon-right"></i></a></h4> -->
+    <h4 class="t4_center pr"><i class="iconfont icon-warn color_zi"></i>退出登陆<a href="{{ url('logout') }}" class="ps t4_center_r">我要离开<i class="iconfont icon-right"></i></a></h4>
   </div>
-  <!-- 底 -->
-  @include('mobile.common.footer')
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

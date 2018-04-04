@@ -115,7 +115,7 @@
 				<td width="55%">
 					<img src="{{ $l->good->thumb }}" class="img-responsive img-thumbnail mr10 pull-left" width="100" alt="">
 					<h5 class="mt10">
-						<a href="{{ url('/shop/good',['id'=>$l->good->id]) }}">{{ $l->good_title }}</a>
+						<a href="{{ url('/good',['id'=>$l->good->id]) }}" target="_blank">{{ $l->good_title }}</a>
                     </h5>
 					@if($l->good_spec_name != '')<p class="label label-warning mt10">{{ $l->good_spec_name }}</p>@endif
 				</td>

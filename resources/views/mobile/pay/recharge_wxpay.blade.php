@@ -57,9 +57,4 @@
       });
     })
   </script>
-
-  <!-- 底 -->
-  @include('mobile.common.footer')
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

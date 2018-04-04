@@ -107,7 +107,7 @@ class LoginController extends Controller
                 }
                 session()->put('member',(object)['id'=>$res->id,'openid'=>$res->openid]);
                 // 弹出填写手机号功能
-                session()->flash('nophone',1);
+                session()->put('nophone',1);
             }
             else
             {
@@ -117,9 +117,9 @@ class LoginController extends Controller
                 }
                 User::where('openid',$wxuser->id)->update(['thumb'=>$wxuser->avatar,'last_ip'=>$req->ip(),'last_time'=>date('Y-m-d H:i:s')]);
                 session()->put('member',(object)['id'=>$user->id,'openid'=>$user->openid]);
-                if ($user->phone == '') {
+                if ($user->phone == '' || $user->username == '') {
                   // 弹出填写手机号功能
-                  session()->flash('nophone',1);
+                  session()->put('nophone',1);
                 }
             }
             DB::commit();

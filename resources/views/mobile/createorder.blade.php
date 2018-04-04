@@ -38,6 +38,14 @@
       <i class="iconfont icon-right ps"></i>
     </div>
   </div>
+  <!-- 积分 -->
+  <div class="bgc_f mt20 cart_points pt20 pb20 clearfix pr">
+    <h4 class="t4_cart">积分<span class="coupon_can">共{{ $points }}可用</span></h4>
+    <div class="pr f-r cart_right">
+      <span class="cart_point_title">未使用</span>
+      <i class="iconfont icon-right ps c_c_right"></i>
+    </div>
+  </div>
   <!-- 优惠 -->
   <div class="bgc_f mt20 cart_coupon pt20 pb20 clearfix pr">
     <h4 class="t4_cart">优惠券<span class="coupon_can">{{ $coupon->count() }}张可用</span></h4>
@@ -60,8 +68,6 @@
   <div class="bgc_f mt20 pd20 clearfix pr">
     <textarea name="shopmark" placeholder="添加备注信息" rows="3" class="mark"></textarea>
   </div>
-  <!-- 底 -->
-  @include('mobile.common.footer')
   <!-- 固定底 -->
   <div class="pos_foot pos_foot_cart">
     <span class="cart_prices color_main">实付款：￥<em class="cart_prices_num font_lg">{{ $total_prices }}</em></span>
@@ -100,6 +106,18 @@
       </li>
     </ul>      
   </div>
+  <div class="pos_alert_con select_points hidden">
+    <i class="pos_close iconfont icon-close"></i>
+    <div class="pure-form pd20 clearfix">
+
+    <select name="points" id="points" class="f-l">
+      @foreach($point_select as $c)
+      <option value="{{ $c }}">{{ $c }}</option>
+      @endforeach
+    </select>
+    <p class="mt15 f-r">每次使用最少：<i class="color_main">{{ $pointconfig->block }}</i> 分</p>
+    </div>
+  </div>
   <script>
     $(function(){
       // 提交订单功能
@@ -111,8 +129,9 @@
         var cid = '{{ $cid_str }}';
         var yid = $('.coupon_id').val();
         var mark = $('.mark').val();
+        var point = $('#points').val();
         ajaxLock = 0;
-        $.post( host +'api/good/addorder',{cid:cid,uid:uid,aid:aid,ziti:ziti,yid:yid,mark:mark},function(d){
+        $.post( host +'api/good/addorder',{cid:cid,uid:uid,aid:aid,ziti:ziti,yid:yid,mark:mark,point:points},function(d){
           var ss = jQuery.parseJSON(d);
           // console.log(ss);
           if (ss.code == 1) {
@@ -157,8 +176,17 @@
         $('.coupon_id').val(that.attr('data-cid'));
         $('.pos_bg,.pos_alert_con').fadeOut();
       });
+      // 积分
+      $('.cart_points').click(function(){
+        $('.pos_bg,.select_points').fadeIn();
+      });
+      $('#points').change(function(){
+        var that = $(this);
+        $('.cart_point_title').text(that.val() + '分');
+        $('.cart_coupon_title').text('未使用');
+        $('.coupon_id').val('0');
+        $('.pos_bg,.pos_alert_con').fadeOut();
+      });
     })
   </script>
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

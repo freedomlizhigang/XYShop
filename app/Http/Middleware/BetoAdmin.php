@@ -33,10 +33,7 @@ class BetoAdmin
         if(in_array(1,$user->allRole) || in_array($priv,$user->allPriv))
         {
             // 日志记录，只记录post或者del操作(通过比较url来得出结果)
-            if ($request->isMethod('post') || substr_count($toArr[2],'del') > 0 || substr_count($toArr[2],'status') > 0) {
-                $url = $request->getRequestUri();
-                Log::create(['admin_id'=>$user->id,'url'=>$url,'user'=>$user->name,'created_at'=>date('Y-m-d H:i:s')]);
-            }
+            Log::create(['admin_id'=>$user->id,'method'=>$request->method(),'url'=>$request->fullUrl(),'user'=>$user->name,'data'=>json_encode($request->all()),'created_at'=>date('Y-m-d H:i:s')]);
             $respond = $next($request);
             return $respond;
         }

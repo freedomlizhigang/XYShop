@@ -7,8 +7,11 @@
     <a href="{{ url('user/orderlist',['sid'=>1]) }}" class="t_o_link @if($sid == '1') active @endif">待付款</a>
     <a href="{{ url('user/orderlist',['sid'=>2]) }}" class="t_o_link @if($sid == '2') active @endif">待收货</a>
     <a href="{{ url('user/orderlist',['sid'=>3]) }}" class="t_o_link @if($sid == '3') active @endif">已完成</a>
-    <a href="{{ url('user/orderlist',['sid'=>4]) }}" class="t_o_link @if($sid == '4') active @endif">已关闭</a>
+    <a href="{{ url('user/orderlist',['sid'=>4]) }}" class="t_o_link @if($sid == '4') active @endif">已取消</a>
   </section>
+  @if($list->count() == 0)
+  <p class="pd20 bgc_f">暂时还没有订单啊~</p>
+  @else
   <ul class="list_order clearfix overh">
     @foreach($list as $l)
     <li class="mt20 clearfix overh bgc_f pl20 pr20">
@@ -29,7 +32,7 @@
           @elseif($l->orderstatus == '2')
           <i class="color_main">已完成</i>
           @else
-          <i class="color_main">已关闭</i>
+          <i class="color_main">已取消</i>
           @endif
         </span>
         @if($l->shipstatus == 1 && $l->paystatus == 1)
@@ -60,12 +63,13 @@
       <footer class="l_o_footer clearfix pt20 pb20">
         <span class="l_o_f_price">实付款：￥{{ $l->total_prices }}</span>
         @if($l->orderstatus == '1' && $l->shipstatus == 0)
-        <span class="label label-hui f-r order_cancel" data-uid="{{ $l->user_id }}" data-oid="{{ $l->id }}">关闭订单</span>
+        <span class="label label-hui f-r order_cancel" data-uid="{{ $l->user_id }}" data-oid="{{ $l->id }}">取消订单</span>
         @endif
       </footer>
     </li>
     @endforeach
   </ul>
+  @endif
   <div class="pages">
       {!! $list->links() !!}
   </div>
@@ -133,8 +137,4 @@
       });
     })
   </script>
-  <!-- 底 -->
-  @include('mobile.common.footer')
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

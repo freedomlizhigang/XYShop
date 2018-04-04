@@ -95,10 +95,11 @@ em,i {font-style: normal;}
 }
 // 头
 body {background-color: $color_f0; max-width:750px; margin:0 auto; min-height:667px;}
+.main-box {min-height:14.5rem; margin:0;}
 .top_search {
-    width:10rem; position: fixed; padding:0.266667rem; height:1.333333rem; line-height: 0.8rem; z-index: 10;transition: all 0.3s;
-    .t_s_input {width:9.466667rem; border-radius: 0.4rem; display: block; padding:0 0.4rem; border:none; line-height: 0.8rem; height:0.8rem;}
-    .t_s_btn {font-size: 26px; position: absolute; right:0.533333rem; top:0.28rem; color:$color_main; z-index: 100;}
+    width:10rem; position: fixed; padding:0.266667rem; height:1.333333rem; line-height: 0.8rem; z-index: 10;transition: all 0.3s; top:0;overflow: hidden;
+    .t_s_input {width:9.466667rem; border-radius: 0.4rem; display: block; padding:0.1rem 0.4rem; border:none; line-height: 0.6rem; height:0.8rem;padding-right:1.2rem;}
+    .t_s_btn {font-size: 26px; position: absolute; right:0.533333rem; top:0.3rem; color:$color_main; z-index: 100; background-color: transparent; border:none; padding:0;}
 }
 .top_search_sub {background-color: $color_main;}
 .top_banner {width:10rem; height:4.466667rem;}
@@ -409,7 +410,7 @@ body {background-color: $color_f0; max-width:750px; margin:0 auto; min-height:66
 .sec_pay {
     .t4_pay {font-size: 14px; font-weight: normal; color:$color_main; text-align: center;}
     .p_pay_orderid {margin-top: 0.266667rem; font-size: 12px; color:$color_6; text-align: center; padding-bottom: 0.266667rem; border-bottom:$color_e solid 1px;}
-    .pay_radio {float: left; margin-top: 0.25rem; margin-right: 0.266667rem;}
+    .pay_radio ,.pay_checkbox {float: left; margin-top: 0.25rem; margin-right: 0.266667rem;}
     .pay_icon {width:0.853333rem; height:0.853333rem; float: left; margin-right: 0.266667rem;}
     .pay_text {line-height: 0.853333rem;}
     .cart_send {margin-top: 0.4rem; float: left;}

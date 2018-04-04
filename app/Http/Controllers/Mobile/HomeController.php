@@ -48,15 +48,15 @@ class HomeController extends Controller
         try {
             $pos_id = 'catelist';
             // 所有一级分类
-            $one = GoodCate::where('parentid',0)->select('id','name','mobilename','thumb')->orderBy('sort','asc')->orderBy('id','asc')->get();
+            $one = GoodCate::where('parentid',0)->where('ismenu',1)->select('id','name','mobilename','thumb','child')->orderBy('sort','asc')->orderBy('id','asc')->get();
             // 判断有没有传分类，没有传随机从二级里取几个
             if ($id == 0) {
                 $ids = $one->random(3)->pluck('id');
-                $cates = GoodCate::whereIn('parentid',$ids)->select('id','name','mobilename','thumb')->orderBy('sort','asc')->orderBy('id','asc')->get();
+                $cates = GoodCate::whereIn('parentid',$ids)->where('ismenu',1)->select('id','name','mobilename','thumb')->orderBy('sort','asc')->orderBy('id','asc')->get();
             }
             else
             {
-                $cates = GoodCate::where('parentid',$id)->select('id','name','mobilename','thumb')->orderBy('sort','asc')->orderBy('id','asc')->get();
+                $cates = GoodCate::where('parentid',$id)->where('ismenu',1)->select('id','name','mobilename','thumb')->orderBy('sort','asc')->orderBy('id','asc')->get();
             }
             $title = '商品分类';
             return view(cache('config')['theme'].'.catelist',compact('pos_id','title','id','one','cates'));
@@ -134,10 +134,11 @@ class HomeController extends Controller
             // 排序方式
             $sort = isset($req->sort) ? $req->sort : 'sort';
             $sc = isset($req->sc) ? $req->sc : 'desc';
-            $list = Good::where('title','like',"%".$req->key."%")->where('status',1)->select('id','title','shop_price','thumb','prom_type','is_new','is_pos','is_hot')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
+            $key = $req->key;
+            $list = Good::where('title','like',"%".$key."%")->where('status',1)->select('id','title','shop_price','thumb','prom_type','is_new','is_pos','is_hot')->orderBy($sort,$sc)->orderBy('id','desc')->simplePaginate(20);
             $pos_id = 'home';
             $title = "搜索结果";
-            return view(cache('config')['theme'].'.list',compact('pos_id','title','list','sort','sc'));
+            return view(cache('config')['theme'].'.search',compact('pos_id','title','list','sort','sc','key'));
         } catch (\Exception $e) {
             // dd($e);
             return view('errors.404');

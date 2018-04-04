@@ -29,7 +29,7 @@
         <section class="mt20 clearfix">
           <a href="{{ $c->good->url }}" class="c_g_s_img"><img src="{{ $c->good->thumb }}" height="200" width="200" alt="{{ $c->good_title }}"></a>
           <h3 class="c_g_s_title slh">{{ $c->good_title }}</h3>
-          <p class="f-l label mt10">{{ $c->good_spec_name }}</p>
+          @if($c->good_spec_name != '')<p class="f-l label mt10">{{ $c->good_spec_name }}</p>@endif
           <!-- 删除 -->
           <span class="c_g_s_del f-r color_9 iconfont icon-delete mt10 pr20" data-cid="{{ $c->id }}"></span>
         </section>
@@ -37,8 +37,6 @@
       @endforeach
     </ul>
   </section>
-  <!-- 底 -->
-  @include('mobile.common.footer')
   <!-- 固定底 -->
   <div class="pos_foot pos_foot_cart">
     <span class="cart_prices color_main">总额：￥<em class="cart_prices_num font_lg">{{ $total_prices }}</em></span>
@@ -109,6 +107,4 @@
       });
     })
   </script>
-  <!-- 公用底 -->
-  @include('mobile.common.pos_menu')
 @endsection

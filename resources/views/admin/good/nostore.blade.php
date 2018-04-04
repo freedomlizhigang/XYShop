@@ -51,7 +51,7 @@
 			@if(App::make('com')->ifCan('good-edit'))
 			<a href="{{ url('/console/good/edit',$a->id) }}" class="btn btn-xs btn-info glyphicon glyphicon-edit"></a>
 			@endif
-			<a href="{{ url('/shop/good',['id'=>$a->id]) }}" target="_blank" class="btn btn-xs btn-success glyphicon glyphicon-eye-open"></a>
+			<a href="{{ url('/good',['id'=>$a->id]) }}" target="_blank" class="btn btn-xs btn-success glyphicon glyphicon-eye-open"></a>
 			@if(App::make('com')->ifCan('good-del') && $a->status == 0)
 			<a href="{{ url('/console/good/del',['id'=>$a->id,'status'=>1]) }}" title="上架" class="btn btn-xs btn-success glyphicon glyphicon-ok-circle"></a>
 			@endif

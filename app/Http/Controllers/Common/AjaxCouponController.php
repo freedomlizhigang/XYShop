@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Good\Coupon;
 use App\Models\Good\CouponUser;
 use Illuminate\Http\Request;
+use DB;
 
 class AjaxCouponController extends Controller
 {
@@ -25,7 +26,7 @@ class AjaxCouponController extends Controller
 	  try {
 		// 优惠券数量减1，添加给用户
 		CouponUser::create($data);
-		CouponUser::where('id',$id)->decrement('nums');
+		Coupon::where('id',$id)->decrement('nums');
 		// 没出错，提交事务
 			DB::commit();
 		} catch (\Exception $e) {
@@ -45,7 +46,7 @@ class AjaxCouponController extends Controller
 		// 优惠券如果没过期并且没使用，数量加1
 		if($coupon->endtime > date('Y-m-d H:i:s') && $coupon->status)
 		{
-		  CouponUser::where('id',$coupon->c_id)->increment('nums');
+		  Coupon::where('id',$coupon->c_id)->increment('nums');
 		}
 		CouponUser::where('id',$id)->update(['delflag'=>0]);
 		// 没出错，提交事务

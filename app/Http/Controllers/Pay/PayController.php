@@ -86,7 +86,6 @@ class PayController extends Controller
         $gateway->setNotifyUrl(config('app.url').'/alipay/gateway');
         // 查订单信息
         $order = Order::findOrFail($oid);
-
         $request = $gateway->purchase()->setBizContent([
           'out_trade_no' => $order->order_id,
           'subject'      => cache('config')['title'].'订单',
