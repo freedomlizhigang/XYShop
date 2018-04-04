@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User\User;
 use Closure;
 
 class Member
@@ -21,6 +22,9 @@ class Member
         }
         else
         {
+            if (session()->has('nophone') && !is_null(User::where('id',session('member')->id)->value('username'))) {
+                session()->forget('nophone');
+            }
             return $next($request);
         }
     }

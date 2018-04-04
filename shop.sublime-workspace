@@ -762,7 +762,6 @@
 		"/D/wwwroot/XYShop/app/Console",
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common",
 		"/D/wwwroot/XYShop/public",
 		"/D/wwwroot/XYShop/public/statics",
 		"/D/wwwroot/XYShop/public/statics/mobile",
@@ -773,14 +772,18 @@
 	],
 	"file_history":
 	[
+		"/D/wwwroot/XYShop/routes/api.php",
+		"/D/wwwroot/XYShop/routes/mobile.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
+		"/D/wwwroot/XYShop/app/Http/Middleware/Member.php",
+		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
 		"/D/wwwroot/XYShop/resources/views/admin/order/index.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/good/nostore.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/good/index.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxCouponController.php",
 		"/D/希夷/德武学堂/地图/china.js",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/AjaxUserController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/LoginController.php",
-		"/D/wwwroot/XYShop/resources/views/mobile/layout.blade.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/catelist.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/HomeController.php",
 		"/D/wwwroot/XYShop/resources/views/admin/component/album.blade.php",
@@ -835,13 +838,11 @@
 		"/D/wwwroot/XYShop/resources/views/admin/good/add.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/good/edit.blade.php",
 		"/D/wwwroot/XYShop/app/Http/Middleware/BetoAdmin.php",
-		"/D/wwwroot/XYShop/app/Http/Middleware/Member.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Pay/PayController.php",
 		"/D/张文建/客户万网密码(1).txt",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/Good/GoodController.php",
 		"/D/wwwroot/XYShop/sftp-config.json",
 		"/D/希夷/刹车片/服务器信息.txt",
-		"/D/wwwroot/XYShop/routes/mobile.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Mobile/DistributionController.php",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Common/Distribution.php",
 		"/D/wwwroot/XYShop/app/Services/ComService.php",
@@ -895,12 +896,10 @@
 		"/D/wwwroot/XYShop/app/Models/Good/GoodSpec.php",
 		"/D/wwwroot/cdd/resources/views/admin/goodspec/index.blade.php",
 		"/D/wwwroot/cdd/resources/views/admin/good/goodspec.blade.php",
-		"/D/wwwroot/XYShop/app/Http/Middleware/VerifyCsrfToken.php",
 		"/D/wwwroot/XYShop/public/statics/admin/js/com.js",
 		"/F/soft/FlashFXP4/Cache/~flashfxp/E4B21832_edit.tmp/laravel-2018-03-05.log",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Api/UserController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Common/BaseController.php"
+		"/D/wwwroot/XYShop/app/Http/Controllers/Auth/WxController.php"
 	],
 	"find":
 	{
@@ -1046,6 +1045,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"uid",
 			"shop/good",
 			"pos_close",
 			"discount",
@@ -1172,8 +1172,7 @@
 			"orderids",
 			"1,",
 			"hourly()",
-			"updateStore",
-			"$this->updateStore"
+			"updateStore"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1400,6 +1399,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"layout",
+				"resources\\views\\mobile\\layout.blade.php"
+			],
 			[
 				"good/index",
 				"resources\\views\\admin\\good\\index.blade.php"
@@ -1907,10 +1910,6 @@
 			[
 				"member/",
 				"resources\\views\\admin\\member\\edit.blade.php"
-			],
-			[
-				"cart.bl",
-				"resources\\views\\default\\cart.blade.php"
 			]
 		],
 		"width": 0.0

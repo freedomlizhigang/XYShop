@@ -19,6 +19,7 @@ class VerifyCsrfToken extends BaseVerifier
         'alipay/recharge_gateway',
         'alipay/recharge_return',
         'weixin/recharge_return',
+        'api/user/perfect',
         // 'union/return',
         // 'union/success',
         // 微信

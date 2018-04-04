@@ -31,7 +31,6 @@ class AjaxUserController extends Controller
             }
             $data = ['username'=>$req->phone,'phone'=>$req->phone,'password'=>encrypt($req->passwd)];
             User::where('id',$req->uid)->update($data);
-            session()->forget('nophone');
             $this->ajaxReturn('1','非常成功，请继续购物！');
         } catch (\Exception $e) {
             $this->ajaxReturn('0',$e->getMessage());
