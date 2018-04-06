@@ -27,6 +27,7 @@
     <script type="text/javascript" src="{{ $sites['static']}}common/ueditor/ueditor.config.js"></script>
     <!-- 编辑器源码文件 -->
     <script type="text/javascript" src="{{ $sites['static']}}common/ueditor/ueditor.all.js"></script>
+    <script src="{{ $sites['static']}}common/js/echarts.common.min.js"></script>
     <script src="{{ $sites['static']}}admin/js/com.js"></script>
 </head>
 

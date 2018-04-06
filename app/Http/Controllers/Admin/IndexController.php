@@ -15,8 +15,10 @@ use App\Models\Good\Order;
 use App\Models\Good\OrderGood;
 use App\Models\User\Consume;
 use App\Models\User\Group;
+use App\Models\User\User;
 use Cache;
 use Excel;
+use DB;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -101,6 +103,9 @@ class IndexController extends Controller
     }
     /**
      * 主要信息展示
+     * 统计：总订单-销售额-已收款-未收款-代发货
+     *       今日销量最高商品10件，今日新用户，七日销量统计折线图，七日新用户折线图
+     *       
      */
     public function getMain(Request $req)
     {
@@ -116,34 +121,22 @@ class IndexController extends Controller
         $data['today_prices'] = Order::where('orderstatus','>',0)->where('created_at','>',$starttime)->sum('total_prices');
         // 今日已收款数
         $data['today_prices_real'] = Consume::where('created_at','>',$starttime)->where('created_at','<',$endtime)->where('type',0)->orderBy('user_id','asc')->sum('price');
-        // 今日未收款数
-        $data['today_prices_no'] = $data['today_prices'] - $data['today_prices_real'];
         // 今日待发货
         $data['today_ship'] = Order::where('orderstatus',1)->where('shipstatus',0)->where('ziti',0)->where('created_at','>',$starttime)->where('paystatus',1)->count();
-        // 今日销售统计表，先查出今天的已付款订单，再按订单查出所有产品及属性
-        $order_ids = Order::where('orderstatus',1)->where('paystatus',1)->where('created_at','<',$endtime)->where('created_at','>',$starttime)->pluck('id');
-        $goods = OrderGood::whereIn('order_id',$order_ids)->get();
-        // 循环出来每一个产品的重量值，并去重累加
-        $good_ship = [];
-        foreach ($goods as $k => $v) {
-            if (isset($good_ship[$v->good_id.'_'.$v->good_spec_key])) {
-                $good_ship[$v->good_id.'_'.$v->good_spec_key]['nums'] += $v->nums;
-            }
-            else
-            {
-                $good_ship[$v->good_id.'_'.$v->good_spec_key] = ['good_id'=>$v->good_id,'nums'=>$v->nums,'spec_key'=>$v->good_spec_key,'good_spec_name'=>$v->good_spec_name,'price'=>$v->price];
-            }
-        }
-        // 查每个的重量并累加，先查出所有商品属性及商品规格，省去重复查询
-        $goods_weigth = Good::whereIn('id',$goods->pluck('good_id'))->select('id','title','pronums','weight')->get();
-        foreach ($good_ship as $k => $v) {
-            $tmp_good = $goods_weigth->where('id',$v['good_id'])->first()->toArray();
-            $tmp_good['total_weight'] = $v['nums'] * $tmp_good['weight'];
-            $tmp_good['total_prices'] = $v['nums'] * $v['price'];
-            unset($v['good_id']);
-            $good_ship[$k] = array_merge($tmp_good,$v);
-        }
-        return view('admin.index.main',compact('title','data','good_ship'));
+        // 查这个时间段发货了的订单
+        $oids = Order::where('created_at','>',$starttime)->where('created_at','<',$endtime)->where('shipstatus',1)->pluck('id');
+        // 今日销量最高商品10件
+        $top_goods = OrderGood::whereIn('order_id',$oids)->select(DB::raw("*,count(good_id) as total_nums"))->groupBy('good_id')->orderBy('total_nums','desc')->limit(10)->get();
+        // 今日新用户
+        $new_user = User::where('created_at','>',$starttime)->orderBy('id','desc')->limit(20)->get();
+        // 七天销量统计折线图
+        $timediff = strtotime($endtime) - strtotime($starttime);
+        $sort =  $timediff > 604800 ? '%Y-%m' : '%Y-%m-%d';
+        $takes = $timediff > 604800 ? 12 : 7;
+        $order_chart = Order::where('created_at','>',$starttime)->where('created_at','<',$endtime)->where('shipstatus',1)->select(DB::raw("DATE_FORMAT(created_at,'$sort') as datetime,sum(total_prices) as tprices"))->groupBy(DB::raw("DATE_FORMAT(created_at,'$sort')"))->orderBy("created_at","desc")->take($takes)->get();
+        // 七日新用户折线图
+        $new_user_chart = User::where('created_at','>',$starttime)->where('created_at','<',$endtime)->select(DB::raw("DATE_FORMAT(created_at,'$sort') as datetime,count(id) as news"))->groupBy(DB::raw("DATE_FORMAT(created_at,'$sort')"))->orderBy("created_at","desc")->take($takes)->get();
+        return view('admin.index.main',compact('title','data','top_goods','new_user','order_chart','new_user_chart','starttime','endtime'));
     }
     public function getExcelGoods(Request $req)
     {

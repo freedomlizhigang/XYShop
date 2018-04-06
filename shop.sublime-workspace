@@ -763,13 +763,15 @@
 		"/D/wwwroot/XYShop/app/Http",
 		"/D/wwwroot/XYShop/app/Http/Controllers",
 		"/D/wwwroot/XYShop/app/Http/Controllers/Admin",
-		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/User",
 		"/D/wwwroot/XYShop/resources",
 		"/D/wwwroot/XYShop/resources/views",
 		"/D/wwwroot/XYShop/routes"
 	],
 	"file_history":
 	[
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/IndexController.php",
+		"/D/wwwroot/XYShop/resources/views/admin/index/main.blade.php",
+		"/D/wwwroot/XYShop/app/Http/Controllers/Admin/LogController.php",
 		"/D/wwwroot/XYShop/resources/views/mobile/user/center.blade.php",
 		"/D/wwwroot/XYShop/app/Models/User/Group.php",
 		"/D/wwwroot/XYShop/app/Models/User/User.php",
@@ -894,10 +896,7 @@
 		"/D/wwwroot/XYShop/app/Http/Requests/Good/GoodSpecRequest.php",
 		"/D/wwwroot/XYShop/resources/views/admin/right.blade.php",
 		"/D/wwwroot/XYShop/resources/views/admin/group/edit.blade.php",
-		"/D/wwwroot/cdd/resources/views/admin/goodspec/edit.blade.php",
-		"/D/wwwroot/XYShop/app/Models/Good/GoodSpec.php",
-		"/D/wwwroot/cdd/resources/views/admin/goodspec/index.blade.php",
-		"/D/wwwroot/cdd/resources/views/admin/good/goodspec.blade.php"
+		"/D/wwwroot/cdd/resources/views/admin/goodspec/edit.blade.php"
 	],
 	"find":
 	{
@@ -1043,6 +1042,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"bg-",
+			"label label",
+			" col-xs-3",
+			"label label-",
+			"pd20",
 			"groupname",
 			"span",
 			"充值",
@@ -1165,12 +1169,7 @@
 			"shop",
 			"->get()",
 			"->pluck('good_id')->toArray()",
-			"lockForUpdate",
-			"$o->total_prices",
-			"order",
-			"total_price",
-			"order_list",
-			"orderids"
+			"lockForUpdate"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1397,6 +1396,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"index/",
+				"resources\\views\\admin\\index\\main.blade.php"
+			],
 			[
 				"member/index",
 				"resources\\views\\admin\\member\\index.blade.php"
@@ -1903,10 +1906,6 @@
 			],
 			[
 				"config/index",
-				"resources\\views\\admin\\config\\index.blade.php"
-			],
-			[
-				"config/in",
 				"resources\\views\\admin\\config\\index.blade.php"
 			]
 		],
