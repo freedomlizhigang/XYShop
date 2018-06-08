@@ -22,7 +22,7 @@ class TuanController extends Controller
             $good = Good::findOrFail($id);
             /*
             * 查出来所有的规格信息
-            * 1、找出所有的规格ID 
+            * 1、找出所有的规格ID
             * 2，查出所有的规格ID对应的名字spec_item及spec内容
             * 3、循环出来所有的规格及规格值
             * */
@@ -57,7 +57,7 @@ class TuanController extends Controller
                 $user = (object)[];
             }
             return view(cache('config')['theme'].'.tuan',compact('title','good','good_spec_price','filter_spec','tuan','wechat_js','user'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // dd($e);
             return view('errors.404');
         }

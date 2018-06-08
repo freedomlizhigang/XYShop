@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pay;
 
+use App\Http\Controllers\Common\OrderApi;
 use App\Http\Controllers\Controller;
 use App\Models\Common\Pay;
 use App\Models\Good\Order;
@@ -9,6 +10,7 @@ use App\Models\User\User;
 use DB;
 use EasyWeChat\Payment\Order as WxOrder;
 use Illuminate\Http\Request;
+use Log;
 use Omnipay\Omnipay;
 use QrCode;
 use Storage;
@@ -32,7 +34,7 @@ class PayController extends Controller
             $pmod = $pay->code;
             $ip = $req->ip();
             return $this->$pmod($oid,$pay,$ip);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // dd($e);
             return back()->with('message','出错了，一会再试吧！');
         }
@@ -52,14 +54,15 @@ class PayController extends Controller
             }
             User::where('id',$order->user_id)->sharedLock()->decrement('user_money',$order->total_prices);
             // 消费记录
-            if (!$this->updateOrder($order,$paymod = '余额')) {
+            if (!OrderApi::updateOrder($order,$paymod = '余额')) {
                 DB::rollback();
-                return back()->with('message','支付失败，请稍后再试！');
+                return back()->with('message','支付失败，请稍后再试+1！');
             }
             DB::commit();
             return redirect(url('user/orderlist/2'))->with('message','支付成功，等待收货！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
+            // Log::info($e);
             return back()->with('message','支付失败，请稍后再试！');
         }
     }
@@ -100,7 +103,7 @@ class PayController extends Controller
 
         // 下单后跳转到支付页面
         // $redirectUrl = $response->getRedirectUrl();
-        //or 
+        //or
         $response->redirect();
     }
 
@@ -129,7 +132,7 @@ class PayController extends Controller
                 $pos_id = 'cart';
                 $title = '订单结算-微信支付';
                 return view(cache('config')['theme'].'.pay.wxpay',compact('title','pos_id','config','js','oid','order'));
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // dd($e);
                 Storage::disk('log')->prepend('weixin.log',$e->getMessage().date('Y-m-d H:i:s'));
                 return back()->with('message','微信支付失败，请稍后再试！');
@@ -155,7 +158,7 @@ class PayController extends Controller
                 $pos_id = 'cart';
                 $title = '订单结算-微信支付';
                 return view(cache('config')['theme'].'.pay.wxpay_jsbridge',compact('title','pos_id','config','oid','order'));
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // dd($e);
                 Storage::disk('log')->prepend('weixin.log',$e->getMessage().date('Y-m-d H:i:s'));
                 return back()->with('message','微信支付失败，请稍后再试！');

@@ -17,7 +17,7 @@ class AjaxCommonController extends Controller
 		try {
 			$res = GoodCate::where('parentid',$req->pid)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
 			$this->ajaxReturn('1',$res);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->ajaxReturn('0',$e->getMessage());
 		}
 	}
@@ -28,7 +28,7 @@ class AjaxCommonController extends Controller
 		try {
 			$res = Brand::where('goodcate_parentid',$req->pid)->where('goodcate_id',$req->cid)->select('id','name')->orderBy('id','asc')->get();
 			$this->ajaxReturn('1',$res);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->ajaxReturn('0',$e->getMessage());
 		}
 	}
@@ -39,7 +39,7 @@ class AjaxCommonController extends Controller
         try {
             $res = Area::where('parentid',$req->pid)->where('is_show',1)->select('id','areaname')->orderBy('sort','asc')->orderBy('id','asc')->get();
             $this->ajaxReturn('1',$res);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->ajaxReturn('0',$e->getMessage());
         }
     }
@@ -50,7 +50,7 @@ class AjaxCommonController extends Controller
         try {
             $res = Community::where('areaid3',$req->areaid3)->where('is_show',1)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
             $this->ajaxReturn('1',$res);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->ajaxReturn('0',$e->getMessage());
         }
     }
@@ -62,7 +62,7 @@ class AjaxCommonController extends Controller
             $pid = $req->pid == '0' ? 0 : Area::where('areaname',$req->pid)->value('id');
 			$res = Area::where('parentid',$pid)->where('is_show',1)->select('id','areaname')->orderBy('sort','asc')->orderBy('id','asc')->get();
 			$this->ajaxReturn('1',$res);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->ajaxReturn('0',$e->getMessage());
 		}
     }
@@ -74,7 +74,7 @@ class AjaxCommonController extends Controller
             $pid = Area::where('areaname',$req->areaid3)->value('id');
 			$res = Community::where('areaid3',$pid)->where('is_show',1)->select('id','name')->orderBy('sort','asc')->orderBy('id','asc')->get();
 			$this->ajaxReturn('1',$res);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->ajaxReturn('0',$e->getMessage());
 		}
     }

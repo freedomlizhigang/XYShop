@@ -70,13 +70,13 @@ class OverTuan extends Command
                         // 关掉订单
                         Order::where('id',$o->id)->update(['orderstatus'=>0]);
                         DB::commit();
-                    } catch (\Exception $e) {
+                    } catch (\Throwable $e) {
                         DB::rollback();
                         Log::warning('关闭团购订单记录：'.$o->id);
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::warning('关闭团购订单记录');
             dump($e);
         }

@@ -32,8 +32,8 @@
 		<ul>
 			@foreach(app('tag')->catelist(0,10,0,1) as $c)
 			<li>
-				<a href="{{ url('/catelist',['id'=>$c->id]) }}" class="menu_img db_ma"><img data-original="{{ $c->thumb }}" width="70" height="70" alt="{{ $c->mobilename }}" class="lazy"></a>
-				<a href="{{ url('/catelist',['id'=>$c->id]) }}" class="menu_title">{{ $c->mobilename }}</a>
+				<a href="{{ $c->url }}" class="menu_img db_ma"><img data-original="{{ $c->thumb }}" width="70" height="70" alt="{{ $c->mobilename }}" class="lazy"></a>
+				<a href="{{ $c->url }}" class="menu_title">{{ $c->mobilename }}</a>
 			</li>
 			@endforeach
 		</ul>

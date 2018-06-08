@@ -35,7 +35,7 @@ class HomeController extends Controller
             $title = '首页';
             $wechat_js = app('wechat.official_account')->jssdk;
             return view(cache('config')['theme'].'.index',compact('pos_id','title','wechat_js'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             dd($e);
             return view('errors.404');
         }
@@ -60,7 +60,7 @@ class HomeController extends Controller
             }
             $title = '商品分类';
             return view(cache('config')['theme'].'.catelist',compact('pos_id','title','id','one','cates'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             dd($e);
             return view('errors.404');
         }
@@ -86,7 +86,7 @@ class HomeController extends Controller
             $pos_id = 'home';
             $title = $catname;
             return view(cache('config')['theme'].'.list',compact('pos_id','title','list','sort','sc'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             dd($e);
             return view('errors.404');
         }
@@ -100,7 +100,7 @@ class HomeController extends Controller
             $good = Good::findOrFail($id);
             /*
             * 查出来所有的规格信息
-            * 1、找出所有的规格ID 
+            * 1、找出所有的规格ID
             * 2，查出所有的规格ID对应的名字spec_item及spec内容
             * 3、循环出来所有的规格及规格值
             * */
@@ -122,7 +122,7 @@ class HomeController extends Controller
             $keyword = $good->keyword;
             $describe = $good->describe;
             return view(cache('config')['theme'].'.good',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon','wechat_js'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // dd($e);
             return view('errors.404');
         }
@@ -139,7 +139,7 @@ class HomeController extends Controller
             $pos_id = 'home';
             $title = "搜索结果";
             return view(cache('config')['theme'].'.search',compact('pos_id','title','list','sort','sc','key'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // dd($e);
             return view('errors.404');
         }

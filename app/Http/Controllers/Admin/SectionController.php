@@ -56,7 +56,7 @@ class SectionController extends Controller
                 // 没出错，提交事务
                 DB::commit();
                 return back()->with('message', '删除部门成功！');
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 // 出错回滚
                 DB::rollBack();
                 return back()->with('message','删除失败，请稍后再试！');
@@ -66,6 +66,6 @@ class SectionController extends Controller
         {
             return back()->with('message', '部门下有用户！');
         }
-        
+
     }
 }

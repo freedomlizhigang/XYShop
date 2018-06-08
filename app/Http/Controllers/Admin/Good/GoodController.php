@@ -158,7 +158,7 @@ class GoodController extends Controller
             DB::commit();
             // 跳转回添加的栏目列表
             return $this->adminJson(1,'添加商品成功！',url('/console/good/index'));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,$e->getMessage());
@@ -219,7 +219,7 @@ class GoodController extends Controller
             DB::commit();
             // 跳转回添加的栏目列表
             return $this->adminJson(1,'修改商品商品成功！',$res->ref);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,$e->getLine().$e->getMessage());
@@ -272,7 +272,7 @@ class GoodController extends Controller
                 // 没出错，提交事务
                 DB::commit();
                 return back()->with('message', '批量操作完成！');
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 // 出错回滚
                 DB::rollBack();
                 return back()->with('message','操作失败，请稍后再试！');
@@ -298,7 +298,7 @@ class GoodController extends Controller
                 // 没出错，提交事务
                 DB::commit();
                 return back()->with('message', '批量修改分类完成！');
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 // 出错回滚
                 DB::rollBack();
                 return back()->with('message','操作失败，请稍后再试！');
@@ -334,7 +334,7 @@ class GoodController extends Controller
                 // 没出错，提交事务
                 DB::commit();
                 return back()->with('message', '批量删除完成！');
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 // 出错回滚
                 DB::rollBack();
                 return back()->with('message','删除失败，请稍后再试！');
@@ -401,7 +401,7 @@ class GoodController extends Controller
     /**
      * 动态获取商品规格输入框 根据不同的数据返回不同的输入框
      * 获取 规格的 笛卡尔积
-     * @param $goods_id 商品 id     
+     * @param $goods_id 商品 id
      * @param $spec_arr 笛卡尔积
      * @return string 返回表格字符串
      */
@@ -415,33 +415,33 @@ class GoodController extends Controller
             {
                 $spec_arr_sort[$k] = count($v);
             }
-            asort($spec_arr_sort);        
+            asort($spec_arr_sort);
             foreach ($spec_arr_sort as $key =>$val)
             {
                 $spec_arr2[$key] = $spec_arr[$key];
             }
-            
+
             $clo_name = array_keys($spec_arr2);
-            $spec_arr2 = app('com')->combineDika($spec_arr2); //  获取 规格的 笛卡尔积                 
-                       
+            $spec_arr2 = app('com')->combineDika($spec_arr2); //  获取 规格的 笛卡尔积
+
             $spec = GoodSpec::select('id','name')->get()->keyBy('id')->toArray(); // 规格表
             $specItem = GoodSpecItem::get()->keyBy('id')->toArray();    //规格项
             $keySpecGoodsPrice = GoodSpecPrice::where('good_id',$goods_id)->select('item_id','item_name','price','store')->get()->keyBy('item_id')->toArray();//规格项
 
            $str = "<table class='table table-bordered' id='spec_input_tab'>";
-           $str .="<tr>";       
+           $str .="<tr>";
            // 显示第一行的数据
-            foreach ($clo_name as $k => $v) 
+            foreach ($clo_name as $k => $v)
             {
                 if ($v != 0) {
                     $str .=" <td><b>".$spec[$v]['name']."</b></td>";
                 }
-            }    
+            }
             $str .="<td><b>价格</b></td>
                    <td><b>库存</b></td>
                  </tr>";
-           // 显示第二行开始 
-           foreach ($spec_arr2 as $k => $v) 
+           // 显示第二行开始
+           foreach ($spec_arr2 as $k => $v)
            {
                 $str .="<tr>";
                 $item_key_name = array();
@@ -451,20 +451,20 @@ class GoodController extends Controller
                     // $item_key_name[$v2] = $specItem[$v2]['item'];
                     $item_key_name[$v2] = $spec[$specItem[$v2]['good_spec_id']]['name'].':'.$specItem[$v2]['item'];
                 }
-                ksort($item_key_name);            
+                ksort($item_key_name);
                 $item_key = '_'.implode('_', array_keys($item_key_name)).'_';
                 $item_name = implode(' ', $item_key_name);
-                
+
                 $keySpecGoodsPrice[$item_key]['price'] = isset($keySpecGoodsPrice[$item_key]['price']) ? $keySpecGoodsPrice[$item_key]['price'] : 0; // 价格默认为0
                 $keySpecGoodsPrice[$item_key]['store'] = isset($keySpecGoodsPrice[$item_key]['store']) ? $keySpecGoodsPrice[$item_key]['store'] : 0; //库存默认为0
                 $str .="<td><input name='spec_item[$item_key][price]' class='form-control input-xs' value='{$keySpecGoodsPrice[$item_key]['price']}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")' /></td>";
                 $str .="<td><input name='spec_item[$item_key][store]' class='form-control input-xs' value='{$keySpecGoodsPrice[$item_key]['store']}' onkeyup='this.value=this.value.replace(/[^\d.]/g,\"\")' onpaste='this.value=this.value.replace(/[^\d.]/g,\"\")'/>
                     <input type='hidden' name='spec_item[$item_key][item_name]' value='$item_name' /></td>";
-                $str .="</tr>";           
+                $str .="</tr>";
            }
             $str .= "</table>";
             exit($str);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             exit($e->getLine().' - '.$e->getMessage());
         }
     }

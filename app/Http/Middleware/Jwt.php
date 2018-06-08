@@ -20,7 +20,7 @@ class Jwt
         $token = $request->token;
         try {
             $token_arr = explode('.', decrypt($token));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return response()->json(['code'=>2,'msg' => 'Token解析错误！']);
         }
         $uid = $token_arr[0];

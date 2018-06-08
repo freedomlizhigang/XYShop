@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Good;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Good\ReturnGoodRequest;
 use App\Models\Good\Order;
+use App\Models\Good\OrderGood;
 use App\Models\Good\ReturnGood;
 use App\Models\User\User;
 use DB;
@@ -102,10 +103,11 @@ class RetrunGoodController extends Controller
     public function postStatus(ReturnGoodRequest $req,$id = '')
     {
         // 更新为关闭，退款到余额里
-        DB::transaction(function() use ($id,$req){
+        DB::beginTransaction();
+        try {
             ReturnGood::where('id',$id)->update($req->input('data'));
             // 如果同意退货
-            if ($req->input('data.status') === 1) {
+            if ($req->input('data.status') == '1') {
                 $rg = ReturnGood::findOrFail($id);
                 User::where('id',$rg->user_id)->increment('user_money',$rg->total_prices);
                 // 完成退货
@@ -113,7 +115,11 @@ class RetrunGoodController extends Controller
                 // 消费记录
                 app('com')->consume($rg->user_id,$rg->order_id,$rg->total_prices,'退货返现('.$rg->order_id.'),商品：('.$rg->good_title.')',1);
             }
-        });
-        return $this->adminJson(1,'处理成功！');
+            DB::commit();
+            return $this->adminJson(1,'处理成功！');
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return $this->adminJson(0,'处理失败！');
+        }
     }
 }

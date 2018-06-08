@@ -2,11 +2,11 @@
 <div id="uploader" class="wu-example">
     <!--用来存放文件信息-->
     <div id="thelist" class="uploader-list">
-    	@if($slot != '')
-    	<div class="file-item">
-			<img src="{{ $slot }}" width="110" height="110" alt="">
-		</div>
-    	@endif
+        @if($slot != '')
+        <div class="file-item">
+            <img src="{{ $slot }}" width="110" height="110" alt="">
+        </div>
+        @endif
     </div>
     <div class="clearfix">
         <div id="thumb_btn" class="btn btn-sm btn-success">选择文件</div>
@@ -47,11 +47,11 @@
         },
         // 开起分片上传。
         // chunked: true,
-        // formData:{
-        //     thumb : 1,
-        //     thumbWidth:375,
-        //     thumbHeight:375
-        // },
+        formData:{
+            thumb : 1,
+            thumbWidth:375,
+            thumbHeight:375
+        },
         thumb: {
             width: 110,
             height: 110,

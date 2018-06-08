@@ -32,7 +32,7 @@ class AjaxUserController extends Controller
             $data = ['username'=>$req->phone,'phone'=>$req->phone,'password'=>encrypt($req->passwd)];
             User::where('id',$req->uid)->update($data);
             $this->ajaxReturn('1','非常成功，请继续购物！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->ajaxReturn('0',$e->getMessage());
         }
     }
@@ -67,7 +67,7 @@ class AjaxUserController extends Controller
     		$address = Address::create($data);
     		$msg = "<li data-aid=".$address->id." class='active'><span class='l_a_left'>".$address->people."</span><span class='l_a_right'>".$address->people." ".$address->area." ".$address->address." ".$address->phone."</span></li>";
             $this->ajaxReturn('1',$msg);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->ajaxReturn('0',$e->getMessage());
             // $this->ajaxReturn('0','添加收货人失败，请稍后再试！');
         }

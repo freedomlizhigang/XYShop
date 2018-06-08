@@ -161,7 +161,7 @@
         <tr>
             <td class="td_left">缩略图：</td>
             <td>
-                @component('admin.component.thumb')
+                @component('admin.component.good_thumb')
                     @slot('filed_name')
                         thumb
                     @endslot

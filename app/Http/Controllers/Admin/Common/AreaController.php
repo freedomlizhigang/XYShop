@@ -42,7 +42,7 @@ class AreaController extends Controller
             // 没出错，提交事务
             DB::commit();
             return $this->adminJson(1, '添加成功！',url('console/area/index/'.$data['parentid']));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0, '添加失败，请稍后再试！');
@@ -69,7 +69,7 @@ class AreaController extends Controller
             // 没出错，提交事务
             DB::commit();
             return $this->adminJson(1, '修改成功！');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(1, '修改失败，请稍后再试！');

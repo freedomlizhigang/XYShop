@@ -7,6 +7,7 @@ use App\Models\Good\CouponUser;
 use App\Models\Good\Order;
 use App\Models\Good\OrderGood;
 use App\Models\Good\ReturnGood;
+use App\Models\User\Card;
 use App\Models\User\Consume;
 use App\Models\User\SignLog;
 use App\Models\User\User;
@@ -94,5 +95,30 @@ class UserController extends Controller
         $title = '消费记录';
         $list = CouponUser::with('coupon')->where('user_id',session('member')->id)->orderBy('id','desc')->paginate(20);
         return view(cache('config')['theme'].'.user.coupon',compact('pos_id','title','list'));
+    }
+    // 充值卡充值
+    public function getCard()
+    {
+        $pos_id = 'center';
+        $title = '充值卡充值';
+        return view(cache('config')['theme'].'.user.card',compact('pos_id','title'));
+    }
+    public function postCard(UserCardRequest $req)
+    {
+        $card_id = $req->input('data.card_id');
+        $card_pwd = $req->input('data.card_pwd');
+        $card = Card::where('status',0)->where('card_id',$card_id)->where('card_pwd',$card_pwd)->orderBy('id','desc')->first();
+        if (is_null($card)) {
+            return back()->with('message','没有找到此卡，请确认输入的正确！');
+        }
+        else
+        {
+            // 找出来卡，给用记充上钱，并标记为已用
+            Card::where('id',$card->id)->update(['status'=>1,'user_id'=>session('member')->id]);
+            User::where('id',session('member')->id)->increment('user_money',$card->price);
+            // 消费记录
+            app('com')->consume(session('member')->id,0,$card->price,'充值卡充值',1);
+            return redirect('/center')->with('message','充值成功');
+        }
     }
 }

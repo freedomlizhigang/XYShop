@@ -52,7 +52,7 @@ class UserOrderController extends Controller
           $title = '订单详情';
           $order = Order::with('good')->findOrFail($id);
           return view(cache('config')['theme'].'.user.orderinfo',compact('pos_id','title','order'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
           dd($e);
           return view('errors.404');
         }
@@ -79,7 +79,7 @@ class UserOrderController extends Controller
           $data = ['user_id'=>$og->user_id,'order_id'=>$og->order_id,'good_id'=>$og->good_id,'good_title'=>$og->good_title,'good_spec_key'=>$og->good_spec_key,'good_spec_name'=>$og->good_spec_name,'nums'=>$og->nums,'price'=>$og->price,'total_prices'=>$og->total_prices,'mark'=>$req->mark];
           ReturnGood::create($data);
           return redirect(url('user/orderinfo/'.$og->order_id))->with('message','退货申请已提交，请等待管理员联系您！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
           dd($e);
           return back()->with('message','提交失败，稍后再试！');
         }

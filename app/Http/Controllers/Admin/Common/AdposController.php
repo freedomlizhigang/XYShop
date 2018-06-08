@@ -38,7 +38,7 @@ class AdposController extends Controller
             $data = $res->input('data');
             $resId = Adpos::create($data);
             return $this->adminJson(1, '添加成功！',url('console/adpos/index'));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return $this->adminJson(0, '添加失败，请稍后再试！');
         }
     }
@@ -57,7 +57,7 @@ class AdposController extends Controller
             $data = $res->input('data');
             Adpos::where('id',$id)->update($data);
             return $this->adminJson(1, '修改成功！');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return $this->adminJson(1, '修改失败，请稍后再试！');
         }
     }

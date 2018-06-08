@@ -89,7 +89,7 @@ class ArtController extends Controller
             DB::commit();
             // 跳转回添加的栏目列表
             return $this->adminJson(1,'添加文章成功！',url('/console/art/index?catid='.$res->input('data.catid')));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,'添加失败，请稍后再试！');
@@ -123,7 +123,7 @@ class ArtController extends Controller
             DB::commit();
             // 取得编辑前url参数，并跳转回去
             return $this->adminJson(1,'修改文章成功！',$res->input('ref'));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,'修改失败，请稍后再试！');
@@ -143,7 +143,7 @@ class ArtController extends Controller
             // 没出错，提交事务
             DB::commit();
             return back()->with('message', '删除文章成功！');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return back()->with('message','删除失败，请稍后再试！');
@@ -176,7 +176,7 @@ class ArtController extends Controller
                 // 没出错，提交事务
                 DB::commit();
                 return back()->with('message', '批量删除完成！');
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 // 出错回滚
                 DB::rollBack();
                 return back()->with('message','删除失败，请稍后再试！');

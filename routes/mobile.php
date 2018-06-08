@@ -79,6 +79,9 @@ Route::group(['namespace' => 'Mobile','middleware'=>'member'],function(){
     Route::get('user/distribution/shareurl','DistributionController@getShareurl');
     // 分成记录
     Route::get('user/distribution/logs','DistributionController@getLogs');
+    // 充值卡激活
+    Route::get('user/card','UserController@getCard');
+    Route::post('user/card','UserController@postCard');
 });
 // 发起支付
 Route::get('order/pay/{oid}','Pay\PayController@getTopay')->middleware('member');

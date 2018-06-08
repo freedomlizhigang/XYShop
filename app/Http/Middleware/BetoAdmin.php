@@ -24,6 +24,9 @@ class BetoAdmin
 
         // 拼接权限名字，url的第二个跟第三个参数
         $toArr = explode('/',$request->path());
+        if ($toArr[0] != 'console') {
+            return back()->with('message','没有权限！');
+        }
         // 如果不写方法名，默认为index
         $toArr[2] = count($toArr) == 2 ? 'index' : $toArr[2];
         $priv = $toArr[1].'-'.$toArr[2];

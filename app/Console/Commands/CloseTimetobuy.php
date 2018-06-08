@@ -54,7 +54,7 @@ class CloseTimetobuy extends Command
             // 关掉
             Order::whereIn('id',$orderids)->update(['orderstatus'=>0]);
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             Log::warning('关闭团购订单记录');
             // dump($e);

@@ -10,12 +10,22 @@ use Storage;
 
 class ComService
 {
+    //uuid生成方法（可以指定前缀）
+    public function create_uuid($prefix = ""){
+        $str = md5(uniqid(mt_rand(), true));
+        $uuid  = substr($str,0,8) . '-';
+        $uuid .= substr($str,8,4) . '-';
+        $uuid .= substr($str,12,4) . '-';
+        $uuid .= substr($str,16,4) . '-';
+        $uuid .= substr($str,20,12);
+        return $prefix . $uuid;
+    }
     // 判断是不是微信浏览器
     public function is_weixin()
     {
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
             return true;
-        } 
+        }
         return false;
     }
     // 密码生成及判断
@@ -51,13 +61,13 @@ class ComService
         $cnt = count($data);
         $result = array();
         $arr1 = array_shift($data);
-        foreach($arr1 as $key=>$item) 
+        foreach($arr1 as $key=>$item)
         {
             $result[] = array($item);
-        }       
+        }
 
-        foreach($data as $key=>$item) 
-        {                                
+        foreach($data as $key=>$item)
+        {
             $result = $this->combineArray($result,$item);
         }
         return $result;
@@ -69,11 +79,11 @@ class ComService
      * @param unknown_type $arr1
      * @param unknown_type $arr2
     */
-    public function combineArray($arr1,$arr2) {         
+    public function combineArray($arr1,$arr2) {
         $result = array();
-        foreach ($arr1 as $item1) 
+        foreach ($arr1 as $item1)
         {
-            foreach ($arr2 as $item2) 
+            foreach ($arr2 as $item2)
             {
                 $temp = $item1;
                 $temp[] = $item2;
@@ -171,7 +181,7 @@ class ComService
             $str = '';
             if($level > 1)
             {
-                for ($i=2; $i < $level; $i++) { 
+                for ($i=2; $i < $level; $i++) {
                     $str .= '| ';
                 }
                 $str .= ' |—';
@@ -250,11 +260,11 @@ class ComService
                 // 以主键做为数组索引
                 $temparr[$c[$id]] = $c;
             }
-        } 
+        }
         return $temparr;
     }
     /**
-     * 
+     *
      * 获取父栏目ID列表
      * @param integer $id              栏目ID
      * @param array $arrparentid          父目录ID
@@ -275,7 +285,7 @@ class ComService
         return $arrparentid;
     }
     /**
-     * 
+     *
      * 获取子栏目ID列表
      * @param $id 栏目ID
      */
@@ -416,7 +426,7 @@ class ComService
                 $return['url'] = $url;
             }
             return json_encode($return);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Storage::disk('log')->append('upload.log',json_encode($e).date('Y-m-d H:i:s'));
         }
     }
@@ -449,7 +459,7 @@ class ComService
         curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);// 对认证证书来源的检查
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);// 从证书中检查SSL加密算
-        
+
         //3)设置提交方式
         switch($type){
             case "GET":
@@ -465,14 +475,14 @@ class ComService
                 curl_setopt($ch,CURLOPT_CUSTOMREQUEST,"DELETE");
                 break;
         }
-        
+
         //2)设备请求体
         if (count($body)>0 && $type == 'POST') {
             $body = $json ? json_encode($body) : $body;
             // dd($body);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $body);//全部数据使用HTTP协议中的"POST"操作来发送。
         }
-        
+
         //3.抓取URL并把它传递给浏览器
         $res=curl_exec($ch);
         $result=json_decode($res,true);
@@ -482,6 +492,6 @@ class ComService
             return $res;
         else
             return $result;
-    
+
     }
 }

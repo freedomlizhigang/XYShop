@@ -60,7 +60,7 @@ class OverPromotion extends Command
             $good_id = collect($tids,$tbids,$fids,$pgids)->collapse();
             // 归零操作
             Good::whereIn('id',$good_id)->update(['prom_type'=>0,'prom_id'=>0]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::warning('关闭团购订单记录');
             dump($e);
         }

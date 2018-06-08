@@ -45,8 +45,8 @@ class OrderApi
                 $good = Good::where('id',$v->good_id)->sharedLock()->first();
                 Good::where('id',$v->good_id)->update(['store'=>$good->store + $nums,'sales'=>$good->sales - $nums]);
                 if ($v->good_spec_key != '') {
-                    $store = GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->spec_key)->sharedLock()->value('store');
-                    GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->spec_key)->update(['store'=>$store + $nums]);
+                    $store = GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->good_spec_key)->sharedLock()->value('store');
+                    GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->good_spec_key)->update(['store'=>$store + $nums]);
                 }
                 switch ($v->prom_type) {
                     // 赠品
@@ -82,8 +82,8 @@ class OrderApi
                 if ($good->store >= $nums) {
                     Good::where('id',$v->good_id)->update(['store'=>$good->store - $nums,'sales'=>$good->sales + $nums]);
                     if ($v->good_spec_key != '') {
-                        $store = GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->spec_key)->sharedLock()->value('store');
-                        GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->spec_key)->update(['store'=>$store - $nums]);
+                        $store = GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->good_spec_key)->sharedLock()->value('store');
+                        GoodSpecPrice::where('good_id',$v->good_id)->where('item_id',$v->good_spec_key)->update(['store'=>$store - $nums]);
                     }
                 }
                 else
@@ -138,7 +138,7 @@ class OrderApi
             app('com')->consume($order->user_id,$order->id,$order->total_prices,$paymod.'支付订单（'.$order->order_id.'）');
             // 没出错
             return true;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             Log::warning('支付完成操作失败：'.$e->getLine().' - '.$e->getMessage());
             return false;
@@ -169,7 +169,7 @@ class OrderApi
                 Order::where('t_orderid',$old_t_orderid)->where('prom_type',2)->where('orderstatus',1)->where('paystatus',1)->update(['display'=>1]);
             }
             return true;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return false;
         }
     }

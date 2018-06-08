@@ -48,7 +48,7 @@ class GoodSpecController extends Controller
             }
             DB::commit();
             return $this->resJson(1,'添加商品规格成功！','');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->resJson(0,$e->getMessage());
@@ -105,7 +105,7 @@ class GoodSpecController extends Controller
             // 没出错，提交事务
             DB::commit();
             return $this->resJson(1,'修改商品规格成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->resJson(0,$e->getMessage());
@@ -128,7 +128,7 @@ class GoodSpecController extends Controller
             GoodSpecItem::where('good_spec_id',$id)->delete();
             DB::commit();
             return $this->resJson(1,'删除商品规格成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             return $this->resJson(0,'删除商品规格失败！');
         }

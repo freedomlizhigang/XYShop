@@ -293,6 +293,8 @@ Route::group(['prefix'=>'console','middleware' => ['rbac'],'namespace' => 'Admin
     Route::post('user/consumed/{id}', 'User\UserController@postConsumed');
     Route::get('user/consume/{id}', 'User\UserController@getConsume');
     Route::get('user/address/{id}', 'User\UserController@getAddress');
+    Route::get('user/addressedit/{id}', 'User\UserController@getAddressEdit');
+    Route::post('user/addressedit/{id}', 'User\UserController@postAddressEdit');
     Route::get('user/ranking', 'User\UserController@getConsumeRanking');
     Route::get('user/excel', 'User\UserController@getExcel');
 });

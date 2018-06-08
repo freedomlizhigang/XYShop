@@ -14,7 +14,7 @@ use Storage;
 
 class PayController extends BaseController
 {
-	
+
     // 取订单可以使用的支付方式
     public function list($oid)
     {
@@ -68,7 +68,7 @@ class PayController extends BaseController
             }
             DB::commit();
             return redirect('user/order/2')->with('message','支付成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             return redirect('user/order/1')->with('message','支付失败，请稍后再试！');
     	}
@@ -95,7 +95,7 @@ class PayController extends BaseController
 
     	$order = [
     	    // 'orderId'   => date('YmdHis'), //Your order ID $order->order_id
-            'orderId'   => $order->order_id, //Your order ID 
+            'orderId'   => $order->order_id, //Your order ID
     	    'txnTime'   => date('YmdHis'), //Should be format 'YmdHis'
     	    'orderDesc' => '吉鲜蜂订单', //Order Title
     	    'txnAmt'    => $order->total_prices * 100, //Order Total Fee
@@ -133,7 +133,7 @@ class PayController extends BaseController
                 DB::rollback();
                 exit('fail');
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             Storage::disk('log')->prepend('unionpay.log',json_encode($req->all()).date('Y-m-d H:i:s'));
             Storage::disk('log')->prepend('unionpay.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
@@ -178,7 +178,7 @@ class PayController extends BaseController
 
 		// 下单后跳转到支付页面
 		// $redirectUrl = $response->getRedirectUrl();
-		//or 
+		//or
 		$response->redirect();
     }
 
@@ -256,7 +256,7 @@ class PayController extends BaseController
 		$request  = $gateway->purchase($order);
 		$response = $request->send();
 
-		
+
 		//available methods
 		// 如果下单成功，调起支付动作
 		if($response->isSuccessful())

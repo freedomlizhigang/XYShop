@@ -29,7 +29,7 @@ class AjaxCouponController extends Controller
 		Coupon::where('id',$id)->decrement('nums');
 		// 没出错，提交事务
 			DB::commit();
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			// 出错回滚
 			DB::rollBack();
 			$this->ajaxReturn('0','领取失败，请稍后再试！');
@@ -52,7 +52,7 @@ class AjaxCouponController extends Controller
 		// 没出错，提交事务
 			DB::commit();
 		   $this->ajaxReturn('1','删除成功！');
-	  } catch (\Exception $e) {
+	  } catch (\Throwable $e) {
 		// 出错回滚
 			DB::rollBack();
 			$this->ajaxReturn('0','领取失败，请稍后再试！');

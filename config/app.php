@@ -59,7 +59,7 @@ return [
     |静态文件存放地址
     |
      */
-    
+
     'static' => '/statics/',
 
 
@@ -196,9 +196,6 @@ return [
         // 调试
         Barryvdh\Debugbar\ServiceProvider::class,
 
-        // 转拼音
-        Overtrue\LaravelPinyin\ServiceProvider::class,
-
         // excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
@@ -254,9 +251,6 @@ return [
         // 调试
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
 
-        // 转拼音
-        'Pinyin' => Overtrue\LaravelPinyin\Facades\Pinyin::class,
-        
         // excel
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],

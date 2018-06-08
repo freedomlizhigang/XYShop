@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class PayController extends Controller
 {
-    // 
+    //
     public function getIndex(Request $res)
     {
     	$title = '支付配置';
@@ -34,7 +34,7 @@ class PayController extends Controller
             // 没出错，提交事务
             DB::commit();
             return $this->adminJson(1,'修改支付配置成功！',url('/console/pay/index'));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,'修改失败，请稍后再试！');

@@ -92,7 +92,7 @@ class UserAddressController extends Controller
 
         $data = $req->input('data');
         $data['area'] = $req->area1.'-'.$req->area2.'-'.$req->area3.'-'.$req->area4;
-        Address::where('user_id',session('member')->id)->update($data);
+        Address::where('user_id',session('member')->id)->where('id',$id)->update($data);
         return redirect(url('user/address'))->with('message','修改成功！');
     }
     // 删除地址

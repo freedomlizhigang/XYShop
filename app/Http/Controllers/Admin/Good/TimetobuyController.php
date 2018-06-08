@@ -53,7 +53,7 @@ class TimetobuyController extends Controller
     	   // 设置商品类型及活动ID
     	   Good::where('id',$data['good_id'])->update(['prom_type'=>1,'prom_id'=>$tid->id]);
            return $this->adminJson(1,'添加成功！',url('console/timetobuy/index'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->adminJson(0,$e->getMessage());
         }
     }
@@ -78,7 +78,7 @@ class TimetobuyController extends Controller
         }
     	Timetobuy::where('id',$id)->update($data);
     	return $this->adminJson(1,'修改成功！',$req->ref);
-        
+
     }
     // 删除
     public function getDel($id = '')

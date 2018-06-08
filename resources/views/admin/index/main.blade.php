@@ -14,7 +14,7 @@
     <form action="" class="form-inline form_excel" method="get">
         开始时间：<input type="text" name="starttime" class="form-control mr10" value="{{ $starttime }}" id="laydate">
         到：<input type="text" name="endtime" class="form-control" value="{{ $endtime }}" id="laydate2">
-        <button class="btn btn-xs btn-info">查询</button>
+        <button class="btn btn-xs btn-info btn_search">查询</button>
         @if(App::make('com')->ifCan('index-excel_goods'))
         <button class="btn btn-xs btn-success btn_goods">导出销售统计表</button>
         @endif
@@ -156,6 +156,9 @@
 
 <script>
     $(function(){
+        $('.btn_search').click(function(){
+            $('.form_excel').attr('action',"").submit();
+        });
         $('.btn_goods').click(function(){
             $('.form_excel').attr('action',"{{ url('/console/index/excel_goods') }}").submit();
         });

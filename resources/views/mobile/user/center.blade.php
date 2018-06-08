@@ -27,6 +27,7 @@
   <div class="center_overh mt20 bgc_f">
     <h4 class="t4_center pr"><i class="iconfont icon-my_light color_cheng"></i>个人信息<a href="{{ url('userinfo') }}" class="ps t4_center_r">修改<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-pay color_main"></i>会员充值<a href="{{ url('user/recharge') }}" class="ps t4_center_r">立即充值<i class="iconfont icon-right"></i></a></h4>
+    <h4 class="t4_center pr"><i class="iconfont icon-vipcard color_fen"></i>充值卡激活<a href="{{ url('user/card') }}" class="ps t4_center_r">激活<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-sortlight color_lan"></i>消费记录<a href="{{ url('consume') }}" class="ps t4_center_r">查看全部<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-moneybag color_red"></i>分享赚余额<a href="{{ url('user/distribution/shareurl') }}" class="ps t4_center_r">立即开赚<i class="iconfont icon-right"></i></a></h4>
     <h4 class="t4_center pr"><i class="iconfont icon-people_list_light color_zi"></i>赚钱记录<a href="{{ url('user/distribution/logs') }}" class="ps t4_center_r">赚钱记录<i class="iconfont icon-right"></i></a></h4>

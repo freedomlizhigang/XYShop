@@ -41,7 +41,7 @@ class TypeController extends Controller
             // 后台用户组权限
             app('com')->updateCache(new Type,'typeCache');
             return $this->adminJson(1,'添加成功！');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return $this->adminJson(0,'添加失败，请稍后再试！');
         }
     }
@@ -67,7 +67,7 @@ class TypeController extends Controller
             // 更新缓存
             app('com')->updateCache(new Type,'typeCache');
             return $this->adminJson(1,'修改成功！');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return $this->adminJson(0,'修改失败，请稍后再试！');
         }
     }
@@ -80,7 +80,7 @@ class TypeController extends Controller
         try {
             Type::destroy($childs);
             $message = '删除成功！';
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return back()->with('message','删除失败，请稍后再试！');
         }
         return back()->with('message', $message);

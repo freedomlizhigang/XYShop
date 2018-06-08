@@ -42,6 +42,17 @@ class AjaxGoodController extends Controller
             $type = $req->input('type','');
             // 商品信息
             $good = Good::findOrFail($id);
+            if ($spec_key == '') {
+                $new_price = $old_price = $good->shop_price;
+            }
+            else
+            {
+                $spec_key_price = GoodSpecPrice::where('good_id',$id)->where('item_id',$spec_key)->value('price');
+                if (is_null($spec_key_price)) {
+                    $this->ajaxReturn('0',"规格错误！");
+                }
+                $new_price = $old_price = $spec_key_price;
+            }
             // 如果用户已经登录，查以前的购物车
             if (!$userid) {
                 $this->ajaxReturn('2',"请先登录！");
@@ -56,7 +67,7 @@ class AjaxGoodController extends Controller
                 try {
                     $gid = User::where('id',$userid)->value('gid');
                     $discount = Group::where('id',$gid)->value('discount');
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
                     $discount = 100;
                 }
                 $new_price = ($old_price * $discount) / 100;
@@ -88,7 +99,7 @@ class AjaxGoodController extends Controller
                 Cart::create($a);
             }
             $this->ajaxReturn('1','加入购物车成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->ajaxReturn('0',$e->getMessage());
         }
     }
@@ -96,6 +107,7 @@ class AjaxGoodController extends Controller
     private function promotion($old_price = 0,$prom_id = 0)
     {
         $promotion = Promotion::where('starttime','<=',date('Y-m-d H:i:s'))->where('endtime','>=',date('Y-m-d H:i:s'))->where('status',1)->where('delflag',1)->where('id',$prom_id)->first();
+        $new_price = $old_price;
         if (!is_null($promotion)) {
             $new_price = $promotion->type === 1 ? ($old_price * $promotion->type_val / 100) : $old_price - $promotion->type_val;
         }
@@ -107,35 +119,48 @@ class AjaxGoodController extends Controller
         try {
             $cid = $req->cid;
             $num = $req->num < 1 ? 1 : $req->num;
-            $price = $req->price;
+            $new_price = $old_price = $req->price;
             $carts = Cart::where('id',$cid)->select('good_id','good_spec_key','user_id')->first();
             // 商品信息
             $good = Good::findOrFail($carts->good_id);
+            // 价格重新计算，不用传过来的
+            if ($carts->good_spec_key == '') {
+                $new_price = $old_price = $good->shop_price;
+            }
+            else
+            {
+                $spec_key_price = GoodSpecPrice::where('good_id',$carts->good_id)->where('item_id',$carts->good_spec_key)->value('price');
+                if (is_null($spec_key_price)) {
+                    $this->ajaxReturn('0',"规格错误！");
+                }
+                $new_price = $old_price = $spec_key_price;
+            }
             // 检查库存
             if (OrderApi::store($carts->good_id,$carts->good_spec_key,$num) == false && $req->type == 1) {
                 $this->ajaxReturn('0','库存不足！');return;
             }
             // 此时商品活动 ？重新计算价格 ：计算会员折扣多少
             if ($good->prom_type == 1) {
-                $new_price = $this->promotion($good->shop_price,$good->prom_id);
+                $new_price = $this->promotion($old_price,$good->prom_id);
             }
+            // 算折扣
             else
             {
                 // 算折扣，改为按用户组计算
                 try {
-                    $gid = User::where('id',$userid)->value('gid');
+                    $gid = User::where('id',$carts->user_id)->value('gid');
                     $discount = Group::where('id',$gid)->value('discount');
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
                     $discount = 100;
                 }
-                $new_price = ($good->shop_price * $discount) / 100;
+                $new_price = ($old_price * $discount) / 100;
             }
             $total_prices = $num * $new_price;
-            Cart::where('id',$cid)->update(['nums'=>$num,'old_price'=>$good->shop_price,'price'=>$new_price,'total_prices'=>$total_prices]);
+            Cart::where('id',$cid)->update(['nums'=>$num,'old_price'=>$old_price,'price'=>$new_price,'total_prices'=>$total_prices]);
             $this->ajaxReturn('1',$num);
-        } catch (\Exception $e) {
-            $this->ajaxReturn('0','修改失败，请稍后再试！');
+        } catch (\Throwable $e) {
             // $this->ajaxReturn('0',$e->getMessage());
+            $this->ajaxReturn('0','修改失败，请稍后再试！');
         }
     }
     // 移除
@@ -145,7 +170,7 @@ class AjaxGoodController extends Controller
         try {
             Cart::where('id',$cid)->delete();
             $this->ajaxReturn('1','删除成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // $this->ajaxReturn('0',$e->getMessage());
             $this->ajaxReturn('0','删除购物车失败，请稍后再试！');
         }
@@ -176,7 +201,7 @@ class AjaxGoodController extends Controller
                 $this->ajaxReturn('2',"请先登录！");
             }
             // 判断是否选择送货地址
-            if ((!isset($req->aid) && !isset($req->ziti)) || ($req->aid == 0 && $req->ziti == 0)) {
+            if ((empty($req->aid) && empty($req->ziti)) || ($req->aid == 0 && $req->ziti == 0)) {
                 DB::rollback();
                 $this->ajaxReturn('0','请选择送货地址！');
             }
@@ -230,7 +255,7 @@ class AjaxGoodController extends Controller
             }
             User::where('id',$uid)->decrement('points',$points);
             $order = ['order_id'=>$order_id,'user_id'=>$uid,'yhq_id'=>$yhq_id,'yh_price'=>$yh_price,'points'=>$points,'points_money'=>$points_money,'old_prices'=>$old_prices,'total_prices'=>$total_prices,'create_ip'=>$req->ip(),'address_id'=>$req->aid,'ziti'=>$req->ziti,'area'=>$area,'mark'=>$req->mark];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             // $this->ajaxReturn('0','添加失败，请稍后再试！');
             $this->ajaxReturn('0',$e->getMessage());
@@ -268,7 +293,7 @@ class AjaxGoodController extends Controller
             // 没出错，提交事务
             DB::commit();
             $this->ajaxReturn('1',$order->id);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             Storage::disk('log')->prepend('updateOrder.log',json_encode($e->getMessage()).date('Y-m-d H:i:s'));
@@ -306,7 +331,7 @@ class AjaxGoodController extends Controller
                 $this->ajaxReturn('0','订单已经完成或关闭不能取消！');
             }
             $this->ajaxReturn('1','取消订单成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             // dd($e->getMessage());
@@ -322,7 +347,7 @@ class AjaxGoodController extends Controller
             $id = $req->oid;
             Order::where('id',$id)->update(['orderstatus'=>2,'confirm_at'=>date('Y-m-d H:i:s')]);
             $this->ajaxReturn('1','确认收货成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->ajaxReturn('0','确认收货失败，请稍后再试！');
         }
     }
@@ -336,7 +361,7 @@ class AjaxGoodController extends Controller
             Order::where('id',$oid)->update(['area'=>$area,'address_id'=>$req->aid,'ziti'=>$req->ziti,'mark'=>$req->mark]);
             DB::commit();
             $this->ajaxReturn('1',$req->oid);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             Log::warning('抢购订单修改失败记录：',['line'=>$e->getLine(),'msg'=>$e->getMessage()]);

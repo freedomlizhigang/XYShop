@@ -105,7 +105,7 @@ class IndexController extends Controller
      * 主要信息展示
      * 统计：总订单-销售额-已收款-未收款-代发货
      *       今日销量最高商品10件，今日新用户，七日销量统计折线图，七日新用户折线图
-     *       
+     *
      */
     public function getMain(Request $req)
     {
@@ -133,9 +133,9 @@ class IndexController extends Controller
         $timediff = strtotime($endtime) - strtotime($starttime);
         $sort =  $timediff > 604800 ? '%Y-%m' : '%Y-%m-%d';
         $takes = $timediff > 604800 ? 12 : 7;
-        $order_chart = Order::where('created_at','>',$starttime)->where('created_at','<',$endtime)->where('shipstatus',1)->select(DB::raw("DATE_FORMAT(created_at,'$sort') as datetime,sum(total_prices) as tprices"))->groupBy(DB::raw("DATE_FORMAT(created_at,'$sort')"))->orderBy("created_at","desc")->take($takes)->get();
+        $order_chart = Order::where('shipstatus',1)->select(DB::raw("DATE_FORMAT(created_at,'$sort') as datetime,sum(total_prices) as tprices"))->groupBy(DB::raw("DATE_FORMAT(created_at,'$sort')"))->orderBy("created_at","desc")->take($takes)->get();
         // 七日新用户折线图
-        $new_user_chart = User::where('created_at','>',$starttime)->where('created_at','<',$endtime)->select(DB::raw("DATE_FORMAT(created_at,'$sort') as datetime,count(id) as news"))->groupBy(DB::raw("DATE_FORMAT(created_at,'$sort')"))->orderBy("created_at","desc")->take($takes)->get();
+        $new_user_chart = User::select(DB::raw("DATE_FORMAT(created_at,'$sort') as datetime,count(id) as news"))->groupBy(DB::raw("DATE_FORMAT(created_at,'$sort')"))->orderBy("created_at","desc")->take($takes)->get();
         return view('admin.index.main',compact('title','data','top_goods','new_user','order_chart','new_user_chart','starttime','endtime'));
     }
     public function getExcelGoods(Request $req)
@@ -190,11 +190,11 @@ class IndexController extends Controller
         $endtime = isset($req->endtime) && !is_null($req->endtime) ? $req->endtime : date('Y-m-d 24:00:00');
         $orders = Order::with(['address'=>function($q){
                         $q->select('id','area','address','phone','people');
-                    },'zitidian'=>function($q){
+                    },'extract'=>function($q){
                         $q->select('id','area','address','phone');
                     },'user'=>function($q){
                         $q->select('id','nickname','address','phone','user_money');
-                    }])->where('orderstatus',1)->where('paystatus',1)->where('created_at','>',$starttime)->where('created_at','<',$endtime)->get();
+                    }])->where('orderstatus',1)->where('paystatus',1)->where('paytime','>',$starttime)->where('paytime','<',$endtime)->get();
         // ->where('orderstatus',1)->where('paystatus',1)
         $goods = OrderGood::whereIn('order_id',$orders->pluck('id'))->get();
         $pronums = Good::whereIn('id',$goods->pluck('good_id'))->select('id','pronums')->get()->keyBy('id')->toArray();
@@ -219,22 +219,22 @@ class IndexController extends Controller
                         $name = is_null($v->user) ? '' : $v->user->nickname;
                         $user_money = is_null($v->user) ? '' : $v->user->user_money;
                         $people = is_null($v->address) ? '' : $v->address->people;
-                        $tmp = [$v->order_id,$v->created_at,$name,$user_money,$title,$tmp_pronums,$g['good_spec_name'],$g['price'],$g['nums'],$v->total_prices,$people];
+                        $tmp = [$v->order_id,$v->created_at,$name,$user_money,$title,$tmp_pronums,$g['good_spec_name'],$g['old_price'],$g['price'],$g['nums'],$g['old_price'] * $g['nums'],$g['price'] * $g['nums'],$v->total_prices,$people];
                         $excel[] = $tmp;
                     }
                     else
                     {
-                        $tmp = ['','','','',$title,$tmp_pronums,$g['good_spec_name'],$g['price'],$g['nums'],'',''];
+                        $tmp = ['','','','',$title,$tmp_pronums,$g['good_spec_name'],$g['old_price'],$g['price'],$g['nums'],$g['old_price'] * $g['nums'],$g['price'] * $g['nums'],'',''];
                         $excel[] = $tmp;
                     }
                 }
                 $tmp_good = null;
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 dd($e->getMessage());
                 continue;
             }
         }
-        $cellData = array_merge([['订单编号','下单时间','会员','会员余额','订单商品名称','商家编码','规格','单价','数量','实收款','收货人姓名']],$excel);
+        $cellData = array_merge([['订单编号','下单时间','会员','会员余额','订单商品名称','商家编码','规格','单价','优惠后','数量','总价','优惠后','实收款','收货人姓名']],$excel);
         Excel::create('库房专用表',function($excel) use ($cellData){
             $excel->sheet('score', function($sheet) use ($cellData){
                 $sheet->rows($cellData);
@@ -247,21 +247,35 @@ class IndexController extends Controller
         // 今日销售统计表，先查出今天的已付款订单，再按订单查出所有产品及属性
         $starttime = isset($req->starttime) && !is_null($req->starttime) ? $req->starttime : date('Y-m-d 00:00:00');
         $endtime = isset($req->endtime) && !is_null($req->endtime) ? $req->endtime : date('Y-m-d 24:00:00');
+        $paystatus = isset($req->paystatus) ? $req->paystatus : 1;
+        $shipstatus = isset($req->shipstatus) ? $req->shipstatus : 1;
+        $orderstatus = isset($req->orderstatus) ? $req->orderstatus : '';
         $orders = Order::with(['address'=>function($q){
                         $q->select('id','area','address','phone','people');
-                    },'zitidian'=>function($q){
+                    },'extract'=>function($q){
                         $q->select('id','area','address','phone');
                     },'user'=>function($q){
                         $q->select('id','nickname','address','phone');
-                    }])->where('orderstatus',1)->where('paystatus',1)->where('created_at','>',$starttime)->where('created_at','<',$endtime)->get();
+                    }])->where(function($q) use($orderstatus){
+                        if ($orderstatus != '') {
+                            $q->where('orderstatus',$orderstatus);
+                        }
+                        else
+                        {
+                            $q->where('orderstatus','!=',0);
+                        }
+                    })->where('paystatus',$paystatus)->where('shipstatus',$shipstatus)->where('paytime','>',$starttime)->where('paytime','<',$endtime)->get();
         $goods = OrderGood::whereIn('order_id',$orders->pluck('id'))->get();
-
         // 循环每个订单的订单信息
         $excel = [];
         foreach ($orders as $k => $v) {
             // 查有几个商品
             $tmp_good = $goods->where('order_id',$v->id)->all();
-            $first_gid = $goods->where('order_id',$v->id)->first()->good_id;
+            try {
+                $first_gid = $goods->where('order_id',$v->id)->first()->good_id;
+            } catch (\Throwable $e) {
+                continue;
+            }
             foreach ($tmp_good as $kg => $g) {
                 $tmp = [];
                 $title = $g['good_title'];
@@ -274,38 +288,30 @@ class IndexController extends Controller
                     // 判断是自提还是配送
                     if (!is_null($v->address)) {
                         $phone = $v->address->phone == '' ? '13333332222' : $v->address->phone;
-                        $tmp = [$v->address->people,$phone,'','河北','衡水',$v->address->area,$v->address->address,$v->total_prices,$v->mark,$v->shopmark,$title,$g['nums'],''];
+                        $tmp = [$v->order_id,'',$v->address->people,$phone,'','河北','衡水',$v->address->area,$v->address->address,'','',$v->total_prices,$v->mark,$v->shopmark,'',$title,$g['nums'],$g['price'],'',$g->good_spec_name];
                     }
                     else
                     {
                         $phone = $v->user->phone == '' ? '13333332222' : $v->user->phone;
-                        $tmp = [$v->user->nickname.'（自提）',$phone,'','河北','衡水',$v->zitidian->area,$v->zitidian->address,$v->total_prices,$v->mark,$v->shopmark,$title,$g['nums'],''];
+                        $tmp = [$v->order_id,'',$v->user->nickname.'（自提）',$phone,'','河北','衡水',$v->extract->area,$v->extract->address,'','',$v->total_prices,$v->mark,$v->shopmark,'',$title,$g['nums'],$g['price'],'',$g->good_spec_name];
                     }
                     $excel[] = $tmp;
                 }
                 else
                 {
-                    $tmp = ['','','','','','','','','','',$title,$g['nums'],''];
+                    $tmp = ['','','','','','','','','','','','','','','',$title,$g['nums'],$g['price'],'',$g->good_spec_name];
                     $excel[] = $tmp;
                 }
             }
             $tmp_good = null;
         }
         $cellData = array_merge(
-            [["1、有底色却有*标记的列为必填项，仅带*建议填写，其他为选填；
-2、地址和收件人、手机、电话相同的订单会自动合并；
-3、同一个订单有多种商品，订单信息不用再输入，只需输入商品信息（如3至5行）；
-4、禁止合并单元格；
-5、表头、本注释（即1、2行）不能删除；
-6、以下数据（3至7行）为举例数据，可删除然后输入您的订单数据；
-7、如果“代收货款金额”大于0则视为货到付款订单；"                                              
-]],
-            [['收件人姓名*','手机*','电话','省*','市*','区*','地址*','订单金额','买家留言','卖家备忘','物品名称','数量','代收货款金额']]
+            [['订单号','购买人昵称','收件人姓名*','手机*','电话','省*','市*','区*','地址*','邮编','运费','订单金额','买家留言','卖家备忘','代收货款金额','物品名称','数量','单价','商品编码','销售属性']]
             ,$excel
         );
         Excel::create('发货易订单打印表',function($excel) use ($cellData){
             $excel->sheet('score', function($sheet) use ($cellData){
-                $sheet->mergeCells('A1:M1');
+                // $sheet->mergeCells('A1:M1');
                 $sheet->rows($cellData);
             });
         })->export('xls');

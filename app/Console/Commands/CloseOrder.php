@@ -65,7 +65,7 @@ class CloseOrder extends Command
             }
             DB::commit();
             return true;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             Log::warning('关闭订单失败记录');
             // dump($e);

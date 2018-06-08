@@ -77,7 +77,7 @@ class ShopController extends BaseController
             session()->put($sname,$cid);
             echo json_encode(['code'=>1,'msg'=>$time]);
             return;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             exit(json_encode(['code'=>0,'msg'=>$e->getMessage()]));
             return;
         }
@@ -91,7 +91,7 @@ class ShopController extends BaseController
             $info = (object)['pid'=>3];
             $paylist = Pay::where('status',1)->where('paystatus',1)->orderBy('id','asc')->get();
             return view($this->theme.'.pay',compact('info','order','paylist','seo'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             dd($e);
         }
     }

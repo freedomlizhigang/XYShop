@@ -76,7 +76,7 @@ class RoleController extends Controller
                 // 没出错，提交事务
                 DB::commit();
                 return back()->with('message', '删除角色成功！');
-            } catch (Exception $e) {
+            } catch (\Throwable $e) {
                 // 出错回滚
                 DB::rollBack();
                 return back()->with('message','删除失败，请稍后再试！');
@@ -86,7 +86,7 @@ class RoleController extends Controller
         {
             return back()->with('message', '角色下有用户！');
         }
-        
+
     }
     // 更新角色权限，主要是为了显示后台菜单
     public function getPriv($rid)
@@ -127,7 +127,7 @@ class RoleController extends Controller
             // 没出错，提交事务
             DB::commit();
             return back()->with('message', '更新权限菜单成功！');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return back()->with('message','更新权限菜单失败，请稍后再试！');

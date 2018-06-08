@@ -45,11 +45,11 @@ class TestController extends Controller
             }
             DB::commit();
             return 'success';
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             dd($e);
         }
-        
+
         // DB::beginTransaction();
         /*try {
             // User::where('id',1)->sharedLock()->increment('user_money',10);
@@ -58,7 +58,7 @@ class TestController extends Controller
             // sleep(10);
             // DB::commit();
             // return $user;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // DB::rollback();
             dd($e);
         }*/
@@ -76,7 +76,7 @@ class TestController extends Controller
                 DB::rollback();
             }
             return $user;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             dd($e);
         }
@@ -86,7 +86,7 @@ class TestController extends Controller
         try {
             User::where('id',1)->update(['nickname'=>'李志刚']);
             return true;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return false;
         }
 

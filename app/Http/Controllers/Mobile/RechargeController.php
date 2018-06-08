@@ -40,7 +40,7 @@ class RechargeController extends Controller
             $ip = $req->ip();
             return $this->$pmod($res->id,$pay,$ip);
           // return redirect(url('recharge/pay',['rid'=>$res->id]));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             dd($e);
             return back()->with('message','提交失败，稍后再试！');
         }
@@ -74,7 +74,7 @@ class RechargeController extends Controller
 
         // 下单后跳转到支付页面
         // $redirectUrl = $response->getRedirectUrl();
-        //or 
+        //or
         $response->redirect();
     }
 
@@ -102,7 +102,7 @@ class RechargeController extends Controller
                 $pos_id = 'center';
                 $title = '会员充值-微信支付';
                 return view(cache('config')['theme'].'.pay.recharge_wxpay',compact('title','pos_id','config','js','oid','order'));
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // dd($e);
                 Storage::disk('log')->prepend('weixin.log',$e->getMessage().date('Y-m-d H:i:s'));
                 return back()->with('message','充值失败，请稍后再试！');
@@ -127,7 +127,7 @@ class RechargeController extends Controller
                 $pos_id = 'center';
                 $title = '会员充值-微信支付';
                 return view(cache('config')['theme'].'.pay.recharge_wxpay_jsbridge',compact('title','pos_id','config','oid','order'));
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // dd($e);
                 Storage::disk('log')->prepend('weixin.log',$e->getMessage().date('Y-m-d H:i:s'));
                 return back()->with('message','充值失败，请稍后再试！');

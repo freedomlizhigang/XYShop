@@ -49,7 +49,7 @@ class UserController extends BaseController
                 if ($pwd != decrypt($user->password)) {
                     return back()->with('message','密码不正确！');
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 return back()->with('message','密码不正确！');
             }
             User::where('id',$user->id)->update(['last_ip'=>$res->ip(),'last_time'=>Carbon::now()]);
@@ -108,7 +108,7 @@ class UserController extends BaseController
             // 更新购物车
             // $this->updateCart($user->id);
 	    	return redirect(session('homeurl'));
-    	} catch (\Exception $e) {
+    	} catch (\Throwable $e) {
     		return back()->with('message','注册失败，请稍候再试！');
     	}
     }
@@ -157,7 +157,7 @@ class UserController extends BaseController
             // 把用户ID保存到session里
             session()->put('tmp_id',$ishav->id);
             return redirect('/user/forpwd2')->with('message','验证码发送成功，请尽快完成修改！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             dd($e);
             return back()->with('message','验证码发送失败，请稍候再试！');
         }
@@ -202,7 +202,7 @@ class UserController extends BaseController
             session()->put('member',$user);
             session()->forget('tmp_id');
             return redirect(session('homeurl'))->with('message','修改密码成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return back()->with('message','验证码发送失败，请稍候再试！');
         }
     }

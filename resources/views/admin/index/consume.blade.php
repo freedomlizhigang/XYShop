@@ -20,7 +20,7 @@
 	<form action="" class="form-inline form_excel" method="get">
 		开始时间：<input type="text" name="starttime" class="form-control mr10" value="{{ $starttime }}" id="laydate">
 		到：<input type="text" name="endtime" class="form-control" value="{{ $endtime }}" id="laydate2">
-		<button class="btn btn-xs btn-success">查询</button>
+		<button class="btn btn-xs btn-success btn_search">查询</button>
 		@if(App::make('com')->ifCan('index-excel_consume'))
 		<button class="btn btn-xs btn-primary btn_order">导出表格</button>
 		@endif
@@ -49,6 +49,9 @@
 
 <script>
 	$(function(){
+        $('.btn_search').click(function(){
+            $('.form_excel').attr('action',"").submit();
+        });
 		$('.btn_order').click(function(){
 			$('.form_excel').attr('action',"{{ url('/console/index/excel_consume') }}").submit();
 		});

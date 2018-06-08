@@ -76,7 +76,7 @@ class LoginController extends Controller
             }
             DB::commit();
             return redirect($backurl);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             return back()->with('message','登陆失败，请稍后再试！');
         }
@@ -124,7 +124,7 @@ class LoginController extends Controller
             }
             DB::commit();
             return redirect($backurl);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             return redirect($backurl);
         }

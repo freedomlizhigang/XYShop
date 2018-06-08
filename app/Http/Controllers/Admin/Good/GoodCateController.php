@@ -96,7 +96,7 @@ class GoodCateController extends Controller
             // 没出错，提交事务
             DB::commit();
             return $this->adminJson(1,'添加成功！',url('/console/goodcate/index'));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,'添加失败，请稍后再试！');
@@ -129,7 +129,7 @@ class GoodCateController extends Controller
             // 没出错，提交事务
             DB::commit();
             return $this->adminJson(1,'修改成功！',url('/console/goodcate/index'));
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,'修改失败，请稍后再试！',url('/console/goodcate/index'));
@@ -148,7 +148,7 @@ class GoodCateController extends Controller
             // 没出错，提交事务
             DB::commit();
             return back()->with('message', '删除成功！');
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return back()->with('message','删除失败，请稍后再试！');

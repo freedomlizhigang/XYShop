@@ -64,7 +64,7 @@ class PromotionController extends Controller
             // 没出错，提交事务
             DB::commit();
             return $this->adminJson(1,'添加成功！',url('/console/promotion/index'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,$e->getMessage());
@@ -108,12 +108,12 @@ class PromotionController extends Controller
             // 没出错，提交事务
             DB::commit();
             return $this->adminJson(1,'添加成功！',$req->ref);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             return $this->adminJson(0,$e->getMessage());
         }
-        
+
     	return $this->adminJson(1,'修改成功！');
     }
     // 删除

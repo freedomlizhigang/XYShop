@@ -21,7 +21,7 @@ class HotController extends Controller
             $pos_id = 'hot';
             $title = '促销活动';
             return view(cache('config')['theme'].'.hot',compact('pos_id','title','list'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // dd($e);
             return view('errors.404');
         }
@@ -38,7 +38,7 @@ class HotController extends Controller
             $pos_id = 'hot';
             $title = $promotion->title;
             return view(cache('config')['theme'].'.list',compact('pos_id','title','list','sort','sc'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // dd($e);
             return view('errors.404');
         }
@@ -52,7 +52,7 @@ class HotController extends Controller
             $good = Good::findOrFail($id);
             /*
             * 查出来所有的规格信息
-            * 1、找出所有的规格ID 
+            * 1、找出所有的规格ID
             * 2，查出所有的规格ID对应的名字spec_item及spec内容
             * 3、循环出来所有的规格及规格值
             * */
@@ -81,7 +81,7 @@ class HotController extends Controller
                 $prom_title = $promotion->title;
             }
             return view(cache('config')['theme'].'.hotgood',compact('title','keyword','describe','good','good_spec_price','filter_spec','coupon','prom_title','prom_val','wechat_js'));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // dd($e);
             return view('errors.404');
         }

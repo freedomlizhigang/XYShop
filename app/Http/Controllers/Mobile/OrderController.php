@@ -12,6 +12,7 @@ use App\Models\Good\Order;
 use App\Models\Good\Promotion;
 use App\Models\User\Address;
 use App\Models\User\Group;
+use App\Models\User\SignConfig;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 
@@ -43,7 +44,7 @@ class OrderController extends Controller
                   if (is_null($discount)) {
                       $discount = Group::orderBy('points','desc')->value('discount');
                   }
-              } catch (\Exception $e) {
+              } catch (\Throwable $e) {
                   $discount = 100;
               }
               $new_price = ($v->old_price * $discount) / 100;
@@ -57,7 +58,7 @@ class OrderController extends Controller
         // 总价
         $total_prices = number_format($total_prices,2,'.','');
         return view(cache('config')['theme'].'.cart',compact('pos_id','title','goodlists','total_prices'));
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         // dd($e);
         return view('errors.404');
     }
@@ -72,7 +73,7 @@ class OrderController extends Controller
           session()->put($sname,$cid);
           echo json_encode(['code'=>1,'msg'=>$time]);
           return;
-      } catch (\Exception $e) {
+      } catch (\Throwable $e) {
           exit(json_encode(['code'=>0,'msg'=>$e->getMessage()]));
           return;
       }
@@ -133,7 +134,7 @@ class OrderController extends Controller
             $point_select[] = $i*$pointconfig->block;
         }
       return view(cache('config')['theme'].'.createorder',compact('title','pos_id','goodlists','total_prices','default_address','address','coupon','count','cid_str','gift','point_select','points','pointconfig'));
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
       dd($e);
       return view('errors.404');
     }
@@ -147,21 +148,14 @@ class OrderController extends Controller
         $order = Order::findOrFail($oid);
         // 没选择收货地址
         if ($order->address_id == 0 && $order->ziti == 0) {
-            if ($order->prom_type == '1')
-            {
-                $url = url('timetobuy/order',$oid);
-            }
-            if($order->prom_type == '2')
-            {
-                $url = url('tuan/order',$oid);
-            }
+            $url = url('editorder',$oid);
             return redirect($url)->with('message','请先选择收货地址！');
         }
         $info = (object)['pid'=>3];
         $paylist = Pay::where('status',1)->where('paystatus',1)->orderBy('id','asc')->get();
         $user = User::where('id',session('member')->id)->first();
         return view(cache('config')['theme'].'.pay',compact('info','order','paylist','title','pos_id','user'));
-      } catch (\Exception $e) {
+      } catch (\Throwable $e) {
         dd($e);
         return view('errors.404');
       }
@@ -195,7 +189,7 @@ class OrderController extends Controller
         $address = Address::where('user_id',session('member')->id)->where('delflag',1)->orderBy('id','desc')->get();
         $default_address = $address->where('default',1)->first();
         return view(cache('config')['theme'].'.editorder',compact('title','pos_id','goodlists','total_prices','default_address','address','oid'));
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         dd($e);
         return view('errors.404');
     }

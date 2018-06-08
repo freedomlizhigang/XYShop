@@ -26,14 +26,14 @@ class UserController extends Controller
     // 导出用户信息
     public function getExcel(Request $req)
     {
-        $user = User::where('status',1)->get();
+        $user = User::with('group')->where('status',1)->get();
         $tmp = [];
         foreach ($user as $v) {
             $sex = $v->sex == 2 ? '女' : '男';
-            $tmp[] = [$v->id,$v->groupname,$v->username,$v->nickname,$sex,$v->phone,$v->email,$v->address];
+            $tmp[] = [$v->id,$v->group->name,$v->username,$v->nickname,$v->user_money,$sex,$v->phone,$v->email,$v->address];
         }
         $cellData = array_merge(
-            [['ID','会员级别','账号','昵称','性别','电话','邮箱','地址']],$tmp
+            [['ID','会员级别','账号','昵称','余额','性别','电话','邮箱','地址']],$tmp
         );
         Excel::create('用户信息',function($excel) use ($cellData){
             $excel->sheet('score', function($sheet) use ($cellData){
@@ -151,5 +151,17 @@ class UserController extends Controller
         $title = '收货地址';
         $list = Address::where('user_id',$id)->where('delflag',1)->orderBy('id','desc')->paginate(15);
         return view('admin.member.address',compact('list','title'));
+    }
+    // 修改收货地址
+    public function getAddressEdit($id)
+    {
+        $title = '修改收货地址';
+        $info = Address::findOrFail($id);
+        return view('admin.member.addressedit',compact('title','info'));
+    }
+    public function postAddressEdit(Request $req,$id)
+    {
+        Address::where('id',$id)->update($req->input('data'));
+        return $this->adminJson(1,'改密码成功！');
     }
 }

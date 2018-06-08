@@ -37,17 +37,19 @@ class AlipayController extends Controller
             $response = $request->send();
             $resData = $response->getData();
             if($response->isPaid()){
-                /**
-                 * Payment is successful
-                 */
-                // 消费记录
                 $oid = $resData['out_trade_no'];
                 $order = Order::where('order_id',$oid)->first();
-                if ($order->paystatus == 0) {
-                    if (!$this->updateOrder($order,$paymod = '支付宝')) {
+                if (!is_null($order) && $order->paystatus == 0) {
+                    $updateOrder = OrderApi::updateOrder($order,$paymod = '支付宝');
+                    if (!$updateOrder) {
                         DB::rollback();
                         die('fail');
                     }
+                }
+                else
+                {
+                    DB::rollback();
+                    die('fail');
                 }
                 Storage::disk('log')->prepend('alipay.log',json_encode($resData));
                 DB::commit();
@@ -60,7 +62,7 @@ class AlipayController extends Controller
                 DB::rollback();
                 die('fail'); //The notify response
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             /**
              * Payment is not successful
@@ -104,7 +106,7 @@ class AlipayController extends Controller
                 Storage::disk('log')->prepend('alipay.log',json_encode($resData));
                 die('fail'); //The notify response
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             /**
              * Payment is not successful
              */

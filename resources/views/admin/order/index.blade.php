@@ -33,6 +33,9 @@
 		<input type="text" name="key" value="{{ $key }}" class="form-control" placeholder="请输入商品名或订单号查询..">
 		<input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="请输入手机号或昵称查询..">
         <button class="btn btn-xs btn-info">查找</button>
+        @if(App::make('com')->ifCan('order-excel_order'))
+        <button class="btn btn-xs btn-warning btn_order">查找</button>
+        @endif
     </form>
 </div>
 
@@ -81,7 +84,7 @@
 		@endif
 		@endif
     	</td>
-        <td>@if(!is_null($o->user)){{ $o->user->nickname }}：@endif{{ $o->order_id }}</td>
+        <td>@if(!is_null($o->user))<a href="{{ url('console/user/index').'?q='.$o->user->nickname }}">{{ $o->user->nickname }}</a>：@endif{{ $o->order_id }}</td>
         <td><span class="color_2">￥{{ $o->total_prices }}</span></td>
         <td>
         	@if($o->paystatus == 0)
@@ -151,6 +154,9 @@
 </div>
 <script>
 	$(function(){
+        $('.btn_search').click(function(){
+            $('.form_excel').attr('action',"").submit();
+        });
 		// 导出订单表
 		$('.btn_order').click(function(){
 			$('.form_excel').attr('action',"{{ url('/console/index/excel_order') }}").submit();

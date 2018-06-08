@@ -37,7 +37,7 @@ class Distribution
                 DistributionLog::create($insert_father);
             }
             return true;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return false;
         }
     }

@@ -56,7 +56,7 @@ class SignController extends Controller
             }
             DB::commit();
             return back()->with('message','签到成功！');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             return back()->with('message','签到出了点小问题，一会再试一下吧！');
         }

@@ -54,6 +54,8 @@ class AjaxTimetobuyController extends Controller
                     DB::rollback();
                     $this->ajaxReturn('0','限量购买，本次超过限制份数！');
                 }
+                // 重新计算价格
+                $price = $old_price = $timetobuy->price;
             }
             else
             {
@@ -61,8 +63,6 @@ class AjaxTimetobuyController extends Controller
                 $this->ajaxReturn('0','限时抢购，已经结束！');
             }
             $old_price = $old_price * $num;
-
-            
             // 价格
             $prices = $price * $num;
             // 规格信息
@@ -70,7 +70,7 @@ class AjaxTimetobuyController extends Controller
             // 创建订单
             $order_id = app('com')->orderid();
             $order = ['order_id'=>$order_id,'user_id'=>$userid,'yhq_id'=>0,'yh_price'=>0,'old_prices'=>$old_price,'total_prices'=>$prices,'create_ip'=>$req->ip(),'address_id'=>0,'ziti'=>0,'area'=>'','mark'=>'','prom_type'=>1];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             // $this->ajaxReturn('0','添加失败，请稍后再试！');
             $this->ajaxReturn('0',$e->getMessage());
@@ -94,7 +94,7 @@ class AjaxTimetobuyController extends Controller
             // 没出错，提交事务
             DB::commit();
             $this->ajaxReturn('1',$order->id);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // 出错回滚
             DB::rollBack();
             Log::warning('抢购订单失败记录：',['line'=>$e->getLine(),'msg'=>$e->getMessage()]);
@@ -102,5 +102,5 @@ class AjaxTimetobuyController extends Controller
             $this->ajaxReturn('0',$e->getMessage());
         }
     }
-    
+
 }

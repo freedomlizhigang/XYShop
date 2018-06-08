@@ -22,7 +22,7 @@ class TagService
                 $parentcate = GoodCate::where('id',$cate->parentid)->first();
                 echo "<li><a href='/shop/goodcate/".$parentcate->id."'>".$parentcate->name."</a></li><li class='active'><a href='/shop/goodcate/".$cate->id."'>".$cate->name."</a></li>";
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             echo '';
         }
     }
@@ -58,7 +58,7 @@ class TagService
                 $parentcate = Cate::where('id',$cate->parentid)->first();
                 echo "<li><a href='/cate/".$parentcate->url."'>".$parentcate->name."</a></li><li class='active'><a href='/cate/".$cate->url."'>".$cate->name."</a></li>";
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             echo '';
         }
     }
@@ -105,7 +105,7 @@ class TagService
                         if ($ismenu) {
                             $q->where('ismenu',1);
                         }
-                    })->select('id','name','mobilename','sort','thumb','arrchildid')->limit($num)->orderBy('sort','asc')->orderBy('id','asc')->get(); 
+                    })->select('id','name','mobilename','sort','thumb','arrchildid')->limit($num)->orderBy('sort','asc')->orderBy('id','asc')->get();
         return $goodcate;
     }
 
@@ -123,4 +123,3 @@ class TagService
     }
 
 }
-    
