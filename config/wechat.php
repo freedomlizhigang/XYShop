@@ -114,9 +114,9 @@ return [
     'payment' => [
         'default' => [
             'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', false),
-            'app_id'             => env('WECHAT_PAYMENT_APPID', 'wx0845c4b247acd58c'),
-            'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', '1481529112'),
-            'key'                => env('WECHAT_PAYMENT_KEY', 'kcpuFPHEClP9zhTWgRZji7lL98HHVtB4'),
+            'app_id'             => env('WECHAT_PAYMENT_APPID', ''),
+            'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', ''),
+            'key'                => env('WECHAT_PAYMENT_KEY', ''),
             'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', storage_path('capem/apiclient_cert.pem')), // XXX: 绝对路径！！！！
             'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', storage_path('capem/apiclient_key.pem')),      // XXX: 绝对路径！！！！
             'notify_url'         => '',                           // 默认支付结果通知地址
